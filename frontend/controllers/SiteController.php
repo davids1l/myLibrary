@@ -67,6 +67,33 @@ class SiteController extends Controller
         ];
     }
 
+    //Abre a vista de registar de leitores
+    public function actionRegistar() {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->goHome();
+        }
+
+        return $this->render('registar', ['model' => $model]);
+    }
+
+    //Abre a vista de login de leitores
+    public function actionLoginleitores() {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        } else {
+            $model->password = '';
+
+            return $this->render('loginleitores', ['model' => $model]);
+        }
+    }
+
     /**
      * Displays homepage.
      *
