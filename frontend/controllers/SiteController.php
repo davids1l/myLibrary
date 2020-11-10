@@ -94,6 +94,11 @@ class SiteController extends Controller
         }
     }
 
+    //Abre a vista do perfil de utilizador
+    public function actionPerfil(){
+        return $this->render('perfil');
+    }
+
     /**
      * Displays homepage.
      *

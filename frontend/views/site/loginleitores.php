@@ -11,10 +11,10 @@ $this->title = 'Login de Leitores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
             <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Email') ?>
@@ -35,5 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php ActiveForm::end(); ?>
         </div>
+        <div class="col-lg-3"></div>
     </div>
 </div>
