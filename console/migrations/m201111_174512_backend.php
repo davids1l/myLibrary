@@ -16,7 +16,7 @@ class m201111_174512_backend extends Migration
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'ENGINE=InnoDB';
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
         // Tabela utilizador
@@ -74,7 +74,7 @@ class m201111_174512_backend extends Migration
         $this->createTable('bibliotecario', [
             'id_bibliotecario' => $this->primaryKey()->notNull()->unsigned(),
             'num_bibliotecario' => $this->string(4)->notNull(),
-            'id_biblioteca' => $this->integer()->notNull()
+            'id_biblioteca' => $this->integer()->notNull()->unsigned()
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -98,7 +98,7 @@ class m201111_174512_backend extends Migration
         $this->createTable('autor', [
             'id_autor' => $this->primaryKey()->notNull()->unsigned(),
             'nome_autor' => $this->integer(80)->notNull(),
-            'id_pais' => $this->integer()->notNull()
+            'id_pais' => $this->integer()->notNull()->unsigned()
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -116,7 +116,8 @@ class m201111_174512_backend extends Migration
             'id_pais',
             'pais',
             'id_pais',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela editora
@@ -124,7 +125,7 @@ class m201111_174512_backend extends Migration
         $this->createTable('editora', [
             'id_editora' => $this->primaryKey()->notNull()->unsigned(),
             'designacao' => $this->string(80)->notNull(),
-            'id_pais' => $this->integer()->notNull()
+            'id_pais' => $this->integer()->notNull()->unsigned()
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -141,7 +142,8 @@ class m201111_174512_backend extends Migration
             'id_pais',
             'pais',
             'id_pais',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela livro
@@ -157,9 +159,9 @@ class m201111_174512_backend extends Migration
             'formato' => $this->string(15)->notNull(),
             'capa' => $this->string(255)->notNull(),
             'sinopse' => $this->text()->notNull(),
-            'id_editora' => $this->string()->notNull(),
-            'id_biblioteca' => $this->string()->notNull(),
-            'id_autor' => $this->string()->notNull(),
+            'id_editora' => $this->integer()->notNull()->unsigned(),
+            'id_biblioteca' => $this->integer()->notNull()->unsigned(),
+            'id_autor' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -176,7 +178,8 @@ class m201111_174512_backend extends Migration
             'id_editora',
             'editora',
             'id_editora',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -191,7 +194,8 @@ class m201111_174512_backend extends Migration
             'id_biblioteca',
             'biblioteca',
             'id_biblioteca',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -206,7 +210,8 @@ class m201111_174512_backend extends Migration
             'id_autor',
             'autor',
             'id_autor',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela avaliacao
@@ -215,8 +220,8 @@ class m201111_174512_backend extends Migration
             'id_avaliacao' => $this->primaryKey()->notNull()->unsigned(),
             'dta_avaliacao' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
             'avaliacao' => $this->integer(5)->notNull(),
-            'id_livro' => $this->integer()->notNull(),
-            'id_utilizador' => $this->integer()->notNull(),
+            'id_livro' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -233,7 +238,8 @@ class m201111_174512_backend extends Migration
             'id_livro',
             'livro',
             'id_livro',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -248,7 +254,8 @@ class m201111_174512_backend extends Migration
             'id_utilizador',
             'utilizador',
             'id_utilizador',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela comentario
@@ -257,8 +264,8 @@ class m201111_174512_backend extends Migration
             'id_comentario' => $this->primaryKey()->notNull()->unsigned(),
             'dta_comentario' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
             'comentario' => $this->string(245)->notNull(),
-            'id_livro' => $this->integer()->notNull(),
-            'id_utilizador' => $this->integer()->notNull(),
+            'id_livro' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -275,7 +282,8 @@ class m201111_174512_backend extends Migration
             'id_livro',
             'livro',
             'id_livro',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -290,7 +298,8 @@ class m201111_174512_backend extends Migration
             'id_utilizador',
             'utilizador',
             'id_utilizador',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela favorito
@@ -298,8 +307,8 @@ class m201111_174512_backend extends Migration
         $this->createTable('favorito', [
             'id_favorito' => $this->primaryKey()->notNull()->unsigned(),
             'dta_favorito' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
-            'id_livro' => $this->integer()->notNull(),
-            'id_utilizador' => $this->integer()->notNull(),
+            'id_livro' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -316,7 +325,8 @@ class m201111_174512_backend extends Migration
             'id_livro',
             'livro',
             'id_livro',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -331,7 +341,8 @@ class m201111_174512_backend extends Migration
             'id_utilizador',
             'utilizador',
             'id_utilizador',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela requisicao
@@ -341,9 +352,9 @@ class m201111_174512_backend extends Migration
             'dta_levantamento' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
             'dta_entrega' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
             'estado' => $this->string(30)->notNull(),
-            'id_livro' => $this->integer()->notNull(),
-            'id_utilizador' => $this->integer()->notNull(),
-            'id_bib_levantamento' => $this->integer()->notNull(),
+            'id_livro' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull()->unsigned(),
+            'id_bib_levantamento' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -360,7 +371,8 @@ class m201111_174512_backend extends Migration
             'id_livro',
             'livro',
             'id_livro',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -375,7 +387,8 @@ class m201111_174512_backend extends Migration
             'id_utilizador',
             'utilizador',
             'id_utilizador',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -390,14 +403,15 @@ class m201111_174512_backend extends Migration
             'id_bib_levantamento',
             'biblioteca',
             'id_biblioteca',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela Requisicao-Livro
 
         $this->createTable('requisicao_livro', [
             'id_livro' => $this->integer()->notNull()->unsigned(),
-            'id_requisicao' => $this->integer(),
+            'id_requisicao' => $this->integer()->notNull()->unsigned(),
             'PRIMARY KEY(id_livro, id_requisicao)',
         ], $tableOptions);
 
@@ -415,7 +429,8 @@ class m201111_174512_backend extends Migration
             'id_livro',
             'livro',
             'id_livro',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -430,14 +445,15 @@ class m201111_174512_backend extends Migration
             'id_requisicao',
             'requisicao',
             'id_requisicao',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         // Tabela Requisicao-Multa
 
         $this->createTable('requisicao_multa', [
             'id_requisicao' => $this->integer()->notNull()->unsigned(),
-            'id_multa' => $this->integer(),
+            'id_multa' => $this->integer()->notNull()->unsigned(),
             'PRIMARY KEY(id_requisicao)',
         ], $tableOptions);
 
@@ -455,7 +471,8 @@ class m201111_174512_backend extends Migration
             'id_requisicao',
             'requisicao',
             'id_requisicao',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
         $this->createIndex(
@@ -470,7 +487,8 @@ class m201111_174512_backend extends Migration
             'id_multa',
             'multa',
             'id_multa',
-            'RESTRICT'
+            'CASCADE',
+            'CASCADE'
         );
 
     }
