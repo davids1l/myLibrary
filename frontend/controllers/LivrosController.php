@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+namespace frontend\controllers;
 
 use app\models\Livro;
 use yii\data\Pagination;
@@ -20,24 +21,14 @@ class LivrosController extends Controller
      */
     public function actionCatalogo()
     {
-        $query = Livro::find();
-
-        $pagination = new Pagination([
-            'defaultPageSize' => 25,
-            'totalCount' => $query->count(),
-        ]);
-
-        $livros = $query->orderBy('name')
-            ->offset($pagination->offset)
-            ->limit($pagination->limit)
+        $livros = Livro::find()
+            ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
-        //$livros = Livro::findAll();
+        //$livros = Livro::findBySql('SELECT * FROM livro WHERE genero LIKE "%Poesia"')->all();
 
-        return $this->render('catalogo', [
-            'livros' => $livros,
-            'pagination' => $pagination,
-        ]);
+        return $this->render('catalogo', ['livros' => $livros]);
+        //return $this->render('catalogo');
     }
 
 
@@ -49,6 +40,7 @@ class LivrosController extends Controller
         $livro = Livro::findOne($id);
 
         //return da view de com o livro de acordo com o $id recebido
-        return $this->render('catalogo', ['livro' => $livro]);
+        return $this->render('detalhes', [
+            'livro' => $livro]);
     }
 }

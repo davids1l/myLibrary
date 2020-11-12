@@ -7,7 +7,8 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 
-\frontend\assets\AppAsset::register($this);
+\frontend\assets\ViewsAssets::register($this);
+
 
 $this->title = "Detalhes do Livro";
 //$this->params['breadcrumbs'][] = $this->title;
@@ -20,9 +21,7 @@ $this->title = "Detalhes do Livro";
             <section class="col-xs-12">
                 <div class="col-xs-12 col-md-5 col-lg-4">
                     <div class="capa-livro">
-                        <a href="#">
-                            <img src="<?= $livro->capa ?>">
-                        </a>
+                        <?= Html::img($livro->capa) ?>
                     </div>
                 </div>
 
@@ -42,10 +41,19 @@ $this->title = "Detalhes do Livro";
                         <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
                         <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
                         <span class="glyphicon glyphicon-star-empty"></span>
+
                     </div>
-                    <div class="sinopse-content" style="margin-top: 26%">
+                    <div class="sinopse-content">
                         <h4>SINOPSE</h4>
+                        <?php if($livro->sinopse != null) {?>
                         <p><?= $livro->sinopse ?></p>
+                        <?php } else { ?>
+                            <p>Sinopse Indisponível</p>
+                        <?php }?>
+                    </div>
+                    <div class="actions">
+                        <div class="btn"><i class="glyphicon glyphicon-shopping-cart"></i></div>
+                        <div class="btn" style="background-color: #c9302c"><i class="glyphicon glyphicon-heart"></i></div>
                     </div>
                 </div>
             </section>
