@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use app\models\Livro;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -104,6 +105,7 @@ class SiteController extends Controller
         return $this->render('historico_requisicoes');
     }
 
+
     /**
      * Displays homepage.
      *
@@ -181,6 +183,7 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
 
     /**
      * Signs user up.
