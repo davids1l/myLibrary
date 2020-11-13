@@ -47,7 +47,6 @@ class m201111_174512_backend extends Migration
         // Tabela multa
         $this->createTable('multa', [
             'id_multa' => $this->primaryKey()->notNull()->unsigned(),
-            'data_multa' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
             'montante' => $this->float()->notNull(),
             'estado' => $this->string(30)->notNull()
         ], $tableOptions);
@@ -454,6 +453,7 @@ class m201111_174512_backend extends Migration
         $this->createTable('requisicao_multa', [
             'id_requisicao' => $this->integer()->notNull()->unsigned(),
             'id_multa' => $this->integer()->notNull()->unsigned(),
+            'data_multa' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
             'PRIMARY KEY(id_requisicao)',
         ], $tableOptions);
 
