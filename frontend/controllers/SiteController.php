@@ -99,6 +99,11 @@ class SiteController extends Controller
         return $this->render('perfil');
     }
 
+    //Abre a vista do Histórico de Requisições
+    public function actionHistorico_requisicoes(){
+        return $this->render('historico_requisicoes');
+    }
+
     /**
      * Displays homepage.
      *
