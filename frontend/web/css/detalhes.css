@@ -1,0 +1,23 @@
+.sinopse-content, .actions {
+    margin-top: 10%;
+}
+
+.rating {
+    margin-top: 2%;
+}
+
+.btn {
+    height: 50px;
+    line-height: 42px;
+    width: 50px;
+    font-size: 20px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+
+.comment {
+    font-size: 20px;
+}
