@@ -35,9 +35,27 @@ class m201111_174512_backend extends Migration
 
         // Tabela administrador
         $this->createTable('administrador', [
-            'id_admin' => $this->primaryKey()->notNull()->unsigned(),
+            'id_admin' => $this->integer()->notNull()->unsigned(),
             'num_admin' => $this->string(4)->notNull()
         ], $tableOptions);
+
+        // Chave estrangeira
+
+        $this->createIndex(
+            'idx-administrador-id_admin',
+            'administrador',
+            'id_admin'
+        );
+
+        $this->addForeignKey(
+            'fk-administrador-id_admin',
+            'administrador',
+            'id_admin',
+            'utilizador',
+            'id_utilizador',
+            'CASCADE',
+            'CASCADE'
+        );
 
         // Tabela pais
         $this->createTable('pais', [
@@ -69,6 +87,24 @@ class m201111_174512_backend extends Migration
             'dta_bloqueado' => $this->dateTime()->defaultValue(null),
         ], $tableOptions);
 
+        // Chave estrangeira
+
+        $this->createIndex(
+            'idx-leitor-id_leitor',
+            'leitor',
+            'id_leitor'
+        );
+
+        $this->addForeignKey(
+            'fk-leitor-id_leitor',
+            'leitor',
+            'id_leitor',
+            'utilizador',
+            'id_utilizador',
+            'CASCADE',
+            'CASCADE'
+        );
+
         // Tabela bibliotecario
 
         $this->createTable('bibliotecario', [
@@ -78,6 +114,22 @@ class m201111_174512_backend extends Migration
         ], $tableOptions);
 
         // Chaves estrangeiras
+
+        $this->createIndex(
+            'idx-bibliotecario-id_bibliotecario',
+            'bibliotecario',
+            'id_bibliotecario'
+        );
+
+        $this->addForeignKey(
+            'fk-bibliotecario-id_bibliotecario',
+            'bibliotecario',
+            'id_bibliotecario',
+            'utilizador',
+            'id_utilizador',
+            'CASCADE',
+            'CASCADE'
+        );
 
         $this->createIndex(
             'idx-bibliotecario-id_biblioteca',
