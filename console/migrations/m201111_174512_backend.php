@@ -27,7 +27,8 @@ class m201111_174512_backend extends Migration
             'dta_nascimento' => $this->date()->notNull(),
             'nif' => $this->string(9)->notNull(),
             'email' => $this->string(80)->notNull(),
-            'dta_registo' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
+            'num_telemovel' => $this->integer(9)->notNull(),
+            'dta_registo' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'foto_perfil' => $this->string(50)->notNull(),
             'password' => $this->string(50)->notNull()
         ], $tableOptions);
@@ -37,6 +38,24 @@ class m201111_174512_backend extends Migration
             'id_admin' => $this->primaryKey()->notNull()->unsigned(),
             'num_admin' => $this->string(4)->notNull()
         ], $tableOptions);
+
+        // Chave estrangeira
+
+        $this->createIndex(
+            'idx-administrador-id_admin',
+            'administrador',
+            'id_admin'
+        );
+
+        $this->addForeignKey(
+            'fk-administrador-id_admin',
+            'administrador',
+            'id_admin',
+            'utilizador',
+            'id_utilizador',
+            'CASCADE',
+            'CASCADE'
+        );
 
         // Tabela pais
         $this->createTable('pais', [
@@ -68,6 +87,24 @@ class m201111_174512_backend extends Migration
             'dta_bloqueado' => $this->dateTime()->defaultValue(null),
         ], $tableOptions);
 
+        // Chave estrangeira
+
+        $this->createIndex(
+            'idx-leitor-id_leitor',
+            'leitor',
+            'id_leitor'
+        );
+
+        $this->addForeignKey(
+            'fk-leitor-id_leitor',
+            'leitor',
+            'id_leitor',
+            'utilizador',
+            'id_utilizador',
+            'CASCADE',
+            'CASCADE'
+        );
+
         // Tabela bibliotecario
 
         $this->createTable('bibliotecario', [
@@ -77,6 +114,22 @@ class m201111_174512_backend extends Migration
         ], $tableOptions);
 
         // Chaves estrangeiras
+
+        $this->createIndex(
+            'idx-bibliotecario-id_bibliotecario',
+            'bibliotecario',
+            'id_bibliotecario'
+        );
+
+        $this->addForeignKey(
+            'fk-bibliotecario-id_bibliotecario',
+            'bibliotecario',
+            'id_bibliotecario',
+            'utilizador',
+            'id_utilizador',
+            'CASCADE',
+            'CASCADE'
+        );
 
         $this->createIndex(
             'idx-bibliotecario-id_biblioteca',
@@ -217,7 +270,7 @@ class m201111_174512_backend extends Migration
 
         $this->createTable('avaliacao', [
             'id_avaliacao' => $this->primaryKey()->notNull()->unsigned(),
-            'dta_avaliacao' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
+            'dta_avaliacao' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'avaliacao' => $this->integer(5)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull()->unsigned(),
@@ -261,7 +314,7 @@ class m201111_174512_backend extends Migration
 
         $this->createTable('comentario', [
             'id_comentario' => $this->primaryKey()->notNull()->unsigned(),
-            'dta_comentario' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
+            'dta_comentario' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'comentario' => $this->string(245)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull()->unsigned(),
@@ -305,7 +358,7 @@ class m201111_174512_backend extends Migration
 
         $this->createTable('favorito', [
             'id_favorito' => $this->primaryKey()->notNull()->unsigned(),
-            'dta_favorito' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
+            'dta_favorito' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
@@ -348,8 +401,8 @@ class m201111_174512_backend extends Migration
 
         $this->createTable('requisicao', [
             'id_requisicao' => $this->primaryKey()->notNull()->unsigned(),
-            'dta_levantamento' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
-            'dta_entrega' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
+            'dta_levantamento' => $this->dateTime()->notNull(),
+            'dta_entrega' => $this->dateTime()->notNull(),
             'estado' => $this->string(30)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull()->unsigned(),
@@ -453,7 +506,7 @@ class m201111_174512_backend extends Migration
         $this->createTable('requisicao_multa', [
             'id_requisicao' => $this->integer()->notNull()->unsigned(),
             'id_multa' => $this->integer()->notNull()->unsigned(),
-            'data_multa' => $this->dateTime()->notNull()->defaultValue(date("Y-m-d h:i:s")),
+            'dta_multa' => $this->dateTime()->notNull(),
             'PRIMARY KEY(id_requisicao)',
         ], $tableOptions);
 
