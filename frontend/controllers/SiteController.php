@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use app\models\Livro;
+use app\models\Utilizador;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -68,16 +69,17 @@ class SiteController extends Controller
         ];
     }
 
+
     //Abre a vista de registar de leitores
     public function actionRegistar() {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+        $utilizador = new Utilizador();
+        if ($utilizador->load(Yii::$app->request->post()) && $utilizador->signup()) {
+            Yii::$app->session->setFlash('success', 'Leitor registado com sucesso.');
             return $this->goHome();
         }
-
-        return $this->render('registar', ['model' => $model]);
+        return $this->render('registar', ['model' => $utilizador]);
     }
+
 
     //Abre a vista de login de leitores
     public function actionLoginleitores() {
@@ -85,13 +87,15 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
+        $utilizador = new Utilizador();
 
-            return $this->render('loginleitores', ['model' => $model]);
+        if ($utilizador->load(Yii::$app->request->post()) && $utilizador->login()) {
+            return $this->render('about');
+        } else {
+            //$utilizador->password = '';
+            var_dump($utilizador->password);
+
+            return $this->render('loginleitores', ['model' => $utilizador]);
         }
     }
 

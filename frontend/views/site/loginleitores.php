@@ -17,11 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <h1><?= Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Email') ?>
+            <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label('Email') ?>
 
             <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
 
-            <?= $form->field($model, 'rememberMe')->checkbox() ?>
+<!--            --><?//= $form->field($model, 'rememberMe')->checkbox() ?>
 
             <div style="color:#999;margin:1em 0">
                 Esqueceu-se da palavra-passe?  <?= Html::a('Clique aqui', ['site/request-password-reset']) ?>.
