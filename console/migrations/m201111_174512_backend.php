@@ -35,7 +35,7 @@ class m201111_174512_backend extends Migration
 
         // Tabela administrador
         $this->createTable('administrador', [
-            'id_admin' => $this->integer()->notNull()->unsigned(),
+            'id_admin' => $this->primaryKey()->notNull()->unsigned(),
             'num_admin' => $this->string(4)->notNull()
         ], $tableOptions);
 
