@@ -3,9 +3,13 @@
 namespace app\controllers;
 namespace frontend\controllers;
 
+use app\models\Comentario;
+use app\models\ComentarioSearch;
 use app\models\Livro;
+use Yii;
 use yii\data\Pagination;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class LivrosController extends Controller
 {
@@ -13,6 +17,8 @@ class LivrosController extends Controller
     {
         return $this->render('index');
     }
+
+
 
 
     /**
@@ -25,22 +31,56 @@ class LivrosController extends Controller
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
-        //$livros = Livro::findBySql('SELECT * FROM livro WHERE genero LIKE "%Poesia"')->all();
 
         return $this->render('catalogo', ['livros' => $livros]);
-        //return $this->render('catalogo');
     }
 
 
+    //TODO: Adicionar elementos ao carrinho (Session Storage)
+    public function actionCarrinho()
+    {
+        $session = Yii::$app->session;
+
+        if ($session->isActive){
+            $session->open();
+
+
+        }
+    }
+
+
+    //TODO:Verificar se o user logado já tem o livo adicionado ao favoritos
+
+    /**
+     * Displays Catalogo page.
+     *
+     * @throws NotFoundHttpException
+     */
     public function actionDetalhes($id)
     {
-        //Efetuar o método para mostrar os detalhes do livro quando é clicada a imagem
 
-        //get do $id do livro
+        $model = new Comentario();
+
+        //find na base de dados do livro com determinado id
         $livro = Livro::findOne($id);
 
-        //return da view de com o livro de acordo com o $id recebido
-        return $this->render('detalhes', [
-            'livro' => $livro]);
+        //request a BD os comentarios em que tenho id livro = id
+        $comentarios = Comentario::find()
+            ->where(['id_livro' => $id])
+            ->all();
+
+
+        if($livro != null && $model!= null){
+            //return da view detalhes com o livro de acordo com o $id recebido
+            return $this->render('detalhes', [
+                'livro' => $livro,
+                'model' => $model,
+                'comentarios' => $comentarios,
+            ]);
+        }
+
+        //caso determinado livro não seja encontrado é retornado o erro 404 not found
+        throw new NotFoundHttpException('O livro não foi encontrado.');
     }
+
 }

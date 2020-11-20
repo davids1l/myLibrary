@@ -2,9 +2,12 @@
 
 namespace frontend\controllers;
 
+use Carbon\Carbon;
 use Yii;
 use app\models\Comentario;
 use app\models\ComentarioSearch;
+use yii\debug\panels\DumpPanel;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,6 +27,7 @@ class ComentarioController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'comentar' => ['POST'],
                 ],
             ],
         ];
@@ -57,22 +61,50 @@ class ComentarioController extends Controller
         ]);
     }
 
+
     /**
      * Creates a new Comentario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
+        //TODO: validar se o utilizador é um leitor e se tem o login efetuado, se não retornar mensagem de erro
+        //TODO: realizar o save do comentário com o id do user logado
+
+
         $model = new Comentario();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $comentario = Yii::$app->request->post('Comentario');
+
+        $model->dta_comentario = Carbon::now();
+        $model->comentario = $comentario; //receber o comentario pelo post
+        $model->id_livro = $id;
+        $model->id_utilizador = 1; //TODO:: id do utilizador logado!!
+
+        if($model->load(Yii::$app->request->post()) && $model->validate()){
+
+            //$model->comentar($id, $comentario);
+
+            $model -> save();
+
+            return $this->redirect(['livros/detalhes', 'id' => $id]);
+        } else {
+            return $this->redirect(['site/about']);
+        }
+
+
+
+        /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_comentario]);
         }
 
         return $this->render('create', [
             'model' => $model,
-        ]);
+        ]);*/
+
     }
 
     /**
@@ -101,6 +133,8 @@ class ComentarioController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
