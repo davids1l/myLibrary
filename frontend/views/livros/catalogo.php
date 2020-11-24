@@ -22,11 +22,10 @@ $this->title = "Catálogo de Livros";
 
         <?php if($livros != null) { ?>
             <?php foreach ($livros as $livro) { ?>
-                <div class="col-md-2 catalogo-grid">
+                <div class="col-xs-12 col-md-2 catalogo-grid">
                     <div class="capa">
-
                         <a href="<?= Url::to(['livros/detalhes', 'id' => $livro->id_livro]) ?>">
-                            <?= Html::img($livro->capa) ?>
+                            <?= Html::img($livro->capa, ['id'=> 'imgCapa'])?>
                         </a>
                     </div>
                     <div class="book-info">
@@ -37,9 +36,8 @@ $this->title = "Catálogo de Livros";
                     </div>
                     <?= Html::a('VER', ['livros/detalhes', 'id' => $livro->id_livro])?>
                 </div>
-                <?php }
+            <?php }
         }?>
-
     </div>
 
 </div>

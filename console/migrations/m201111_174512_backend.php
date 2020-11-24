@@ -21,18 +21,38 @@ class m201111_174512_backend extends Migration
 
         // Tabela utilizador
         $this->createTable('utilizador', [
-            'id_utilizador' => $this->primaryKey()->notNull()->unsigned(),
+            'id_utilizador' => $this->primaryKey()->notNull(),
             'primeiro_nome' => $this->string(50)->notNull(),
             'ultimo_nome' => $this->string(50)->notNull(),
+            'numero' => $this->string(4)->notNull(),
+            'bloqueado' => $this->smallInteger(1)->defaultValue(null),
+            'dta_bloqueado' => $this->dateTime()->defaultValue(null),
             'dta_nascimento' => $this->date()->notNull(),
             'nif' => $this->string(9)->notNull(),
-            'email' => $this->string(80)->notNull(),
             'num_telemovel' => $this->integer(9)->notNull(),
             'dta_registo' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'foto_perfil' => $this->string(50)->notNull(),
-            'password' => $this->string(50)->notNull()
         ], $tableOptions);
 
+        // Chave estrangeira
+
+        $this->createIndex(
+            'idx-utilizador-id_utilizador',
+            'utilizador',
+            'id_utilizador'
+        );
+
+        $this->addForeignKey(
+            'fk-utilizador-id_utilizador',
+            'utilizador',
+            'id_utilizador',
+            '{{%user}}',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+/*
         // Tabela administrador
         $this->createTable('administrador', [
             'id_admin' => $this->primaryKey()->notNull()->unsigned(),
@@ -56,6 +76,7 @@ class m201111_174512_backend extends Migration
             'CASCADE',
             'CASCADE'
         );
+*/
 
         // Tabela pais
         $this->createTable('pais', [
@@ -79,7 +100,7 @@ class m201111_174512_backend extends Migration
         ], $tableOptions);
 
         // Tabela leitor
-
+/*
         $this->createTable('leitor', [
             'id_leitor' => $this->primaryKey()->notNull()->unsigned(),
             'num_leitor' => $this->string(4)->notNull(),
@@ -104,11 +125,11 @@ class m201111_174512_backend extends Migration
             'CASCADE',
             'CASCADE'
         );
-
+*/
         // Tabela bibliotecario
 
         $this->createTable('bibliotecario', [
-            'id_bibliotecario' => $this->primaryKey()->notNull()->unsigned(),
+            'id_bibliotecario' => $this->primaryKey()->notNull(),
             'num_bibliotecario' => $this->string(4)->notNull(),
             'id_biblioteca' => $this->integer()->notNull()->unsigned()
         ], $tableOptions);
@@ -149,7 +170,7 @@ class m201111_174512_backend extends Migration
 
         $this->createTable('autor', [
             'id_autor' => $this->primaryKey()->notNull()->unsigned(),
-            'nome_autor' => $this->integer(80)->notNull(),
+            'nome_autor' => $this->String(200)->notNull(),
             'id_pais' => $this->integer()->notNull()->unsigned()
         ], $tableOptions);
 
@@ -204,7 +225,7 @@ class m201111_174512_backend extends Migration
             'id_livro' => $this->primaryKey()->notNull()->unsigned(),
             'titulo' => $this->string(50)->notNull(),
             'isbn' => $this->string(13)->notNull(),
-            'ano' => $this->date()->notNull(),
+            'ano' => $this->integer(4)->notNull(),
             'paginas' => $this->integer(11)->notNull(),
             'genero' => $this->string(80)->notNull(),
             'idioma' => $this->string(15)->notNull(),
@@ -273,7 +294,7 @@ class m201111_174512_backend extends Migration
             'dta_avaliacao' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'avaliacao' => $this->integer(5)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
-            'id_utilizador' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -317,7 +338,7 @@ class m201111_174512_backend extends Migration
             'dta_comentario' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'comentario' => $this->string(245)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
-            'id_utilizador' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -360,7 +381,7 @@ class m201111_174512_backend extends Migration
             'id_favorito' => $this->primaryKey()->notNull()->unsigned(),
             'dta_favorito' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'id_livro' => $this->integer()->notNull()->unsigned(),
-            'id_utilizador' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull(),
         ], $tableOptions);
 
         // Chaves estrangeiras
@@ -405,7 +426,7 @@ class m201111_174512_backend extends Migration
             'dta_entrega' => $this->dateTime()->notNull(),
             'estado' => $this->string(30)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
-            'id_utilizador' => $this->integer()->notNull()->unsigned(),
+            'id_utilizador' => $this->integer()->notNull(),
             'id_bib_levantamento' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 

@@ -1,20 +1,19 @@
 <?php
 
-namespace frontend\controllers;
+namespace app\controllers;
+namespace backend\controllers;
 
-use Carbon\Carbon;
 use Yii;
-use app\models\Favorito;
-use app\models\FavoritoSearch;
-use yii\helpers\VarDumper;
+use app\models\Livro;
+use app\models\LivroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * FavoritoController implements the CRUD actions for Favorito model.
+ * LivrosController implements the CRUD actions for Livro model.
  */
-class FavoritoController extends Controller
+class LivrosController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,12 +31,12 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Lists all Favorito models.
+     * Lists all Livro models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new FavoritoSearch();
+        $searchModel = new LivroSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,7 +46,7 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Displays a single Favorito model.
+     * Displays a single Livro model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,46 +59,25 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Creates a new Favorito model.
+     * Creates a new Livro model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id)
+    public function actionCreate()
     {
-        $model = new Favorito();
+        $model = new Livro();
 
-        //search na BD por record que verifique dados iguais
-        $alreadyFav = Favorito::find()
-            ->where(['id_livro' => $id, 'id_utilizador' => 1]) //TODO:alterar id_utilizador para o id do user logado
-            ->all();
-
-
-        //validar se já existe um record com o mesmo id_user e id_livro
-        if($alreadyFav == null)
-        {
-            //if($model->load(Yii::$app->request->post()) && $model->validate())
-            $model->data_fav = Carbon::now();
-            $model->id_livro = $id;
-            $model->id_utilizador = 1; //TODO:: ALTERAR PELO ID DO USER LOGADO!!
-
-            $model->save();
-        }
-
-        return $this->redirect(['livros/detalhes', 'id' => $id]);
-
-
-        //actionCreate favorito gerado pelo gii CRUD
-        /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_favorito]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_livro]);
         }
 
         return $this->render('create', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
-     * Updates an existing Favorito model.
+     * Updates an existing Livro model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -110,7 +88,7 @@ class FavoritoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_favorito]);
+            return $this->redirect(['view', 'id' => $model->id_livro]);
         }
 
         return $this->render('update', [
@@ -119,7 +97,7 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Deletes an existing Favorito model.
+     * Deletes an existing Livro model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -133,15 +111,15 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Finds the Favorito model based on its primary key value.
+     * Finds the Livro model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Favorito the loaded model
+     * @return Livro the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Favorito::findOne($id)) !== null) {
+        if (($model = Livro::findOne($id)) !== null) {
             return $model;
         }
 

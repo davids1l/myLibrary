@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Carbon\Carbon;
 use Yii;
 
 /**
@@ -49,4 +50,17 @@ class Comentario extends \yii\db\ActiveRecord
             'id_utilizador' => 'Id Utilizador',
         ];
     }
+
+    public function comentar($id_livro, $comment)
+    {
+        $comentario = new Comentario();
+
+        $comentario->dta_comentario = Carbon::now();
+        $comentario->comentario = $comment; //receber o comentario pelo post
+        $comentario->id_livro = $id_livro;
+        $comentario->id_utilizador = 1;
+
+        return $comentario->save();
+    }
+
 }
