@@ -18,7 +18,11 @@
         "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
+<<<<<<< HEAD
         "nesbot/carbon": "^1.39"
+=======
+        "components/font-awesome": "^5.15"
+>>>>>>> origin/david_1
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

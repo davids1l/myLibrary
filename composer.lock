@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "ac013abe0ae301488c11c092cce19c6d",
+=======
+    "content-hash": "5a8fe7a14b6cf790e34263ed1ebe24c5",
+>>>>>>> origin/david_1
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -161,6 +165,41 @@
                 "markdown-extra"
             ],
             "time": "2018-03-26T11:24:36+00:00"
+        },
+        {
+            "name": "components/font-awesome",
+            "version": "5.15.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/font-awesome.git",
+                "reference": "6943708effe6d823d40255bcdbe9ee021312c880"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/font-awesome/zipball/6943708effe6d823d40255bcdbe9ee021312c880",
+                "reference": "6943708effe6d823d40255bcdbe9ee021312c880",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "styles": [
+                        "css/all.css"
+                    ],
+                    "files": [
+                        "css/all.min.css",
+                        "webfonts/*"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-4.0",
+                "MIT",
+                "OFL-1.1"
+            ],
+            "description": "Font Awesome, the iconic SVG, font, and CSS framework.",
+            "time": "2020-10-06T06:45:49+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -1108,6 +1147,7 @@
         },
         {
             "name": "yiisoft/yii2",
+<<<<<<< HEAD
             "version": "2.0.38",
             "source": {
                 "type": "git",
@@ -1118,6 +1158,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/fd01e747cc66a049ec105048f0ab8dfbdf60bf4b",
                 "reference": "fd01e747cc66a049ec105048f0ab8dfbdf60bf4b",
+=======
+            "version": "2.0.39.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-framework.git",
+                "reference": "7c3b93b57e568509a7cb5cef826d8c424a779f3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7c3b93b57e568509a7cb5cef826d8c424a779f3f",
+                "reference": "7c3b93b57e568509a7cb5cef826d8c424a779f3f",
+>>>>>>> origin/david_1
                 "shasum": ""
             },
             "require": {
@@ -1218,7 +1270,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2020-09-14T21:52:10+00:00"
+=======
+            "time": "2020-11-23T19:17:58+00:00"
+>>>>>>> origin/david_1
         },
         {
             "name": "yiisoft/yii2-bootstrap",

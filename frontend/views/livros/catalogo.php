@@ -5,6 +5,8 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $livros app\controllers\LivrosController */
 
+/* TODO: FORM PARA FAZER A SELEÇÃO DE ACORDO COM O GENERO SELECIONADO */
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -20,8 +22,8 @@ $this->title = "Catálogo de Livros";
     <div class="container">
         <h1><?= Html::encode($this->title)?></h1>
         <div>
-            <span>Categoria: </span>
-            <?= Html::dropDownList('Dropdown Teste',null, ['Poesia', 'Comedia',] ) ?>
+            <span>Genero: </span>
+            <?= Html::dropDownList('Dropdown Teste',null, ['Poesia', 'Comédia','Romance','Ação'] ) ?>
         </div>
 
         <hr>

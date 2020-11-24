@@ -34,7 +34,8 @@ $this->title = "Detalhes do Livro";
                     <span style="font-weight: bold">ISBN: </span><span><?= Html::encode($livro->isbn)?> | </span>
                     <span style="font-weight: bold">Formato: </span><span><?= Html::encode($livro->formato)?> | </span>
                     <span style="font-weight: bold">Páginas: </span><span><?= Html::encode($livro->paginas)?> | </span>
-                    <span style="font-weight: bold">Biblioteca: </span><span><?= Html::encode($livro->biblioteca->nome)?></span>
+                    <span style="font-weight: bold">Biblioteca: </span><span><?= Html::encode($livro->biblioteca->nome)?> | </span>
+                    <span style="font-weight: bold">Género: </span><span><?= Html::encode($livro->genero)?></span>
                 </div>
                 <div class="rating">
                     <span class="glyphicon glyphicon-star star-filed" style="color: darkorange"></span>
@@ -60,41 +61,43 @@ $this->title = "Detalhes do Livro";
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-md-7 col-lg-12 comentarios">
-            <h4>COMENTÁRIOS</h4>
-            <hr>
+        <div class="col-xs-12 col-md-7 col-lg-8 comentarios">
+
             <div class="commentSection">
                 <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
-                <?= $form->field($model, 'comentario')->textarea(); ?>
+                <?= $form->field($model, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', ]); ?>
                 <?= Html::submitButton('Comentar', ['name' => 'comentario', 'class' => 'btnComment']) ?>
                 <?php ActiveForm::end(); ?>
             </div>
+            <hr>
             <div class="commentsArea">
-            <?php if($comentarios != null){ ?>
-                <?php foreach ($comentarios as $comentario){ ?>
+                <h4><?= sizeof($comentarios)?> comentário(s)</h4>
 
-                    <div class="comentario" style="margin-top: 2%">
-                        <div class="">
-                            <span><img src="<?= $livro->capa?>" class="imgPerfil"> <a href="#">Nome do Utilizador</a></span>
-                            <p><?= $comentario->comentario ?></p>
-                            <i><?= $comentario->dta_comentario ?></i>
-                            <span class="commentActions">
-                            <?php if($comentario->id_utilizador == 2){ //Isto é efetuado pelo ACF e RBAC?>
-                                <?= Html::a('', ['comentario/update', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer'])?>
-                                <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
-                            <?php }?>
-                            </span>
+                <?php if($comentarios != null){ ?>
+                    <?php foreach ($comentarios as $comentario){ ?>
+                        <div class="comentario" style="margin-top: 2%">
+                            <div class="">
+
+                                <span><?= Html::img($livro->capa, ['class' => 'imgPerfil'])?> <?= Html::a('Nome Utilizador') ?></span>
+                                <p><?= $comentario->comentario ?></p>
+                                <i><?= $comentario->dta_comentario ?></i>
+                                <span class="commentActions">
+                                <?php if($comentario->id_utilizador == 2){ //alterar para o id do user que está logado?>
+                                    <?= Html::a('', ['comentario/update', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer'])?>
+                                    <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
+                                <?php }?>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <?php if(sizeof($comentarios) > 3) {?>
-                    <div class="showMore" style="">
-                        <a>Mostar mais</a>
-                    </div>
-                    <?php }?>
-                <?php } ?>
-            <?php } else { ?>
-                <p>Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!</p>
-            <?php }?>
+                        <?php if(sizeof($comentarios) > 3) {?>
+                            <div class="showMore" style="">
+                                <a>Mostar mais</a>
+                            </div>
+                        <?php }
+                    }
+                } else { ?>
+                    <p>Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!</p>
+                <?php }?>
             </div>
         </div>
     </div>

@@ -8,17 +8,45 @@ use app\models\ComentarioSearch;
 use app\models\Livro;
 use Yii;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class LivrosController extends Controller
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['catalogo', 'detalhes'],
+                'rules' => [
+                    [
+                        'actions' => ['catalogo', 'detalhes'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['carrinho'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [],
+            ],
+        ];
+    }
+
+
     public function actionIndex()
     {
         return $this->render('index');
     }
-
-
 
 
     /**
