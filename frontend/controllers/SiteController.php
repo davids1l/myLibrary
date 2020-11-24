@@ -1,7 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use app\common\models\FormLogin;
+use app\models\Leitor;
 use app\models\Livro;
+use app\models\Utilizador;
+use common\models\FormularioLogin;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -66,6 +70,46 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+
+    //Mostra a vista de registar de leitores
+    public function actionRegistar() {
+        $utilizador = new Utilizador();
+        if ($utilizador->load(Yii::$app->request->post()) && $utilizador->signup()) {
+            Yii::$app->session->setFlash('success', 'Leitor registado com sucesso.');
+            return $this->goHome();
+        }
+
+       $utilizador->password = '';
+       return $this->render('registar', ['model' => $utilizador]);
+    }
+
+
+    //Abre a vista de login de leitores
+    public function actionLoginleitores() {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $utilizador = new FormularioLogin();
+
+        if ($utilizador->load(Yii::$app->request->post()) && $utilizador->login()) {
+            return $this->goBack();
+        } else {
+            $utilizador->password = '';
+            return $this->render('loginleitores', ['model' => $utilizador]);
+        }
+    }
+
+    //Abre a vista do perfil de utilizador
+    public function actionPerfil(){
+        return $this->render('perfil');
+    }
+
+    //Abre a vista do Histórico de Requisições
+    public function actionHistorico_requisicoes(){
+        return $this->render('historico_requisicoes');
     }
 
 

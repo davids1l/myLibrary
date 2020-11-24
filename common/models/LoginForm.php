@@ -60,7 +60,7 @@ class LoginForm extends Model
         }
         
         return false;
-    }
+}
 
     /**
      * Finds user by [[username]]

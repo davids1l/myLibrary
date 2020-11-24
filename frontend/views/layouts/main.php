@@ -42,6 +42,10 @@ AppAsset::register($this);
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Catálogo', 'url' => ['/livros/catalogo']],
         ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
+        ['label' => 'Registar', 'url' => ['/site/registar']],
+        ['label' => 'Login Leitores', 'url' => ['/site/loginleitores']],
+        ['label' => 'Perfil', 'url' => ['/site/perfil']],
+        ['label' => 'Histórico de Requisições', 'url' => ['/site/historico_requisicoes']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
