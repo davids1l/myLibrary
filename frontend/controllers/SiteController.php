@@ -1,8 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use app\common\models\FormLogin;
+use app\models\Leitor;
 use app\models\Livro;
 use app\models\Utilizador;
+use common\models\FormularioLogin;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -70,14 +73,16 @@ class SiteController extends Controller
     }
 
 
-    //Abre a vista de registar de leitores
+    //Mostra a vista de registar de leitores
     public function actionRegistar() {
         $utilizador = new Utilizador();
         if ($utilizador->load(Yii::$app->request->post()) && $utilizador->signup()) {
             Yii::$app->session->setFlash('success', 'Leitor registado com sucesso.');
             return $this->goHome();
         }
-        return $this->render('registar', ['model' => $utilizador]);
+
+       $utilizador->password = '';
+       return $this->render('registar', ['model' => $utilizador]);
     }
 
 
@@ -87,14 +92,12 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $utilizador = new Utilizador();
+        $utilizador = new FormularioLogin();
 
         if ($utilizador->load(Yii::$app->request->post()) && $utilizador->login()) {
-            return $this->render('about');
+            return $this->goBack();
         } else {
-            //$utilizador->password = '';
-            var_dump($utilizador->password);
-
+            $utilizador->password = '';
             return $this->render('loginleitores', ['model' => $utilizador]);
         }
     }
