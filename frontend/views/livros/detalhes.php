@@ -60,8 +60,9 @@ $this->title = "Detalhes do Livro";
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-md-7 col-lg-7 comentarios">
+        <div class="col-xs-12 col-md-7 col-lg-12 comentarios">
             <h4>COMENTÁRIOS</h4>
+            <hr>
             <div class="commentSection">
                 <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
                 <?= $form->field($model, 'comentario')->textarea(); ?>
@@ -78,21 +79,22 @@ $this->title = "Detalhes do Livro";
                             <p><?= $comentario->comentario ?></p>
                             <i><?= $comentario->dta_comentario ?></i>
                             <span class="commentActions">
-                            <?php if($comentario->id_utilizador == 1){ ?>
+                            <?php if($comentario->id_utilizador == 2){ //Isto é efetuado pelo ACF e RBAC?>
                                 <?= Html::a('', ['comentario/update', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer'])?>
                                 <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
                             <?php }?>
                             </span>
                         </div>
                     </div>
-
+                    <?php if(sizeof($comentarios) > 3) {?>
+                    <div class="showMore" style="">
+                        <a>Mostar mais</a>
+                    </div>
+                    <?php }?>
                 <?php } ?>
             <?php } else { ?>
                 <p>Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!</p>
             <?php }?>
-            </div>
-            <div style="margin-top: 5%; cursor:pointer;">
-                <a>Mostar mais</a>
             </div>
         </div>
     </div>

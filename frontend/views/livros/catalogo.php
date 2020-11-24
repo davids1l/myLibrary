@@ -7,6 +7,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 use yii\widgets\LinkPager;
 
 \frontend\assets\ViewsAssets::register($this);
@@ -18,6 +19,11 @@ $this->title = "Catálogo de Livros";
 <div class="catalogo-livros">
     <div class="container">
         <h1><?= Html::encode($this->title)?></h1>
+        <div>
+            <span>Categoria: </span>
+            <?= Html::dropDownList('Dropdown Teste',null, ['Poesia', 'Comedia',] ) ?>
+        </div>
+
         <hr>
 
         <?php if($livros != null) { ?>

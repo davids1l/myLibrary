@@ -68,7 +68,7 @@ class FavoritoController extends Controller
     {
         $model = new Favorito();
 
-        //search na BD por record que verifique dados iguais
+        //search na BD que verifique dados iguais
         $alreadyFav = Favorito::find()
             ->where(['id_livro' => $id, 'id_utilizador' => 1]) //TODO:alterar id_utilizador para o id do user logado
             ->all();

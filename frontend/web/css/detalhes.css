@@ -29,6 +29,11 @@
     }
 }
 
+.showMore{
+    margin-top: 5%;
+    cursor:pointer;
+}
+
 .commentSection textarea {
     width: 100%;
 }
