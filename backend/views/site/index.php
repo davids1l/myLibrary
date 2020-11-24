@@ -18,7 +18,7 @@ $this->title = 'Painel';
                     <button class="buttonPanel"><?= Html::a('Consultar Livros', ['livros/index']) ?></button>
             </div>
             <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Gerir Livros', ['livros/index']) ?></button>
+                <button class="buttonPanel"><?= Html::a('Gerir Livros', ['livros/create']) ?></button>
             </div>
             <br />
         </div>
