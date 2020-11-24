@@ -51,6 +51,8 @@ class Comentario extends \yii\db\ActiveRecord
         ];
     }
 
+
+    //função utilizada para criar um novo comentário - não utilizada
     public function comentar($id_livro, $comment)
     {
         $comentario = new Comentario();

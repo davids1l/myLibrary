@@ -27,6 +27,7 @@ class LivrosController extends Controller
      */
     public function actionCatalogo()
     {
+        //select na BD de todos os livro existentes
         $livros = Livro::find()
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
@@ -49,8 +50,6 @@ class LivrosController extends Controller
     }
 
 
-    //TODO:Verificar se o user logado já tem o livo adicionado ao favoritos
-
     /**
      * Displays Catalogo page.
      *
@@ -64,9 +63,10 @@ class LivrosController extends Controller
         //find na base de dados do livro com determinado id
         $livro = Livro::findOne($id);
 
-        //request a BD os comentarios em que tenho id livro = id
+        //request à BD dos comentarios que tem id livro = id
         $comentarios = Comentario::find()
             ->where(['id_livro' => $id])
+            ->orderBy('dta_comentario DESC')
             ->all();
 
 

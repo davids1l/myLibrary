@@ -6,7 +6,6 @@
 /* @var $livro  */
 /* @var $comentarios  */
 
-
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -64,26 +63,37 @@ $this->title = "Detalhes do Livro";
         <div class="col-xs-12 col-md-7 col-lg-7 comentarios">
             <h4>COMENTÁRIOS</h4>
             <div class="commentSection">
-                <?php $form = ActiveForm::begin(['action' => 'index.php?r=comentario%2Fcreate&id=' . $livro->id_livro]); ?>
+                <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
                 <?= $form->field($model, 'comentario')->textarea(); ?>
-                <div class="form-group">
-                    <?= Html::submitButton('Comentar', ['name' => 'comentario']) ?>
-                </div>
+                <?= Html::submitButton('Comentar', ['name' => 'comentario', 'class' => 'btnComment']) ?>
                 <?php ActiveForm::end(); ?>
             </div>
+            <div class="commentsArea">
             <?php if($comentarios != null){ ?>
                 <?php foreach ($comentarios as $comentario){ ?>
 
                     <div class="comentario" style="margin-top: 2%">
-                        <span><img src="<?= $livro->capa?>" class="imgPerfil"> <a href="#">Afonso Cancela</a></span>
-                        <p><?= $comentario->comentario ?></p>
-                        <i><?= $comentario->dta_comentario ?></i>
+                        <div class="">
+                            <span><img src="<?= $livro->capa?>" class="imgPerfil"> <a href="#">Nome do Utilizador</a></span>
+                            <p><?= $comentario->comentario ?></p>
+                            <i><?= $comentario->dta_comentario ?></i>
+                            <span class="commentActions">
+                            <?php if($comentario->id_utilizador == 1){ ?>
+                                <?= Html::a('', ['comentario/update', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer'])?>
+                                <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
+                            <?php }?>
+                            </span>
+                        </div>
                     </div>
 
                 <?php } ?>
             <?php } else { ?>
                 <p>Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!</p>
             <?php }?>
+            </div>
+            <div style="margin-top: 5%; cursor:pointer;">
+                <a>Mostar mais</a>
+            </div>
         </div>
     </div>
 </div>

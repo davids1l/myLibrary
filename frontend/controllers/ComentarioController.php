@@ -6,8 +6,6 @@ use Carbon\Carbon;
 use Yii;
 use app\models\Comentario;
 use app\models\ComentarioSearch;
-use yii\debug\panels\DumpPanel;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -71,7 +69,7 @@ class ComentarioController extends Controller
      */
     public function actionCreate($id)
     {
-        //TODO: validar se o utilizador é um leitor e se tem o login efetuado, se não retornar mensagem de erro
+        //TODO: validar se o utilizador é um leitor e se tem o login efetuado, se não retornar mensagem de erro -> ACF
         //TODO: realizar o save do comentário com o id do user logado
 
 
@@ -80,16 +78,12 @@ class ComentarioController extends Controller
         $comentario = Yii::$app->request->post('Comentario');
 
         $model->dta_comentario = Carbon::now();
-        $model->comentario = $comentario; //receber o comentario pelo post
+        $model->comentario = $comentario;
         $model->id_livro = $id;
-        $model->id_utilizador = 1; //TODO:: id do utilizador logado!!
+        $model->id_utilizador = 2; //TODO:: id do utilizador logado!! - Yii::$frontend->user->identity->id
 
         if($model->load(Yii::$app->request->post()) && $model->validate()){
-
-            //$model->comentar($id, $comentario);
-
             $model -> save();
-
             return $this->redirect(['livros/detalhes', 'id' => $id]);
         } else {
             return $this->redirect(['site/about']);
