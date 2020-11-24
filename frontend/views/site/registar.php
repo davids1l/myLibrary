@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'nif')->label('NIF') ?>
             <?= $form->field($model, 'num_telemovel')->label('Nº de telefone') ?>
             <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
+            <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
             <div class="form-group">
                 <?= Html::submitButton('Registar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
             </div>

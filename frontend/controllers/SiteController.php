@@ -1,12 +1,12 @@
 <?php
+
 namespace frontend\controllers;
 
-use app\common\models\FormLogin;
 use app\models\Leitor;
 use app\models\Livro;
-use app\models\Utilizador;
 use common\models\FormularioLogin;
 use frontend\models\ResendVerificationEmailForm;
+use frontend\models\Utilizador;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -74,20 +74,24 @@ class SiteController extends Controller
 
 
     //Mostra a vista de registar de leitores
-    public function actionRegistar() {
-        $utilizador = new Utilizador();
-        if ($utilizador->load(Yii::$app->request->post()) && $utilizador->signup()) {
-            Yii::$app->session->setFlash('success', 'Leitor registado com sucesso.');
+    public function actionRegistar()
+    {
+
+        $user = new SignupForm();
+        if ($user->load(Yii::$app->request->post()) && $user->signup()) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->goHome();
         }
 
-       $utilizador->password = '';
-       return $this->render('registar', ['model' => $utilizador]);
+        $user->confirmarPassword = '';
+        $user->password = '';
+        return $this->render('registar', ['model' => $user]);
     }
 
 
     //Abre a vista de login de leitores
-    public function actionLoginleitores() {
+    public function actionLoginleitores()
+    {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -103,12 +107,14 @@ class SiteController extends Controller
     }
 
     //Abre a vista do perfil de utilizador
-    public function actionPerfil(){
+    public function actionPerfil()
+    {
         return $this->render('perfil');
     }
 
     //Abre a vista do Histórico de Requisições
-    public function actionHistorico_requisicoes(){
+    public function actionHistorico_requisicoes()
+    {
         return $this->render('historico_requisicoes');
     }
 
@@ -263,8 +269,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {
