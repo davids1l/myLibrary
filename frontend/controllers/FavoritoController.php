@@ -2,9 +2,11 @@
 
 namespace frontend\controllers;
 
+use Carbon\Carbon;
 use Yii;
 use app\models\Favorito;
 use app\models\FavoritoSearch;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -62,17 +64,38 @@ class FavoritoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Favorito();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //search na BD por record que verifique dados iguais
+        $alreadyFav = Favorito::find()
+            ->where(['id_livro' => $id, 'id_utilizador' => 1]) //TODO:alterar id_utilizador para o id do user logado
+            ->all();
+
+
+        //validar se já existe um record com o mesmo id_user e id_livro
+        if($alreadyFav == null)
+        {
+            //if($model->load(Yii::$app->request->post()) && $model->validate())
+            $model->data_fav = Carbon::now();
+            $model->id_livro = $id;
+            $model->id_utilizador = 1; //TODO:: ALTERAR PELO ID DO USER LOGADO!!
+
+            $model->save();
+        }
+
+        return $this->redirect(['livros/detalhes', 'id' => $id]);
+
+
+        //actionCreate favorito gerado pelo gii CRUD
+        /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_favorito]);
         }
 
         return $this->render('create', [
             'model' => $model,
-        ]);
+        ]);*/
     }
 
     /**

@@ -1,3 +1,15 @@
+@media screen and (max-width: 600px){
+    #imgCapa {
+        width: 25%;
+    }
+
+    .catalogo-grid{
+        margin-top: 50%;
+    }
+    .container {
+    }
+}
+
 .capa {
     overflow: hidden;
 }
