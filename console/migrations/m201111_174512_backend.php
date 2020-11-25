@@ -19,6 +19,14 @@ class m201111_174512_backend extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
+        // Tabela biblioteca
+
+        $this->createTable('biblioteca', [
+            'id_biblioteca' => $this->primaryKey()->notNull()->unsigned(),
+            'nome' => $this->string(120)->notNull(),
+            'cod_postal' => $this->string(8)->notNull()
+        ], $tableOptions);
+
         // Tabela utilizador
         $this->createTable('utilizador', [
             'id_utilizador' => $this->primaryKey()->notNull(),
@@ -31,7 +39,8 @@ class m201111_174512_backend extends Migration
             'nif' => $this->string(9)->notNull(),
             'num_telemovel' => $this->integer(9)->notNull(),
             'dta_registo' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-            'foto_perfil' => $this->string(50)->notNull(),
+            'foto_perfil' => $this->string(400)->defaultValue('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
+            'id_biblioteca' => $this->integer()->defaultValue(null)->unsigned(),
         ], $tableOptions);
 
         // Chave estrangeira
@@ -52,31 +61,21 @@ class m201111_174512_backend extends Migration
             'CASCADE'
         );
 
-/*
-        // Tabela administrador
-        $this->createTable('administrador', [
-            'id_admin' => $this->primaryKey()->notNull()->unsigned(),
-            'num_admin' => $this->string(4)->notNull()
-        ], $tableOptions);
-
-        // Chave estrangeira
-
         $this->createIndex(
-            'idx-administrador-id_admin',
-            'administrador',
-            'id_admin'
+            'idx-utilizador-id_biblioteca',
+            'utilizador',
+            'id_biblioteca'
         );
 
         $this->addForeignKey(
-            'fk-administrador-id_admin',
-            'administrador',
-            'id_admin',
+            'fk-utilizador-id_biblioteca',
             'utilizador',
-            'id_utilizador',
+            'id_biblioteca',
+            'biblioteca',
+            'id_biblioteca',
             'CASCADE',
             'CASCADE'
         );
-*/
 
         // Tabela pais
         $this->createTable('pais', [
@@ -91,82 +90,7 @@ class m201111_174512_backend extends Migration
             'estado' => $this->string(30)->notNull()
         ], $tableOptions);
 
-        // Tabela biblioteca
-
-        $this->createTable('biblioteca', [
-            'id_biblioteca' => $this->primaryKey()->notNull()->unsigned(),
-            'nome' => $this->string(120)->notNull(),
-            'cod_postal' => $this->string(8)->notNull()
-        ], $tableOptions);
-
-        // Tabela leitor
-/*
-        $this->createTable('leitor', [
-            'id_leitor' => $this->primaryKey()->notNull()->unsigned(),
-            'num_leitor' => $this->string(4)->notNull(),
-            'bloqueado' => $this->smallInteger(1)->defaultValue(null),
-            'dta_bloqueado' => $this->dateTime()->defaultValue(null),
-        ], $tableOptions);
-
-        // Chave estrangeira
-
-        $this->createIndex(
-            'idx-leitor-id_leitor',
-            'leitor',
-            'id_leitor'
-        );
-
-        $this->addForeignKey(
-            'fk-leitor-id_leitor',
-            'leitor',
-            'id_leitor',
-            'utilizador',
-            'id_utilizador',
-            'CASCADE',
-            'CASCADE'
-        );
-*/
-        // Tabela bibliotecario
-
-        $this->createTable('bibliotecario', [
-            'id_bibliotecario' => $this->primaryKey()->notNull(),
-            'num_bibliotecario' => $this->string(4)->notNull(),
-            'id_biblioteca' => $this->integer()->notNull()->unsigned()
-        ], $tableOptions);
-
-        // Chaves estrangeiras
-
-        $this->createIndex(
-            'idx-bibliotecario-id_bibliotecario',
-            'bibliotecario',
-            'id_bibliotecario'
-        );
-
-        $this->addForeignKey(
-            'fk-bibliotecario-id_bibliotecario',
-            'bibliotecario',
-            'id_bibliotecario',
-            'utilizador',
-            'id_utilizador',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->createIndex(
-            'idx-bibliotecario-id_biblioteca',
-            'bibliotecario',
-            'id_biblioteca'
-        );
-
-        $this->addForeignKey(
-            'fk-bibliotecario-id_biblioteca',
-            'bibliotecario',
-            'id_biblioteca',
-            'biblioteca',
-            'id_biblioteca',
-            'CASCADE',
-            'CASCADE'
-        );
+       // Autor
 
         $this->createTable('autor', [
             'id_autor' => $this->primaryKey()->notNull()->unsigned(),
