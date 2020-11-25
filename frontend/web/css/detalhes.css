@@ -29,6 +29,11 @@
     }
 }
 
+.capa-livro{
+    width: 50%;
+    height: 50%;
+}
+
 .showMore{
     margin-top: 5%;
     cursor:pointer;

@@ -87,8 +87,6 @@ class ComentarioController extends Controller
     public function actionCreate($id)
     {
         //TODO: validar se o utilizador é um leitor e se tem o login efetuado, se não retornar mensagem de erro -> ACF
-        //TODO: realizar o save do comentário com o id do user logado
-
 
         $model = new Comentario();
 
@@ -97,7 +95,7 @@ class ComentarioController extends Controller
         $model->dta_comentario = Carbon::now();
         $model->comentario = $comentario;
         $model->id_livro = $id;
-        $model->id_utilizador = 2; //TODO:: id do utilizador logado!! - Yii::$frontend->user->identity->id
+        $model->id_utilizador = Yii::$app->user->identity->ID;
 
         if($model->load(Yii::$app->request->post()) && $model->validate()){
             $model -> save();

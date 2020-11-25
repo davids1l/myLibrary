@@ -77,8 +77,7 @@ $this->title = "Detalhes do Livro";
                     <?php foreach ($comentarios as $comentario){ ?>
                         <div class="comentario" style="margin-top: 2%">
                             <div class="">
-
-                                <span><?= Html::img($livro->capa, ['class' => 'imgPerfil'])?> <?= Html::a('Nome Utilizador') ?></span>
+                                <span><?= Html::img($comentario->utilizador->foto_perfil, ['class' => 'imgPerfil'])?> <?= Html::a($comentario->utilizador->primeiro_nome . ' ' .$comentario->utilizador->ultimo_nome) ?></span>
                                 <p><?= $comentario->comentario ?></p>
                                 <i><?= $comentario->dta_comentario ?></i>
                                 <span class="commentActions">

@@ -31,7 +31,7 @@ class m201111_174512_backend extends Migration
             'nif' => $this->string(9)->notNull(),
             'num_telemovel' => $this->integer(9)->notNull(),
             'dta_registo' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-            'foto_perfil' => $this->string(50)->defaultValue('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
+            'foto_perfil' => $this->string(50)->defaultValue(null),
         ], $tableOptions);
 
         // Chave estrangeira

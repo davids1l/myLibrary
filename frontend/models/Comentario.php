@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Carbon\Carbon;
+use SebastianBergmann\CodeCoverage\Util;
 use Yii;
 
 /**
@@ -35,6 +36,11 @@ class Comentario extends \yii\db\ActiveRecord
             [['id_livro', 'id_utilizador'], 'integer'],
             [['comentario'], 'string', 'max' => 245],
         ];
+    }
+
+    //função para
+    public function getUtilizador(){
+        return $this->hasOne(Utilizador::className(), ['id_utilizador' => 'id_utilizador']);
     }
 
     /**

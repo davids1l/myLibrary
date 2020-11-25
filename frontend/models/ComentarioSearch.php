@@ -22,6 +22,11 @@ class ComentarioSearch extends Comentario
         ];
     }
 
+    public function getNomeUtilizador($id_utilizador) {
+
+        $query = Utilizador::find();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +35,8 @@ class ComentarioSearch extends Comentario
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+
+
 
     /**
      * Creates data provider instance with search query applied
@@ -41,6 +48,7 @@ class ComentarioSearch extends Comentario
     public function search($params)
     {
         $query = Comentario::find();
+        //$query->joinWith(['utilizador']);
 
         // add conditions that should always apply here
 
@@ -58,13 +66,14 @@ class ComentarioSearch extends Comentario
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_comentario' => $this->id_comentario,
-            'dta_comentario' => $this->dta_comentario,
-            'id_livro' => $this->id_livro,
+            //'id_comentario' => $this->id_comentario,
+            //'dta_comentario' => $this->dta_comentario,
+            //'id_livro' => $this->id_livro,
             'id_utilizador' => $this->id_utilizador,
         ]);
 
         $query->andFilterWhere(['like', 'comentario', $this->comentario]);
+            //->andFilterWhere(['like', 'utilizador.id_utilizador', $this->id_utilizador]);
 
         return $dataProvider;
     }

@@ -45,7 +45,9 @@ $this->title = "Catálogo de Livros";
                     <?= Html::a('VER', ['livros/detalhes', 'id' => $livro->id_livro])?>
                 </div>
             <?php }
-        }?>
+        } else {?>
+            <p>Não existem livros.</p>
+        <?php }?>
     </div>
 
 </div>
