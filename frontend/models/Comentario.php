@@ -38,9 +38,13 @@ class Comentario extends \yii\db\ActiveRecord
         ];
     }
 
-    //função para
+    //função para fazer o get dos dados o utilizador para mostrar no comentário
     public function getUtilizador(){
         return $this->hasOne(Utilizador::className(), ['id_utilizador' => 'id_utilizador']);
+    }
+
+    public function getLivro(){
+        return $this->hasOne(Livro::className(), ['id_livro' => 'id_livro']);
     }
 
     /**
@@ -64,7 +68,7 @@ class Comentario extends \yii\db\ActiveRecord
         $comentario = new Comentario();
 
         $comentario->dta_comentario = Carbon::now();
-        $comentario->comentario = $comment; //receber o comentario pelo post
+        $comentario->comentario = $comment;
         $comentario->id_livro = $id_livro;
         $comentario->id_utilizador = 1;
 

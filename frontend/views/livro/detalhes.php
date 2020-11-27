@@ -19,13 +19,13 @@ $this->title = "Detalhes do Livro";
 <div class="container">
     <div class="row">
         <section class="col-xs-12">
-            <div class="col-xs-12 col-md-5 col-lg-5">
+            <div class="col-xs-12 col-md-5 col-lg-6">
                 <div class="capa-livro">
                     <?= Html::img($livro->capa, ['id'=> 'imgCapa']) ?>
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-7 col-lg-7 livro-info">
+            <div class="col-xs-12 col-md-7 col-lg-6 livro-info">
                 <h1><?= Html::encode($livro->titulo)?></h1>
                 <h2></h2>
                 <h3>de <?= Html::encode($livro->autor->nome_autor) ?></h3>
@@ -34,8 +34,9 @@ $this->title = "Detalhes do Livro";
                     <span style="font-weight: bold">ISBN: </span><span><?= Html::encode($livro->isbn)?> | </span>
                     <span style="font-weight: bold">Formato: </span><span><?= Html::encode($livro->formato)?> | </span>
                     <span style="font-weight: bold">Páginas: </span><span><?= Html::encode($livro->paginas)?> | </span>
-                    <span style="font-weight: bold">Biblioteca: </span><span><?= Html::encode($livro->biblioteca->nome)?> | </span>
-                    <span style="font-weight: bold">Género: </span><span><?= Html::encode($livro->genero)?></span>
+                    <span style="font-weight: bold">Editora: </span><span><?= Html::encode($livro->editora->designacao)?> | </span>
+                    <span style="font-weight: bold">Género: </span><span><?= Html::encode($livro->genero)?> | </span>
+                    <span style="font-weight: bold">Biblioteca: </span><span><?= Html::encode($livro->biblioteca->nome)?></span>
                 </div>
                 <div class="rating">
                     <span class="glyphicon glyphicon-star star-filed" style="color: darkorange"></span>
@@ -44,16 +45,20 @@ $this->title = "Detalhes do Livro";
                     <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
                     <span class="glyphicon glyphicon-star-empty"></span><span> 4/5</span>
                 </div>
-                <div class="actions">
-                    <div class="btn"><i class="glyphicon glyphicon-shopping-cart"></i></div>
-                    <div class="btn" style="background-color: #c9302c"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
+                <div class="actions" style="display: flex;">
+                    <div class="btnAction"><i class="glyphicon glyphicon-shopping-cart"></i></div>
+                    <div class="btnAction" style="background-color: #c9302c; margin-left: 2%"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
                 </div>
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>
-                    <?php if($livro->sinopse != null) {?>
-                        <p><?= $livro->sinopse ?></p>
-                        <?php } else { ?>
-                            <p>Sinopse Indisponível</p>
+                    <?php if($livro->sinopse != null) {
+                        if (strlen($livro->sinopse) > 400){
+                            $sinopse = substr($livro->sinopse, 0, 800) . '...' ?>
+                            <span><?= $sinopse ?> (<?= Html::a('mostrar mais') ?>)</span>
+
+                        <?php }?>
+                    <?php } else { ?>
+                        <p>Sinopse Indisponível</p>
                     <?php }?>
                 </div>
             </div>
@@ -61,9 +66,10 @@ $this->title = "Detalhes do Livro";
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-md-7 col-lg-8 comentarios">
+        <div class="col-xs-12 col-md-7 col-lg-6 comentarios">
 
             <div class="commentSection">
+                <?= Html::img(Yii::$app->user->id) //TODO: no model fazer getUtilizador para ir buscar a foto de perfil do user loggado?>
                 <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
                 <?= $form->field($model, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', ]); ?>
                 <?= Html::submitButton('Comentar', ['name' => 'comentario', 'class' => 'btnComment']) ?>
@@ -77,23 +83,29 @@ $this->title = "Detalhes do Livro";
                     <?php foreach ($comentarios as $comentario){ ?>
                         <div class="comentario" style="margin-top: 2%">
                             <div class="">
-                                <span><?= Html::img($comentario->utilizador->foto_perfil, ['class' => 'imgPerfil'])?> <?= Html::a($comentario->utilizador->primeiro_nome . ' ' .$comentario->utilizador->ultimo_nome) ?></span>
+                                <span><?= Html::img($comentario->utilizador->foto_perfil, ['class' => 'imgPerfil'])?>
+                                    <?= Html::a($comentario->utilizador->primeiro_nome . ' ' .$comentario->utilizador->ultimo_nome) ?></span>
                                 <p><?= $comentario->comentario ?></p>
                                 <i><?= $comentario->dta_comentario ?></i>
                                 <span class="commentActions">
-                                <?php if($comentario->id_utilizador == 2){ //alterar para o id do user que está logado?>
+                                <?php if($comentario->id_utilizador == Yii::$app->user->id){ //TODO:alterar pela rule do RBAC ?>
                                     <?= Html::a('', ['comentario/update', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer'])?>
-                                    <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
+                                    <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario],
+                                        ['data' => ['method' => 'post', 'confirm' =>'Tem a certeza que quer eliminar o comentário?'],
+                                            'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
                                 <?php }?>
                                 </span>
                             </div>
                         </div>
-                        <?php if(sizeof($comentarios) > 3) {?>
-                            <div class="showMore" style="">
-                                <a>Mostar mais</a>
-                            </div>
-                        <?php }
-                    }
+
+                    <?php }
+
+                     if(sizeof($comentarios) > 3) {?>
+                    <div class="showMore" style="">
+                        <a>Mostar mais</a>
+                    </div>
+                <?php }
+
                 } else { ?>
                     <p>Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!</p>
                 <?php }?>

@@ -17,6 +17,19 @@ class LivrosController extends Controller
 {
 
 
+    /**
+     * search na BD do últimos 10 livros inseridos
+     */
+    public function livrosRecentesFilter() {
+
+        $livrosRecentes = Livro::find()
+            ->orderBy(['id_livro' => SORT_DESC])
+            ->all();
+
+
+        return $livrosRecentes;
+
+    }
 
 
     public function actionIndex()
@@ -31,13 +44,18 @@ class LivrosController extends Controller
      */
     public function actionCatalogo()
     {
+
+        $model = new Livro();
+
         //select na BD de todos os livro existentes
         $livros = Livro::find()
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
+        $recentes = $this->livrosRecentesFilter();
 
-        return $this->render('catalogo', ['livros' => $livros]);
+        //echo $recentes;
+        return $this->render('catalogo', ['livros' => $livros, 'model' => $model, 'recentes' => $recentes]);
     }
 
 
@@ -48,14 +66,12 @@ class LivrosController extends Controller
 
         if ($session->isActive){
             $session->open();
-
-
         }
     }
 
 
     /**
-     * Displays Catalogo page.
+     * Displays detalhes page.
      *
      * @throws NotFoundHttpException
      */

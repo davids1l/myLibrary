@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Comentario;
+use app\models\Livro;
 
 /**
- * ComentarioSearch represents the model behind the search form of `app\models\Comentario`.
+ * LivroSearch represents the model behind the search form of `app\models\Livro`.
  */
-class ComentarioSearch extends Comentario
+class LivroSearch extends Livro
 {
     /**
      * {@inheritdoc}
@@ -17,11 +17,10 @@ class ComentarioSearch extends Comentario
     public function rules()
     {
         return [
-            [['id_comentario', 'id_livro', 'id_utilizador'], 'integer'],
-            [['dta_comentario', 'comentario'], 'safe'],
+            [['id_livro', 'ano', 'paginas', 'id_editora', 'id_biblioteca', 'id_autor'], 'integer'],
+            [['titulo', 'isbn', 'genero', 'idioma', 'formato', 'capa', 'sinopse'], 'safe'],
         ];
     }
-
 
     /**
      * {@inheritdoc}
@@ -32,8 +31,6 @@ class ComentarioSearch extends Comentario
         return Model::scenarios();
     }
 
-
-
     /**
      * Creates data provider instance with search query applied
      *
@@ -43,8 +40,7 @@ class ComentarioSearch extends Comentario
      */
     public function search($params)
     {
-        $query = Comentario::find();
-        //$query->joinWith(['utilizador']);
+        $query = Livro::find();
 
         // add conditions that should always apply here
 
@@ -62,14 +58,21 @@ class ComentarioSearch extends Comentario
 
         // grid filtering conditions
         $query->andFilterWhere([
-            //'id_comentario' => $this->id_comentario,
-            //'dta_comentario' => $this->dta_comentario,
-            //'id_livro' => $this->id_livro,
-            'id_utilizador' => $this->id_utilizador,
+            'id_livro' => $this->id_livro,
+            'ano' => $this->ano,
+            'paginas' => $this->paginas,
+            'id_editora' => $this->id_editora,
+            'id_biblioteca' => $this->id_biblioteca,
+            'id_autor' => $this->id_autor,
         ]);
 
-        $query->andFilterWhere(['like', 'comentario', $this->comentario]);
-            //->andFilterWhere(['like', 'utilizador.id_utilizador', $this->id_utilizador]);
+        $query->andFilterWhere(['like', 'titulo', $this->titulo])
+            ->andFilterWhere(['like', 'isbn', $this->isbn])
+            ->andFilterWhere(['like', 'genero', $this->genero])
+            ->andFilterWhere(['like', 'idioma', $this->idioma])
+            ->andFilterWhere(['like', 'formato', $this->formato])
+            ->andFilterWhere(['like', 'capa', $this->capa])
+            ->andFilterWhere(['like', 'sinopse', $this->sinopse]);
 
         return $dataProvider;
     }

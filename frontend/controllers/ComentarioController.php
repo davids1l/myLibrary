@@ -99,9 +99,10 @@ class ComentarioController extends Controller
 
         if($model->load(Yii::$app->request->post()) && $model->validate()){
             $model -> save();
-            return $this->redirect(['livros/detalhes', 'id' => $id]);
+            Yii::$app->session->setFlash('success', 'Obrigado pelo seu comentário!');
+            return $this->redirect(['livro/detalhes', 'id' => $id]);
         } else {
-            return $this->redirect(['site/about']);
+            return $this->redirect(['livro/detalhes', 'id' => $id]);
         }
 
 
@@ -147,9 +148,13 @@ class ComentarioController extends Controller
      */
     public function actionDelete($id)
     {
+        $id_livro = $this->findModel($id)->id_livro;
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        //return $this->redirect(['index', 'teste' => $teste]);
+
+        return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
     }
 
     /**

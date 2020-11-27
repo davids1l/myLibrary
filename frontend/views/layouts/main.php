@@ -40,7 +40,7 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Catálogo', 'url' => ['/livros/catalogo']],
+        ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
         ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
         ['label' => 'Registar', 'url' => ['/site/registar']],
         ['label' => 'Login Leitores', 'url' => ['/site/loginleitores']],

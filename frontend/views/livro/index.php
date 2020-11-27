@@ -4,18 +4,18 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\RequisicaoSearch */
+/* @var $searchModel app\models\LivroSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Requisicaos';
+$this->title = 'Livros';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="requisicao-index">
+<div class="livro-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Requisicao', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Livro', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,13 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_requisicao',
-            'dta_levantamento',
-            'dta_entrega',
-            'estado',
             'id_livro',
-            //'id_utilizador',
-            //'id_bib_levantamento',
+            'titulo',
+            'isbn',
+            'ano',
+            'paginas',
+            //'genero',
+            //'idioma',
+            //'formato',
+            //'capa',
+            //'sinopse:ntext',
+            //'id_editora',
+            //'id_biblioteca',
+            //'id_autor',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -134,6 +134,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * TODO: get dos dados do utilizador através do id do user
+     */
+    public function getUtilizador()
+    {
+
+    }
+
+
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
