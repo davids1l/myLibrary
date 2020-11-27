@@ -40,8 +40,22 @@ class LivrosController extends Controller
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
+        $livro = new Livro();
 
-        return $this->render('index', ['livros' => $livros]);
+        return $this->render('index', ['livros' => $livros, 'model' => $livro]);
+    }
+
+    public function actionSearch()
+    {
+        $searchModel = new LivroSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->post());
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+        //TODO Foreach pelo DataProvider e mostrar os dados
     }
 
     /**

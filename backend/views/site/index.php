@@ -18,7 +18,7 @@ $this->title = 'Painel';
                     <button class="buttonPanel"><?= Html::a('Consultar Livros', ['livros/index']) ?></button>
             </div>
             <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Gerir Livros', ['livros/create']) ?></button>
+                <button class="buttonPanel"><?= Html::a('Adicionar Livros', ['livros/create']) ?></button>
             </div>
             <br />
         </div>
@@ -32,18 +32,7 @@ $this->title = 'Painel';
                 <button class="buttonPanel"><?= Html::a('Consultar Catálogo', ['livros/index']) ?></button>
             </div>
             <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Consultar Funcionários', ['livros/index']) ?></button>
-            </div>
-            <br />
-        </div>
-
-        <div class="row">
-            <div class="titlePanelDiv">
-                <h3 class="titlePanel">Requisições</h3>
-            </div>
-            <br />
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Gerir Utilizadores', ['livros/index']) ?></button>
+                <button class="buttonPanel"><?= Html::a('Consultar Bibliotecários', ['livros/index']) ?></button>
             </div>
             <br />
         </div>
@@ -54,7 +43,22 @@ $this->title = 'Painel';
             </div>
             <br />
             <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Gerir Requisições', ['livros/index']) ?></button>
+                <button class="buttonPanel"><?= Html::a('Gerir Utilizadores', ['livros/index']) ?></button>
+            </div>
+            <br />
+        </div>
+
+        <div class="row">
+            <div class="titlePanelDiv">
+                <h3 class="titlePanel">Requisições</h3>
+            </div>
+            <br />
+            <div class="col-md-2">
+                <button class="buttonPanel"><?= Html::a('Consultar Requisições', ['site/index']) ?></button>
+            </div>
+            <br />
+            <div class="col-md-2">
+                <button class="buttonPanel"><?= Html::a('Adicionar Requisição', ['site/index']) ?></button>
             </div>
             <br />
         </div>
