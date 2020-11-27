@@ -51,6 +51,7 @@ class SignupForm extends Model
             ['dta_nascimento', 'required'],
 
             ['nif', 'required'],
+            ['nif', 'string', 'min' => 9, 'max' => 9],
             ['nif', 'unique', 'targetClass' => '\frontend\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
 
             ['num_telemovel', 'required'],
@@ -75,7 +76,7 @@ class SignupForm extends Model
         $user = new User();
         $utilizador = new Utilizador();
 
-        $user->username = $this->primeiro_nome . $this->ultimo_nome;
+        $user->username = strtolower($this->primeiro_nome) . strtolower($this->ultimo_nome);
         $user->email = $this->email;
 
         //Verifica se a password e a confirmação da password são iguais
@@ -91,6 +92,7 @@ class SignupForm extends Model
         $utilizador->primeiro_nome = $this->primeiro_nome;
         $utilizador->ultimo_nome = $this->ultimo_nome;
         $utilizador->dta_nascimento = $this->dta_nascimento;
+
         //Verifica se a data de nascimento é válida
         if ($utilizador->dta_nascimento > Carbon::now()) {
             Yii::$app->session->setFlash('error', 'Data de nascimento inválida.');
@@ -103,18 +105,24 @@ class SignupForm extends Model
         $numTelemovel = $utilizador->num_telemovel;
         $primeiroCharTelemovel = $numTelemovel[0];
         if ($primeiroCharTelemovel != 9) {
-            Yii::$app->session->setFlash('error', 'Insira um número de telemóvel válido.');
+            Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
             return null;
         }
 
-        $utilizador->numero = $utilizador->gerarNumLeitor();
+        $utilizador->numero = $utilizador->gerarNumeroLeitor();
+        if($utilizador->numero == null){
+            Yii::$app->session->setFlash('error', 'Impossível registar. O sistema excedeu o limite de utilizadores.');
+            return null;
+        }
 
 
         $user->save();
         $utilizador->id_utilizador = $user->getId();
         $utilizador->save();
-
         $utilizador->atribuirRoleLeitor();
+
+        $user->username = $user->username . "_" .  $utilizador->numero;
+        $user->save();
 
 
         return true;// && $this->sendEmail($user);

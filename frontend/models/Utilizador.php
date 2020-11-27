@@ -11,6 +11,7 @@ use app\models\Requisicao;
 use Carbon\Carbon;
 use common\models\User;
 use Yii;
+use yii\db\Query;
 use yii\web\IdentityInterface;
 
 /**
@@ -82,49 +83,63 @@ class Utilizador extends \yii\db\ActiveRecord
     }
 
 
-
-    //public function signup(){
-//
-    //    //Procura na BD se existe algum utilizador com o mesmo email
-    //    $email = Utilizador::find()->where(['email' => $utilizador->email])->one();
-    //    if($email != ''){
-    //        Yii::$app->session->setFlash('error', 'O email introduzido já está em uso.');
-    //        return null;
-    //    }
-//
-//
-    //    //Procura na BD se existe algum utilizador com o mesmo NIF
-    //    $nif = Utilizador::find()->where(['nif' => $utilizador->nif])->one();
-    //    if($nif != ''){
-    //        Yii::$app->session->setFlash('error', 'O NIF introduzido já está em uso.');
-    //        return null;
-    //    }
-
-    //}
-
-
-
-    public function atribuirRoleLeitor(){
+    public function atribuirRoleLeitor()
+    {
         $auth = \Yii::$app->authManager;
         $leitorRole = $auth->getRole('leitor');
         $auth->assign($leitorRole, $this->getId());
     }
 
 
-    public function gerarNumLeitor(){
-        $numeroGerado = rand(0,999);
-        if(strlen($numeroGerado) < 2){
-            $numeroGerado = '0' . $numeroGerado;
-        }
-        if(strlen($numeroGerado) < 3){
-            $numeroGerado = '0' . $numeroGerado;
-        }
-        $numLeitor = "a" . $numeroGerado;
+    public function gerarNumeroLeitor()
+    {
+        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $ultimoLeitor = Utilizador::find()->where(['id_utilizador' => $subQuery])->orderBy(['id_utilizador'=> SORT_DESC])->one();
 
-        return $numLeitor;
+        if($ultimoLeitor == null){
+            return "a000";
+        }
+
+        $letra = substr($ultimoLeitor->numero,0,1);
+        $numero = substr($ultimoLeitor->numero,1,3);
+
+
+        if ($numero == 999) {
+            $proximaLetra = $this->proximoAsciiLetra($letra);
+            if($proximaLetra == null){
+                return null;
+            }
+            $numero = "000";
+            return $proximaLetra . $numero;
+
+        }else{
+            $proximoNumero = $numero + 1;
+            $proximoNumero = $this->colocarZeros($proximoNumero);
+            return $letra . $proximoNumero;
+        }
     }
 
+    public function proximoAsciiLetra($letra)
+    {
+        $letraAscii = ord($letra);
+        if($letraAscii != 122){
+            $proximaletraAscii = $letraAscii + 1;
+            return chr($proximaletraAscii);
+        }else{
+            return null;
+        }
+    }
 
+    public function colocarZeros($proximoNumero){
+        if (strlen($proximoNumero) < 2) {
+            $proximoNumero = 0 . $proximoNumero;
+        }
+        if (strlen($proximoNumero) < 3) {
+            $proximoNumero = 0 . $proximoNumero;
+        }
+
+        return $proximoNumero;
+    }
 
 
     /**
