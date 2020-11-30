@@ -55,10 +55,16 @@ class Utilizador extends \yii\db\ActiveRecord
             [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_nascimento', 'nif', 'num_telemovel'], 'required'],
             [['bloqueado', 'num_telemovel'], 'integer'],
             [['dta_bloqueado', 'dta_nascimento', 'dta_registo'], 'safe'],
-            [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 50],
+            [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 400],
             [['numero'], 'string', 'max' => 4],
             [['nif'], 'string', 'max' => 9],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_utilizador' => 'id']],
+
+            ['nif', 'required'],
+            ['nif', 'string', 'min' => 9, 'max' => 9],
+            ['nif', 'unique', 'targetClass' => '\frontend\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
+
+            ['num_telemovel', 'string', 'min' => 9, 'max' => 9],
         ];
     }
 
@@ -82,6 +88,25 @@ class Utilizador extends \yii\db\ActiveRecord
         ];
     }
 
+    //Valida se a data de nascimento é válida
+    public function validarDataNascimento(){
+        if ($this->dta_nascimento > Carbon::now()) {
+            return false;
+        }
+        return true;
+    }
+
+
+    //Valida se o número de telemóvel é válido
+    public function validarNumTelemovel()
+    {
+        $numTelemovel = $this->num_telemovel;
+        $primeiroCharTelemovel = $numTelemovel[0];
+        if ($primeiroCharTelemovel != 9) {
+             return false;
+        }
+        return true;
+    }
 
     public function atribuirRoleLeitor()
     {
@@ -94,25 +119,25 @@ class Utilizador extends \yii\db\ActiveRecord
     public function gerarNumeroLeitor()
     {
         $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
-        $ultimoLeitor = Utilizador::find()->where(['id_utilizador' => $subQuery])->orderBy(['id_utilizador'=> SORT_DESC])->one();
+        $ultimoLeitor = Utilizador::find()->where(['id_utilizador' => $subQuery])->orderBy(['id_utilizador' => SORT_DESC])->one();
 
-        if($ultimoLeitor == null){
+        if ($ultimoLeitor == null) {
             return "a000";
         }
 
-        $letra = substr($ultimoLeitor->numero,0,1);
-        $numero = substr($ultimoLeitor->numero,1,3);
+        $letra = substr($ultimoLeitor->numero, 0, 1);
+        $numero = substr($ultimoLeitor->numero, 1, 3);
 
 
         if ($numero == 999) {
             $proximaLetra = $this->proximoAsciiLetra($letra);
-            if($proximaLetra == null){
+            if ($proximaLetra == null) {
                 return null;
             }
             $numero = "000";
             return $proximaLetra . $numero;
 
-        }else{
+        } else {
             $proximoNumero = $numero + 1;
             $proximoNumero = $this->colocarZeros($proximoNumero);
             return $letra . $proximoNumero;
@@ -122,15 +147,16 @@ class Utilizador extends \yii\db\ActiveRecord
     public function proximoAsciiLetra($letra)
     {
         $letraAscii = ord($letra);
-        if($letraAscii != 122){
+        if ($letraAscii != 122) {
             $proximaletraAscii = $letraAscii + 1;
             return chr($proximaletraAscii);
-        }else{
+        } else {
             return null;
         }
     }
 
-    public function colocarZeros($proximoNumero){
+    public function colocarZeros($proximoNumero)
+    {
         if (strlen($proximoNumero) < 2) {
             $proximoNumero = 0 . $proximoNumero;
         }

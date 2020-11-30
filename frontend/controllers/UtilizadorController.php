@@ -2,8 +2,8 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Utilizador;
 use Yii;
-use app\models\Utilizador;
 use app\models\UtilizadorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -27,6 +27,15 @@ class UtilizadorController extends Controller
                 ],
             ],
         ];
+    }
+
+
+    public function actionPerfil()
+    {
+        $model = new Utilizador();
+        $utilizador = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->one();
+
+        return $this->render('view', ['utilizador' => $utilizador, 'model' => $model]);
     }
 
     /**
@@ -86,14 +95,27 @@ class UtilizadorController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_utilizador]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validarNumTelemovel() == false) {
+                Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
+                return $this->actionPerfil();
+            }
+
+            if($model->validarDataNascimento() == false){
+                Yii::$app->session->setFlash('error', 'Data de nascimento inválida. Insira uma data de nascimeto válida');
+                return $this->actionPerfil();
+            }
+
+            $model->save();
+            Yii::$app->session->setFlash('success', 'Dados alterados com sucesso!');
+            return $this->actionPerfil();
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar os dados.');
+        return $this->actionPerfil();
+
     }
+
 
     /**
      * Deletes an existing Utilizador model.
@@ -102,7 +124,8 @@ class UtilizadorController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public
+    function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -116,7 +139,8 @@ class UtilizadorController extends Controller
      * @return Utilizador the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected
+    function findModel($id)
     {
         if (($model = Utilizador::findOne($id)) !== null) {
             return $model;

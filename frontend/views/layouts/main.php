@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use frontend\models\Utilizador;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -42,13 +43,11 @@ AppAsset::register($this);
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Catálogo', 'url' => ['/livros/catalogo']],
         ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
-        ['label' => 'Registar', 'url' => ['/site/registar']],
-        ['label' => 'Login Leitores', 'url' => ['/site/loginleitores']],
-        ['label' => 'Perfil', 'url' => ['/site/perfil']],
+        ['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
         ['label' => 'Histórico de Requisições', 'url' => ['/site/historico_requisicoes']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 
     } else {
@@ -57,10 +56,15 @@ AppAsset::register($this);
 
         }
 
+
+        $user = Yii::$app->user->identity->id;
+        $utilizador = Utilizador::find()->where(['id_utilizador' => $user])->one();
+
+
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                'Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()

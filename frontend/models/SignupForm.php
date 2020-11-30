@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Yii;
 use yii\base\Model;
 use common\models\User;
-use yii\helpers\VarDumper;
 
 /**
  * Signup form
@@ -88,26 +87,25 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-
         $utilizador->primeiro_nome = $this->primeiro_nome;
         $utilizador->ultimo_nome = $this->ultimo_nome;
         $utilizador->dta_nascimento = $this->dta_nascimento;
 
-        //Verifica se a data de nascimento é válida
-        if ($utilizador->dta_nascimento > Carbon::now()) {
+
+        if($utilizador->validarDataNascimento() == false){
             Yii::$app->session->setFlash('error', 'Data de nascimento inválida.');
             return null;
         }
 
+
         $utilizador->nif = $this->nif;
         $utilizador->num_telemovel = $this->num_telemovel;
-        //Verifica se o primeiro caracter do número de telemóvel é um 9
-        $numTelemovel = $utilizador->num_telemovel;
-        $primeiroCharTelemovel = $numTelemovel[0];
-        if ($primeiroCharTelemovel != 9) {
+
+        if($utilizador->validarNumTelemovel() == false){
             Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
             return null;
         }
+
 
         $utilizador->numero = $utilizador->gerarNumeroLeitor();
         if($utilizador->numero == null){

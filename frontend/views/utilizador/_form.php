@@ -16,17 +16,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ultimo_nome')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'dta_nacimento')->textInput() ?>
+    <?= $form->field($model, 'dta_nascimento')->textInput() ?>
 
     <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'dta_registo')->textInput() ?>
-
-    <?= $form->field($model, 'foto_perfil')->textInput() ?>
-
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

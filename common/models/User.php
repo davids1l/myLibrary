@@ -2,10 +2,13 @@
 
 namespace common\models;
 
+use frontend\models\Utilizador;
+use SebastianBergmann\CodeCoverage\Util;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 use yii\web\IdentityInterface;
 
 /**
@@ -57,6 +60,15 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
+    }
+
+
+    public static function findLeitorByEmail($email)
+    {
+        $idLeitor = User::find()->where(['email' => $email]);
+        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE, 'id' => $subQuery]);
     }
 
     /**

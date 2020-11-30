@@ -73,45 +73,6 @@ class SiteController extends Controller
     }
 
 
-    //Mostra a vista de registar de leitores
-    public function actionRegistar()
-    {
-
-        $user = new SignupForm();
-        if ($user->load(Yii::$app->request->post()) && $user->signup()) {
-            Yii::$app->session->setFlash('success', 'Obrigado pelo seu registo.');
-            return $this->goHome();
-        }
-
-        $user->password = '';
-        $user->confirmarPassword = '';
-        return $this->render('registar', ['model' => $user]);
-    }
-
-
-    //Abre a vista de login de leitores
-    public function actionLoginleitores()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $utilizador = new FormularioLogin();
-
-        if ($utilizador->load(Yii::$app->request->post()) && $utilizador->login()) {
-            return $this->goBack();
-        } else {
-            $utilizador->password = '';
-            return $this->render('loginleitores', ['model' => $utilizador]);
-        }
-    }
-
-    //Abre a vista do perfil de utilizador
-    public function actionPerfil()
-    {
-        return $this->render('perfil');
-    }
-
     //Abre a vista do Histórico de Requisições
     public function actionHistorico_requisicoes()
     {
@@ -146,9 +107,7 @@ class SiteController extends Controller
         } else {
             $model->password = '';
 
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+            return $this->render('login', ['model' => $model,]);
         }
     }
 
@@ -205,15 +164,15 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+        $user = new SignupForm();
+        if ($user->load(Yii::$app->request->post()) && $user->signup()) {
+            Yii::$app->session->setFlash('success', 'Obrigado pelo seu registo.');
             return $this->goHome();
         }
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        $user->password = '';
+        $user->confirmarPassword = '';
+        return $this->render('signup', ['model' => $user]);
     }
 
     /**
