@@ -25,9 +25,9 @@ $this->title = "Catálogo de Livros";
 <div class="container">
     <div class="col-lg-12 searchBar">
         <div>
-            <?php $form = ActiveForm::begin(); ?>
-            <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Título, ISBN, ..'])?>
-            <?= Html::submitButton('Procurar', ['name' => 'procurarLivros', 'class' => 'btn btn-info']) ?>
+            <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'action'=>['livro/procurar']]); ?>
+            <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Insira o título do livro'])?>
+            <?= Html::submitButton('Procurar', ['class' => 'btn btn-info']) ?>
             <?php ActiveForm::end(); ?>
         </div>
         <div>
@@ -41,25 +41,25 @@ $this->title = "Catálogo de Livros";
             <?php if($recentes != null) { ?>
                 <?php for($i = 0; $i <= 5; $i++){ ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
-                    <div class="capa">
-                        <a href="<?= Url::to(['livro/detalhes', 'id' => $recentes[$i]->id_livro]) ?>">
-                            <?= Html::img($recentes[$i]->capa, ['id'=> 'imgCapa'])?>
-                        </a>
-                    </div>
-                    <div class="book-info">
-                        <h4><?= Html::encode($recentes[$i]->titulo)?></h4>
-                        <h5><?= Html::encode($recentes[$i]->genero)?></h5>
-                        <h6>Idioma: <?= Html::encode($recentes[$i]->idioma)?></h6>
-                        <h6>Formato: <?= Html::encode($recentes[$i]->formato)?></h6>
-                    </div>
-                    <?= Html::a('VER', ['livro/detalhes', 'id' => $recentes[$i]->id_livro])?>
+                        <div class="capa">
+                            <a href="<?= Url::to(['livro/detalhes', 'id' => $recentes[$i]->id_livro]) ?>">
+                                <?= Html::img($recentes[$i]->capa, ['id'=> 'imgCapa'])?>
+                            </a>
+                        </div>
+                        <div class="book-info">
+                            <h4><?= Html::encode($recentes[$i]->titulo)?></h4>
+                            <h5><?= Html::encode($recentes[$i]->genero)?></h5>
+                            <h6>Idioma: <?= Html::encode($recentes[$i]->idioma)?></h6>
+                            <h6>Formato: <?= Html::encode($recentes[$i]->formato)?></h6>
+                        </div>
+                        <?= Html::a('VER', ['livro/detalhes', 'id' => $recentes[$i]->id_livro])?>
                     </div>
                 <?php }
             } else {?>
                 <p>Não existem livros.</p>
             <?php }?>
         </div>
-    </div>
+
 
         <div class="col-lg-12 novos" style="margin-top: 3%;">
             <?php if($livros != null) { ?>
@@ -84,7 +84,6 @@ $this->title = "Catálogo de Livros";
                 <p>Não existem livros.</p>
             <?php }?>
         </div>
-
     </div>
 </div>
 

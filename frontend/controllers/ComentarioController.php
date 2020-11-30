@@ -86,7 +86,7 @@ class ComentarioController extends Controller
      */
     public function actionCreate($id)
     {
-        //TODO: validar se o utilizador é um leitor e se tem o login efetuado, se não retornar mensagem de erro -> ACF
+        //TODO: validar se o utilizador é um leitor e se tem o login efetuado, se não retornar mensagem de erro -> ACF / RBAC
 
         $model = new Comentario();
 

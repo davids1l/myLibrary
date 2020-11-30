@@ -21,19 +21,19 @@ $this->title = "Detalhes do Livro";
         <section class="col-xs-12">
             <div class="col-xs-12 col-md-5 col-lg-6">
                 <div class="capa-livro">
-                    <?= Html::img($livro->capa, ['id'=> 'imgCapa']) ?>
+                    <?= Html::img($livro->capa, ['id'=> 'imgCapa', 'style' => 'width: 149%']) ?>
                 </div>
             </div>
 
             <div class="col-xs-12 col-md-7 col-lg-6 livro-info">
                 <h1><?= Html::encode($livro->titulo)?></h1>
-                <h2></h2>
                 <h3>de <?= Html::encode($livro->autor->nome_autor) ?></h3>
                 <div class="livro-info-detail">
                     <span><b>Edição: </b><?= Html::encode($livro->ano)?> |
                         <b>ISBN: </b><?= Html::encode($livro->isbn)?> |
                         <b>Formato: </b><?= Html::encode($livro->formato)?> |
-                        <b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?></span>
+                        <b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?> -
+                        <a id="maisDetalhes">mais detalhes deste livro</a></span>
                 </div>
                 <div class="rating">
                     <span class="glyphicon glyphicon-star star-filed" style="color: darkorange"></span>
@@ -65,27 +65,7 @@ $this->title = "Detalhes do Livro";
     <div class="row">
         <section class="col-lg-12">
 
-            <div class="col-xs-12 col-md-7 col-lg-4 bookDetails" style="margin-top: 2%; padding: 3%">
-                <div>
-                    <h4>DETALHES DO LIVRO</h4>
-                    <div style="margin-top: 10%">
-                        <h3><?= Html::encode($livro->titulo)?></h3>
-                        <h4>de <?= Html::encode($livro->autor->nome_autor)?></h4>
-                    </div>
-                    <div style="margin-top: 4%">
-                        <p><b>Edição: </b><?= Html::encode($livro->ano)?></p>
-                        <p><b>Páginas: </b><?= Html::encode($livro->paginas)?></p>
-                        <p><b>Formato: </b><?= Html::encode($livro->formato)?></p>
-                        <p><b>Idioma: </b><?= Html::encode($livro->idioma)?></p>
-                        <p><b>ISBN: </b><?= Html::encode($livro->isbn)?></p>
-                        <p><b>Editora: </b><?= Html::encode($livro->editora->designacao)?></p>
-                        <p><b>Genero: </b><?= Html::encode($livro->genero)?></p>
-                        <p><b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-md-7 col-lg-8 comentarios">
+            <div class="col-xs-12 col-md-7 col-lg-6 comentarios">
                 <div class="commentSection">
                     <?= Html::img(Yii::$app->user->id) //TODO: no model fazer getUtilizador para ir buscar a foto de perfil do user loggado?>
                     <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
@@ -127,6 +107,29 @@ $this->title = "Detalhes do Livro";
                     } else { ?>
                         <p>Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!</p>
                     <?php }?>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-7 col-lg-6 bookDetails" style="margin-top: 2%; padding: 3%">
+                <h4>DETALHES DO LIVRO</h4>
+                <div style="margin-top: 7%">
+                    <h4><?= Html::encode($livro->titulo)?></h4>
+                    <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
+                </div>
+                <div style="margin-top: 4%; background-color: #e5e5e5">
+                    <div class="col-xs-12 col-lg-4">
+                        <p><?= Html::img($livro->capa, ['style' => 'width: 155px;'])?></p>
+                    </div>
+                    <div class="col-xs-12 col-lg-8">
+                        <p><b>Edição: </b><?= Html::encode($livro->ano)?></p>
+                        <p><b>Páginas: </b><?= Html::encode($livro->paginas)?></p>
+                        <p><b>Formato: </b><?= Html::encode($livro->formato)?></p>
+                        <p><b>Idioma: </b><?= Html::encode($livro->idioma)?></p>
+                        <p><b>Editora: </b><?= Html::encode($livro->editora->designacao)?></p>
+                        <p><b>Genero: </b><?= Html::encode($livro->genero)?>
+                        <p><b>ISBN: </b><?= Html::encode($livro->isbn)?></p>
+                        <p><b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?></p>
+                    </div>
                 </div>
             </div>
         </section>

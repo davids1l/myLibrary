@@ -69,7 +69,6 @@ class LivroController extends Controller
      */
     public function actionCatalogo()
     {
-
         $model = new Livro();
 
         //select na BD de todos os livro existentes
@@ -94,6 +93,21 @@ class LivroController extends Controller
         }
     }
 
+    /**
+     * Recebe um post do form do catalgo e executa a function search no modelo LivroSearch
+     *
+     */
+    public function actionProcurar()
+    {
+        $searchModel = new LivroSearch();
+        $params = Yii::$app->request->post();
+
+        $results = $searchModel->procurar($params);
+
+        return $this->render('search', ['model'=> new Livro(), 'results'=>$results]);
+        //return $this->render('view', ['model'=>$searchModel, 'dataProvider'=>$dataProvider]);
+    }
+
 
     /**
      * Displays detalhes page.
@@ -115,7 +129,6 @@ class LivroController extends Controller
             ->where(['id_livro' => $id])
             ->orderBy('dta_comentario DESC')
             ->all();
-
 
         if($livro != null && $model!= null){
             //return da view detalhes com o livro de acordo com o $id recebido

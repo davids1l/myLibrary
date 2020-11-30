@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Livro;
+use yii\db\Query;
 
 /**
  * LivroSearch represents the model behind the search form of `app\models\Livro`.
@@ -29,6 +30,21 @@ class LivroSearch extends Livro
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    public function procurar($params)
+    {
+
+        $post = $params['Livro'];
+        $titulo = $post['titulo'];
+
+        $query = Livro::find()
+            ->where(['like', 'titulo',  $titulo])
+            ->all();
+
+        //$query->andFilterWhere(['like', 'titulo', $this->titulo]);
+
+        return $query;
     }
 
     /**
@@ -57,22 +73,23 @@ class LivroSearch extends Livro
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id_livro' => $this->id_livro,
+        /* $query->andFilterWhere([
+           'id_livro' => $this->id_livro,
             'ano' => $this->ano,
             'paginas' => $this->paginas,
             'id_editora' => $this->id_editora,
             'id_biblioteca' => $this->id_biblioteca,
             'id_autor' => $this->id_autor,
-        ]);
+        ]);*/
 
-        $query->andFilterWhere(['like', 'titulo', $this->titulo])
-            ->andFilterWhere(['like', 'isbn', $this->isbn])
+        $query->andFilterWhere(['like', 'titulo', $this->titulo]);
+            /*->andFilterWhere(['like', 'isbn', $this->isbn])
             ->andFilterWhere(['like', 'genero', $this->genero])
             ->andFilterWhere(['like', 'idioma', $this->idioma])
             ->andFilterWhere(['like', 'formato', $this->formato])
             ->andFilterWhere(['like', 'capa', $this->capa])
-            ->andFilterWhere(['like', 'sinopse', $this->sinopse]);
+            ->andFilterWhere(['like', 'sinopse', $this->sinopse]);*/
+
 
         return $dataProvider;
     }
