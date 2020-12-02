@@ -3,12 +3,19 @@
 namespace app\controllers;
 namespace backend\controllers;
 
+use app\models\Biblioteca;
+use app\models\Editora;
+use app\models\Autor;
+use app\models\Utilizador;
 use Yii;
 use app\models\Livro;
 use app\models\LivroSearch;
+use yii\data\ActiveDataProvider;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * LivrosController implements the CRUD actions for Livro model.
@@ -42,20 +49,24 @@ class LivrosController extends Controller
 
         $livro = new Livro();
 
-        return $this->render('index', ['livros' => $livros, 'model' => $livro]);
+        return $this->render('index', [
+            'livros' => $livros,
+            'searchModel' => $livro,
+            'dataProvider' => null,
+        ]);
     }
 
     public function actionSearch()
     {
         $searchModel = new LivroSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->post());
+        //$postTitulo = Yii::$app->request->post('LivroSearch');
+        $dataProvider = $searchModel->search(Yii::$app->request->post()); //$searchModel->search($postTitulo['titulo']);
 
         return $this->render('index', [
+            'livros' => null,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
-        //TODO Foreach pelo DataProvider e mostrar os dados
     }
 
     /**
@@ -80,12 +91,30 @@ class LivrosController extends Controller
     {
         $model = new Livro();
 
+        $editoras = Editora::find()
+            ->orderBy(['id_editora' => SORT_ASC])
+            ->all();
+        $listEditoras = ArrayHelper::map($editoras,'id_editora','designacao');
+
+        $autores = Autor::find()
+            ->orderBy(['id_autor' => SORT_ASC])
+            ->all();
+        $listAutores = ArrayHelper::map($autores,'id_autor','nome_autor');
+
+        $bibliotecas = Biblioteca::find()
+            ->orderBy(['id_biblioteca' => SORT_ASC])
+            ->all();
+        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_livro]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'editoras' => $listEditoras,
+            'autores' => $listAutores,
+            'bibliotecas' => $listBibliotecas
         ]);
     }
 
@@ -99,6 +128,11 @@ class LivrosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        /* TODO
+           fazer uma pesquisa pelo id do livro e ir buscar a biblioteca, editora e autor do livro como está feito no create.
+        */
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_livro]);

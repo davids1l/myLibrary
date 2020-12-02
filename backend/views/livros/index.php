@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -49,20 +50,29 @@ $this->params['breadcrumbs'][] = $this->title;
         <h1><?= Html::encode($this->title)?></h1>
     <hr>
 
+
     <?php $form = ActiveForm::begin([
         'id' => 'pesquisa-form',
-        'options' => ['class' => 'form-horizontal', 'action' => '../livros/search'],
+        'options' => ['class' => 'form-horizontal'],
+        'action' => ['livros/search']
     ]) ?>
-    <?= $form->field($model, 'titulo') ?>
-    <?= Html::submitButton('Pesquisar', ['className' => 'pesquisar']) ?>
+    <?= $form->field($searchModel, 'titulo') ?>
+    <?= Html::submitButton('Pesquisar', ['className' => 'pesquisa']); ?>
+    <button class="buttonPanel"><?= Html::a('Adicionar Livros', ['livros/create']); ?></button>
+    <?php ActiveForm::end() ?>
 
-    <button class="buttonPanel"><?= Html::a('Adicionar Livros', ['livros/create']) ?></button>
+
+    <?php if($dataProvider != null) {
+        //foreach ($dataProvider as $livro) { ?>
+            <h4><?php //VarDumper::dumpAsString($dataProvider); ?></h4>
+    <?php } //} ?>
+
 
     <?php if($livros != null) { ?>
         <?php foreach ($livros as $livro) { ?>
-            <div class="col-xs-12 col-md-2 catalogo-grid">
+            <div class="col-xs-12 col-md-2 catalogo-grid gridLivros">
                 <div class="capa">
-                    <a href="<?= Url::to(['livros/detalhes', 'id' => $livro->id_livro]) ?>">
+                    <a href="<?= Url::to(['livros/view', 'id' => $livro->id_livro]) ?>">
                         <?= Html::img($livro->capa, ['id'=> 'imgCapa'])?>
                     </a>
                 </div>
@@ -72,14 +82,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
                     <h6>Formato: <?= Html::encode($livro->formato)?></h6>
                 </div>
-                <?= Html::a('VER', ['livros/detalhes', 'id' => $livro->id_livro])?>
+                <?= Html::a('View', ['livros/view', 'id' => $livro->id_livro])?>
+                <?= Html::a('Update', ['update', 'id' => $livro->id_livro], [
+                    'style' => 'color: green'
+                ]) ?>
+                <?= Html::a('Delete', ['delete', 'id' => $livro->id_livro], [
+                    'style' => 'color: red',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to delete this item?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
             </div>
         <?php }
-    }?>
+    } ?>
 
-    <?= $this->render('_search', [
+    <?php /* $this->render('_search', [
         'model' => $model,
-    ]) ?>
+    ]) */?>
 
 
 </div>

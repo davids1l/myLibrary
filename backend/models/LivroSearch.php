@@ -58,21 +58,22 @@ class LivroSearch extends Livro
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_livro' => $this->id_livro,
-            'ano' => $this->ano,
+            //'id_livro' => $this->id_livro,
+            'titulo' => $this->titulo,
+            /*'ano' => $this->ano,
             'paginas' => $this->paginas,
             'id_editora' => $this->id_editora,
             'id_biblioteca' => $this->id_biblioteca,
-            'id_autor' => $this->id_autor,
+            'id_autor' => $this->id_autor,*/
         ]);
 
-        $query->andFilterWhere(['like', 'titulo', $this->titulo])
-            ->andFilterWhere(['like', 'isbn', $this->isbn])
-            ->andFilterWhere(['like', 'genero', $this->genero])
-            ->andFilterWhere(['like', 'idioma', $this->idioma])
-            ->andFilterWhere(['like', 'formato', $this->formato])
-            ->andFilterWhere(['like', 'capa', $this->capa])
-            ->andFilterWhere(['like', 'sinopse', $this->sinopse]);
+        $query->orFilterWhere(['like', 'titulo', $this->titulo])
+            ->orFilterWhere(['like', 'isbn', $this->isbn])
+            ->orFilterWhere(['like', 'genero', $this->genero])
+            ->orFilterWhere(['like', 'idioma', $this->idioma])
+            ->orFilterWhere(['like', 'formato', $this->formato])
+            ->orFilterWhere(['like', 'capa', $this->capa])
+            ->orFilterWhere(['like', 'sinopse', $this->sinopse]);
 
         return $dataProvider;
     }
