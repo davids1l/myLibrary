@@ -9,8 +9,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $utilizador app\models\Utilizador */
 
-$this->title = /*$utilizador->id_utilizador*/
-    'Perfil de Leitor';
+$this->title = /*$utilizador->id_utilizador*/'Perfil de Leitor';
 //$this->params['breadcrumbs'][] = ['label' => 'Utilizadores', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -25,13 +24,18 @@ $this->title = /*$utilizador->id_utilizador*/
         <div class="col-sm-4">
             <table>
                 <tr>
-                    <th><?= Html::img($utilizador->foto_perfil, ['width' => '234px', 'height' => '234px']) ?></th>
+                    <th><?= Html::img(Yii::$app->request->baseUrl .'/imgs/perfil/' . $utilizador->foto_perfil, ['width' => '234px', 'height' => '234px']) ?></th>
                 </tr>
                 <tr>
                     <th><br></th>
                 </tr>
                 <tr>
-                    <th class="text-center"><?= Html::button('Alterar Imagem') ?></th>
+                    <?php $form = ActiveForm::begin([
+                        'action' => ['utilizador/upload-img', 'id' => $utilizador->id_utilizador],
+                        'options' => ['enctype' => 'multipart/form-data']]) ?>
+                    <th><?= $form->field($modelUpload, 'imageFile')->fileInput() ?></th>
+                    <?= Html::submitButton('Guardar Foto', ['class' => 'btn btn-primary']) ?>
+                    <?php ActiveForm::end() ?>
                 </tr>
             </table>
         </div>
@@ -48,7 +52,7 @@ $this->title = /*$utilizador->id_utilizador*/
                 </tr>
                 <tr>
                     <th><h4 style="float: right">Email: &nbsp</h4></th>
-                    <th><h4><?= Html::encode(Yii::$app->user->identity->email) ?> </h4></th>
+                    <th><h4><?= Html::encode($user->email) ?> </h4></th>
                 </tr>
                 <tr>
                     <th><h4 style="float: right">Nº de telemóvel: &nbsp</h4></th>
@@ -63,10 +67,13 @@ $this->title = /*$utilizador->id_utilizador*/
                     <th><h4><?= Html::encode($utilizador->nif) ?> </h4></th>
                 </tr>
                 <tr>
-                    <th><!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#perfilModal">
-                            Alterar dados
-                        </button>
+                    <th>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#perfilModal">Alterar dados</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#passwordModal">Alterar Palavra-Passe</button>
                     </th>
                 </tr>
             </table>
@@ -75,7 +82,7 @@ $this->title = /*$utilizador->id_utilizador*/
     </div>
 
 
-    <!-- Modal -->
+    <!-- Modal para alterar dados -->
     <div class="modal fade" id="perfilModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -86,7 +93,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <h2 class="modal-title" id="exampleModalLabel">Alterar Dados Pessoais</h2>
                 </div>
                 <?php $form = ActiveForm::begin([
-                        'id' => 'form-perfil',
+                    'id' => 'form-perfil',
                     'action' => ['utilizador/update', 'id' => $utilizador->id_utilizador]]) ?>
                 <div class="row">
                     <div class="col-sm-3"></div>
@@ -99,7 +106,7 @@ $this->title = /*$utilizador->id_utilizador*/
                                 <th><?= $form->field($model, 'ultimo_nome')->textInput(['value' => $utilizador->ultimo_nome])->label('Ultimo Nome:') ?></th>
                             </tr>
                             <tr>
-                                <th><?= $form->field($model, 'email')->textInput(['value' => Yii::$app->user->identity->email])->label('Email:') ?></th>
+                                <th><?= $form->field($userModel, 'email')->textInput(['value' => $user->email])->label('Email:') ?></th>
                             </tr>
                             <tr>
                                 <th><?= $form->field($model, 'num_telemovel')->textInput(['value' => $utilizador->num_telemovel])->label('Número de Telemóvel:') ?></th>
@@ -116,6 +123,45 @@ $this->title = /*$utilizador->id_utilizador*/
                 </div>
                 <div class="modal-footer">
                     <?= Html::submitButton('Guardar Alterações', ['class' => 'btn btn-primary']) ?>
+                </div>
+                <?php ActiveForm::end() ?>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para alterar password -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="exampleModalLabel">Alterar Palavra-passe</h2>
+                </div>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'form-perfil',
+                    'action' => ['utilizador/update', 'id' => $utilizador->id_utilizador]]) ?>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="modal-body col-sm-6">
+                        <table>
+                            <tr>
+                                <th><?= $form->field($user, 'password_hash')->passwordInput(['value' => ""])->label('Palavra-passe Atual:') ?></th>
+                            </tr>
+                            <tr>
+                                <th><?= $form->field($user, 'password_hash')->passwordInput(['value' => ""])->label('Nova Palavra-passe:') ?></th>
+                            </tr>
+                            <tr>
+                                <th><?= $form->field($user, 'password_hash')->passwordInput(['value' => ""])->label('Confirmar Nova Palavra-passe:') ?></th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="modal-footer">
+                    <?= Html::submitButton('Alterar Palavra-passe', ['class' => 'btn btn-primary']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>
