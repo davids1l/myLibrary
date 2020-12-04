@@ -1,10 +1,14 @@
 <?php
+
 namespace common\models;
 
+use frontend\models\Utilizador;
+use SebastianBergmann\CodeCoverage\Util;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 use yii\web\IdentityInterface;
 
 /**
@@ -58,6 +62,15 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
+    public static function findLeitorByEmail($email)
+    {
+        $idLeitor = User::find()->where(['email' => $email]);
+        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE, 'id' => $subQuery]);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -109,7 +122,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -128,7 +142,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }

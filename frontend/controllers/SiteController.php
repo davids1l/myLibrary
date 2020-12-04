@@ -1,8 +1,12 @@
 <?php
+
 namespace frontend\controllers;
 
+use app\models\Leitor;
 use app\models\Livro;
+use common\models\FormularioLogin;
 use frontend\models\ResendVerificationEmailForm;
+use frontend\models\Utilizador;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -69,6 +73,13 @@ class SiteController extends Controller
     }
 
 
+    //Abre a vista do Histórico de Requisições
+    public function actionHistorico_requisicoes()
+    {
+        return $this->render('historico_requisicoes');
+    }
+
+
     /**
      * Displays homepage.
      *
@@ -96,9 +107,7 @@ class SiteController extends Controller
         } else {
             $model->password = '';
 
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+            return $this->render('login', ['model' => $model,]);
         }
     }
 
@@ -155,15 +164,15 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+        $user = new SignupForm();
+        if ($user->load(Yii::$app->request->post()) && $user->signup()) {
+            Yii::$app->session->setFlash('success', 'Obrigado pelo seu registo.');
             return $this->goHome();
         }
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        $user->password = '';
+        $user->confirmarPassword = '';
+        return $this->render('signup', ['model' => $user]);
     }
 
     /**
@@ -219,8 +228,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {

@@ -2,9 +2,9 @@
 
 namespace app\models;
 
+use frontend\models\Utilizador;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Utilizador;
 
 /**
  * UtilizadorSearch represents the model behind the search form of `app\models\Utilizador`.
