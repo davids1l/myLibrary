@@ -7,6 +7,7 @@ use common\models\User;
 use frontend\models\Utilizador;
 use Yii;
 use app\models\UtilizadorSearch;
+use yii\base\ViewRenderer;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,9 +33,16 @@ class UtilizadorController extends Controller
         ];
     }
 
+    public function actionRemoverImg($id){
+        $utilizador = $this->findModel($id);
+
+        $utilizador->foto_perfil = $utilizador->atribuirImg();
+        $utilizador->save();
+        return $this->actionPerfil();
+    }
+
     public function actionUploadImg($id)
     {
-
         $utilizador = $this->findModel($id);
         $model = new UploadForm();
 
@@ -57,15 +65,11 @@ class UtilizadorController extends Controller
 
     public function actionPerfil()
     {
-        $model = new Utilizador();
         $modelUpload = new UploadForm();
-        $userModel = new User();
-        $utilizador = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->one();
-        $user = User::find()->where(Yii::$app->user->identity->id)->one();
+        $model = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->one();
+        $userModel = User::find()->where(Yii::$app->user->identity->id)->one();
 
-
-
-        return $this->render('view', ['utilizador' => $utilizador, 'model' => $model, 'modelUpload' => $modelUpload, 'user' => $user, 'userModel' => $userModel]);
+        return $this->render('view', ['model' => $model, 'modelUpload' => $modelUpload, 'userModel' => $userModel]);
     }
 
     /**
@@ -127,25 +131,26 @@ class UtilizadorController extends Controller
         $user = User::find()->where($id)->one();
 
 
-
         if ($model->load(Yii::$app->request->post())) {
 
-            if ($model->validarNumTelemovel() == false) {
-                Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
-                return $this->actionPerfil();
-            }
+           if ($model->validarNumTelemovel() == false) {
+               Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
+               return $this->actionPerfil();
+           }
 
-            if ($model->validarDataNascimento() == false) {
-                Yii::$app->session->setFlash('error', 'Data de nascimento inválida. Insira uma data de nascimeto válida');
-                return $this->actionPerfil();
-            }
+           if ($model->validarDataNascimento() == false) {
+               Yii::$app->session->setFlash('error', 'Data de nascimento inválida. Insira uma data de nascimeto válida');
+               return $this->actionPerfil();
+           }
 
-            if($user->load(Yii::$app->request->post())){
-                $user->save();
-            }
+           $user->email = Yii::$app->request->post('User')['email'];
+           if(!$user->validate()){
+               return $this->actionPerfil();
+           }
 
-
+            $user->save();
             $model->save();
+
             Yii::$app->session->setFlash('success', 'Dados alterados com sucesso!');
             return $this->actionPerfil();
         }
@@ -154,6 +159,23 @@ class UtilizadorController extends Controller
         return $this->actionPerfil();
 
     }
+
+
+    public function actionUpdatePassword($id){
+
+        //$user = User::find()->where($id)->one();
+        $user = new User();
+
+        if($user->load(Yii::$app->request->post())){
+
+
+            $user->save();
+        }
+
+        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar a palavra-passe.');
+        return $this->actionPerfil();
+    }
+
 
 
     /**

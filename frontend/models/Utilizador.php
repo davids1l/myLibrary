@@ -88,6 +88,11 @@ class Utilizador extends \yii\db\ActiveRecord
         ];
     }
 
+    public function atribuirImg(){
+        $img = "userImg.png";
+        return $img;
+    }
+
     //Valida se a data de nascimento é válida
     public function validarDataNascimento(){
         if ($this->dta_nascimento > Carbon::now()) {

@@ -86,10 +86,12 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+        $user->status = 10;
 
         $utilizador->primeiro_nome = $this->primeiro_nome;
         $utilizador->ultimo_nome = $this->ultimo_nome;
         $utilizador->dta_nascimento = $this->dta_nascimento;
+        $utilizador->foto_perfil = $utilizador->atribuirImg();
 
 
         if($utilizador->validarDataNascimento() == false){
