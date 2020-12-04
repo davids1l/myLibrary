@@ -29,10 +29,10 @@ $this->title = 'Painel';
             </div>
             <br />
             <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Consultar Catálogo', ['livros/index']) ?></button>
+                <button class="buttonPanel"><?= Html::a('Consultar Catálogo', ['bibliotecas/catalogo']) ?></button>
             </div>
             <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Consultar Bibliotecários', ['livros/index']) ?></button>
+                <button class="buttonPanel"><?= Html::a('Adicionar Biblioteca', ['bibliotecas/create']) ?></button>
             </div>
             <br />
         </div>

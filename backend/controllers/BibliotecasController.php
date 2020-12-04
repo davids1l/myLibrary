@@ -1,26 +1,19 @@
 <?php
 
-namespace app\controllers;
 namespace backend\controllers;
 
-use app\models\Biblioteca;
-use app\models\Editora;
-use app\models\Autor;
-use app\models\Utilizador;
 use Yii;
-use app\models\Livro;
-use app\models\LivroSearch;
+use app\Models\Biblioteca;
+use app\models\BibliotecaSearch;
 use yii\data\ActiveDataProvider;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 
 /**
- * LivrosController implements the CRUD actions for Livro model.
+ * BibliotecasController implements the CRUD actions for Biblioteca model.
  */
-class LivrosController extends Controller
+class BibliotecasController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -38,30 +31,22 @@ class LivrosController extends Controller
     }
 
     /**
-     * Lists all Livro models.
+     * Lists all Biblioteca models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $livros = Livro::find()
-            ->orderBy(['titulo' => SORT_ASC])
-            ->all();
-
-        if(Yii::$app->request->post('Livro')['titulo'] != null) {
-            $searchModel = new LivroSearch();
-            $livros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
-        }
-
-        $livro = new Livro();
+        $searchModel = new BibliotecaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'livros' => $livros,
-            'searchModel' => $livro
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Livro model.
+     * Displays a single Biblioteca model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -73,44 +58,54 @@ class LivrosController extends Controller
         ]);
     }
 
+    //TODO pesquisar acive data provider com relações
+
+    public function actionCatalogo() {
+        $biblioteca = Biblioteca::find()->with('livros')
+            ->orderBy(['nome' => SORT_ASC])
+            ->all();
+
+        foreach($biblioteca as $b) {
+            //var_dump($b->livros);
+            $livrosBiblioteca = $b->livros;
+        }
+
+        $provider = new ActiveDataProvider([
+            'query' => $biblioteca,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+
+
+        return $this->render('index', [
+            'livros' => $livrosBiblioteca,
+            'dataProvider' => $provider,
+            'searchModel' => null
+        ]);
+    }
+
+
     /**
-     * Creates a new Livro model.
+     * Creates a new Biblioteca model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Livro();
-
-        $editoras = Editora::find()
-            ->orderBy(['id_editora' => SORT_ASC])
-            ->all();
-        $listEditoras = ArrayHelper::map($editoras,'id_editora','designacao');
-
-        $autores = Autor::find()
-            ->orderBy(['id_autor' => SORT_ASC])
-            ->all();
-        $listAutores = ArrayHelper::map($autores,'id_autor','nome_autor');
-
-        $bibliotecas = Biblioteca::find()
-            ->orderBy(['id_biblioteca' => SORT_ASC])
-            ->all();
-        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+        $model = new Biblioteca();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_livro]);
+            return $this->redirect(['view', 'id' => $model->id_biblioteca]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'editoras' => $listEditoras,
-            'autores' => $listAutores,
-            'bibliotecas' => $listBibliotecas
         ]);
     }
 
     /**
-     * Updates an existing Livro model.
+     * Updates an existing Biblioteca model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -120,13 +115,8 @@ class LivrosController extends Controller
     {
         $model = $this->findModel($id);
 
-        /* TODO
-           fazer uma pesquisa pelo id do livro e ir buscar a biblioteca, editora e autor do livro como está feito no create.
-        */
-
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_livro]);
+            return $this->redirect(['view', 'id' => $model->id_biblioteca]);
         }
 
         return $this->render('update', [
@@ -135,7 +125,7 @@ class LivrosController extends Controller
     }
 
     /**
-     * Deletes an existing Livro model.
+     * Deletes an existing Biblioteca model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -149,15 +139,15 @@ class LivrosController extends Controller
     }
 
     /**
-     * Finds the Livro model based on its primary key value.
+     * Finds the Biblioteca model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Livro the loaded model
+     * @return Biblioteca the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Livro::findOne($id)) !== null) {
+        if (($model = Biblioteca::findOne($id)) !== null) {
             return $model;
         }
 

@@ -54,19 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $form = ActiveForm::begin([
         'id' => 'pesquisa-form',
         'options' => ['class' => 'form-horizontal'],
-        'action' => ['livros/search']
+        'action' => ['livros/index']
     ]) ?>
-    <?= $form->field($searchModel, 'titulo') ?>
+
+    <?= $form->field($searchModel, 'titulo'); ?>
     <?= Html::submitButton('Pesquisar', ['className' => 'pesquisa']); ?>
     <button class="buttonPanel"><?= Html::a('Adicionar Livros', ['livros/create']); ?></button>
     <?php ActiveForm::end() ?>
-
-
-    <?php if($dataProvider != null) {
-        //foreach ($dataProvider as $livro) { ?>
-            <h4><?php //VarDumper::dumpAsString($dataProvider); ?></h4>
-    <?php } //} ?>
-
 
     <?php if($livros != null) { ?>
         <?php foreach ($livros as $livro) { ?>

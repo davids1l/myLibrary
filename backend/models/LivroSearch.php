@@ -67,14 +67,29 @@ class LivroSearch extends Livro
             'id_autor' => $this->id_autor,*/
         ]);
 
-        $query->orFilterWhere(['like', 'titulo', $this->titulo])
-            ->orFilterWhere(['like', 'isbn', $this->isbn])
-            ->orFilterWhere(['like', 'genero', $this->genero])
-            ->orFilterWhere(['like', 'idioma', $this->idioma])
-            ->orFilterWhere(['like', 'formato', $this->formato])
-            ->orFilterWhere(['like', 'capa', $this->capa])
-            ->orFilterWhere(['like', 'sinopse', $this->sinopse]);
+        $query->orFilterWhere(['like', 'titulo', $this->titulo]);
+            //->orFilterWhere(['like', 'isbn', $this->isbn])
+            //->orFilterWhere(['like', 'genero', $this->genero])
+            //->orFilterWhere(['like', 'idioma', $this->idioma])
+            //->orFilterWhere(['like', 'formato', $this->formato])
+            //->orFilterWhere(['like', 'capa', $this->capa])
+            //->orFilterWhere(['like', 'sinopse', $this->sinopse]);
 
         return $dataProvider;
     }
+
+    public function procurar($params)
+    {
+
+      var_dump($params);
+
+        $query = Livro::find()
+            ->where(['like', 'titulo',  $params])
+            ->all();
+
+        //$query->andFilterWhere(['like', 'titulo', $this->titulo]);
+
+        return $query;
+    }
+
 }

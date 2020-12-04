@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $form = ActiveForm::begin(); ?>
         <div class="col-md-4">
             <?= $form->field($model, 'capa')->textInput(['id' => 'files','maxlength' => true]) ?>
+
             <?= Html::img('',['id' => 'image', 'style' => 'width: 70%']) ?>
         </div>
         <div class="col-md-4">

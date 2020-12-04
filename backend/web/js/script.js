@@ -1,5 +1,5 @@
 function mostrarImagem() {
-    document.getElementById("image").src = document.getElementById("files").value;
+   document.getElementById("image").src = document.getElementById("files").value;
 }
 
 document.getElementById("files").addEventListener('change', mostrarImagem);
