@@ -9,7 +9,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $utilizador app\models\Utilizador */
 
-$this->title = /*$utilizador->id_utilizador*/'Perfil de Leitor';
+$this->title = /*$utilizador->id_utilizador*/
+    'Perfil de Leitor';
 //$this->params['breadcrumbs'][] = ['label' => 'Utilizadores', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -18,72 +19,83 @@ $this->title = /*$utilizador->id_utilizador*/'Perfil de Leitor';
 
     <h1><?= Html::encode($this->title) ?></h1>
     <hr>
-
-
-    <div class="row">
-        <div class="col-sm-4">
-            <table>
-                <tr>
-                    <th><?= Html::img(Yii::$app->request->baseUrl .'/imgs/perfil/' . $model->foto_perfil, ['width' => '234px', 'height' => '234px']) ?></th>
-                </tr>
-                <tr>
-                    <th><br></th>
-                </tr>
-                <tr>
-                    <th>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imageModel">Alterar Imagem</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <?php $form = ActiveForm::begin([
-                            'action' => ['utilizador/remover-img', 'id' => $model->id_utilizador]]) ?>
-                        <?= Html::submitButton('Remover Imagem', ['class' => 'btn btn-primary']) ?>
-                        <?php ActiveForm::end() ?>
-                    </th>
-                </tr>
-            </table>
+    <div class="row perfil">
+        <div class="col-sm-5 text-center">
+            <?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $model->foto_perfil, ['width' => '234px', 'height' => '234px', 'class' => 'imagemPerfil']) ?>
+            <div class="row">
+                <div class="col-sm-6">
+                    <button type="button" class="btn-perfil" data-toggle="modal" data-target="#imageModel">Alterar
+                        Imagem
+                    </button>
+                </div>
+                <div class="col-sm-6">
+                    <?php $form = ActiveForm::begin(['action' => ['utilizador/remover-img', 'id' => $model->id_utilizador]]) ?>
+                    <?= Html::submitButton('Remover Imagem', ['class' => 'btn-perfil']) ?>
+                    <?php ActiveForm::end() ?>
+                </div>
+            </div>
         </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-5">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="float: right">Nº de Leitor:</h4>
+                </div>
+                <div class="col-sm-6 perfil-dados">
+                    <h4><?= Html::encode($model->numero) ?></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="float: right">Nome:</h4>
+                </div>
+                <div class="col-sm-6 perfil-dados">
+                    <h4><?= Html::encode($model->primeiro_nome . " " . $model->ultimo_nome) ?> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="float: right">Email:</h4>
+                </div>
+                <div class="col-sm-6 perfil-dados">
+                    <h4><?= Html::encode($userModel->email) ?> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="float: right">Nº de telemóvel:</h4>
+                </div>
+                <div class="col-sm-6 perfil-dados">
+                    <h4><?= Html::encode($model->num_telemovel) ?> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="float: right">Data de Nascimento:</h4>
+                </div>
+                <div class="col-sm-6 perfil-dados">
+                    <h4><?= Carbon::parse($model->dta_nascimento)->format('d/m/Y') ?> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 style="float: right">NIF:</h4>
+                </div>
+                <div class="col-sm-6 perfil-dados">
+                    <h4><?= Html::encode($model->nif) ?> </h4>
+                </div>
+            </div>
 
-        <div class="col-sm-4">
-            <table>
-                <tr>
-                    <th><h4 style="float: right">Nº de Leitor: &nbsp</h4></th>
-                    <th><h4><?= Html::encode($model->numero) ?></h4></th>
-                </tr>
-                <tr>
-                    <th><h4 style="float: right">Nome: &nbsp</h4></th>
-                    <th><h4><?= Html::encode($model->primeiro_nome . " " . $model->ultimo_nome) ?> </h4></th>
-                </tr>
-                <tr>
-                    <th><h4 style="float: right">Email: &nbsp</h4></th>
-                    <th><h4><?= Html::encode($userModel->email) ?> </h4></th>
-                </tr>
-                <tr>
-                    <th><h4 style="float: right">Nº de telemóvel: &nbsp</h4></th>
-                    <th><h4><?= Html::encode($model->num_telemovel) ?> </h4></th>
-                </tr>
-                <tr>
-                    <th><h4 style="float: right">Data de Nascimento: &nbsp</h4></th>
-                    <th><h4><?= Carbon::parse($model->dta_nascimento)->format('d/m/Y') ?> </h4></th>
-                </tr>
-                <tr>
-                    <th><h4 style="float: right">NIF: &nbsp</h4></th>
-                    <th><h4><?= Html::encode($model->nif) ?> </h4></th>
-                </tr>
-                <tr>
-                    <th>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#perfilModal">Alterar dados</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#passwordModal">Alterar Palavra-Passe</button>
-                    </th>
-                </tr>
-            </table>
+            <div class="row">
+                <div class="col-sm-6 text-center">
+                    <button type="button" class="btn-perfil" data-toggle="modal" data-target="#perfilModal">Alterar dados</button>
+                </div>
+
+                <div class="col-sm-6 text-center">
+                    <button type="button" class="btn-perfil" data-toggle="modal" data-target="#passwordModal">Alterar palavra-passe</button>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-4"></div>
     </div>
 
 
@@ -126,7 +138,7 @@ $this->title = /*$utilizador->id_utilizador*/'Perfil de Leitor';
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Guardar Alterações', ['class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton('Guardar Alterações', ['class' => 'btn-perfil']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>
@@ -150,21 +162,21 @@ $this->title = /*$utilizador->id_utilizador*/'Perfil de Leitor';
                     <div class="col-sm-3"></div>
                     <div class="modal-body col-sm-6">
                         <table>
-                            <!--<tr>
-                                <th><?/*= $form->field($userModel, 'password_hash')->passwordInput(['value' => ""])->label('Palavra-passe Atual:') */?></th>
-                            </tr>-->
                             <tr>
-                                <th><?= $form->field($userModel, 'password_hash')->passwordInput(['value' => ""])->label('Nova Palavra-passe:') ?></th>
+                                <th><?= $form->field($userModel, 'atual_password')->passwordInput(['value' => ""])->label('Palavra-passe Atual:') ?></th>
                             </tr>
-                            <!--<tr>
-                                <th><?/*= $form->field($userModel, 'password_hash')->passwordInput(['value' => ""])->label('Confirmar Nova Palavra-passe:') */?></th>
-                            </tr>-->
+                            <tr>
+                                <th><?= $form->field($userModel, 'nova_password')->passwordInput(['value' => ""])->label('Nova Palavra-passe:') ?></th>
+                            </tr>
+                            <tr>
+                                <th><?= $form->field($userModel, 'conf_password')->passwordInput(['value' => ""])->label('Confirmar Nova Palavra-passe:') ?></th>
+                            </tr>
                         </table>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Alterar Palavra-passe', ['class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton('Alterar palavra-passe', ['class' => 'btn-perfil']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>
@@ -196,7 +208,7 @@ $this->title = /*$utilizador->id_utilizador*/'Perfil de Leitor';
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Alterar Imagem', ['class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton('Alterar Imagem', ['class' => 'btn-perfil']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>

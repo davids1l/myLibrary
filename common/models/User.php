@@ -32,6 +32,9 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    public $nova_password;
+    public $conf_password;
+
 
     /**
      * {@inheritdoc}
@@ -65,6 +68,9 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este email já se encontra em utilização.'],
+
+            //[['password_hash', 'nova_password', 'conf_password'], 'required'],
+            [['password_hash', 'nova_password', 'conf_password'], 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
         ];
     }
 

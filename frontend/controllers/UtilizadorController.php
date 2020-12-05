@@ -163,15 +163,34 @@ class UtilizadorController extends Controller
 
     public function actionUpdatePassword($id){
 
-        //$user = User::find()->where($id)->one();
-        $user = new User();
+        $user = User::find()->where($id)->one();
+
 
         if($user->load(Yii::$app->request->post())){
+            $atualPass = Yii::$app->request->post('User')['atual_password'];
+            $novaPass = Yii::$app->request->post('User')['nova_password'];
+            $confPass = Yii::$app->request->post('User')['conf_password'];
 
+            if(!$user->validatePassword($atualPass)){
+                Yii::$app->session->setFlash('error', 'Palavra-passe atual incorreta.');
+                return $this->actionPerfil();
+            }
 
+            if($novaPass != $confPass){
+                Yii::$app->session->setFlash('error', 'Confirmação de Palavra-passe incorreta.');
+                return $this->actionPerfil();
+            }
+
+            $user->password_hash = Yii::$app->security->generatePasswordHash($novaPass);
+
+            if(!$user->validate()){
+                return $this->actionPerfil();
+            }
             $user->save();
-        }
 
+            Yii::$app->session->setFlash('success', 'Palavra-passe alterada com sucesso!');
+            return $this->actionPerfil();
+        }
         Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar a palavra-passe.');
         return $this->actionPerfil();
     }
