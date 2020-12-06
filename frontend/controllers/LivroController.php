@@ -99,10 +99,10 @@ class LivroController extends Controller
      */
     public function actionProcurar()
     {
-        $searchModel = new LivroSearch();
+        $model = new LivroSearch();
         $params = Yii::$app->request->post();
 
-        $results = $searchModel->procurar($params);
+        $results = $model->procurar($params);
 
         return $this->render('search', ['model'=> new Livro(), 'results'=>$results]);
         //return $this->render('view', ['model'=>$searchModel, 'dataProvider'=>$dataProvider]);

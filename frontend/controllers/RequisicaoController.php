@@ -2,9 +2,12 @@
 
 namespace frontend\controllers;
 
+use app\models\Livro;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
+use yii\db\Query;
+use yii\debug\panels\DumpPanel;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -28,6 +31,58 @@ class RequisicaoController extends Controller
             ],
         ];
     }
+
+    /**
+     * Função responsavél por adicionar um livro à sessão do carrinho.
+     */
+    public function actionCarrinho($id_livro)
+    {
+
+        $flag = 0;
+
+        //query para encontrar o livro pelo $id
+        $livro = Livro::findOne($id_livro);
+
+        //define a variável da sessão
+        $session = Yii::$app->session;
+
+        //$session->destroy();
+
+        //verifica se esta sessão se encontra aberta
+        //if($session->isActive) {
+            $carrinho = $session->get('carrinho');
+
+            //verifica se o carrinho está null
+            if(isset($carrinho)){
+                //Limita o carrinho a um máximo de 5 livros
+                if(count($carrinho) < 5) {
+                    //verifica se o livro a inserir já se encontra no array do carrinho
+                    foreach ($carrinho as $obj_livro) {
+                        if ($obj_livro->id_livro == $id_livro) {
+                            $flag++;
+                        }
+                    }
+
+                    if ($flag == 0) {
+                        $_SESSION['carrinho'][] = $livro;
+                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                    } else{
+                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
+                    }
+                } else {
+                    $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
+                }
+
+        } else {
+            $session->open();
+            $_SESSION['carrinho'][] = $livro;
+            $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+            $session->close();
+        }
+
+        return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
+    }
+
 
     /**
      * Lists all Requisicao models.

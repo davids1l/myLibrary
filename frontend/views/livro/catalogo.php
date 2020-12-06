@@ -24,20 +24,21 @@ $this->title = "Catálogo de Livros";
 ?>
 <div class="container">
     <div class="col-lg-12 searchBar">
-        <div>
+        <div class="col-lg-9">
             <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'action'=>['livro/procurar']]); ?>
             <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Insira o título do livro'])?>
+        </div>
+        <div class="col-lg-3">
             <?= Html::submitButton('Procurar', ['class' => 'btn btn-info']) ?>
             <?php ActiveForm::end(); ?>
         </div>
-        <div>
-
-        </div><hr>
+        <hr>
     </div>
 
     <div class="catalogo-livros">
         <div class="col-lg-12 populares">
             <h3>NOVOS LANÇAMENTOS</h3>
+            <h4>VER MAIS</h4>
             <?php if($recentes != null) { ?>
                 <?php for($i = 0; $i <= 5; $i++){ ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">

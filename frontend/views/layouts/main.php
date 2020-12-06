@@ -36,17 +36,19 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+    Yii::$app->session->get('carrinho');
+
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
         ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
-        ['label' => 'Registar', 'url' => ['/site/registar']],
-        ['label' => 'Login Leitores', 'url' => ['/site/loginleitores']],
-        ['label' => 'Perfil', 'url' => ['/site/perfil']],
-        ['label' => 'Histórico de Requisições', 'url' => ['/site/historico_requisicoes']],
     ];
+
+
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -56,6 +58,22 @@ AppAsset::register($this);
         if(Yii::$app->user->can('admin')){
 
         }
+
+        $carrinhoSession = Yii::$app->session->get('carrinho');
+
+        if(isset($carrinhoSession)){
+            foreach ($carrinhoSession as $livro){
+                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 20%']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
+            }
+            $items[] = ['label' => '<i>Finalizar requisição</i>', 'url'=>'requisicao/index'];
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' => $items];
+
+        } else {
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' =>
+                ['label' => '<h4>Carrinho vazio</h4>', 'url' => '']
+            ];
+        }
+
 
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
@@ -70,7 +88,9 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
+        'encodeLabels' => false,
     ]);
+
     NavBar::end();
     ?>
 

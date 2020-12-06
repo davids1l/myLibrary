@@ -28,9 +28,8 @@ $this->title = "Catálogo de Livros";
         </div><hr>
     </div>
 
-    <div class="catalogo-livros">
-
-        <div class="col-lg-12 searchResults" style="margin-top: 3%;">
+    <div class="catalogo-livros" style="margin-bottom: 2%;">
+        <div class="col-lg-12 searchResults">
             <?php if($results != null) { ?>
                 <h3>RESULTADO(S) DA PESQUISA</h3>
                 <?php foreach ($results as $result) { ?>
@@ -50,8 +49,9 @@ $this->title = "Catálogo de Livros";
                     </div>
                 <?php }
             } else {?>
-                <p>Não existem livros.</p>
+                <p>Não foram encontrados resultados para a pesquisa.</p>
             <?php }?>
         </div>
     </div>
+
 </div>

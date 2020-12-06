@@ -13,6 +13,7 @@ use yii\widgets\ActiveForm;
 \frontend\assets\ViewsAssets::register($this);
 
 $this->title = "Detalhes do Livro";
+//$this->params['breadcrumbs'][] = ['label' => 'Catálogo', 'url' => ['catalogo']];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -29,11 +30,13 @@ $this->title = "Detalhes do Livro";
                 <h1><?= Html::encode($livro->titulo)?></h1>
                 <h3>de <?= Html::encode($livro->autor->nome_autor) ?></h3>
                 <div class="livro-info-detail">
-                    <span><b>Edição: </b><?= Html::encode($livro->ano)?> |
+                    <span>
+                        <b>Edição: </b><?= Html::encode($livro->ano)?> |
                         <b>ISBN: </b><?= Html::encode($livro->isbn)?> |
                         <b>Formato: </b><?= Html::encode($livro->formato)?> |
                         <b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?> -
-                        <a id="maisDetalhes">mais detalhes deste livro</a></span>
+                        <a id="maisDetalhes">mais detalhes deste livro</a>
+                    </span>
                 </div>
                 <div class="rating">
                     <span class="glyphicon glyphicon-star star-filed" style="color: darkorange"></span>
@@ -43,8 +46,8 @@ $this->title = "Detalhes do Livro";
                     <span class="glyphicon glyphicon-star-empty"></span><span> 4/5</span>
                 </div>
                 <div class="actions" style="display: flex;">
-                    <div class="btnAction"><i class="glyphicon glyphicon-shopping-cart"></i></div>
                     <div class="btnAction" style="background-color: #c9302c; margin-left: 2%"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
+                    <div class="btnAction" style="margin-left: 2%"><?= Html::a('', ['requisicao/carrinho', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart"])?></div>
                 </div>
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>

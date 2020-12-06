@@ -98,7 +98,7 @@ class ComentarioController extends Controller
         $model->id_utilizador = Yii::$app->user->identity->ID;
 
         if($model->load(Yii::$app->request->post()) && $model->validate()){
-            $model -> save();
+            $model->save();
             Yii::$app->session->setFlash('success', 'Obrigado pelo seu comentário!');
             return $this->redirect(['livro/detalhes', 'id' => $id]);
         } else {
