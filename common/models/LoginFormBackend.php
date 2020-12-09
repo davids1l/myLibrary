@@ -8,7 +8,7 @@ use yii\base\Model;
 /**
  * Login form
  */
-class LoginForm extends Model
+class LoginFormBackend extends Model
 {
     public $email;
     public $password;
@@ -73,7 +73,7 @@ class LoginForm extends Model
     {
         if ($this->_user === null) {
 
-            $this->_user = User::findLeitorByEmail($this->email);
+            $this->_user = User::findBackendByEmail($this->email);
         }
 
         return $this->_user;

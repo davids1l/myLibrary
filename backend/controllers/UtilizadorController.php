@@ -1,18 +1,21 @@
 <?php
 
-namespace frontend\controllers;
+namespace app\controllers;
+namespace backend\controllers;
 
+use common\models\SignupForm;
 use Yii;
-use app\models\Requisicao;
-use app\models\RequisicaoSearch;
+use app\models\Utilizador;
+use app\models\UtilizadorSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * RequisicaoController implements the CRUD actions for Requisicao model.
+ * UtilizadorController implements the CRUD actions for Utilizador model.
  */
-class RequisicaoController extends Controller
+class UtilizadorController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,17 +33,23 @@ class RequisicaoController extends Controller
     }
 
     /**
-     * Lists all Requisicao models.
+     * Lists all Utilizador models.
+     * @param null $user
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($user = null)
     {
-        $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->all();
 
+        if($user == null){
+            $user = new SignupForm();
+        }
 
-        return $this->render('index', ['requisicoes' => $requisicoes]);
+        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $utilizadores = Utilizador::find()->where(['id_utilizador' => $subQuery])->orderBy(['id_utilizador' => SORT_ASC])->all();
 
-        //$searchModel = new RequisicaoSearch();
+        return $this->render('index', ['utilizadores' => $utilizadores, 'model' => $user]);
+
+        //$searchModel = new UtilizadorSearch();
         //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 //
         //return $this->render('index', [
@@ -50,7 +59,7 @@ class RequisicaoController extends Controller
     }
 
     /**
-     * Displays a single Requisicao model.
+     * Displays a single Utilizador model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -63,25 +72,37 @@ class RequisicaoController extends Controller
     }
 
     /**
-     * Creates a new Requisicao model.
+     * Creates a new Utilizador model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Requisicao();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_requisicao]);
+        $user = new SignupForm();
+        if ($user->load(Yii::$app->request->post()) && $user->signup()) {
+            Yii::$app->session->setFlash('success', 'Leitor inserido com sucesso.');
+            return $this->actionIndex();
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        $user->password = '';
+        $user->confirmarPassword = '';
+        return $this->actionIndex($user);
+
+
+
+        //$model = new Utilizador();
+//
+        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //    return $this->redirect(['view', 'id' => $model->id_utilizador]);
+        //}
+//
+        //return $this->render('create', [
+        //    'model' => $model,
+        //]);
     }
 
     /**
-     * Updates an existing Requisicao model.
+     * Updates an existing Utilizador model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -92,7 +113,7 @@ class RequisicaoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_requisicao]);
+            return $this->redirect(['view', 'id' => $model->id_utilizador]);
         }
 
         return $this->render('update', [
@@ -101,7 +122,7 @@ class RequisicaoController extends Controller
     }
 
     /**
-     * Deletes an existing Requisicao model.
+     * Deletes an existing Utilizador model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -115,15 +136,15 @@ class RequisicaoController extends Controller
     }
 
     /**
-     * Finds the Requisicao model based on its primary key value.
+     * Finds the Utilizador model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Requisicao the loaded model
+     * @return Utilizador the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Requisicao::findOne($id)) !== null) {
+        if (($model = Utilizador::findOne($id)) !== null) {
             return $model;
         }
 

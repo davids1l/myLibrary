@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use app\models\Leitor;
 use app\models\Livro;
 use common\models\FormularioLogin;
+use common\models\SignupForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\Utilizador;
 use frontend\models\VerifyEmailForm;
@@ -17,7 +18,6 @@ use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
 /**
@@ -70,13 +70,6 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
-    }
-
-
-    //Abre a vista do Histórico de Requisições
-    public function actionHistorico_requisicoes()
-    {
-        return $this->render('historico_requisicoes');
     }
 
 

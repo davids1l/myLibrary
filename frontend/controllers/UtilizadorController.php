@@ -139,12 +139,13 @@ class UtilizadorController extends Controller
            }
 
            if ($model->validarDataNascimento() == false) {
-               Yii::$app->session->setFlash('error', 'Data de nascimento inválida. Insira uma data de nascimeto válida');
+               Yii::$app->session->setFlash('error', 'Data de nascimento inválida. Insira uma data de nascimeto válida.');
                return $this->actionPerfil();
            }
 
            $user->email = Yii::$app->request->post('User')['email'];
            if(!$user->validate()){
+               Yii::$app->session->setFlash('error', 'Email inválido ou já se encontra em utilização.');
                return $this->actionPerfil();
            }
 

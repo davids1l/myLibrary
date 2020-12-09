@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Bibliotecario;
+use app\models\Utilizador;
 
 /**
- * BibliotecarioSearch represents the model behind the search form of `app\models\Bibliotecario`.
+ * UtilizadorSearch represents the model behind the search form of `app\models\Utilizador`.
  */
-class BibliotecarioSearch extends Bibliotecario
+class UtilizadorSearch extends Utilizador
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class BibliotecarioSearch extends Bibliotecario
     public function rules()
     {
         return [
-            [['id_bibliotecario', 'id_biblioteca'], 'integer'],
-            [['num_bibliotecario'], 'safe'],
+            [['id_utilizador', 'bloqueado', 'id_biblioteca'], 'integer'],
+            [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_bloqueado', 'dta_nascimento', 'nif', 'num_telemovel', 'dta_registo', 'foto_perfil'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class BibliotecarioSearch extends Bibliotecario
      */
     public function search($params)
     {
-        $query = Bibliotecario::find();
+        $query = Utilizador::find();
 
         // add conditions that should always apply here
 
@@ -58,11 +58,20 @@ class BibliotecarioSearch extends Bibliotecario
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_bibliotecario' => $this->id_bibliotecario,
+            'id_utilizador' => $this->id_utilizador,
+            'bloqueado' => $this->bloqueado,
+            'dta_bloqueado' => $this->dta_bloqueado,
+            'dta_nascimento' => $this->dta_nascimento,
+            'dta_registo' => $this->dta_registo,
             'id_biblioteca' => $this->id_biblioteca,
         ]);
 
-        $query->andFilterWhere(['like', 'num_bibliotecario', $this->num_bibliotecario]);
+        $query->andFilterWhere(['like', 'primeiro_nome', $this->primeiro_nome])
+            ->andFilterWhere(['like', 'ultimo_nome', $this->ultimo_nome])
+            ->andFilterWhere(['like', 'numero', $this->numero])
+            ->andFilterWhere(['like', 'nif', $this->nif])
+            ->andFilterWhere(['like', 'num_telemovel', $this->num_telemovel])
+            ->andFilterWhere(['like', 'foto_perfil', $this->foto_perfil]);
 
         return $dataProvider;
     }

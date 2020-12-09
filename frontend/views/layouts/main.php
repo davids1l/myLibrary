@@ -44,7 +44,7 @@ AppAsset::register($this);
         ['label' => 'Catálogo', 'url' => ['/livros/catalogo']],
         ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
         ['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
-        ['label' => 'Histórico de Requisições', 'url' => ['/site/historico_requisicoes']],
+        ['label' => 'Histórico de Requisições', 'url' => ['/requisicao/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];

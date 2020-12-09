@@ -1,7 +1,8 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
+use app\models\Utilizador;
 use Carbon\Carbon;
 use Yii;
 use yii\base\Model;
@@ -73,7 +74,7 @@ class SignupForm extends Model
         }
 
         $user = new User();
-        $utilizador = new Utilizador();
+        $utilizador = new \frontend\models\Utilizador();
 
         $user->username = strtolower($this->primeiro_nome) . strtolower($this->ultimo_nome);
         $user->email = $this->email;
