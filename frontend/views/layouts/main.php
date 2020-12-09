@@ -65,7 +65,7 @@ AppAsset::register($this);
             foreach ($carrinhoSession as $livro){
                 $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 20%']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
             }
-            $items[] = ['label' => '<i>Finalizar requisição</i>', 'url'=>'requisicao/index'];
+            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>'../requisicao/index'];
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' => $items];
 
         } else {

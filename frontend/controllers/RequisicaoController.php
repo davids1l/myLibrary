@@ -33,20 +33,19 @@ class RequisicaoController extends Controller
     }
 
     /**
-     * Função responsavél por adicionar um livro à sessão do carrinho.
+     * Função responsavél por adicionar um livro à session do carrinho.
      */
     public function actionCarrinho($id_livro)
     {
 
-        $flag = 0;
+        //TODO: Verificar se o livro já se encontra em requisição (ex. query à tabela requisicao_livro)
 
         //query para encontrar o livro pelo $id
         $livro = Livro::findOne($id_livro);
 
         //define a variável da sessão
         $session = Yii::$app->session;
-
-        //$session->destroy();
+        $flag = 0;
 
         //verifica se esta sessão se encontra aberta
         //if($session->isActive) {
@@ -85,6 +84,36 @@ class RequisicaoController extends Controller
 
 
     /**
+     *  Função responsável por excluir um livro da session carrinho
+     */
+    public function actionRemover($id_livro){
+
+        /*
+         * 1- validar se a session está open e se contem informação.
+         * 2- se true, então foreach em cada objeto do carrinho e validar se id_livro = id_livro
+         * 3- se true, é feito um array_search para encontrar o index da posição do array 'carrinho' onde está o objeto
+         * 4- com o index obtido é efetuado o unset no array carrinho de acordo com esse index (Remover)
+         */
+
+        $session = Yii::$app->session;
+        $carrinho = $session->get('carrinho');
+
+
+        if($session->isActive && $carrinho!=null){
+            foreach ($carrinho as $obj_livro) {
+                if ($obj_livro->id_livro == $id_livro) {
+                    $index = array_search($obj_livro, $carrinho);
+                    unset($_SESSION['carrinho'][$index]);
+                }
+            }
+        }
+
+        return $this->redirect(['requisicao/index']);
+
+    }
+
+
+    /**
      * Lists all Requisicao models.
      * @return mixed
      */
@@ -119,6 +148,15 @@ class RequisicaoController extends Controller
      */
     public function actionCreate()
     {
+        /*
+         * TODO:
+         * 1- receber o array de sessão carrinho
+         * 2- foreach a refetuar save na tabela requisicao_livro para cada um dos livros na session carrinho
+         *
+         *
+         */
+
+
         $model = new Requisicao();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

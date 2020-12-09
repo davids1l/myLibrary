@@ -7,36 +7,48 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\RequisicaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Requisicaos';
-$this->params['breadcrumbs'][] = $this->title;
+\frontend\assets\ViewsAssets::register($this);
+
+$this->title = 'Finalizar requisição';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requisicao-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Requisicao', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id_requisicao',
-            'dta_levantamento',
-            'dta_entrega',
-            'estado',
-            'id_livro',
-            //'id_utilizador',
-            //'id_bib_levantamento',
+    <div class="livrosCarrinho">
+        <?php
+        $carrinhoSession = Yii::$app->session->get('carrinho');
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+        if (isset($carrinhoSession)) {
+            foreach ($carrinhoSession as $livro) { ?>
+                <div class="col-xs-12 col-lg-12" style="background-color: #e5e5e5; margin-top: 1%; padding: 1%;">
+                    <div class="col-xs-8 col-lg-6">
+                        <div class="capa-livro-requisicao col-xs-7 col-lg-2">
+                            <?= Html::img($livro->capa, ['style' => 'max-width: 100%']) ?>
+                        </div>
+                        <div class="detalhes-livro-requisicao cold-xs-1 col-lg-4">
+                            <?= Html::encode($livro->titulo) ?>
+                            <?= Html::encode($livro->autor->nome_autor) ?>
+                            <p>
+                                Formato:
+                                <?= Html::encode($livro->formato) ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="actions-livros-carrinho col-xs-4 col-lg-6">
+                        <?= Html::a(null, ['remover', 'id_livro' => $livro->id_livro], ['class' => 'glyphicon glyphicon-remove']) ?>
+                    </div>
+                </div>
+            <?php }
+        } ?>
+    </div>
 
+    <p>
+        <?= Html::a('Finalizar requisição', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
 </div>
