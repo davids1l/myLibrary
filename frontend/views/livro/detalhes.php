@@ -47,7 +47,7 @@ $this->title = "Detalhes do Livro";
                 </div>
                 <div class="actions" style="display: flex;">
                     <div class="btnAction" style="background-color: #c9302c; margin-left: 2%"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
-                    <div class="btnAction" style="margin-left: 2%"><?= Html::a('', ['requisicao/carrinho', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart"])?></div>
+                    <div class="btnAction" style="margin-left: 2%"><?= Html::a('', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart"])?></div>
                 </div>
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>

@@ -15,10 +15,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * RequisicaoController implements the CRUD actions for Requisicao model.
- */
-class RequisicaoController extends Controller
+
+class CarrinhoController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -28,7 +26,7 @@ class RequisicaoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                'only' => ['adicionar', 'remover', 'create', 'update', 'delete'],
                 'rules' => [
                     [
                         'actions' => ['carrinho', 'remover', 'create', 'update', 'delete'],
@@ -51,26 +49,10 @@ class RequisicaoController extends Controller
         ];
     }
 
-    public function actionFinalizar()
-    {
-        $model = new Requisicao();
-
-        $bibliotecas = Biblioteca::find()
-            ->all();
-
-        return $this->render('finalizar', [
-            //'searchModel' => $searchModel,
-            //'dataProvider' => $dataProvider,
-            'model' => $model,
-            'bibliotecas' => $bibliotecas
-        ]);
-    }
-
-
     /**
      * Função responsavél por adicionar um livro à session do carrinho.
      */
-    public function actionCarrinho($id_livro)
+    public function actionAdicionar($id_livro)
     {
 
         //TODO: Verificar se o livro já se encontra em requisição (ex. query à tabela requisicao_livro)
@@ -84,28 +66,28 @@ class RequisicaoController extends Controller
 
         //verifica se esta sessão se encontra aberta
         //if($session->isActive) {
-            $carrinho = $session->get('carrinho');
+        $carrinho = $session->get('carrinho');
 
-            //verifica se o carrinho está null
-            if(isset($carrinho)){
-                //Limita o carrinho a um máximo de 5 livros
-                if(count($carrinho) < 5) {
-                    //verifica se o livro a inserir já se encontra no array do carrinho
-                    foreach ($carrinho as $obj_livro) {
-                        if ($obj_livro->id_livro == $id_livro) {
-                            $flag++;
-                        }
+        //verifica se o carrinho está null
+        if(isset($carrinho)){
+            //Limita o carrinho a um máximo de 5 livros
+            if(count($carrinho) < 5) {
+                //verifica se o livro a inserir já se encontra no array do carrinho
+                foreach ($carrinho as $obj_livro) {
+                    if ($obj_livro->id_livro == $id_livro) {
+                        $flag++;
                     }
-
-                    if ($flag == 0) {
-                        $_SESSION['carrinho'][] = $livro;
-                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
-                    } else{
-                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
-                    }
-                } else {
-                    $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
                 }
+
+                if ($flag == 0) {
+                    $_SESSION['carrinho'][] = $livro;
+                    $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                } else{
+                    $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
+                }
+            } else {
+                $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
+            }
 
         } else {
             $session->open();
@@ -132,7 +114,7 @@ class RequisicaoController extends Controller
 
         $session = Yii::$app->session;
         $carrinho = $session->get('carrinho');
-        
+
         if($session->isActive && $carrinho!=null){
             foreach ($carrinho as $obj_livro) {
                 if ($obj_livro->id_livro == $id_livro) {
@@ -143,7 +125,7 @@ class RequisicaoController extends Controller
             }
         }
 
-        return $this->redirect(['requisicao/index']);
+        return $this->redirect(['requisicao/finalizar']);
 
     }
 
