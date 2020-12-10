@@ -36,14 +36,14 @@ $this->title = "Catálogo de Livros";
     </div>
 
     <div class="catalogo-livros">
-        <div class="col-lg-12 populares">
+        <div class="col-lg-12 recentes">
             <h3>NOVOS LANÇAMENTOS</h3>
             <h4>VER MAIS</h4>
-            <?php if($recentes != null) { ?>
-                <?php for($i = 0; $i <= 5; $i++){ ?>
+            <?php if($recentes != null) {?>
+                <?php for($i = 0; $i <= 4; $i++){ ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
-                            <a href="<?= Url::to(['livro/detalhes', 'id' => $recentes[$i]->id_livro]) ?>">
+                            <a href="<?= Url::to(['detalhes', 'id' => $recentes[$i]->id_livro]) ?>">
                                 <?= Html::img($recentes[$i]->capa, ['id'=> 'imgCapa'])?>
                             </a>
                         </div>
@@ -63,9 +63,10 @@ $this->title = "Catálogo de Livros";
 
 
         <div class="col-lg-12 novos" style="margin-top: 3%;">
+
+            <h3>MAIS POULARES</h3>
             <?php if($livros != null) { ?>
-                <h3>MAIS POULARES</h3>
-                <?php for ($i = 0; $i <= 5; $i++) { ?>
+                <?php for ($i = 0; $i <= 4; $i++) { ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livros[$i]->id_livro]) ?>">

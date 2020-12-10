@@ -82,17 +82,6 @@ class LivroController extends Controller
         return $this->render('catalogo', ['livros' => $livros, 'model' => $model, 'recentes' => $recentes]);
     }
 
-
-    //TODO: Adicionar elementos ao carrinho (Session Storage)
-    public function actionCarrinho()
-    {
-        $session = Yii::$app->session;
-
-        if ($session->isActive){
-            $session->open();
-        }
-    }
-
     /**
      * Recebe um post do form do catalgo e executa a function search no modelo LivroSearch
      *

@@ -101,10 +101,9 @@ class ComentarioController extends Controller
             $model->save();
             Yii::$app->session->setFlash('success', 'Obrigado pelo seu comentário!');
             return $this->redirect(['livro/detalhes', 'id' => $id]);
-        } else {
-            return $this->redirect(['livro/detalhes', 'id' => $id]);
         }
 
+        return $this->redirect(['livro/detalhes', 'id' => $id]);
 
 
         /*if ($model->load(Yii::$app->request->post()) && $model->save()) {

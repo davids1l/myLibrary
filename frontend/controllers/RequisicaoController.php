@@ -2,12 +2,15 @@
 
 namespace frontend\controllers;
 
+use app\models\Biblioteca;
 use app\models\Livro;
+use Carbon\Carbon;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
 use yii\db\Query;
 use yii\debug\panels\DumpPanel;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,6 +26,22 @@ class RequisicaoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -97,13 +116,13 @@ class RequisicaoController extends Controller
 
         $session = Yii::$app->session;
         $carrinho = $session->get('carrinho');
-
-
+        
         if($session->isActive && $carrinho!=null){
             foreach ($carrinho as $obj_livro) {
                 if ($obj_livro->id_livro == $id_livro) {
                     $index = array_search($obj_livro, $carrinho);
                     unset($_SESSION['carrinho'][$index]);
+                    $session->setFlash('success', 'Livro excluído do carrinho.');
                 }
             }
         }
@@ -119,12 +138,19 @@ class RequisicaoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new RequisicaoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$searchModel = new RequisicaoSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $model = new Requisicao();
+
+        $bibliotecas = Biblioteca::find()
+            ->all();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            //'searchModel' => $searchModel,
+            //'dataProvider' => $dataProvider,
+            'model' => $model,
+            'bibliotecas' => $bibliotecas
         ]);
     }
 
@@ -151,13 +177,29 @@ class RequisicaoController extends Controller
         /*
          * TODO:
          * 1- receber o array de sessão carrinho
+         * 3- receber o post com os dados p
+         * reenchidos da requisição e fazer save
          * 2- foreach a refetuar save na tabela requisicao_livro para cada um dos livros na session carrinho
          *
+         * TODO: validar as datas recebidas
          *
          */
 
+        $session = Yii::$app->session;
+        $carrinho = $session->get('carrinho');
+
+        $postData = Yii::$app->request->post();
+        var_dump($postData);
+        die();
 
         $model = new Requisicao();
+
+        $model->estado = 'Em processamento';
+        $model->dta_levantamento = $postData['Requisicao']['dta_levantamento'];
+        $model->dta_entrega = $this->gerarDataEntrega($postData['Requisicao']['dta_levantamento']); //Carbon::create(2020, 12, 30, null, null, null); //TODO: função para determinar a data de entrega de acordo com a data de levantamento
+        $model->id_livro = 2; //TODO: REMOVER linha! apenas para testes!
+        $model->id_utilizador = Yii::$app->user->id;
+        $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_requisicao]);
@@ -167,6 +209,18 @@ class RequisicaoController extends Controller
             'model' => $model,
         ]);
     }
+
+
+
+    /**
+     * Função que determina a data de entrega de acordo com a data de levantamento
+     */
+    public function gerarDataEntrega($data_levantamento)
+    {
+
+    }
+
+
 
     /**
      * Updates an existing Requisicao model.
