@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "favorito".
  *
  * @property int $id_favorito
- * @property string $data_fav
+ * @property string $dta_favorito
  * @property int $id_livro
  * @property int $id_utilizador
  */
@@ -28,8 +28,8 @@ class Favorito extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['data_fav', 'id_livro', 'id_utilizador'], 'required'],
-            [['data_fav'], 'safe'],
+            [['dta_favorito', 'id_livro', 'id_utilizador'], 'required'],
+            [['dta_favorito'], 'safe'],
             [['id_livro', 'id_utilizador'], 'integer'],
         ];
     }
@@ -41,7 +41,7 @@ class Favorito extends \yii\db\ActiveRecord
     {
         return [
             'id_favorito' => 'Id Favorito',
-            'data_fav' => 'Data Fav',
+            'dta_favorito' => 'Data Fav',
             'id_livro' => 'Id Livro',
             'id_utilizador' => 'Id Utilizador',
         ];

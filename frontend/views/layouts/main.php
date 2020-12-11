@@ -41,7 +41,7 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Catálogo', 'url' => ['/livros/catalogo']],
+        ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
         ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
         ['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
         ['label' => 'Histórico de Requisições', 'url' => ['/requisicao/index']],
@@ -61,6 +61,22 @@ AppAsset::register($this);
         $utilizador = Utilizador::find()->where(['id_utilizador' => $user])->one();
 
 
+        $carrinhoSession = Yii::$app->session->get('carrinho');
+
+        if(isset($carrinhoSession)){
+            foreach ($carrinhoSession as $livro){
+                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 20%']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
+            }
+            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>'../requisicao/finalizar'];
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' => $items];
+
+        } else {
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' =>
+                ['label' => '<h4>Carrinho vazio</h4>', 'url' => '']
+            ];
+        }
+
+
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
@@ -74,6 +90,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
+        'encodeLabels' => false,
     ]);
     NavBar::end();
     ?>
