@@ -96,10 +96,19 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+
+            $utilizador = Utilizador::find()->where(['id_utilizador' => $model->User->id])->one();
+
+            if($utilizador->bloqueado == null){
+                return $this->goBack();
+            }else{
+                $model->password = '';
+                Yii::$app->session->setFlash('error', 'A conta a que está a tentar aceder encontra-se bloqueada.');
+                return $this->render('login', ['model' => $model,]);
+            }
+
         } else {
             $model->password = '';
-
             return $this->render('login', ['model' => $model,]);
         }
     }
