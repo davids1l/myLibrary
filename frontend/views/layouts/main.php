@@ -42,7 +42,6 @@ AppAsset::register($this);
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
-        ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
         ['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
         ['label' => 'Histórico de Requisições', 'url' => ['/requisicao/index']],
     ];

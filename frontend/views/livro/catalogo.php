@@ -40,7 +40,7 @@ $this->title = "Catálogo de Livros";
             <h3>NOVOS LANÇAMENTOS</h3>
             <h4>VER MAIS</h4>
             <?php if($recentes != null) {?>
-                <?php for($i = 0; $i <= 4; $i++){ ?>
+                <?php for($i = 1; $i <= 4; $i++){ ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['detalhes', 'id' => $recentes[$i]->id_livro]) ?>">

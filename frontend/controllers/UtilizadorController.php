@@ -67,7 +67,8 @@ class UtilizadorController extends Controller
     {
         $modelUpload = new UploadForm();
         $model = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->one();
-        $userModel = User::find()->where(Yii::$app->user->identity->id)->one();
+        $userModel = User::find()->where(['id' =>Yii::$app->user->identity->id])->one();
+
 
         return $this->render('view', ['model' => $model, 'modelUpload' => $modelUpload, 'userModel' => $userModel]);
     }
@@ -128,7 +129,7 @@ class UtilizadorController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $user = User::find()->where($id)->one();
+        $user = User::find()->where(['id' => $id])->one();
 
 
         if ($model->load(Yii::$app->request->post())) {
