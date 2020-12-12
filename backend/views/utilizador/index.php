@@ -19,33 +19,31 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div>
-        <button type="button" class="btn-perfil" data-toggle="modal" data-target="#criarLeitorModal">Criar Utilizador</button>
+        <button type="button" class="btn-perfil" data-toggle="modal" data-target="#criarLeitorModal">Criar Leitor</button>
     </div>
     <br>
 
 
-    <table>
+    <table class="tableLeitores">
         <tr>
-            <th>id_utilizador</th>
-            <th>primeiro_nome</th>
-            <th>ultimo_nome</th>
-            <th>numero</th>
-            <th>email</th>
-            <th>bloqueado</th>
-            <th>dta_bloqueado</th>
-            <th>dta_nascimento</th>
-            <th>nif</th>
-            <th>num_telemovel</th>
-            <th>dta_registo</th>
-            <th>foto_perfil</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Nº Leitor</th>
+            <th>Email</th>
+            <th>Bloqueado</th>
+            <th>Data do bloqueio</th>
+            <th>Data de nascimento</th>
+            <th>NIF</th>
+            <th>Nº de telemóvel</th>
+            <th>Data de registo</th>
+            <th>Imagem</th>
         </tr>
 
         <?php
         foreach ($utilizadores as $utilizador) { ?>
             <tr>
                 <th><h4><?= Html::encode($utilizador->id_utilizador); ?></h4></th>
-                <th><h4><?= Html::encode($utilizador->primeiro_nome); ?></h4></th>
-                <th><h4><?= Html::encode($utilizador->ultimo_nome); ?></h4></th>
+                <th><h4><?= Html::encode($utilizador->primeiro_nome . " " . $utilizador->ultimo_nome); ?></h4></th>
                 <th><h4><?= Html::encode($utilizador->numero); ?></h4></th>
                 <th><h4><?= Html::encode($utilizador->user->email); ?></h4></th>
 

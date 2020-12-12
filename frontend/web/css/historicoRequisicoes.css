@@ -1,0 +1,15 @@
+table.tableHistRequisicoes, tr.tableHistRequisicoes, th.tableHistRequisicoes{
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+tr.tableHistRequisicoes{
+    font-size: 18px;
+}
+
+.tableHistRequisicoes {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}

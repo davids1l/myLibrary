@@ -154,18 +154,9 @@ class RequisicaoController extends Controller
      */
     public function actionIndex()
     {
-        $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->all();
-
+        $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
 
         return $this->render('index', ['requisicoes' => $requisicoes]);
-
-        //$searchModel = new RequisicaoSearch();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//
-        //return $this->render('index', [
-        //    'searchModel' => $searchModel,
-        //    'dataProvider' => $dataProvider,
-        //]);
     }
 
     /**

@@ -39,11 +39,9 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
         ['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
-        ['label' => 'Histórico de Requisições', 'url' => ['/requisicao/index']],
+        ['label' => 'Requisições', 'url' => ['/requisicao/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];
@@ -78,10 +76,7 @@ AppAsset::register($this);
 
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')',
-                ['class' => 'btn btn-link logout']
-            )
+            . Html::submitButton('Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')', ['class' => 'btn btn-link logout'])
             . Html::endForm()
             . '</li>';
     }

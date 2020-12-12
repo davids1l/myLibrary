@@ -69,14 +69,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4 style="float: right">Bloqueado:</h4>
                 </div>
                 <div class="col-sm-6">
-                    <h4><?= $model->bloqueado ?></h4>
+                    <?php
+                    if($model->bloqueado == null){ ?>
+                        <h4>&nbsp</h4>
+                    <?php }else{ ?>
+                        <h4>Bloqueado</h4>
+                    <?php } ?>
                 </div>
 
                 <div class="col-sm-6">
                     <h4 style="float: right">Data do Bloqueio:</h4>
                 </div>
                 <div class="col-sm-6">
-                    <h4><?= $model->dta_bloqueado ?></h4>
+                    <?php
+                    if($model->bloqueado == null){ ?>
+                        <h4>&nbsp</h4>
+                    <?php }else{ ?>
+                        <h4><?= $model->dta_bloqueado ?></h4>
+                    <?php } ?>
                 </div>
 
                 <div class="col-sm-6">
@@ -122,56 +132,5 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
-    </div>
-
-
-
-    <div>
-        <table>
-            <tr>
-                <th>Primeiro Nome</th>
-                <td><?= $model->primeiro_nome ?></td>
-            </tr>
-            <tr>
-                <th>Último Nome</th>
-                <td><?= $model->ultimo_nome ?></td>
-            </tr>
-            <tr>
-                <th>Número de Leitor</th>
-                <td><?= $model->numero ?></td>
-            </tr>
-            <tr>
-                <th>Bloqueado</th>
-                <td><?= $model->bloqueado ?></td>
-            </tr>
-            <tr>
-                <th>Data do Bloqueio</th>
-                <td><?= $model->dta_bloqueado ?></td>
-            </tr>
-            <tr>
-                <th>Data de Nascimento</th>
-                <td><?= $model->dta_nascimento ?></td>
-            </tr>
-            <tr>
-                <th>NIF</th>
-                <td><?= $model->nif ?></td>
-            </tr>
-            <tr>
-                <th>Nº de Telemóvel</th>
-                <td><?= $model->num_telemovel ?></td>
-            </tr>
-            <tr>
-                <th>Data do Registo</th>
-                <td><?= $model->dta_registo ?></td>
-            </tr>
-            <tr>
-                <th>Foto</th>
-                <td><?= $model->foto_perfil ?></td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td><?= $model->user->email ?></td>
-            </tr>
-        </table>
     </div>
 </div>

@@ -13,7 +13,8 @@ class ViewsAssets extends AssetBundle
     public $css = [
         'css/catalogo.css',
         'css/detalhes.css',
-        'css/perfil.css'
+        'css/perfil.css',
+        'css/historicoRequisicoes'
     ];
     public $js = [
     ];
