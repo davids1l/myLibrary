@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
 use app\Models\Editora;

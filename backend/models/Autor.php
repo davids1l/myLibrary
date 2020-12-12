@@ -31,7 +31,8 @@ class Autor extends \yii\db\ActiveRecord
     {
         return [
             [['nome_autor', 'id_pais'], 'required'],
-            [['nome_autor', 'id_pais'], 'integer'],
+            [['id_pais'], 'integer'],
+            [['nome_autor'], 'string'],
             [['id_pais'], 'exist', 'skipOnError' => true, 'targetClass' => Pais::className(), 'targetAttribute' => ['id_pais' => 'id_pais']],
         ];
     }

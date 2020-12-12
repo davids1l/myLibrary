@@ -63,5 +63,22 @@ $this->title = 'Painel';
             <br />
         </div>
 
+        <div class="row">
+            <div class="titlePanelDiv">
+                <h3 class="titlePanel">Diversos</h3>
+            </div>
+            <br />
+            <div class="col-md-2">
+                <button class="buttonPanel"><?= Html::a('Adicionar Pais', ['paises/create']) ?></button>
+            </div>
+            <div class="col-md-2">
+                <button class="buttonPanel"><?= Html::a('Adicionar Editora', ['editoras/create']) ?></button>
+            </div>
+            <div class="col-md-2">
+                <button class="buttonPanel"><?= Html::a('Adicionar Autor', ['autores/create']) ?></button>
+            </div>
+            <br />
+        </div>
+
     </div>
 </div>
