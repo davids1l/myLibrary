@@ -18,7 +18,7 @@ class UtilizadorSearch extends Utilizador
     {
         return [
             [['id_utilizador'], 'integer'],
-            [['primeiro_nome', 'ultimo_nome', 'dta_nacimento', 'nif', 'email', 'dta_registo', 'foto_perfil', 'password'], 'safe'],
+            [['primeiro_nome', 'ultimo_nome', 'dta_nascimento', 'nif', 'email', 'dta_registo', 'foto_perfil', 'password'], 'safe'],
         ];
     }
 
@@ -59,7 +59,7 @@ class UtilizadorSearch extends Utilizador
         // grid filtering conditions
         $query->andFilterWhere([
             'id_utilizador' => $this->id_utilizador,
-            'dta_nacimento' => $this->dta_nacimento,
+            'dta_nascimento' => $this->dta_nascimento,
             'dta_registo' => $this->dta_registo,
         ]);
 

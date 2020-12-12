@@ -37,9 +37,9 @@ class m201111_174512_backend extends Migration
             'dta_bloqueado' => $this->dateTime()->defaultValue(null),
             'dta_nascimento' => $this->date()->notNull(),
             'nif' => $this->string(9)->notNull(),
-            'num_telemovel' => $this->integer(9)->notNull(),
+            'num_telemovel' => $this->string(9)->notNull(),
             'dta_registo' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-            'foto_perfil' => $this->string(400)->defaultValue('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
+            'foto_perfil' => $this->string(400),
             'id_biblioteca' => $this->integer()->defaultValue(null)->unsigned(),
         ], $tableOptions);
 
@@ -76,6 +76,7 @@ class m201111_174512_backend extends Migration
             'CASCADE',
             'CASCADE'
         );
+
 
         // Tabela pais
         $this->createTable('pais', [
@@ -349,14 +350,14 @@ class m201111_174512_backend extends Migration
             'dta_levantamento' => $this->dateTime()->notNull(),
             'dta_entrega' => $this->dateTime()->notNull(),
             'estado' => $this->string(30)->notNull(),
-            'id_livro' => $this->integer()->notNull()->unsigned(),
+            //'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull(),
             'id_bib_levantamento' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 
         // Chaves estrangeiras
 
-        $this->createIndex(
+        /*$this->createIndex(
             'idx-requisicao-id_livro',
             'requisicao',
             'id_livro'
@@ -370,7 +371,7 @@ class m201111_174512_backend extends Migration
             'id_livro',
             'CASCADE',
             'CASCADE'
-        );
+        );*/
 
         $this->createIndex(
             'idx-requisicao-id_utilizador',

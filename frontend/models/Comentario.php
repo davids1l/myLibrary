@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Carbon\Carbon;
+use SebastianBergmann\CodeCoverage\Util;
 use Yii;
 
 /**
@@ -37,6 +38,15 @@ class Comentario extends \yii\db\ActiveRecord
         ];
     }
 
+    //função para fazer o get dos dados o utilizador para mostrar no comentário
+    public function getUtilizador(){
+        return $this->hasOne(Utilizador::className(), ['id_utilizador' => 'id_utilizador']);
+    }
+
+    public function getLivro(){
+        return $this->hasOne(Livro::className(), ['id_livro' => 'id_livro']);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -51,12 +61,14 @@ class Comentario extends \yii\db\ActiveRecord
         ];
     }
 
+
+    //função para criar um novo comentário -> *não utilizada*
     public function comentar($id_livro, $comment)
     {
         $comentario = new Comentario();
 
         $comentario->dta_comentario = Carbon::now();
-        $comentario->comentario = $comment; //receber o comentario pelo post
+        $comentario->comentario = $comment;
         $comentario->id_livro = $id_livro;
         $comentario->id_utilizador = 1;
 

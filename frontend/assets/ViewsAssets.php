@@ -12,7 +12,9 @@ class ViewsAssets extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/catalogo.css',
-        'css/detalhes.css'
+        'css/detalhes.css',
+        'css/perfil.css',
+        'css/historicoRequisicoes'
     ];
     public $js = [
     ];

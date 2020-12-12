@@ -39,12 +39,9 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Catálogo', 'url' => ['/livros/catalogo']],
-        ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']],
+        ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
         ['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
-        ['label' => 'Histórico de Requisições', 'url' => ['/site/historico_requisicoes']],
+        ['label' => 'Requisições', 'url' => ['/requisicao/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];
@@ -61,12 +58,25 @@ AppAsset::register($this);
         $utilizador = Utilizador::find()->where(['id_utilizador' => $user])->one();
 
 
+        $carrinhoSession = Yii::$app->session->get('carrinho');
+
+        if(isset($carrinhoSession)){
+            foreach ($carrinhoSession as $livro){
+                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 20%']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
+            }
+            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>'../requisicao/finalizar'];
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' => $items];
+
+        } else {
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' =>
+                ['label' => '<h4>Carrinho vazio</h4>', 'url' => '']
+            ];
+        }
+
+
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')',
-                ['class' => 'btn btn-link logout']
-            )
+            . Html::submitButton('Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')', ['class' => 'btn btn-link logout'])
             . Html::endForm()
             . '</li>';
     }
@@ -74,6 +84,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
+        'encodeLabels' => false,
     ]);
     NavBar::end();
     ?>

@@ -28,3 +28,20 @@ body {
 .gridLivros {
     margin-top: 20px;
 }
+
+
+.tableLeitores th, table {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+
+.tableLeitores tr{
+    font-size: 18px;
+}
+
+.tableLeitores {
+    margin-top: 30px;
+}
+
+

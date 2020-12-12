@@ -1,0 +1,31 @@
+.btn-perfil {
+    width: 200px;
+    height: 50px;
+    border-radius: 60px;
+    border: 2px solid #226fbe;
+    background: #226fbe;
+    color: #fff;
+    display: inline-block;
+    font-family: Arial;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.btn-perfil:hover{
+    background: transparent;
+    color: #226fbe;
+}
+
+.imagemPerfil{
+    border-radius: 50%;
+}
+
+.perfil-dados{
+    padding-left: 0; !important;
+}
+
+.perfil{
+    padding-top: 40px;
+}

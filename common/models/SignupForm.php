@@ -1,7 +1,8 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
+use app\models\Utilizador;
 use Carbon\Carbon;
 use Yii;
 use yii\base\Model;
@@ -73,7 +74,7 @@ class SignupForm extends Model
         }
 
         $user = new User();
-        $utilizador = new Utilizador();
+        $utilizador = new \frontend\models\Utilizador();
 
         $user->username = strtolower($this->primeiro_nome) . strtolower($this->ultimo_nome);
         $user->email = $this->email;
@@ -86,10 +87,12 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+        $user->status = 10;
 
         $utilizador->primeiro_nome = $this->primeiro_nome;
         $utilizador->ultimo_nome = $this->ultimo_nome;
         $utilizador->dta_nascimento = $this->dta_nascimento;
+        $utilizador->foto_perfil = $utilizador->atribuirImg();
 
 
         if($utilizador->validarDataNascimento() == false){

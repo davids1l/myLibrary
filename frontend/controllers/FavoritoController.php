@@ -60,6 +60,20 @@ class FavoritoController extends Controller
     }
 
     /**
+     * Verifica se o utilizador já tem o livro adiconado aos favoritos
+     */
+    public function checkFavorito($id)
+    {
+        //search na BD que verifique dados iguais
+        $alreadyFav = Favorito::find()
+            ->where(['id_livro' => $id, 'id_utilizador' => Yii::$app->user->id])
+            ->all();
+
+        return $alreadyFav;
+    }
+
+
+    /**
      * Creates a new Favorito model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -68,27 +82,25 @@ class FavoritoController extends Controller
     {
         $model = new Favorito();
 
-        //search na BD por record que verifique dados iguais
-        $alreadyFav = Favorito::find()
-            ->where(['id_livro' => $id, 'id_utilizador' => 1]) //TODO:alterar id_utilizador para o id do user logado
-            ->all();
+        //função que valida se já existe um favorito com o mesmo id_user e id_livro
+        $alreadyFav = $this->checkFavorito($id);
 
-
-        //validar se já existe um record com o mesmo id_user e id_livro
+        //verifica se
         if($alreadyFav == null)
         {
             //if($model->load(Yii::$app->request->post()) && $model->validate())
-            $model->data_fav = Carbon::now();
+            $model->dta_favorito = Carbon::now();
             $model->id_livro = $id;
-            $model->id_utilizador = 1; //TODO:: ALTERAR PELO ID DO USER LOGADO!!
+            $model->id_utilizador = Yii::$app->user->id;
 
             $model->save();
+            Yii::$app->session->setFlash('success', 'Livro adicionado aos seus favoritos!');
         }
 
-        return $this->redirect(['livros/detalhes', 'id' => $id]);
+        return $this->redirect(['livro/detalhes', 'id' => $id]);
 
 
-        //actionCreate favorito gerado pelo gii CRUD
+        //actionCreate gerado pelo gii CRUD
         /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_favorito]);
         }

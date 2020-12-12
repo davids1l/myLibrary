@@ -32,6 +32,9 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    public $nova_password;
+    public $conf_password;
+
 
     /**
      * {@inheritdoc}
@@ -59,6 +62,15 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+
+            ['email', 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este email já se encontra em utilização.'],
+
+            //[['password_hash', 'nova_password', 'conf_password'], 'required'],
+            [['password_hash', 'nova_password', 'conf_password'], 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
         ];
     }
 
@@ -67,6 +79,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $idLeitor = User::find()->where(['email' => $email]);
         $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE, 'id' => $subQuery]);
+    }
+
+
+    public static function findBackendByEmail($email)
+    {
+        $id = User::find()->where(['email' => $email]);
+        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => ['admin', 'bibliotecario']]);
 
         return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE, 'id' => $subQuery]);
     }
@@ -146,6 +167,16 @@ class User extends ActiveRecord implements IdentityInterface
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
+
+    /**
+     * TODO: get dos dados do utilizador através do id do user
+     */
+    public function getUtilizador()
+    {
+
+    }
+
+
 
     /**
      * {@inheritdoc}
