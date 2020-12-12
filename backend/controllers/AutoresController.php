@@ -1,20 +1,18 @@
 <?php
 
-namespace backend\controllers;
+namespace app\controllers;
 
 use Yii;
-use app\Models\Biblioteca;
-use app\Models\Livro;
-use app\models\BibliotecaSearch;
-use yii\data\ActiveDataProvider;
+use app\Models\Autor;
+use app\models\AutorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BibliotecasController implements the CRUD actions for Biblioteca model.
+ * AutoresController implements the CRUD actions for Autor model.
  */
-class BibliotecasController extends Controller
+class AutoresController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,25 +30,22 @@ class BibliotecasController extends Controller
     }
 
     /**
-     * Lists all Biblioteca models.
+     * Lists all Autor models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $bibliotecas = Biblioteca::find()
-            ->orderBy(['id_biblioteca' => SORT_ASC])
-            ->all();
-
-        $biblioteca = new Biblioteca();
+        $searchModel = new AutorSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'bibliotecas' => $bibliotecas,
-            'searchModel' => $biblioteca,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Biblioteca model.
+     * Displays a single Autor model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -62,34 +57,17 @@ class BibliotecasController extends Controller
         ]);
     }
 
-    public function actionCatalogo($id)
-    {
-        $livros = Livro::find()
-            ->where(['id_biblioteca' => $id])
-            ->orderBy(['titulo' => SORT_ASC])
-            ->all();
-
-        $livro = new Livro();
-
-        return $this->render('catalogo', [
-            'model' => $this->findModel($id),
-            'livros' => $livros,
-            'searchModel' => $livro
-        ]);
-    }
-
-
     /**
-     * Creates a new Biblioteca model.
+     * Creates a new Autor model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Biblioteca();
+        $model = new Autor();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+            return $this->redirect(['view', 'id' => $model->id_autor]);
         }
 
         return $this->render('create', [
@@ -98,7 +76,7 @@ class BibliotecasController extends Controller
     }
 
     /**
-     * Updates an existing Biblioteca model.
+     * Updates an existing Autor model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -109,7 +87,7 @@ class BibliotecasController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+            return $this->redirect(['view', 'id' => $model->id_autor]);
         }
 
         return $this->render('update', [
@@ -118,7 +96,7 @@ class BibliotecasController extends Controller
     }
 
     /**
-     * Deletes an existing Biblioteca model.
+     * Deletes an existing Autor model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -132,15 +110,15 @@ class BibliotecasController extends Controller
     }
 
     /**
-     * Finds the Biblioteca model based on its primary key value.
+     * Finds the Autor model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Biblioteca the loaded model
+     * @return Autor the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Biblioteca::findOne($id)) !== null) {
+        if (($model = Autor::findOne($id)) !== null) {
             return $model;
         }
 

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BibliotecaSearch */
@@ -14,13 +15,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Biblioteca', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <button class="buttonPanel"><?= Html::a('Adicionar biblioteca', ['bibliotecas/create']); ?></button>
+    <br/>
+    <?php if($bibliotecas != null) { ?>
+        <?php foreach ($bibliotecas as $biblioteca) { ?>
+            <div class="col-xs-12 col-md-4">
+                <h4><?= Html::encode($biblioteca->nome)?> (ID: <?= Html::encode($biblioteca->id_biblioteca)?>)</h4>
+                <h6>Código postal: <?= Html::encode($biblioteca->cod_postal)?></h6>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                <?= Html::a('View', ['bibliotecas/view', 'id' => $biblioteca->id_biblioteca])?>
+                <?= Html::a('Update', ['update', 'id' => $biblioteca->id_biblioteca], [
+                    'style' => 'color: green'
+                ]) ?>
+                <?= Html::a('Delete', ['delete', 'id' => $biblioteca->id_biblioteca], [
+                    'style' => 'color: red',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to delete this item?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
+                <?= Html::a('Catálogo', ['bibliotecas/catalogo', 'id' => $biblioteca->id_biblioteca])?>
+            </div>
+        <?php }
+    } else { ?>
+        <br/>
+        <p>Parece que não foram encontradas bibliotecas no sistema.</p>
+    <?php } ?>
 
-    <?= GridView::widget([
+    <?php /* GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -32,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]); */ ?>
 
 
 </div>

@@ -16,9 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_livro], ['class' => '']) ?>
+        <?= Html::a('Update', ['update', 'id' => $model->id_livro], [
+            'class' => '',
+            'style' => 'color: green',
+        ]) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id_livro], [
             'class' => '',
+            'style' => 'color: red',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
@@ -33,13 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <br />
         <div class="col-md-10">
             <p>Título: <?= Html::label($model->titulo) ?></p>
+            <p>Autor: <?= Html::label($model->autor->nome_autor) ?></p>
+            <p>Editora: <?= Html::label($model->editora->designacao) ?></p>
             <p>ISBN: <?= Html::label($model->isbn) ?></p>
             <p>Ano: <?= Html::label($model->ano) ?></p>
             <p>Páginas: <?= Html::label($model->paginas) ?></p>
             <p>Género: <?= Html::label($model->genero) ?></p>
             <p>Idioma: <?= Html::label($model->idioma) ?></p>
             <p>Formato: <?= Html::label($model->formato) ?></p>
-            <p>Sinopse: <b><?= $model->sinopse ?></b></p>
+            <p>Biblioteca: <?= Html::label($model->biblioteca->nome) ?></p>
+            <p>Sinopse: </p>
+            <div class="divSinopseDetalhes">
+                <p class="sinopseDetalhes"><b><?= $model->sinopse ?></b></p>
+            </div>
         </div>
     </div>
 

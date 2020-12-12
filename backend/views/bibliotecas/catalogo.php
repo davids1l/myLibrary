@@ -1,34 +1,21 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
+use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\LivroSearch */
+/* @var $searchModel app\models\BibliotecaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Livros';
+$this->title = 'Catálogo';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="livro-index">
-        <h1><?= Html::encode($this->title)?></h1>
-    <hr>
-
-
-    <?php $form = ActiveForm::begin([
-        'id' => 'pesquisa-form',
-        'options' => ['class' => 'form-horizontal'],
-        'action' => ['livros/index']
-    ]) ?>
-
-    <?= $form->field($searchModel, 'titulo'); ?>
-    <?= Html::submitButton('Pesquisar', ['className' => 'pesquisa', 'class' => 'buttonPanel']); ?>
-    <button class="buttonPanel"><?= Html::a('Adicionar Livros', ['livros/create']); ?></button>
-    <button class="buttonPanel"><?= Html::a('Mostrar todos', ['livros/index']); ?></button>
-    <?php ActiveForm::end() ?>
+<div class="biblioteca-index">
+    <h1>Catálogo - <?= Html::encode($model->nome)?></h1>
+    <?= Html::a('Voltar atrás', ['bibliotecas/index'])?>
+    <hr/>
 
     <?php if($livros != null) { ?>
         <?php foreach ($livros as $livro) { ?>
@@ -45,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h6>Formato: <?= Html::encode($livro->formato)?></h6>
                 </div>
                 <?= Html::a('View', ['livros/view', 'id' => $livro->id_livro])?>
-                <?= Html::a('Update', ['update', 'id' => $livro->id_livro], [
+                <?= Html::a('Update', ['livros/update', 'id' => $livro->id_livro], [
                     'style' => 'color: green'
                 ]) ?>
                 <?= Html::a('Delete', ['delete', 'id' => $livro->id_livro], [
@@ -61,10 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <br/>
         <p>Parece que não foram encontrados livros.</p>
     <?php } ?>
-
-    <?php /* $this->render('_search', [
-        'model' => $model,
-    ]) */?>
 
 
 </div>

@@ -124,6 +124,21 @@ class LivrosController extends Controller
            fazer uma pesquisa pelo id do livro e ir buscar a biblioteca, editora e autor do livro como está feito no create.
         */
 
+        $editoras = Editora::find()
+            ->orderBy(['id_editora' => SORT_ASC])
+            ->all();
+        $listEditoras = ArrayHelper::map($editoras,'id_editora','designacao');
+
+        $autores = Autor::find()
+            ->orderBy(['id_autor' => SORT_ASC])
+            ->all();
+        $listAutores = ArrayHelper::map($autores,'id_autor','nome_autor');
+
+        $bibliotecas = Biblioteca::find()
+            ->orderBy(['id_biblioteca' => SORT_ASC])
+            ->all();
+        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_livro]);
@@ -131,6 +146,9 @@ class LivrosController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'editoras' => $listEditoras,
+            'autores' => $listAutores,
+            'bibliotecas' => $listBibliotecas
         ]);
     }
 

@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = 'Update';
             <?= $form->field($model, 'idioma')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'formato')->textInput(['maxlength' => true]) ?>
 
-            <?php //$form->field($model, 'id_editora')->dropDownList($editoras) ?>
-            <?php //$form->field($model, 'id_biblioteca')->dropDownList($bibliotecas) ?>
-            <?php //$form->field($model, 'id_autor')->dropDownList($autores) ?>
+            <?= $form->field($model, 'id_editora')->dropDownList($editoras) ?>
+            <?= $form->field($model, 'id_biblioteca')->dropDownList($bibliotecas) ?>
+            <?= $form->field($model, 'id_autor')->dropDownList($autores) ?>
 
             <div class="form-group center">
                 <?= Html::submitButton('Save', ['class' => '']) ?>

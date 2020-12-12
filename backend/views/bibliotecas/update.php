@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\Models\Biblioteca */
@@ -14,8 +15,23 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <div class="row">
+
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <?php $form = ActiveForm::begin(); ?>
+            <?= $form->field($model, 'id_biblioteca')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'cod_postal')->textInput() ?>
+
+            <div class="form-group center">
+                <?= Html::submitButton('Save', ['class' => '']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
 
 </div>

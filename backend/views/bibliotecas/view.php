@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\Models\Biblioteca */
 
-$this->title = $model->id_biblioteca;
+$this->title = $model->nome;
 $this->params['breadcrumbs'][] = ['label' => 'Bibliotecas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -16,9 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_biblioteca], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Update', ['update', 'id' => $model->id_biblioteca], [
+            'class' => '',
+            'style' => 'color: green'
+        ]) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id_biblioteca], [
-            'class' => 'btn btn-danger',
+            'class' => '',
+            'style' => 'color: red',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
@@ -26,13 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id_biblioteca',
-            'nome',
-            'cod_postal',
-        ],
-    ]) ?>
+    <div class="row">
+        <div class="col-md-10">
+            <br/>
+            <p>ID: <?= Html::label($model->id_biblioteca) ?></p>
+            <p>Nome: <?= Html::label($model->nome) ?></p>
+            <p>Código Postal <?= Html::label($model->cod_postal) ?></p>
+        </div>
+    </div>
 
 </div>
