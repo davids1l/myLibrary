@@ -3,21 +3,17 @@
 namespace app\controllers;
 namespace backend\controllers;
 
-use Carbon\Carbon;
-use common\models\SignupForm;
-use common\models\User;
 use Yii;
 use app\models\Utilizador;
 use app\models\UtilizadorSearch;
-use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UtilizadorController implements the CRUD actions for Utilizador model.
+ * BibliotecarioController implements the CRUD actions for Utilizador model.
  */
-class UtilizadorController extends Controller
+class BibliotecarioController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -34,40 +30,19 @@ class UtilizadorController extends Controller
         ];
     }
 
-
-    public function actionBloquear($id){
-
-        $utilizador = $this->findModel($id);
-
-
-        if($utilizador->bloqueado == 1){
-            $utilizador->bloqueado = null;
-            $utilizador->dta_bloqueado = null;
-            $utilizador->save();
-        }else{
-            $utilizador->bloqueado = 1;
-            $utilizador->dta_bloqueado = Carbon::now();
-            $utilizador->save();
-        }
-
-        return $this->actionView($id);
-    }
-
     /**
      * Lists all Utilizador models.
-     * @param null $model
      * @return mixed
      */
-    public function actionIndex($model = null)
+    public function actionIndex()
     {
-        if($model == null){
-            $model = new SignupForm();
-        }
+        $searchModel = new UtilizadorSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
-        $utilizadores = Utilizador::find()->where(['id_utilizador' => $subQueryRole])->orderBy(['id_utilizador' => SORT_ASC])->all();
-
-        return $this->render('index', ['utilizadores' => $utilizadores, 'model' => $model]);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -78,7 +53,9 @@ class UtilizadorController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', ['model' => $this->findModel($id),]);
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
     }
 
     /**
@@ -88,15 +65,15 @@ class UtilizadorController extends Controller
      */
     public function actionCreate()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Leitor inserido com sucesso.');
-            return $this->actionIndex();
+        $model = new Utilizador();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_utilizador]);
         }
 
-        $model->password = '';
-        $model->confirmarPassword = '';
-        return $this->actionIndex($model);
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -128,8 +105,7 @@ class UtilizadorController extends Controller
      */
     public function actionDelete($id)
     {
-        $user = User::find()->where(['id' => $id])->one();
-        $user->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

@@ -35,10 +35,12 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'Gerir Livros', 'url' => ['/livros/index']],
         ['label' => 'Gerir Leitores', 'url' => ['/utilizador/index']],
+        ['label' => 'Gerir Bibliotecários', 'url' => ['/bibliotecario/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
