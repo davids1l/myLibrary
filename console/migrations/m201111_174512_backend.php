@@ -350,7 +350,6 @@ class m201111_174512_backend extends Migration
             'dta_levantamento' => $this->dateTime()->notNull(),
             'dta_entrega' => $this->dateTime()->notNull(),
             'estado' => $this->string(30)->notNull(),
-            //'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull(),
             'id_bib_levantamento' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
