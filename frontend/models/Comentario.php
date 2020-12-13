@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Carbon\Carbon;
+use common\models\User;
 use SebastianBergmann\CodeCoverage\Util;
 use Yii;
 
@@ -40,7 +41,7 @@ class Comentario extends \yii\db\ActiveRecord
 
     //função para fazer o get dos dados o utilizador para mostrar no comentário
     public function getUtilizador(){
-        return $this->hasOne(Utilizador::className(), ['id_utilizador' => 'id_utilizador']);
+        return $this->hasOne(\frontend\models\Utilizador::className(), ['id_utilizador' => 'id_utilizador']);
     }
 
     public function getLivro(){

@@ -37,7 +37,7 @@ class m201111_174512_backend extends Migration
             'dta_bloqueado' => $this->dateTime()->defaultValue(null),
             'dta_nascimento' => $this->date()->notNull(),
             'nif' => $this->string(9)->notNull(),
-            'num_telemovel' => $this->integer(9)->notNull(),
+            'num_telemovel' => $this->string(9)->notNull(),
             'dta_registo' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'foto_perfil' => $this->string(400)->defaultValue('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
             'id_biblioteca' => $this->integer()->defaultValue(null)->unsigned(),
@@ -347,8 +347,8 @@ class m201111_174512_backend extends Migration
 
         $this->createTable('requisicao', [
             'id_requisicao' => $this->primaryKey()->notNull()->unsigned(),
-            'dta_levantamento' => $this->dateTime()->notNull(),
-            'dta_entrega' => $this->dateTime()->notNull(),
+            'dta_levantamento' => $this->dateTime(),
+            'dta_entrega' => $this->dateTime(),
             'estado' => $this->string(30)->notNull(),
             'id_utilizador' => $this->integer()->notNull(),
             'id_bib_levantamento' => $this->integer()->notNull()->unsigned(),

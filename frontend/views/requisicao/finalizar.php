@@ -19,7 +19,6 @@ $this->title = 'Finalizar requisição';
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-
     <div class="livrosCarrinho">
         <?php
         $carrinhoSession = Yii::$app->session->get('carrinho');
@@ -41,53 +40,35 @@ $this->title = 'Finalizar requisição';
                         </div>
                     </div>
                     <div class="actions-livros-carrinho col-xs-4 col-lg-6">
-                        <?= Html::a(null, ['remover', 'id_livro' => $livro->id_livro], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro?'],
+                        <?= Html::a(null, ['carrinho/remover', 'id_livro' => $livro->id_livro], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro?'],
                             'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer']) ?>
                     </div>
                 </div>
-            <?php } ?>
-            <p>
-                <!-- <?= Html::a('Finalizar', ['create'], ['class' => 'btn btn-success']) ?> -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#criarRequisicaoModal">Finalizar requisição</button>
-            </p>
-
-        <?php } else { ?>
+            <?php }
+        } else { ?>
             <h3>Carrinho vazio.</h3>
         <?php } ?>
     </div>
-</div>
 
-<!-- Modal para criar leitor -->
-<div class="modal fade" id="criarRequisicaoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h2 class="modal-title" id="exampleModalLabel">Dados requisição</h2>
+    <div class="detalhesRequisicao">
+        <?php $form = ActiveForm::begin(['action' => ['requisicao/create']]) ?>
+        <div class="">
+            <div class="col-xs-12">
+                <?php
+                $arrayData[] = [];
+                foreach ($bibliotecas as $biblioteca) {
+                    array_push($arrayData, $biblioteca->nome);
+                }
+                ?>
+                <hr>
+                <?= $form->field($model, 'id_bib_levantamento')->label('Bib. de levantamento')->dropDownList($arrayData) ?>
             </div>
-            <?php $form = ActiveForm::begin([
-                'action' => ['requisicao/create']]) ?>
-            <div class="" style="background-color: white">
-                <div class="col-lg-12">
-                    <?= $form->field($model, 'dta_levantamento')->label('Data de levantamento')->input('date') ?>
-                    <!-- <?= $form->field($model, 'dta_entrega')->label('Data de entrega')->input('date') ?> -->
-
-                    <?php
-                    $array = [];
-                    foreach ($bibliotecas as $biblioteca) {
-                        array_push($array, $biblioteca->nome);
-                    }?>
-
-                    <?= $form->field($model, 'id_bib_levantamento')->label('Bib. de levantamento')->dropDownList($array) ?>
-
-                </div>
+            <div class="col-xs-12">
+                <?= Html::submitButton('Finalizar', ['class' => 'btn btn-success']) ?>
             </div>
-            <div class="modal-footer">
-                <?= Html::submitButton('Finalizar', ['class' => 'btn-perfil']) ?>
-            </div>
-            <?php ActiveForm::end() ?>
         </div>
+
+        <?php ActiveForm::end() ?>
     </div>
+
 </div>

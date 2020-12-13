@@ -31,7 +31,6 @@ $this->title = 'Histórico de Requisicões';
                 <th>dta_levantamento</th>
                 <th>dta_entrega</th>
                 <th>estado</th>
-                <th>id_livro</th>
             </tr>
             <?php
             foreach ($requisicoes as $requisicao) { ?>
@@ -40,7 +39,6 @@ $this->title = 'Histórico de Requisicões';
                     <th><h4><?= Carbon::parse(Html::encode($requisicao->dta_levantamento))->format('d/m/Y H:i:s'); ?></h4></th>
                     <th><h4><?= Carbon::parse(Html::encode($requisicao->dta_entrega))->format('d/m/Y H:i:s'); ?></h4></th>
                     <th><h4><?= Html::encode($requisicao->estado); ?></h4></th>
-                    <th><h4><?= Html::encode($requisicao->id_livro); ?></h4></th>
                     <th><?= Html::a('Ver Requisição', ['requisicao/view', 'id' => $requisicao->id_requisicao]) ?></th>
                 </tr>
             <?php } ?>

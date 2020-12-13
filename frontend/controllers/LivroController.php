@@ -48,15 +48,15 @@ class LivroController extends Controller
 
 
     /**
-     * search na BD do últimos 10 livros inseridos
+     * search na BD do últimos 6 livros inseridos
      */
     public function livrosRecentesFilter() {
 
         $livrosRecentes = Livro::find()
-            ->orderBy(['id_livro' => SORT_DESC])
-            ->limit(6)
+            ->orderBy(['id_livro' => SORT_DESC]) //TODO:alterar para orderBy(['edicao' => SORT_DESC])
             ->all();
 
+        array_splice($livrosRecentes, 6);
 
         return $livrosRecentes;
 

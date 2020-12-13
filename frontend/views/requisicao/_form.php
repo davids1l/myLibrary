@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'estado')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_livro')->textInput() ?>
+
 
     <?= $form->field($model, 'id_utilizador')->textInput() ?>
 
