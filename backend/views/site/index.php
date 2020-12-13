@@ -10,75 +10,118 @@ $this->title = 'Painel';
     <div class="body-content">
 
         <div class="row">
-            <div class="titlePanelDiv">
-                <h3 class="titlePanel">Livros</h3>
+            <div class="col">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Livros</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                               <?= Html::a('Consultar Livros', ['livros/index'], [
+                                        'class' => 'btn btn-primary'
+                                    ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('Adicionar Livros', ['livros/create'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br />
-            <div class="col-md-2">
-                    <button class="buttonPanel"><?= Html::a('Consultar Livros', ['livros/index']) ?></button>
-            </div>
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Adicionar Livros', ['livros/create']) ?></button>
-            </div>
-            <br />
         </div>
 
         <div class="row">
-            <div class="titlePanelDiv">
-                <h3 class="titlePanel">Biblioteca</h3>
+            <div class="col">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Biblioteca</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <?= Html::a('Consultar Bibliotecas', ['bibliotecas/index'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('Adicionar Biblioteca', ['bibliotecas/create'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br />
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Consultar Bibliotecas', ['bibliotecas/index']) ?></button>
-            </div>
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Adicionar Biblioteca', ['bibliotecas/create']) ?></button>
-            </div>
-            <br />
         </div>
 
         <div class="row">
-            <div class="titlePanelDiv">
-                <h3 class="titlePanel">Utilizadores</h3>
+            <div class="col">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Utilizadores</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <?= Html::a('Gerir Utilizadores', ['site/index'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br />
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Gerir Utilizadores', ['livros/index']) ?></button>
-            </div>
-            <br />
         </div>
 
         <div class="row">
-            <div class="titlePanelDiv">
-                <h3 class="titlePanel">Requisições</h3>
+            <div class="col">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Requisições</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <?= Html::a('Consultar Requisições', ['site/index'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('Adicionar Requisição', ['site/index'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br />
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Consultar Requisições', ['site/index']) ?></button>
-            </div>
-            <br />
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Adicionar Requisição', ['site/index']) ?></button>
-            </div>
-            <br />
         </div>
 
         <div class="row">
-            <div class="titlePanelDiv">
-                <h3 class="titlePanel">Diversos</h3>
+            <div class="col">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Diversos</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <?= Html::a('Adicionar Editora', ['editoras/create'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('Adicionar Autor', ['autores/create'], [
+                                    'class' => 'btn btn-primary'
+                                ]) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br />
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Adicionar Pais', ['paises/create']) ?></button>
-            </div>
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Adicionar Editora', ['editoras/create']) ?></button>
-            </div>
-            <div class="col-md-2">
-                <button class="buttonPanel"><?= Html::a('Adicionar Autor', ['autores/create']) ?></button>
-            </div>
-            <br />
         </div>
-
     </div>
 </div>

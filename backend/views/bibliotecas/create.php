@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\Models\Biblioteca */
 
-$this->title = 'Create Biblioteca';
+$this->title = 'Adicionar Biblioteca';
 $this->params['breadcrumbs'][] = ['label' => 'Bibliotecas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -14,15 +14,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="row">
+    <div class="row rowStyling">
         <?php $form = ActiveForm::begin(); ?>
         <div class="col-md-2"></div>
         <div class="col-md-6">
             <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'cod_postal')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'cod_postal')->textInput(['maxlength' => true])->label('Código Postal') ?>
             <br/>
             <div class="form-group center">
-                <?= Html::submitButton('Save', ['class' => '']) ?>
+                <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
         <div class="col-md-2"></div>

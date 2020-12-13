@@ -3,9 +3,11 @@
 namespace app\controllers;
 namespace backend\controllers;
 
+use app\models\Pais;
 use Yii;
 use app\Models\Autor;
 use app\models\AutorSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -67,12 +69,19 @@ class AutoresController extends Controller
     {
         $model = new Autor();
 
+        $paises = Pais::find()
+            ->orderBy(['id_pais' => SORT_ASC])
+            ->all();
+        $listPaises = ArrayHelper::map($paises,'id_pais','designacao');
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_autor]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'paises' => $listPaises,
         ]);
     }
 

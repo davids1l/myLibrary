@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 /* @var $searchModel app\models\BibliotecaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Catálogo';
+$this->title = 'Catálogo - ' . $model->nome;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="biblioteca-index">
@@ -31,17 +31,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
                     <h6>Formato: <?= Html::encode($livro->formato)?></h6>
                 </div>
-                <?= Html::a('View', ['livros/view', 'id' => $livro->id_livro])?>
-                <?= Html::a('Update', ['livros/update', 'id' => $livro->id_livro], [
-                    'style' => 'color: green'
+
+                <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> Detalhes', ['livros/view', 'id' => $livro->id_livro], [
+                    'class' => 'btn btn-primary book-buttons'
+                ])?>
+                <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> Atualizar', ['livros/update', 'id' => $livro->id_livro], [
+                    'class' => 'btn btn-success book-buttons'
                 ]) ?>
-                <?= Html::a('Delete', ['delete', 'id' => $livro->id_livro], [
-                    'style' => 'color: red',
+                <?= Html::a('<span class="glyphicon glyphicon-trash"></span> Eliminar', ['delete', 'id' => $livro->id_livro], [
+                    'class' => 'btn btn-danger book-buttons',
                     'data' => [
                         'confirm' => 'Are you sure you want to delete this item?',
                         'method' => 'post',
                     ],
                 ]) ?>
+
             </div>
         <?php }
     } else { ?>

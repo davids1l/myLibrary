@@ -24,12 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'action' => ['livros/index']
     ]) ?>
 
-    <?= $form->field($searchModel, 'titulo'); ?>
-    <?= Html::submitButton('Pesquisar', ['className' => 'pesquisa', 'class' => 'buttonPanel']); ?>
-    <button class="buttonPanel"><?= Html::a('Adicionar Livros', ['livros/create']); ?></button>
-    <button class="buttonPanel"><?= Html::a('Mostrar todos', ['livros/index']); ?></button>
-    <?php ActiveForm::end() ?>
+    <?= $form->field($searchModel, 'titulo')->label('Indique o título a pesquisar: '); ?>
+    <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Pesquisar', ['className' => 'pesquisa', 'class' => 'btn btn-primary']); ?>
 
+    <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Livros', ['livros/create'], [
+        'class' => 'btn btn-primary'
+    ]); ?>
+    <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar todos', ['livros/index'], [
+        'class' => 'btn btn-primary'
+    ]); ?>
+    <?php ActiveForm::end() ?>
+    <br/>
     <?php if($livros != null) { ?>
         <?php foreach ($livros as $livro) { ?>
             <div class="col-xs-12 col-md-2 catalogo-grid gridLivros">
@@ -44,12 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
                     <h6>Formato: <?= Html::encode($livro->formato)?></h6>
                 </div>
-                <?= Html::a('View', ['livros/view', 'id' => $livro->id_livro])?>
-                <?= Html::a('Update', ['update', 'id' => $livro->id_livro], [
-                    'style' => 'color: green'
+                <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> Detalhes', ['livros/view', 'id' => $livro->id_livro], [
+                    'class' => 'btn btn-primary book-buttons'
+                ])?>
+                <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> Atualizar', ['update', 'id' => $livro->id_livro], [
+                    'class' => 'btn btn-success book-buttons'
                 ]) ?>
-                <?= Html::a('Delete', ['delete', 'id' => $livro->id_livro], [
-                    'style' => 'color: red',
+                <?= Html::a('<span class="glyphicon glyphicon-trash"></span> Eliminar', ['delete', 'id' => $livro->id_livro], [
+                    'class' => 'btn btn-danger book-buttons',
                     'data' => [
                         'confirm' => 'Are you sure you want to delete this item?',
                         'method' => 'post',
