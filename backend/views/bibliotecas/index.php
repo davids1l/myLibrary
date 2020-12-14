@@ -44,13 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ])?>
 
             </div>
-        <?php }
-    } else { ?>
+        <?php } ?>
+    </div>
+    <?php } else { ?>
+    </div>
         <br/>
         <p>Parece que não foram encontradas bibliotecas no sistema.</p>
     <?php } ?>
-    </div>
-
     <?php /* GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
