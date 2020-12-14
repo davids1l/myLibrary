@@ -3,6 +3,8 @@
 namespace app\controllers;
 namespace backend\controllers;
 
+use common\models\SignupForm;
+use common\models\User;
 use Yii;
 use app\models\Utilizador;
 use app\models\UtilizadorSearch;
@@ -34,15 +36,16 @@ class BibliotecarioController extends Controller
      * Lists all Utilizador models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($model = null)
     {
+        if($model == null){
+            $model = new SignupForm();
+        }
+
         $searchModel = new UtilizadorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
     }
 
     /**
@@ -53,9 +56,7 @@ class BibliotecarioController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render('view', ['model' => $this->findModel($id),]);
     }
 
     /**
@@ -65,15 +66,16 @@ class BibliotecarioController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Utilizador();
+        $model = new SignupForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_utilizador]);
+        if ($model->load(Yii::$app->request->post()) && $model->signup(1)) {
+            Yii::$app->session->setFlash('success', 'Bibliotecário inserido com sucesso.');
+            return $this->actionIndex();
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        $model->password = '';
+        $model->confirmarPassword = '';
+        return $this->actionIndex($model);
     }
 
     /**
@@ -91,9 +93,26 @@ class BibliotecarioController extends Controller
             return $this->redirect(['view', 'id' => $model->id_utilizador]);
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render('update', ['model' => $model,]);
+    }
+
+    public function actionUpdateBiblioteca($id){
+        $model = $this->findModel($id);
+
+        if($model->load(Yii::$app->request->post()) && $model->save()){
+            return $this->redirect(['view', 'id' => $model->id_utilizador]);
+        }
+        Yii::$app->session->setFlash('error', 'Biblioteca inserida inválida.');
+        return $this->render('update', ['model' => $model,]);
+    }
+
+
+    public function actionRemoverBiblioteca($id){
+        $model = $this->findModel($id);
+
+        $model->id_biblioteca = null;
+        $model->save();
+        return $this->redirect(['view', 'id' => $model->id_utilizador]);
     }
 
     /**
@@ -105,7 +124,8 @@ class BibliotecarioController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $user = User::find()->where(['id' => $id])->one();
+        $user->delete();
 
         return $this->redirect(['index']);
     }

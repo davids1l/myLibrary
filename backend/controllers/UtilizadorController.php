@@ -89,7 +89,7 @@ class UtilizadorController extends Controller
     public function actionCreate()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+        if ($model->load(Yii::$app->request->post()) && $model->signup(0)) {
             Yii::$app->session->setFlash('success', 'Leitor inserido com sucesso.');
             return $this->actionIndex();
         }

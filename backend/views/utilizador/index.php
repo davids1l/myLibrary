@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div>
-        <button type="button" class="btn-perfil" data-toggle="modal" data-target="#criarLeitorModal">Criar Leitor</button>
+        <?= Html::button('Criar Leitor', ['data-toggle' => 'modal', 'data-target' => '#criarLeitorModal']) ?>
     </div>
     <br>
 

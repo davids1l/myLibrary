@@ -28,6 +28,7 @@ use yii\web\IdentityInterface;
  * @property int $num_telemovel
  * @property string $dta_registo
  * @property string $foto_perfil
+ * @property int $id_biblioteca
  *
  * @property Avaliacao[] $avaliacaos
  * @property Bibliotecario $bibliotecario
@@ -120,6 +121,12 @@ class Utilizador extends \yii\db\ActiveRecord
         $auth->assign($leitorRole, $this->getId());
     }
 
+    public function atribuirRoleBibliotecario(){
+        $auth = \Yii::$app->authManager;
+        $bibliotecarioRole = $auth->getRole('bibliotecario');
+        $auth->assign($bibliotecarioRole, $this->getId());
+    }
+
 
     public function gerarNumeroLeitor()
     {
@@ -148,6 +155,27 @@ class Utilizador extends \yii\db\ActiveRecord
             return $letra . $proximoNumero;
         }
     }
+
+
+    public function gerarNumeroBibliotecario(){
+        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'bibliotecario']);
+        $ultimoBibliotecario = Utilizador::find()->where(['id_utilizador' => $subQuery])->orderBy(['id_utilizador' => SORT_DESC])->one();
+
+        if ($ultimoBibliotecario == null) {
+            return "#000";
+        }
+
+        $numero = substr($ultimoBibliotecario->numero, 1, 3);
+
+        if($numero != 999){
+            $proximoNumero = $numero + 1;
+            $proximoNumero = $this->colocarZeros($proximoNumero);
+            return '#' . $proximoNumero;
+        }else{
+            return null;
+        }
+    }
+
 
     public function proximoAsciiLetra($letra)
     {

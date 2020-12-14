@@ -1,13 +1,15 @@
 <?php
 
+use app\models\Biblioteca;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Utilizador */
 
-$this->title = $model->id_utilizador;
-$this->params['breadcrumbs'][] = ['label' => 'Utilizadors', 'url' => ['index']];
+$this->title = $model->primeiro_nome . " " . $model->ultimo_nome;
+$this->params['breadcrumbs'][] = ['label' => 'Bibliotecários', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -16,11 +18,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_utilizador], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_utilizador], [
+        <?= Html::a('Alterar Biblioteca', null, [
+                'data-toggle'=>'modal',
+                'data-target' => '#updateBibliotecarioModal',
+                'class' => 'btn btn-primary'])
+        ?>
+
+        <?php
+        if($model->id_biblioteca != null){
+            echo Html::a('Desassociar da Biblioteca', ['bibliotecario/remover-biblioteca', 'id' => $model->id_utilizador], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Tem a certeza que quer desassociar o bibliotecário com o nº ' . $model->numero . ' da biblioteca ' . $model->biblioteca->nome . '?',
+                    'method' => 'post',
+                ],
+            ]);
+        }
+        ?>
+
+
+
+
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id_utilizador], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Tem a certeza que quer eliminar o bibliotecário com o nº ' . $model->numero . '?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,19 +51,59 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_utilizador',
+            //'id_utilizador',
+            'numero',
             'primeiro_nome',
             'ultimo_nome',
-            'numero',
-            'bloqueado',
-            'dta_bloqueado',
+            'user.email',
+            //'bloqueado',
+            //'dta_bloqueado',
             'dta_nascimento',
             'nif',
             'num_telemovel',
-            'dta_registo',
+            //'dta_registo',
             'foto_perfil',
-            'id_biblioteca',
+            'biblioteca.nome',
         ],
     ]) ?>
+
+
+
+    <!-- Modal para editar a biblioteca onde o bibliotecario está associado-->
+    <div class="modal fade" id="updateBibliotecarioModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="exampleModalLabel">Alterar Biblioteca</h2>
+                </div>
+                <div class="row" style="background-color: white">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <?php $form = ActiveForm::begin([
+                            'action' => ['bibliotecario/update-biblioteca', 'id' => $model->id_utilizador]]) ?>
+                        <div class="row" style="background-color: white">
+                            <?php
+                            $bibliotecas = Biblioteca::find()->all();
+                            $arrayBibliotecas[] = [];
+                            foreach ($bibliotecas as $biblioteca){
+                                array_push($arrayBibliotecas, $biblioteca->id_biblioteca);
+                            }
+                            ?>
+                            <?= $form->field($model, 'id_biblioteca')->label('Biblioteca')->dropDownList($arrayBibliotecas) ?>
+                        </div>
+                        <div class="modal-footer">
+                            <?= Html::submitButton('Guardar', ['class' => 'btn-perfil']) ?>
+                        </div>
+                        <?php ActiveForm::end() ?>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
