@@ -60,11 +60,13 @@ class RequisicaoController extends Controller
     $bibliotecas = Biblioteca::find()
         ->all();
 
+    $listBib = \yii\helpers\ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
+
     return $this->render('finalizar', [
         //'searchModel' => $searchModel,
         //'dataProvider' => $dataProvider,
         'model' => $model,
-        'bibliotecas' => $bibliotecas
+        'bibliotecas' => $listBib
     ]);
 }
 
@@ -124,11 +126,16 @@ class RequisicaoController extends Controller
 
         $postData = Yii::$app->request->post();
 
-        //var_dump($postData);
-        //die();
+        /*
+        * 1- receber o post
+        * 2- array_search do index 2 e ir buscar o id_bib.
+        */
+
+        //TODO: validar se livro está em requisicao
 
         if ($carrinho != null){
             $model = new Requisicao();
+
 
             $model->estado = 'A aguardar tratamento';
             //$model->dta_levantamento = null; //$postData['Requisicao']['dta_levantamento'];
@@ -139,12 +146,9 @@ class RequisicaoController extends Controller
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
                 $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
-
-
-                //TODO: Session destroy
                 Yii::$app->session->destroy();
-                //return $this->redirect(['livro/catalogo']);
                 Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
+
                 return $this->redirect(['view', 'id' => $model->id_requisicao]);
             } else {
                 Yii::$app->session->setFlash('error', 'Ocurreu um problema ao finalizar a sua requisição. Tente novamente!');

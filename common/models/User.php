@@ -173,7 +173,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getUtilizador()
     {
-
+        return $this->hasOne(Utilizador::className(), ['id' => 'id_utilizador']);
     }
 
 

@@ -129,34 +129,29 @@ class CarrinhoController extends Controller
     }
 
     public function verificarEmRequisicao($id_livro){
-        /*
-         * 1- find na bd as requisições onde o id_livro = id_livro
-         * 2- verificar se o estado dessas requisições é != de terminada
-         */
-        $livroRequisicao = RequisicaoLivro::find()
-            //->where(['id_livro' => $id_livro])
-            ->where(['id_livro' => $id_livro])->joinWith('requisicao')->where(['estado' => 'Concluído'])
+
+        $requisicoes = RequisicaoLivro::find()
+            ->where(['id_livro' => $id_livro])
             ->all();
 
-        //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
-        if($livroRequisicao == null){
-            $canAdicionarCarrinho =  false;
-        } else {
-            $canAdicionarCarrinho =  true;
+        $requisicoesTerminadas = [];
+        foreach ($requisicoes as $requisicao){
+            if($requisicao->requisicao->estado != 'Terminada'){
+                array_push($requisicoesTerminadas, $requisicao);
+            }
         }
 
-
-        //Outra forma de fazer a validação invés de join na query
-        /*foreach($livroRequisicao as $requisicao){
-            if($requisicao->requisicao->estado == 'Em requisição'){
-                $canAdicionarCarrinho =  false;
-            }else{
+        if(empty($requisicoes)) {
+            $canAdicionarCarrinho = true;
+        } else {
+            //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
+            if ($requisicoesTerminadas != null) {
+                $canAdicionarCarrinho = false;
+            } else {
                 $canAdicionarCarrinho = true;
             }
-        }*/
-
+        }
         return $canAdicionarCarrinho;
     }
-
 
 }

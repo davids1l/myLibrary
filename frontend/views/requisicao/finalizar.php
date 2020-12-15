@@ -23,7 +23,7 @@ $this->title = 'Finalizar requisição';
         <?php
         $carrinhoSession = Yii::$app->session->get('carrinho');
 
-        if (isset($carrinhoSession)) {
+        if ($carrinhoSession != null) {
             foreach ($carrinhoSession as $livro) { ?>
                 <div class="col-xs-12 col-lg-12" style="background-color: #e5e5e5; margin-top: 1%; padding: 1%;">
                     <div class="col-xs-8 col-lg-6">
@@ -44,31 +44,24 @@ $this->title = 'Finalizar requisição';
                             'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer']) ?>
                     </div>
                 </div>
-            <?php }
-        } else { ?>
+            <?php } ?>
+
+            <div class="detalhesRequisicao">
+                <?php $form = ActiveForm::begin(['action' => ['requisicao/create']]) ?>
+                <div class="">
+                    <div class="col-xs-12">
+                        <hr>
+                        <?= $form->field($model, 'id_bib_levantamento')->label('Bib. de levantamento')->dropDownList($bibliotecas) ?>
+                    </div>
+                    <div class="col-xs-12">
+                        <?= Html::submitButton('Finalizar', ['class' => 'btn btn-success']) ?>
+                    </div>
+                </div>
+
+                <?php ActiveForm::end() ?>
+            </div>
+        <?php } else { ?>
             <h3>Carrinho vazio.</h3>
         <?php } ?>
     </div>
-
-    <div class="detalhesRequisicao">
-        <?php $form = ActiveForm::begin(['action' => ['requisicao/create']]) ?>
-        <div class="">
-            <div class="col-xs-12">
-                <?php
-                $arrayData[] = [];
-                foreach ($bibliotecas as $biblioteca) {
-                    array_push($arrayData, $biblioteca->nome);
-                }
-                ?>
-                <hr>
-                <?= $form->field($model, 'id_bib_levantamento')->label('Bib. de levantamento')->dropDownList($arrayData) ?>
-            </div>
-            <div class="col-xs-12">
-                <?= Html::submitButton('Finalizar', ['class' => 'btn btn-success']) ?>
-            </div>
-        </div>
-
-        <?php ActiveForm::end() ?>
-    </div>
-
 </div>

@@ -4,9 +4,12 @@ namespace app\controllers;
 namespace frontend\controllers;
 
 use app\models\Comentario;
+use app\models\Requisicao;
+use app\models\RequisicaoLivro;
 use Yii;
 use app\models\Livro;
 use app\models\LivroSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,13 +56,30 @@ class LivroController extends Controller
     public function livrosRecentesFilter() {
 
         $livrosRecentes = Livro::find()
-            ->orderBy(['id_livro' => SORT_DESC]) //TODO:alterar para orderBy(['edicao' => SORT_DESC])
+            ->orderBy(['ano' => SORT_DESC]) //TODO:alterar para orderBy(['edicao' => SORT_DESC]);
+            ->limit(6)
             ->all();
 
-        array_splice($livrosRecentes, 6);
-
         return $livrosRecentes;
+    }
 
+    public function livrosMaisRequisitados() {
+
+        $query = (new \yii\db\Query())
+            ->select(['*' ,'COUNT(*) AS num_requisicoes'])
+            ->from('requisicao_livro')
+            ->groupBy('id_livro')
+            ->orderBy(['num_requisicoes' => SORT_DESC])
+            ->limit(6)
+            ->all();
+
+        $maisRequisitados = [];
+        foreach ($query as $result){
+            $livro = Livro::findOne(['id_livro' => $result['id_livro']]);
+            array_push($maisRequisitados, $livro);
+        }
+
+        return $maisRequisitados;
     }
 
 
@@ -72,14 +92,15 @@ class LivroController extends Controller
         $model = new Livro();
 
         //select na BD de todos os livro existentes
-        $livros = Livro::find()
+        /*$livros = Livro::find()
             ->orderBy(['titulo' => SORT_ASC])
-            ->all();
+            ->limit(6)
+            ->all();*/
 
         $recentes = $this->livrosRecentesFilter();
+        $maisRequisitados = $this->livrosMaisRequisitados();
 
-        //echo $recentes;
-        return $this->render('catalogo', ['livros' => $livros, 'model' => $model, 'recentes' => $recentes]);
+        return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes]);
     }
 
     /**

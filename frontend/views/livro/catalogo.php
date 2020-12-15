@@ -5,8 +5,6 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $livros app\controllers\LivrosController */
 
-/* TODO: FORM PARA FAZER A SELEÇÃO DE ACORDO COM O GENERO SELECIONADO */
-/* TODO: FETCH DOS LIVROS POPULARES E DOS MAIS REQUISITADOS*/
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -38,7 +36,6 @@ $this->title = "Catálogo de Livros";
     <div class="catalogo-livros">
         <div class="col-lg-12 recentes">
             <h3>NOVOS LANÇAMENTOS</h3>
-            <h4>VER MAIS</h4>
             <?php if($recentes != null) {?>
                 <?php foreach ($recentes as $recente){ ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
@@ -64,9 +61,9 @@ $this->title = "Catálogo de Livros";
 
         <div class="col-lg-12 novos" style="margin-top: 3%;">
 
-            <h3>MAIS POULARES</h3>
-            <?php if($livros != null) { ?>
-                <?php foreach ($livros as $livro) { ?>
+            <h3>MAIS REQUISITADOS</h3>
+            <?php if($maisRequisitados != null) { ?>
+                <?php foreach ($maisRequisitados as $livro) { ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
