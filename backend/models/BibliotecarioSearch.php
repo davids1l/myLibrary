@@ -2,14 +2,15 @@
 
 namespace app\models;
 
-use frontend\models\Utilizador;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\models\Utilizador;
+use yii\db\Query;
 
 /**
  * BibliotecarioSearch represents the model behind the search form of `app\models\Utilizador`.
  */
-class UtilizadorSearch extends Utilizador
+class BibliotecarioSearch extends Utilizador
 {
     /**
      * {@inheritdoc}
@@ -17,8 +18,8 @@ class UtilizadorSearch extends Utilizador
     public function rules()
     {
         return [
-            [['id_utilizador'], 'integer'],
-            [['primeiro_nome', 'ultimo_nome', 'dta_nascimento', 'nif', 'email', 'dta_registo', 'foto_perfil', 'password'], 'safe'],
+            [['bloqueado'], 'integer'],
+            [['id_utilizador', 'primeiro_nome', 'ultimo_nome', 'numero', 'dta_bloqueado', 'dta_nascimento', 'nif', 'num_telemovel', 'dta_registo', 'foto_perfil', 'id_biblioteca'], 'safe'],
         ];
     }
 
@@ -40,7 +41,9 @@ class UtilizadorSearch extends Utilizador
      */
     public function search($params)
     {
-        $query = Utilizador::find();
+        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'bibliotecario']);
+        $query = Utilizador::find()->where(['id_utilizador' => $subQueryRole])->orderBy('id_utilizador');
+
 
         // add conditions that should always apply here
 
@@ -56,19 +59,27 @@ class UtilizadorSearch extends Utilizador
             return $dataProvider;
         }
 
+        $query->joinWith('user');
+        $query->joinWith('biblioteca');
+
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_utilizador' => $this->id_utilizador,
+            //'id_utilizador' => $this->id_utilizador,
+            'bloqueado' => $this->bloqueado,
+            'dta_bloqueado' => $this->dta_bloqueado,
             'dta_nascimento' => $this->dta_nascimento,
             'dta_registo' => $this->dta_registo,
+            //'id_biblioteca' => $this->id_biblioteca,
         ]);
 
         $query->andFilterWhere(['like', 'primeiro_nome', $this->primeiro_nome])
             ->andFilterWhere(['like', 'ultimo_nome', $this->ultimo_nome])
+            ->andFilterWhere(['like', 'numero', $this->numero])
             ->andFilterWhere(['like', 'nif', $this->nif])
-            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'num_telemovel', $this->num_telemovel])
             ->andFilterWhere(['like', 'foto_perfil', $this->foto_perfil])
-            ->andFilterWhere(['like', 'password', $this->password]);
+            ->andFilterWhere(['like', 'user.email', $this->id_utilizador])
+            ->andFilterWhere(['like', 'biblioteca.nome', $this->id_biblioteca]);
 
         return $dataProvider;
     }

@@ -7,7 +7,7 @@ use common\models\SignupForm;
 use common\models\User;
 use Yii;
 use app\models\Utilizador;
-use app\models\UtilizadorSearch;
+use app\models\BibliotecarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -42,7 +42,7 @@ class BibliotecarioController extends Controller
             $model = new SignupForm();
         }
 
-        $searchModel = new UtilizadorSearch();
+        $searchModel = new BibliotecarioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);

@@ -75,7 +75,7 @@ AppAsset::register($this);
 
         $submenus[] = ['label' => 'Perfil', 'url' => ['/utilizador/perfil']];
         $submenus[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
-        $menuItems[] = ['label' => Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width'=>'50px', 'height' => '50px']), 'url' => '', 'items' => $submenus];
+        $menuItems[] = ['label' => $utilizador->primeiro_nome . '&nbsp ' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width'=>'20px', 'height' => '20px']), 'url' => '', 'items' => $submenus];
 
         //$menuItems[] = '<li>'
         //    . Html::beginForm(['/site/logout'], 'post')

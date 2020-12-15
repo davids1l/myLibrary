@@ -2,11 +2,12 @@
 
 namespace frontend\controllers;
 
+use app\models\RequisicaoLivro;
 use common\models\UploadForm;
 use common\models\User;
 use frontend\models\Utilizador;
 use Yii;
-use app\models\UtilizadorSearch;
+use app\models\BibliotecarioSearch;
 use yii\base\ViewRenderer;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -79,7 +80,7 @@ class UtilizadorController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UtilizadorSearch();
+        $searchModel = new BibliotecarioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

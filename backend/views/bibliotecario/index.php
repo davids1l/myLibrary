@@ -7,7 +7,7 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\UtilizadorSearch */
+/* @var $searchModel app\models\BibliotecarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bibliotecários';
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div>
-        <?= Html::button('Criar Bibliotecário', ['data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal']) ?>
+        <?= Html::button('Inserir Bibliotecário', ['data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal']) ?>
     </div>
     <br>
 
@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                         </div>
                         <div class="modal-footer">
-                            <?= Html::submitButton('Criar Bibliotecário', ['class' => 'btn-perfil']) ?>
+                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn-perfil']) ?>
                         </div>
                         <?php ActiveForm::end() ?>
                     </div>
