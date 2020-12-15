@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar biblioteca', ['bibliotecas/create'], [
-            'class' => 'btn btn-primary'
+            'class' => 'btn btn-success'
     ]); ?>
     <br/>
     <div class="row rowStyling">

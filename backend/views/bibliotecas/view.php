@@ -28,12 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <div class="row">
+    <div class="row rowStyling">
         <div class="col-md-10">
             <br/>
             <p>ID: <?= Html::label($model->id_biblioteca) ?></p>
             <p>Nome: <?= Html::label($model->nome) ?></p>
-            <p>Código Postal <?= Html::label($model->cod_postal) ?></p>
+            <p>Código Postal: <?= Html::label($model->cod_postal) ?></p>
         </div>
     </div>
 

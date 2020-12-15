@@ -17,8 +17,8 @@ class EditoraSearch extends Editora
     public function rules()
     {
         return [
-            [['id_editora', 'id_pais'], 'integer'],
-            [['designacao'], 'safe'],
+            [['id_editora'], 'integer'],
+            [['designacao', 'id_pais'], 'safe'],
         ];
     }
 
@@ -56,6 +56,8 @@ class EditoraSearch extends Editora
             return $dataProvider;
         }
 
+        //$query->joinWith('pais');
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id_editora' => $this->id_editora,
@@ -63,6 +65,7 @@ class EditoraSearch extends Editora
         ]);
 
         $query->andFilterWhere(['like', 'designacao', $this->designacao]);
+            //->andFilterWhere(['like', 'pais.designacao', $this->id_pais]);
 
         return $dataProvider;
     }

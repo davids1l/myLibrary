@@ -96,12 +96,18 @@ class EditorasController extends Controller
     {
         $model = $this->findModel($id);
 
+        $paises = Pais::find()
+            ->orderBy(['id_pais' => SORT_ASC])
+            ->all();
+        $listPaises = ArrayHelper::map($paises,'id_pais','designacao');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_editora]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'paises' => $listPaises
         ]);
     }
 

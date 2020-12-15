@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Autor', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Autor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,7 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id_autor',
             'nome_autor',
-            'id_pais',
+            [
+                'attribute' => 'id_pais',
+                'value' => 'pais.designacao',
+                'label' => 'País'
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -18,13 +18,13 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                               <?= Html::a('Consultar Livros', ['livros/index'], [
-                                        'class' => 'btn btn-primary'
+                               <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Livros', ['livros/index'], [
+                                        'class' => 'btn btn-info'
                                     ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('Adicionar Livros', ['livros/create'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Livros', ['livros/create'], [
+                                    'class' => 'btn btn-success'
                                 ]) ?>
                             </div>
                         </div>
@@ -42,13 +42,13 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('Consultar Bibliotecas', ['bibliotecas/index'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Bibliotecas', ['bibliotecas/index'], [
+                                    'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('Adicionar Biblioteca', ['bibliotecas/create'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Biblioteca', ['bibliotecas/create'], [
+                                    'class' => 'btn btn-success'
                                 ]) ?>
                             </div>
                         </div>
@@ -66,8 +66,8 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('Gerir Utilizadores', ['site/index'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Utilizadores', ['site/index'], [
+                                    'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                         </div>
@@ -85,13 +85,13 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('Consultar Requisições', ['site/index'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Requisições', ['site/index'], [
+                                    'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('Adicionar Requisição', ['site/index'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['site/index'], [
+                                    'class' => 'btn btn-success'
                                 ]) ?>
                             </div>
                         </div>
@@ -109,13 +109,23 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('Adicionar Editora', ['editoras/create'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Editoras', ['editoras/index'], [
+                                    'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('Adicionar Autor', ['autores/create'], [
-                                    'class' => 'btn btn-primary'
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Autores', ['autores/index'], [
+                                    'class' => 'btn btn-info'
+                                ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Editora', ['editoras/create'], [
+                                    'class' => 'btn btn-success'
+                                ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Autor', ['autores/create'], [
+                                    'class' => 'btn btn-success'
                                 ]) ?>
                             </div>
                         </div>

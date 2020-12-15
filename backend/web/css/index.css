@@ -42,3 +42,14 @@ body {
     margin-bottom: 30px;
 }
 
+.panel-heading {
+    background-color: #e6eeff !important;
+}
+
+.panel-body {
+    background-color: #fafafa !important;
+}
+
+.panel-title {
+    font-size: 22px!important;
+}

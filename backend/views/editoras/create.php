@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $form = ActiveForm::begin(); ?>
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <?= $form->field($model, 'designacao')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'designacao')->textInput(['maxlength' => true])->label('Designação') ?>
             <?= $form->field($model, 'id_pais')->dropDownList($paises)->label('País') ?>
 
             <div class="form-group center">

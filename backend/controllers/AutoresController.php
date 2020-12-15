@@ -74,7 +74,6 @@ class AutoresController extends Controller
             ->all();
         $listPaises = ArrayHelper::map($paises,'id_pais','designacao');
 
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_autor]);
         }
@@ -96,12 +95,18 @@ class AutoresController extends Controller
     {
         $model = $this->findModel($id);
 
+        $paises = Pais::find()
+            ->orderBy(['id_pais' => SORT_ASC])
+            ->all();
+        $listPaises = ArrayHelper::map($paises,'id_pais','designacao');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_autor]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'paises' => $listPaises,
         ]);
     }
 
