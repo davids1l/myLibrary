@@ -40,7 +40,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
-        ['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
+        //['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
         ['label' => 'Requisições', 'url' => ['/requisicao/index']],
     ];
     if (Yii::$app->user->isGuest) {
@@ -60,7 +60,7 @@ AppAsset::register($this);
 
         $carrinhoSession = Yii::$app->session->get('carrinho');
 
-        if(isset($carrinhoSession)){
+        if($carrinhoSession!=null){
             foreach ($carrinhoSession as $livro){
                 $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 20%']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
             }
@@ -73,12 +73,15 @@ AppAsset::register($this);
             ];
         }
 
+        $submenus[] = ['label' => 'Perfil', 'url' => ['/utilizador/perfil']];
+        $submenus[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
+        $menuItems[] = ['label' => $utilizador->primeiro_nome . '&nbsp ' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width'=>'20px', 'height' => '20px']), 'url' => '', 'items' => $submenus];
 
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton('Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')', ['class' => 'btn btn-link logout'])
-            . Html::endForm()
-            . '</li>';
+        //$menuItems[] = '<li>'
+        //    . Html::beginForm(['/site/logout'], 'post')
+        //    . Html::submitButton('Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')', ['class' => 'btn btn-link logout'])
+        //    . Html::endForm()
+        //    . '</li>';
     }
 
     echo Nav::widget([

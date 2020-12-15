@@ -95,7 +95,7 @@ class ComentarioController extends Controller
         $model->dta_comentario = Carbon::now();
         $model->comentario = $comentario;
         $model->id_livro = $id;
-        $model->id_utilizador = Yii::$app->user->identity->ID;
+        $model->id_utilizador = Yii::$app->user->id; //Yii::$app->user->identity->ID
 
         if($model->load(Yii::$app->request->post()) && $model->validate()){
             $model->save();

@@ -3,12 +3,13 @@
 namespace app\controllers;
 namespace backend\controllers;
 
+use app\models\UtilizadorSearch;
 use Carbon\Carbon;
 use common\models\SignupForm;
 use common\models\User;
 use Yii;
 use app\models\Utilizador;
-use app\models\UtilizadorSearch;
+use app\models\BibliotecarioSearch;
 use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -50,7 +51,7 @@ class UtilizadorController extends Controller
             $utilizador->save();
         }
 
-        return $this->actionView($id);
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**
@@ -64,10 +65,10 @@ class UtilizadorController extends Controller
             $model = new SignupForm();
         }
 
-        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
-        $utilizadores = Utilizador::find()->where(['id_utilizador' => $subQueryRole])->orderBy(['id_utilizador' => SORT_ASC])->all();
+        $searchModel = new UtilizadorSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', ['utilizadores' => $utilizadores, 'model' => $model]);
+        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
     }
 
     /**
@@ -89,11 +90,12 @@ class UtilizadorController extends Controller
     public function actionCreate()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+        if ($model->load(Yii::$app->request->post()) && $model->signup(0)) {
             Yii::$app->session->setFlash('success', 'Leitor inserido com sucesso.');
-            return $this->actionIndex();
+            return $this->redirect(['index']);
         }
 
+        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o leitor.');
         $model->password = '';
         $model->confirmarPassword = '';
         return $this->actionIndex($model);

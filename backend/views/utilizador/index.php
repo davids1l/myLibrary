@@ -6,7 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\UtilizadorSearch */
+/* @var $searchModel app\models\BibliotecarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Leitores';
@@ -19,12 +19,86 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div>
-        <button type="button" class="btn-perfil" data-toggle="modal" data-target="#criarLeitorModal">Criar Leitor</button>
+        <?= Html::button('Inserir Leitor', ['data-toggle' => 'modal', 'data-target' => '#criarLeitorModal']) ?>
     </div>
     <br>
 
 
-    <table class="tableLeitores">
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            [
+                'attribute' => 'numero',
+                'label' => 'Nº de bibliotecário',
+            ],
+            //'id_utilizador',
+            [
+                'attribute' => 'primeiro_nome',
+                'label' => 'Nome',
+            ],
+            [
+                'attribute' => 'ultimo_nome',
+                'label' => 'Apelido',
+            ],
+            //'bloqueado',
+            //'dta_bloqueado',
+
+            [
+                'attribute' => 'num_telemovel',
+                'label' => 'Nº de telemóvel',
+            ],
+            [
+                'attribute' => 'id_utilizador',
+                'value' => 'user.email',
+                'label' => 'Email',
+            ],
+            [
+                'attribute' => 'nif',
+                'label' => 'NIF',
+            ],
+            [
+                'attribute' => 'dta_nascimento',
+                'label' => 'Data de Nascimento',
+
+            ],
+            //'dta_registo',
+            [
+                'attribute' => 'id_biblioteca',
+                'value' => 'biblioteca.nome',
+                'label' => 'Biblioteca',
+            ],
+            [
+                'attribute' => 'foto_perfil',
+                'format' => 'html',
+                'filter' => false,
+                'value' => function ($dados) {
+                    return Html::img(Yii::$app->request->baseUrl . '/../../frontend/web/imgs/perfil/' . $dados['foto_perfil'], ['width' => '60px', 'height' => '60px']);
+                }
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Ações',
+                'template' => '{view}{delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                            'data' => [
+                                'confirm' => 'Tem a certeza que quer eliminar o bibliotecário com o nº ' . $model->numero . '?',
+                                'method' => 'post',
+                            ]
+                        ]);
+                    },
+                ]
+
+            ],
+        ],
+    ]); ?>
+
+
+    <!--<table class="tableLeitores">
         <tr>
             <th>ID</th>
             <th>Nome</th>
@@ -40,56 +114,56 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
 
         <?php
-        foreach ($utilizadores as $utilizador) { ?>
+/*        foreach ($utilizadores as $utilizador) { */?>
             <tr>
-                <th><h4><?= Html::encode($utilizador->id_utilizador); ?></h4></th>
-                <th><h4><?= Html::encode($utilizador->primeiro_nome . " " . $utilizador->ultimo_nome); ?></h4></th>
-                <th><h4><?= Html::encode($utilizador->numero); ?></h4></th>
-                <th><h4><?= Html::encode($utilizador->user->email); ?></h4></th>
+                <th><h4><?/*= Html::encode($utilizador->id_utilizador); */?></h4></th>
+                <th><h4><?/*= Html::encode($utilizador->primeiro_nome . " " . $utilizador->ultimo_nome); */?></h4></th>
+                <th><h4><?/*= Html::encode($utilizador->numero); */?></h4></th>
+                <th><h4><?/*= Html::encode($utilizador->user->email); */?></h4></th>
 
                 <?php
-                if($utilizador->bloqueado == 1){ ?>
+/*                if($utilizador->bloqueado == 1){ */?>
                     <th><h4>Bloqueado</h4></th>
-                <?php }else{ ?>
+                <?php /*}else{ */?>
                     <th></th>
-                <?php } ?>
+                <?php /*} */?>
 
-                <?php if(!$utilizador->dta_bloqueado == null){ ?>
-                    <th><h4><?=Carbon::parse(Html::encode($utilizador->dta_bloqueado))->format('d/m/Y H:i:s');?> </h4></th>
-                        <?php }else{ ?>
+                <?php /*if(!$utilizador->dta_bloqueado == null){ */?>
+                    <th><h4><?/*=Carbon::parse(Html::encode($utilizador->dta_bloqueado))->format('d/m/Y H:i:s');*/?> </h4></th>
+                        <?php /*}else{ */?>
                     <th></th>
-                <?php } ?>
+                <?php /*} */?>
 
-                <th><h4><?= Carbon::parse(Html::encode($utilizador->dta_nascimento))->format('d/m/Y'); ?></h4></th>
-                <th><h4><?= Html::encode($utilizador->nif); ?></h4></th>
-                <th><h4><?= Html::encode($utilizador->num_telemovel); ?></h4></th>
-                <th><h4><?= Carbon::parse(Html::encode($utilizador->dta_registo))->format('d/m/Y H:i:s'); ?></h4></th>
-                <th><?= Html::img(Yii::$app->request->baseUrl . '../../../frontend/web/imgs/perfil/' . $utilizador->foto_perfil, ['width' => '60px', 'height' => '60px']) ?></th>
-                <th><?= Html::a('<i class="glyphicon glyphicon-eye-open">', ['utilizador/view', 'id' => $utilizador->id_utilizador]) ?></th>
+                <th><h4><?/*= Carbon::parse(Html::encode($utilizador->dta_nascimento))->format('d/m/Y'); */?></h4></th>
+                <th><h4><?/*= Html::encode($utilizador->nif); */?></h4></th>
+                <th><h4><?/*= Html::encode($utilizador->num_telemovel); */?></h4></th>
+                <th><h4><?/*= Carbon::parse(Html::encode($utilizador->dta_registo))->format('d/m/Y H:i:s'); */?></h4></th>
+                <th><?/*= Html::img(Yii::$app->request->baseUrl . '../../../frontend/web/imgs/perfil/' . $utilizador->foto_perfil, ['width' => '60px', 'height' => '60px']) */?></th>
+                <th><?/*= Html::a('<i class="glyphicon glyphicon-eye-open">', ['utilizador/view', 'id' => $utilizador->id_utilizador]) */?></th>
 
-                <?php if($utilizador->bloqueado == 1){ ?>
-                    <th><?= Html::a('<i class="glyphicon glyphicon-ok-circle">', ['utilizador/bloquear', 'id' => $utilizador->id_utilizador], [
+                <?php /*if($utilizador->bloqueado == 1){ */?>
+                    <th><?/*= Html::a('<i class="glyphicon glyphicon-ok-circle">', ['utilizador/bloquear', 'id' => $utilizador->id_utilizador], [
                             'data' => [
                                 'confirm' => 'Tem a certeza que quer desbloquear o leitor com o nº ' . $utilizador->numero . '?',
                                 'method' => 'post',
                             ],
-                        ]) ?></th>
-                <?php }else{ ?>
-                    <th><?= Html::a('<i class="glyphicon glyphicon-ban-circle">', ['utilizador/bloquear', 'id' => $utilizador->id_utilizador], [
+                        ]) */?></th>
+                <?php /*}else{ */?>
+                    <th><?/*= Html::a('<i class="glyphicon glyphicon-ban-circle">', ['utilizador/bloquear', 'id' => $utilizador->id_utilizador], [
                             'data' => [
                                 'confirm' => 'Tem a certeza que quer bloquear o leitor com o nº ' . $utilizador->numero . '?',
                                 'method' => 'post',
                             ],
-                        ]) ?></th>
-                <?php } ?>
-                <th><?= Html::a('<i class="glyphicon glyphicon-trash">', ['utilizador/delete', 'id' => $utilizador->id_utilizador], [
+                        ]) */?></th>
+                <?php /*} */?>
+                <th><?/*= Html::a('<i class="glyphicon glyphicon-trash">', ['utilizador/delete', 'id' => $utilizador->id_utilizador], [
                         'data' => [
                             'confirm' => 'Tem a certeza que quer eliminar o leitor com o nº ' . $utilizador->numero . '?',
                             'method' => 'post',
                         ],
-                    ]) ?></th>
-        <?php } ?>
-    </table>
+                    ]) */?></th>
+        <?php /*} */?>
+    </table>-->
 </div>
 
 
@@ -120,7 +194,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                     </div>
                     <div class="modal-footer">
-                        <?= Html::submitButton('Criar Leitor', ['class' => 'btn-perfil']) ?>
+                        <?= Html::submitButton('Inserir Leitor', ['class' => 'btn-perfil']) ?>
                     </div>
                     <?php ActiveForm::end() ?>
                 </div>

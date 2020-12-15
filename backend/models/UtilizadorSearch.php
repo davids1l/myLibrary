@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Utilizador;
+use yii\db\Query;
 
 /**
  * UtilizadorSearch represents the model behind the search form of `app\models\Utilizador`.
@@ -40,7 +41,9 @@ class UtilizadorSearch extends Utilizador
      */
     public function search($params)
     {
-        $query = Utilizador::find();
+        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $query = Utilizador::find()->where(['id_utilizador' => $subQueryRole])->orderBy('id_utilizador');
+        //$query = Utilizador::find();
 
         // add conditions that should always apply here
 

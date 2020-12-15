@@ -22,6 +22,7 @@ class SignupForm extends Model
     public $nif;
     public $num_telemovel;
     public $confirmarPassword;
+    public $id_biblioteca;
 
 
     /**
@@ -65,9 +66,10 @@ class SignupForm extends Model
     /**
      * Signs user up.
      *
+     * @param $tipo int se for 0 é leitor, 1 é bibliotecario e 2 é admin
      * @return bool whether the creating new account was successful and email was sent
      */
-    public function signup()
+    public function signup($tipo)
     {
         if (!$this->validate()) {
             return null;
@@ -76,7 +78,13 @@ class SignupForm extends Model
         $user = new User();
         $utilizador = new \frontend\models\Utilizador();
 
-        $user->username = strtolower($this->primeiro_nome) . strtolower($this->ultimo_nome);
+
+        //Remove os acentos do primeiro e ultimo nome
+        $primeiro_nome = preg_replace('/[^a-z]/i', '', iconv("UTF-8", "US-ASCII//TRANSLIT", $this->primeiro_nome));
+        $ultimo_nome = preg_replace('/[^a-z]/i', '', iconv("UTF-8", "US-ASCII//TRANSLIT", $this->ultimo_nome));
+
+
+        $user->username = strtolower($primeiro_nome) . strtolower($ultimo_nome);
         $user->email = $this->email;
 
         //Verifica se a password e a confirmação da password são iguais
@@ -93,6 +101,7 @@ class SignupForm extends Model
         $utilizador->ultimo_nome = $this->ultimo_nome;
         $utilizador->dta_nascimento = $this->dta_nascimento;
         $utilizador->foto_perfil = $utilizador->atribuirImg();
+        $utilizador->id_biblioteca = $this->id_biblioteca;
 
 
         if($utilizador->validarDataNascimento() == false){
@@ -109,18 +118,39 @@ class SignupForm extends Model
             return null;
         }
 
+        switch ($tipo){
+            case 0:
+                $utilizador->numero = $utilizador->gerarNumeroLeitor();
+                if($utilizador->numero == null){
+                    Yii::$app->session->setFlash('error', 'Impossível registar. O sistema excedeu o limite de utilizadores.');
+                    return null;
+                }
 
-        $utilizador->numero = $utilizador->gerarNumeroLeitor();
-        if($utilizador->numero == null){
-            Yii::$app->session->setFlash('error', 'Impossível registar. O sistema excedeu o limite de utilizadores.');
-            return null;
+                $user->save();
+                $utilizador->id_utilizador = $user->getId();
+                $utilizador->save();
+                $utilizador->atribuirRoleLeitor();
+                break;
+
+            case 1:
+                $utilizador->numero = $utilizador->gerarNumeroBibliotecario();
+                if($utilizador->numero == null){
+                    Yii::$app->session->setFlash('error', 'Impossível registar. O sistema excedeu o limite de bibliotecários.');
+                    return null;
+                }
+
+                $user->save();
+                $utilizador->id_utilizador = $user->getId();
+                $utilizador->save();
+                $utilizador->atribuirRoleBibliotecario();
+                break;
+            case 2:
+
+                break;
         }
 
 
-        $user->save();
-        $utilizador->id_utilizador = $user->getId();
-        $utilizador->save();
-        $utilizador->atribuirRoleLeitor();
+
 
         $user->username = $user->username . "_" .  $utilizador->numero;
         $user->save();

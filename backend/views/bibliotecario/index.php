@@ -1,10 +1,13 @@
 <?php
 
+use app\models\Biblioteca;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\UtilizadorSearch */
+/* @var $searchModel app\models\BibliotecarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bibliotecários';
@@ -14,9 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Utilizador', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
+    <div>
+        <?= Html::button('Inserir Bibliotecário', ['data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal']) ?>
+    </div>
+    <br>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -26,22 +31,110 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_utilizador',
-            'primeiro_nome',
-            'ultimo_nome',
-            'numero',
-            'bloqueado',
+            [
+                'attribute' => 'numero',
+                'label' => 'Nº de bibliotecário',
+            ],
+            //'id_utilizador',
+            [
+                'attribute' => 'primeiro_nome',
+                'label' => 'Nome',
+            ],
+            [
+                'attribute' => 'ultimo_nome',
+                'label' => 'Apelido',
+            ],
+            //'bloqueado',
             //'dta_bloqueado',
-            //'dta_nascimento',
-            //'nif',
-            //'num_telemovel',
-            //'dta_registo',
-            //'foto_perfil',
-            //'id_biblioteca',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'num_telemovel',
+                'label' => 'Nº de telemóvel',
+            ],
+            [
+                'attribute' => 'id_utilizador',
+                'value' => 'user.email',
+                'label' => 'Email',
+            ],
+            [
+                'attribute' => 'nif',
+                'label' => 'NIF',
+            ],
+            [
+                'attribute' => 'dta_nascimento',
+                'label' => 'Data de Nascimento',
+
+            ],
+            //'dta_registo',
+            [
+                'attribute' => 'id_biblioteca',
+                'value' => 'biblioteca.nome',
+                'label' => 'Biblioteca',
+            ],
+            [
+                'attribute' => 'foto_perfil',
+                'format' => 'html',
+                'filter' => false,
+                'value' => function ($dados) {
+                     return Html::img(Yii::$app->request->baseUrl . '/../../frontend/web/imgs/perfil/' . $dados['foto_perfil'], ['width' => '60px', 'height' => '60px']);
+                }
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Ações',
+                'template' => '{view}{delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                            'data' => [
+                                'confirm' => 'Tem a certeza que quer eliminar o bibliotecário com o nº ' . $model->numero . '?',
+                                'method' => 'post',
+                            ]
+                        ]);
+                    },
+                ]
+
+            ],
         ],
     ]); ?>
+
+
+    <!-- Modal para criar um bibliotecario -->
+    <div class="modal fade" id="criarBibliotecarioModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="exampleModalLabel">Criar Bibliotecário</h2>
+                </div>
+                <div class="row" style="background-color: white">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <?php $form = ActiveForm::begin([
+                            'action' => ['bibliotecario/create']]) ?>
+                        <div class="row" style="background-color: white">
+                            <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
+                            <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
+                            <?= $form->field($model, 'email') ?>
+                            <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
+                            <?= $form->field($model, 'nif')->label('NIF') ?>
+                            <?= $form->field($model, 'num_telemovel')->label('Nº de telefone') ?>
+                            <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
+                            <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
+                        </div>
+                        <div class="modal-footer">
+                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn-perfil']) ?>
+                        </div>
+                        <?php ActiveForm::end() ?>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </div>

@@ -11,7 +11,6 @@ use Yii;
  * @property string $dta_levantamento
  * @property string $dta_entrega
  * @property string $estado
- * @property int $id_livro
  * @property int $id_utilizador
  * @property int $id_bib_levantamento
  */
@@ -31,9 +30,9 @@ class Requisicao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dta_levantamento', 'dta_entrega'], 'safe'],
-            [['dta_entrega', 'estado', 'id_livro', 'id_utilizador', 'id_bib_levantamento'], 'required'],
-            [['id_livro', 'id_utilizador', 'id_bib_levantamento'], 'integer'],
+            //[['dta_levantamento', 'dta_entrega'], 'safe'],
+            [['estado', 'id_utilizador'], 'required'],
+            [['id_utilizador', 'id_bib_levantamento'], 'integer'],
             [['estado'], 'string', 'max' => 30],
         ];
     }
@@ -45,10 +44,9 @@ class Requisicao extends \yii\db\ActiveRecord
     {
         return [
             'id_requisicao' => 'Id Requisicao',
-            'dta_levantamento' => 'Dta Levantamento',
-            'dta_entrega' => 'Dta Entrega',
+            //'dta_levantamento' => 'Dta Levantamento',
+            //'dta_entrega' => 'Dta Entrega',
             'estado' => 'Estado',
-            'id_livro' => 'Id Livro',
             'id_utilizador' => 'Id Utilizador',
             'id_bib_levantamento' => 'Id Bib Levantamento',
         ];
