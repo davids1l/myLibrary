@@ -4,10 +4,12 @@ namespace frontend\controllers;
 
 use app\models\Biblioteca;
 use app\models\Livro;
+use app\models\RequisicaoLivro;
 use Carbon\Carbon;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
+use yii\db\Exception;
 use yii\db\Query;
 use yii\debug\panels\DumpPanel;
 use yii\filters\AccessControl;
@@ -28,15 +30,15 @@ class RequisicaoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                        'actions' => ['create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                        'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -52,100 +54,21 @@ class RequisicaoController extends Controller
     }
 
     public function actionFinalizar()
-    {
-        $model = new Requisicao();
+{
+    $model = new Requisicao();
 
-        $bibliotecas = Biblioteca::find()
-            ->all();
+    $bibliotecas = Biblioteca::find()
+        ->all();
 
-        return $this->render('finalizar', [
-            //'searchModel' => $searchModel,
-            //'dataProvider' => $dataProvider,
-            'model' => $model,
-            'bibliotecas' => $bibliotecas
-        ]);
-    }
+    $listBib = \yii\helpers\ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
-
-    /**
-     * Função responsavél por adicionar um livro à session do carrinho.
-     */
-    public function actionCarrinho($id_livro)
-    {
-
-        //TODO: Verificar se o livro já se encontra em requisição (ex. query à tabela requisicao_livro)
-
-        //query para encontrar o livro pelo $id
-        $livro = Livro::findOne($id_livro);
-
-        //define a variável da sessão
-        $session = Yii::$app->session;
-        $flag = 0;
-
-        //verifica se esta sessão se encontra aberta
-        //if($session->isActive) {
-            $carrinho = $session->get('carrinho');
-
-            //verifica se o carrinho está null
-            if(isset($carrinho)){
-                //Limita o carrinho a um máximo de 5 livros
-                if(count($carrinho) < 5) {
-                    //verifica se o livro a inserir já se encontra no array do carrinho
-                    foreach ($carrinho as $obj_livro) {
-                        if ($obj_livro->id_livro == $id_livro) {
-                            $flag++;
-                        }
-                    }
-
-                    if ($flag == 0) {
-                        $_SESSION['carrinho'][] = $livro;
-                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
-                    } else{
-                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
-                    }
-                } else {
-                    $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
-                }
-
-        } else {
-            $session->open();
-            $_SESSION['carrinho'][] = $livro;
-            $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
-            $session->close();
-        }
-
-        return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
-    }
-
-
-    /**
-     *  Função responsável por excluir um livro da session carrinho
-     */
-    public function actionRemover($id_livro){
-
-        /*
-         * 1- validar se a session está open e se contem informação.
-         * 2- se true, então foreach em cada objeto do carrinho e validar se id_livro = id_livro
-         * 3- se true, é feito um array_search para encontrar o index da posição do array 'carrinho' onde está o objeto
-         * 4- com o index obtido é efetuado o unset no array carrinho de acordo com esse index (Remover)
-         */
-
-        $session = Yii::$app->session;
-        $carrinho = $session->get('carrinho');
-
-        if($session->isActive && $carrinho!=null){
-            foreach ($carrinho as $obj_livro) {
-                if ($obj_livro->id_livro == $id_livro) {
-                    $index = array_search($obj_livro, $carrinho);
-                    unset($_SESSION['carrinho'][$index]);
-                    $session->setFlash('success', 'Livro excluído do carrinho.');
-                }
-            }
-        }
-
-        return $this->redirect(['requisicao/index']);
-
-    }
+    return $this->render('finalizar', [
+        //'searchModel' => $searchModel,
+        //'dataProvider' => $dataProvider,
+        'model' => $model,
+        'bibliotecas' => $listBib
+    ]);
+}
 
 
     /**
@@ -190,31 +113,74 @@ class RequisicaoController extends Controller
          *
          */
 
-        $session = Yii::$app->session;
-        $carrinho = $session->get('carrinho');
+        $carrinho = Yii::$app->session->get('carrinho');
 
         $postData = Yii::$app->request->post();
-        var_dump($postData);
-        die();
 
-        $model = new Requisicao();
+        /*
+        * 1- receber o post
+        * 2- array_search do index 2 e ir buscar o id_bib.
+        */
 
-        $model->estado = 'Em processamento';
-        $model->dta_levantamento = $postData['Requisicao']['dta_levantamento'];
-        $model->dta_entrega = $this->gerarDataEntrega($postData['Requisicao']['dta_levantamento']); //Carbon::create(2020, 12, 30, null, null, null); //TODO: função para determinar a data de entrega de acordo com a data de levantamento
-        $model->id_livro = 2; //TODO: REMOVER linha! apenas para testes!
-        $model->id_utilizador = Yii::$app->user->id;
-        $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
+        //TODO: validar se livro está em requisicao
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_requisicao]);
+        if ($carrinho != null){
+            $model = new Requisicao();
+
+
+            $model->estado = 'A aguardar tratamento';
+            //$model->dta_levantamento = null; //$postData['Requisicao']['dta_levantamento'];
+            //$model->dta_entrega = null; //$this->gerarDataEntrega($postData['Requisicao']['dta_levantamento']);
+            $model->id_utilizador = Yii::$app->user->id;
+            $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+                $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+                Yii::$app->session->destroy();
+                Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
+
+                return $this->redirect(['view', 'id' => $model->id_requisicao]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Ocurreu um problema ao finalizar a sua requisição. Tente novamente!');
+                return $this->redirect(['requisicao/finalizar']);
+            }
         }
-
-        return $this->render('create', [
+        Yii::$app->session->setFlash('error', 'Ocurreu um problema ao finalizar a sua requisição. Tente novamente!');
+        return $this->redirect(['requisicao/finalizar']);
+       /*return $this->render('create', [
             'model' => $model,
-        ]);
+        ]);*/
     }
 
+
+    public function adicionarRequisicaoLivro($id_requisicao, $carrinho){
+        $requisicaoModel = new RequisicaoLivro();
+
+        //TODO: foreach livro carrinho save requisicao_livro
+
+        //Com foreach-save estava a dar erro
+        /*foreach ($carrinho as $livro) {
+            $requisicaoModel->id_livro = $livro->id_livro;
+            $requisicaoModel->id_requisicao = $id_requisicao;
+
+            $requisicaoModel->save();
+        }*/
+
+        /*
+         * Insere dados na tabela requisicao_livro com recuro à estrutura Yii DAO(Database Access Objects)
+         * recomendado quando o objetivo é inserir multiplos objetos
+         */
+        foreach ($carrinho as $livro) {
+            try {
+                Yii::$app->db->createCommand()->insert('requisicao_livro', [
+                    'id_livro' => $livro->id_livro,
+                    'id_requisicao' => $id_requisicao,
+                ])->execute();
+            } catch (Exception $e) {
+            }
+        }
+    }
 
 
     /**
@@ -222,7 +188,7 @@ class RequisicaoController extends Controller
      */
     public function gerarDataEntrega($data_levantamento)
     {
-
+        return date('d/m/Y', strtotime($data_levantamento. ' +30 days'));
     }
 
 

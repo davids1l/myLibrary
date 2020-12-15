@@ -347,10 +347,9 @@ class m201111_174512_backend extends Migration
 
         $this->createTable('requisicao', [
             'id_requisicao' => $this->primaryKey()->notNull()->unsigned(),
-            'dta_levantamento' => $this->dateTime()->notNull(),
-            'dta_entrega' => $this->dateTime()->notNull(),
+            'dta_levantamento' => $this->dateTime(),
+            'dta_entrega' => $this->dateTime(),
             'estado' => $this->string(30)->notNull(),
-            //'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull(),
             'id_bib_levantamento' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);

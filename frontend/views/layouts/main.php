@@ -60,7 +60,7 @@ AppAsset::register($this);
 
         $carrinhoSession = Yii::$app->session->get('carrinho');
 
-        if(isset($carrinhoSession)){
+        if($carrinhoSession!=null){
             foreach ($carrinhoSession as $livro){
                 $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 20%']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
             }
