@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+namespace backend\controllers;
 
 use Yii;
 use app\models\Requisicao;
@@ -37,6 +38,28 @@ class RequisicaoController extends Controller
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionPreparar()
+    {
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 1);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionLevantar()
+    {
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 2);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

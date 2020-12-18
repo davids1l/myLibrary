@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\RequisicaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Requisicaos';
+$this->title = 'Requisições';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requisicao-index">
@@ -15,7 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Requisicao', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição p/ preparar', ['preparar'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição pronta a Levantar', ['levantar'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar Todas', ['index'], ['class' => 'btn btn-info']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

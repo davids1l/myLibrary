@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Requisicao */
 
-$this->title = 'Create Requisicao';
-$this->params['breadcrumbs'][] = ['label' => 'Requisicaos', 'url' => ['index']];
+$this->title = 'Adicionar Requisição';
+$this->params['breadcrumbs'][] = ['label' => 'Requisições', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requisicao-create">
