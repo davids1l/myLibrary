@@ -27,6 +27,11 @@ $this->title = 'Painel';
                                     'class' => 'btn btn-success'
                                 ]) ?>
                             </div>
+                            <div class="col-md-2">
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Livros Requisitados', ['livros/requisitado'], [
+                                    'class' => 'btn btn-info'
+                                ]) ?>
+                            </div>
                         </div>
                     </div>
                 </div>

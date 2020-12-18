@@ -6,6 +6,8 @@ namespace backend\controllers;
 use app\models\Biblioteca;
 use app\models\Editora;
 use app\models\Autor;
+use app\models\Requisicao;
+use app\models\RequisicaoLivro;
 use app\models\Utilizador;
 use Yii;
 use app\models\Livro;
@@ -58,6 +60,32 @@ class LivrosController extends Controller
             'livros' => $livros,
             'searchModel' => $livro
         ]);
+    }
+
+    public function actionRequisitado() {
+
+        $requisicoes = RequisicaoLivro::find()
+            ->orderBy('id_livro')
+            ->all();
+
+        $requisicoesTerminadas = [];
+        foreach ($requisicoes as $requisicao){
+            if($requisicao->requisicao->estado != 'Terminada'){
+                array_push($requisicoesTerminadas, $requisicao->id_livro);
+            }
+        }
+
+        $livros = Livro::find()
+            ->where(['id_livro' => $requisicoesTerminadas])
+            ->all();
+
+        $livro = new Livro();
+
+        return $this->render('index', [
+            'livros' => $livros,
+            'searchModel' => $livro
+        ]);
+
     }
 
     /**

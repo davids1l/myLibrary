@@ -33,6 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar todos', ['livros/index'], [
         'class' => 'btn btn-info'
     ]); ?>
+    <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar requisitados', ['livros/requisitado'], [
+        'class' => 'btn btn-info'
+    ]); ?>
     <?php ActiveForm::end() ?>
     <br/>
     <?php if($livros != null) { ?>
