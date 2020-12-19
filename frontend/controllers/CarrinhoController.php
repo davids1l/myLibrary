@@ -128,6 +128,12 @@ class CarrinhoController extends Controller
 
     }
 
+    /**
+     * @param $id_livro
+     * @return bool
+     * Recebe o id do livro e verifica se este se encontra em requisição e se o estado dessa requição é terminada
+     *
+     */
     public function verificarEmRequisicao($id_livro){
 
         $requisicoes = RequisicaoLivro::find()

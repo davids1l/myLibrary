@@ -42,7 +42,6 @@ class ComentarioController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                    'comentar' => ['post'],
                 ],
             ],
         ];
@@ -126,13 +125,15 @@ class ComentarioController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->dta_comentario = Carbon::now();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_comentario]);
+            Yii::$app->session->setFlash('success', 'Comentário alterado com sucesso');
+            return $this->redirect(['livro/detalhes', 'id' => $model->id_livro]);
         }
 
-        return $this->render('update', [
-            'model' => $model,
+        return $this->render('detalhes', [
+            'id' => $model->id_livro,
         ]);
     }
 

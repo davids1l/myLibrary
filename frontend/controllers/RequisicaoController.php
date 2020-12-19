@@ -77,7 +77,12 @@ class RequisicaoController extends Controller
      */
     public function actionIndex()
     {
-        $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
+        //Operador trenário que verifica se o user é guest. Se sim requisições = null, se estiver logado faz a query para as requisições
+        /*!Yii::$app->user->isGuest ? $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->
+            orderBy(['id_requisicao' =>SORT_DESC])->all() : $requisicoes = null;*/
+
+        $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
+
 
         return $this->render('index', ['requisicoes' => $requisicoes]);
     }
@@ -126,7 +131,6 @@ class RequisicaoController extends Controller
 
         if ($carrinho != null){
             $model = new Requisicao();
-
 
             $model->estado = 'A aguardar tratamento';
             //$model->dta_levantamento = null; //$postData['Requisicao']['dta_levantamento'];

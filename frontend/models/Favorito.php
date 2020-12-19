@@ -46,4 +46,8 @@ class Favorito extends \yii\db\ActiveRecord
             'id_utilizador' => 'Id Utilizador',
         ];
     }
+
+    public function getLivro(){
+        return $this->hasOne(Livro::className(), ['id_livro' => 'id_livro']);
+    }
 }
