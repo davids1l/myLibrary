@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?= GridView::widget([
+        'summary' => 'Total de Leitores: {totalCount}',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -32,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute' => 'numero',
-                'label' => 'Nº de bibliotecário',
+                'label' => 'Nº de Leitor',
             ],
             //'id_utilizador',
             [
@@ -43,8 +44,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'ultimo_nome',
                 'label' => 'Apelido',
             ],
-            //'bloqueado',
-            //'dta_bloqueado',
+            [
+                'attribute' => 'bloqueado',
+                'value' => function ($model) {
+                    if ($model->bloqueado != 1) {
+                        return '';
+                    } else {
+                        return 'Bloqueado';
+                    }
+                }
+            ],
+            [
+                'attribute' => 'dta_bloqueado',
+                'label' => 'Data do bloqueio',
+                'value' => function ($model) {
+                    if ($model->dta_bloqueado == null) {
+                        return '';
+                    } else {
+                        return Carbon::parse($model->dta_bloqueado)->format('d-m-Y H:i:s');
+                    }
+                }
+            ],
 
             [
                 'attribute' => 'num_telemovel',
@@ -62,14 +82,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'dta_nascimento',
                 'label' => 'Data de Nascimento',
+                'value' => function ($model) {
+                    return Carbon::parse($model->dta_nascimento)->format('d-m-Y');
+                }
 
             ],
             //'dta_registo',
-            [
-                'attribute' => 'id_biblioteca',
-                'value' => 'biblioteca.nome',
-                'label' => 'Biblioteca',
-            ],
             [
                 'attribute' => 'foto_perfil',
                 'format' => 'html',
@@ -81,91 +99,38 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Ações',
-                'template' => '{view}{delete}',
+                'template' => /*{view}*/ '{bloquear} {delete}',
                 'buttons' => [
                     'delete' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                             'data' => [
-                                'confirm' => 'Tem a certeza que quer eliminar o bibliotecário com o nº ' . $model->numero . '?',
+                                'confirm' => 'Tem a certeza que quer eliminar o leitor com o nº ' . $model->numero . '?',
                                 'method' => 'post',
                             ]
                         ]);
                     },
+
+                    'bloquear' => function ($url, $model) {
+                        if ($model->bloqueado != 1) {
+                            return Html::a('<span class="glyphicon glyphicon-ban-circle"></span>', $url, [
+                                'data' => [
+                                    'confirm' => 'Tem a certeza que quer bloquear o leitor com o nº ' . $model->numero . '?'
+                                ]
+                            ]);
+                        } else {
+                            return Html::a('<span class="glyphicon glyphicon-ok-circle"></span>', $url, [
+                                'data' => [
+                                    'confirm' => 'Tem a certeza que quer desbloquear o leitor com o nº ' . $model->numero . '?'
+                                ]
+                            ]);
+                        }
+                    }
                 ]
 
             ],
         ],
     ]); ?>
-
-
-    <!--<table class="tableLeitores">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Nº Leitor</th>
-            <th>Email</th>
-            <th>Bloqueado</th>
-            <th>Data do bloqueio</th>
-            <th>Data de nascimento</th>
-            <th>NIF</th>
-            <th>Nº de telemóvel</th>
-            <th>Data de registo</th>
-            <th>Imagem</th>
-        </tr>
-
-        <?php
-/*        foreach ($utilizadores as $utilizador) { */?>
-            <tr>
-                <th><h4><?/*= Html::encode($utilizador->id_utilizador); */?></h4></th>
-                <th><h4><?/*= Html::encode($utilizador->primeiro_nome . " " . $utilizador->ultimo_nome); */?></h4></th>
-                <th><h4><?/*= Html::encode($utilizador->numero); */?></h4></th>
-                <th><h4><?/*= Html::encode($utilizador->user->email); */?></h4></th>
-
-                <?php
-/*                if($utilizador->bloqueado == 1){ */?>
-                    <th><h4>Bloqueado</h4></th>
-                <?php /*}else{ */?>
-                    <th></th>
-                <?php /*} */?>
-
-                <?php /*if(!$utilizador->dta_bloqueado == null){ */?>
-                    <th><h4><?/*=Carbon::parse(Html::encode($utilizador->dta_bloqueado))->format('d/m/Y H:i:s');*/?> </h4></th>
-                        <?php /*}else{ */?>
-                    <th></th>
-                <?php /*} */?>
-
-                <th><h4><?/*= Carbon::parse(Html::encode($utilizador->dta_nascimento))->format('d/m/Y'); */?></h4></th>
-                <th><h4><?/*= Html::encode($utilizador->nif); */?></h4></th>
-                <th><h4><?/*= Html::encode($utilizador->num_telemovel); */?></h4></th>
-                <th><h4><?/*= Carbon::parse(Html::encode($utilizador->dta_registo))->format('d/m/Y H:i:s'); */?></h4></th>
-                <th><?/*= Html::img(Yii::$app->request->baseUrl . '../../../frontend/web/imgs/perfil/' . $utilizador->foto_perfil, ['width' => '60px', 'height' => '60px']) */?></th>
-                <th><?/*= Html::a('<i class="glyphicon glyphicon-eye-open">', ['utilizador/view', 'id' => $utilizador->id_utilizador]) */?></th>
-
-                <?php /*if($utilizador->bloqueado == 1){ */?>
-                    <th><?/*= Html::a('<i class="glyphicon glyphicon-ok-circle">', ['utilizador/bloquear', 'id' => $utilizador->id_utilizador], [
-                            'data' => [
-                                'confirm' => 'Tem a certeza que quer desbloquear o leitor com o nº ' . $utilizador->numero . '?',
-                                'method' => 'post',
-                            ],
-                        ]) */?></th>
-                <?php /*}else{ */?>
-                    <th><?/*= Html::a('<i class="glyphicon glyphicon-ban-circle">', ['utilizador/bloquear', 'id' => $utilizador->id_utilizador], [
-                            'data' => [
-                                'confirm' => 'Tem a certeza que quer bloquear o leitor com o nº ' . $utilizador->numero . '?',
-                                'method' => 'post',
-                            ],
-                        ]) */?></th>
-                <?php /*} */?>
-                <th><?/*= Html::a('<i class="glyphicon glyphicon-trash">', ['utilizador/delete', 'id' => $utilizador->id_utilizador], [
-                        'data' => [
-                            'confirm' => 'Tem a certeza que quer eliminar o leitor com o nº ' . $utilizador->numero . '?',
-                            'method' => 'post',
-                        ],
-                    ]) */?></th>
-        <?php /*} */?>
-    </table>-->
 </div>
-
 
 
 <!-- Modal para criar leitor -->
@@ -178,12 +143,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 </button>
                 <h2 class="modal-title" id="exampleModalLabel">Criar Leitor</h2>
             </div>
-            <div class="row" style="background-color: white">
+            <div class="row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
                     <?php $form = ActiveForm::begin([
                         'action' => ['utilizador/create']]) ?>
-                    <div class="row" style="background-color: white">
+                    <div class="row">
                         <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
                         <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
                         <?= $form->field($model, 'email') ?>

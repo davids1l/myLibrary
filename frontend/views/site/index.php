@@ -4,6 +4,7 @@
 
 $this->title = 'My Yii Application';
 
+use yii\helpers\Html;
 use yii\widgets\ActiveForm; ?>
 <div class="site-index">
 
@@ -21,9 +22,12 @@ use yii\widgets\ActiveForm; ?>
             <div class="col-lg-4">
                 <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                    dolore eu
                     fugiat nulla pariatur.</p>
 
                 <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
@@ -31,9 +35,12 @@ use yii\widgets\ActiveForm; ?>
             <div class="col-lg-4">
                 <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                    dolore eu
                     fugiat nulla pariatur.</p>
 
                 <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
@@ -41,65 +48,133 @@ use yii\widgets\ActiveForm; ?>
             <div class="col-lg-4">
                 <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                    dolore eu
                     fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a>
+                </p>
             </div>
         </div>
     </div>
 
-
-    <!--<div class="modal fade" id="regLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- Modal para abrir o login e o registo -->
+    <div class="modal fade" id="regLogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal" role="document">
             <div class="modal-content">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-                    <li><a href="#access-security" data-toggle="tab">Access / Security</a></li>
-                    <li><a href="#networking" data-toggle="tab">Networking</a></li>
-                </ul>
+                <div class="modal-c-tabs">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <?php if ($model->primeiro_nome == null) { ?>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#login" data-toggle="tab" role="tab">Login</a>
+                            </li>
+                        <?php } else { ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#login" data-toggle="tab" role="tab">Login</a>
+                            </li>
+                        <?php } ?>
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Alterar Dados Pessoais</h2>
-                </div>
-                <?php /*$form = ActiveForm::begin([
-                    'action' => ['utilizador/update', 'id' => $model->id_utilizador]]) */?>
-                <div class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="modal-body col-sm-6">
-                        <table>
-                            <tr>
-                                <th><?/*= $form->field($model, 'primeiro_nome')->textInput(['value' => $model->primeiro_nome])->label('Primeiro Nome:') */?></th>
-                            </tr>
-                            <tr>
-                                <th><?/*= $form->field($model, 'ultimo_nome')->textInput(['value' => $model->ultimo_nome])->label('Ultimo Nome:') */?></th>
-                            </tr>
-                            <tr>
-                                <th><?/*= $form->field($userModel, 'email')->textInput(['value' => $userModel->email])->label('Email:') */?></th>
-                            </tr>
-                            <tr>
-                                <th><?/*= $form->field($model, 'num_telemovel')->textInput(['value' => $model->num_telemovel])->label('Número de Telemóvel:') */?></th>
-                            </tr>
-                            <tr>
-                                <th><?/*= $form->field($model, 'dta_nascimento')->Input('date', ['value' => $model->dta_nascimento])->label('Data de Nascimento:') */?></th>
-                            </tr>
-                            <tr>
-                                <th><?/*= $form->field($model, 'nif')->textInput(['value' => $model->nif])->label('NIF:') */?></th>
-                            </tr>
-                        </table>
+                        <?php if ($model->primeiro_nome != null) { ?>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab">Registar</a>
+                            </li>
+                        <?php } else { ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab">Registar</a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+
+                    <div class="tab-content">
+                        <?php if ($model->primeiro_nome == null){ ?>
+                        <div class="tab-pane fade in active" id="login" role="tabpanel">
+                            <?php }else{ ?>
+                            <div class="tab-pane fade" id="login" role="tabpanel">
+                                <?php } ?>
+                                <div class="modal-body mb-1">
+                                    <div class="md-form form-sm mb-5">
+                                        <?php $form = ActiveForm::begin(['id' => 'login-form', 'action' => ['site/login']]); ?>
+                                        <?= $form->field($modelLogin, 'email')->textInput(['autofocus' => true]) ?>
+                                    </div>
+
+                                    <div class="md-form form-sm mb-4">
+                                        <?= $form->field($modelLogin, 'password')->passwordInput()->label('Palavra-passe') ?>
+                                    </div>
+
+                                    <div class="text-center mt-2">
+                                        <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                                        <?php ActiveForm::end(); ?>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="options text-center text-md-right mt-1">
+                                        <p>Not a member? <a href="#" class="blue-text">Sign Up</a></p>
+                                        <p>Forgot <a href="#" class="blue-text">Password?</a></p>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-info waves-effect ml-auto"
+                                            data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+
+                            <?php if ($model->primeiro_nome == null){ ?>
+                            <div class="tab-pane fade" id="registar" role="tabpanel">
+                                <?php }else{ ?>
+                                <div class="tab-pane fade in active" id="registar" role="tabpanel">
+                                    <?php } ?>
+
+                                    <div class="modal-body mb-1">
+                                        <div class="md-form form-sm mb-5">
+                                            <?php $form = ActiveForm::begin(['id' => 'form-signup', 'action' => ['site/signup']]); ?>
+                                            <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
+                                        </div>
+                                        <div class="md-form form-sm mb-5">
+                                            <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
+                                        </div>
+                                        <div class="md-form form-sm mb-5">
+                                            <?= $form->field($model, 'email') ?>
+                                        </div>
+                                        <div class="md-form form-sm mb-5">
+                                            <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
+                                        </div>
+                                        <div class="md-form form-sm mb-5">
+                                            <?= $form->field($model, 'nif')->label('NIF') ?>
+                                        </div>
+                                        <div class="md-form form-sm mb-5">
+                                            <?= $form->field($model, 'num_telemovel')->label('Nº de telefone') ?>
+                                        </div>
+                                        <div class="md-form form-sm mb-5">
+                                            <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
+                                        </div>
+                                        <div class="md-form form-sm mb-5">
+                                            <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
+                                        </div>
+
+
+                                        <div class="text-center form-sm mt-2">
+                                            <?= Html::submitButton('Registar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                                            <?php ActiveForm::end(); ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <div class="options text-right">
+                                            <p class="pt-1">Already have an account? <a href="#" class="blue-text">Log
+                                                    In</a></p>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-info waves-effect ml-auto"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-3"></div>
                 </div>
-                <div class="modal-footer">
-                    <?/*= Html::submitButton('Guardar Alterações', ['class' => 'btn-perfil']) */?>
-                </div>
-                <?php /*ActiveForm::end() */?>
             </div>
         </div>
-    </div>-->
-</div>

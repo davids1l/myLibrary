@@ -53,6 +53,17 @@ class RequisicaoController extends Controller
         ];
     }
 
+
+    function actionShowmodal($key){
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $js='$("#livrosModal").modal("show")';
+        $this->getView()->registerJs($js);
+        return $this->render('index', ['key' => $key, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider]);
+    }
+
+
     public function actionFinalizar()
 {
     $model = new Requisicao();
@@ -77,9 +88,11 @@ class RequisicaoController extends Controller
      */
     public function actionIndex()
     {
-        $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $key = null;
 
-        return $this->render('index', ['requisicoes' => $requisicoes]);
+        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $searchModel, 'key' => $key]);
     }
 
     /**

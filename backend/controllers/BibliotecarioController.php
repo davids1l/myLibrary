@@ -3,11 +3,13 @@
 namespace app\controllers;
 namespace backend\controllers;
 
+use app\models\Biblioteca;
 use common\models\SignupForm;
 use common\models\User;
 use Yii;
 use app\models\Utilizador;
 use app\models\BibliotecarioSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -44,8 +46,11 @@ class BibliotecarioController extends Controller
 
         $searchModel = new BibliotecarioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $bibliotecas = Biblioteca::find()->all();
 
-        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
+        $listBib = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
+        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model, 'bibliotecas' => $listBib]);
     }
 
     /**
@@ -68,11 +73,19 @@ class BibliotecarioController extends Controller
     {
         $model = new SignupForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->signup(1)) {
-            Yii::$app->session->setFlash('success', 'Bibliotecário inserido com sucesso.');
-            return $this->actionIndex();
-        }
+        if ($model->load(Yii::$app->request->post())) {
 
+            $biblioteca = Yii::$app->request->post();
+            $model->id_biblioteca = $biblioteca['SignupForm']['id_biblioteca'];
+            if($model->signup(1)){
+                Yii::$app->session->setFlash('success', 'Bibliotecário inserido com sucesso.');
+                return $this->actionIndex();
+            }else{
+                $model->password = '';
+                $model->confirmarPassword = '';
+                return $this->actionIndex($model);
+            }
+        }
         $model->password = '';
         $model->confirmarPassword = '';
         return $this->actionIndex($model);

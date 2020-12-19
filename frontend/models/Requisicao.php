@@ -51,4 +51,9 @@ class Requisicao extends \yii\db\ActiveRecord
             'id_bib_levantamento' => 'Id Bib Levantamento',
         ];
     }
+
+    public function getBiblioteca()
+    {
+        return $this->hasOne(Biblioteca::className(), ['id_biblioteca' => 'id_bib_levantamento']);
+    }
 }

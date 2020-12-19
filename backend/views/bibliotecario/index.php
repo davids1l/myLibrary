@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
+        'summary' => 'Total de Bibliotecários: {totalCount}',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -82,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Ações',
-                'template' => '{view}{delete}',
+                'template' => '{view} {delete}',
                 'buttons' => [
                     'delete' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
@@ -108,20 +109,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Criar Bibliotecário</h2>
+                    <h2 class="modal-title" id="exampleModalLabel">Inserir Bibliotecário</h2>
                 </div>
-                <div class="row" style="background-color: white">
+                <div class="row">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-8">
-                        <?php $form = ActiveForm::begin([
-                            'action' => ['bibliotecario/create']]) ?>
-                        <div class="row" style="background-color: white">
+                        <?php $form = ActiveForm::begin(['action' => ['bibliotecario/create']]) ?>
+                        <div class="row">
                             <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
                             <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
                             <?= $form->field($model, 'email') ?>
                             <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
                             <?= $form->field($model, 'nif')->label('NIF') ?>
                             <?= $form->field($model, 'num_telemovel')->label('Nº de telefone') ?>
+                            <?= $form->field($model, 'id_biblioteca')->label('Biblioteca')->dropDownList($bibliotecas)?>
                             <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
                             <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                         </div>

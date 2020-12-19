@@ -44,8 +44,8 @@ AppAsset::register($this);
         ['label' => 'Requisições', 'url' => ['/requisicao/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        //$menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Iniciar Sessão/Registar', 'url' => ['/site/showmodal']];
 
     } else {
 
@@ -62,7 +62,8 @@ AppAsset::register($this);
 
         if($carrinhoSession!=null){
             foreach ($carrinhoSession as $livro){
-                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 20%']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
+                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 50px']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
+                $items[] = ['label' => '<hr style="margin: 0;>'];
             }
             $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>'../requisicao/finalizar'];
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' => $items];
