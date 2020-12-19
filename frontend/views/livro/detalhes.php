@@ -3,8 +3,6 @@
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 
-/* @var $livro  */
-/* @var $comentarios  */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -20,9 +18,9 @@ $this->title = "Detalhes do Livros";
 <div class="container">
     <div class="row">
         <section class="col-xs-12">
-            <div class="col-xs-12 col-md-5 col-lg-6">
+            <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="capa-livro">
-                    <?= Html::img($livro->capa, ['id'=> 'imgCapa', 'style' => 'width: 149%']) ?>
+                    <?= Html::img($livro->capa, ['id'=> 'imgCapa', 'style' => 'width: 150%']) ?>
                 </div>
             </div>
 
@@ -35,18 +33,27 @@ $this->title = "Detalhes do Livros";
                         <b>ISBN: </b><?= Html::encode($livro->isbn)?> |
                         <b>Formato: </b><?= Html::encode($livro->formato)?> |
                         <b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?> -
-                        <a id="maisDetalhes">mais detalhes deste livro</a>
+                        <a id="maisDetalhes" href="#bookDetails">mais detalhes deste livro</a>
                     </span>
                 </div>
                 <div class="rating">
-                    <span class="glyphicon glyphicon-star star-filed" style="color: darkorange"></span>
+                    <!--<span class="glyphicon glyphicon-star star-filed" style="color: darkorange"></span>
                     <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
                     <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
                     <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span><span> 4/5</span>
+                    <span class="glyphicon glyphicon-star-empty"></span><span> 4/5</span> -->
+                    <!-- <span ><b class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></b><i>(<?= $totalFav?>) favoritos</i></span> -->
+                    <span class="badge"><i class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></i><?= $totalFav?></span>
+
+
                 </div>
                 <div class="actions" style="display: flex;">
-                    <div class="btnAction" style="background-color: #c9302c; margin-left: 2%"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
+                    <?php if(!is_null($favorito)){ ?>
+                            <div class="btnAction" style="background-color: #c9302c; margin-left: 2%"><?= Html::a('', ['favorito/delete', 'id' => $favorito->id_favorito],
+                                    ['data' => ['method' => 'post'], 'class' =>"glyphicon glyphicon-heart"])?></div>
+                    <?php } else { ?>
+                        <div class="btnAction" style="background-color: #ced4da; margin-left: 2%"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
+                    <?php }?>
                     <div class="btnAction" style="margin-left: 2%"><?= Html::a('', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart"])?></div>
                 </div>
                 <div class="sinopse-content">
@@ -54,8 +61,7 @@ $this->title = "Detalhes do Livros";
                     <?php if($livro->sinopse != null) {
                         if (strlen($livro->sinopse) > 400){
                             $sinopse = substr($livro->sinopse, 0, 800) . '...' ?>
-                            <span><?= Html::encode($sinopse) ?> (<?= Html::a('mostrar mais') ?>)</span>
-
+                            <span class="sinopse" id="lessSinopse "><?= Html::encode($sinopse) ?> (<a class="mostrarmais">mostrar mais</a>)</span>
                         <?php }?>
                     <?php } else { ?>
                         <p>Sinopse Indisponível</p>
@@ -66,13 +72,11 @@ $this->title = "Detalhes do Livros";
     </div>
 
     <div class="row">
-        <section class="col-lg-12">
-
+        <section class="col-xs-12">
             <div class="col-xs-12 col-md-7 col-lg-6 comentarios">
                 <div class="commentSection">
-                    <?= Html::img(Yii::$app->user->id) //TODO: no model fazer getUtilizador para ir buscar a foto de perfil do user loggado?>
                     <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
-                    <?= $form->field($model, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', ]); ?>
+                    <?= $form->field($modelComentario, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', 'style' => 'resize: none']); ?>
                     <?= Html::submitButton('Comentar', ['name' => 'comentario', 'class' => 'btnComment']) ?>
                     <?php ActiveForm::end(); ?>
                 </div>
@@ -84,13 +88,14 @@ $this->title = "Detalhes do Livros";
                         <?php foreach ($comentarios as $comentario){ ?>
                             <div class="comentario" style="margin-top: 2%">
                                 <div class="">
-                                    <span><?= Html::img($comentario->utilizador->foto_perfil, ['class' => 'imgPerfil'])?>
+                                    <span><?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $comentario->utilizador->foto_perfil, ['class' => 'imgPerfil'])?>
                                         <?= Html::a($comentario->utilizador->primeiro_nome . ' ' .$comentario->utilizador->ultimo_nome) ?></span>
                                     <p><?= $comentario->comentario ?></p>
                                     <i><?= $comentario->dta_comentario ?></i>
                                     <span class="commentActions">
                                     <?php if($comentario->id_utilizador == Yii::$app->user->id){ //TODO:alterar pela rule do RBAC ?>
-                                        <?= Html::a('', ['comentario/update', 'id' => $comentario->id_comentario], ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer'])?>
+                                        <?= Html::a('', null, ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer',
+                                           'data-toggle'=>'modal', 'data-target' => "#alterarComentarioModal" ])?>
                                         <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario],
                                             ['data' => ['method' => 'post', 'confirm' =>'Tem a certeza que quer eliminar o comentário?'],
                                                 'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
@@ -99,8 +104,35 @@ $this->title = "Detalhes do Livros";
                                 </div>
                             </div>
 
-                        <?php }
 
+                            <!-- Modal para alterar comentário -->
+                            <div class="modal fade" id="alterarComentarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h2 class="modal-title" id="exampleModalLabel">Alterar comentário</h2>
+                                        </div>
+                                        <?php $form = ActiveForm::begin([
+                                            'action' => ['comentario/update', 'id' => $comentario->id_comentario]]) ?>
+                                        <div class="" style="background-color: white">
+                                            <div class="col-lg-12">
+                                                <?= $form->field($modelComentario, 'comentario')->label('Novo comentário')->textarea(['placeholder' => 'Escreva o novo comentário..',
+                                                    'style' => 'resize: none'])?>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <?= Html::submitButton('Alterar', ['class' => 'btn-perfil']) ?>
+                                        </div>
+                                        <?php ActiveForm::end() ?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        <?php }
                          if(sizeof($comentarios) > 3) {?>
                         <div class="showMoreComments">
                             <a>Mostar mais</a>
@@ -113,7 +145,7 @@ $this->title = "Detalhes do Livros";
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-7 col-lg-6 bookDetails" style="margin-top: 2%; padding: 3%">
+            <div class="col-xs-12 col-md-7 col-lg-6" id="bookDetails" style="margin-top: 2%; padding: 3%">
                 <h4>DETALHES DO LIVRO</h4>
                 <div style="margin-top: 7%">
                     <h4><?= Html::encode($livro->titulo)?></h4>

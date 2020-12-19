@@ -25,23 +25,18 @@ $this->title = 'Finalizar requisição';
 
         if ($carrinhoSession != null) {
             foreach ($carrinhoSession as $livro) { ?>
-                <div class="col-xs-12 col-lg-12" style="background-color: #e5e5e5; margin-top: 1%; padding: 1%;">
-                    <div class="col-xs-8 col-lg-6">
-                        <div class="capa-livro-requisicao col-xs-7 col-lg-2">
-                            <?= Html::img($livro->capa, ['style' => 'max-width: 100%']) ?>
-                        </div>
-                        <div class="detalhes-livro-requisicao cold-xs-1 col-lg-4">
-                            <?= Html::encode($livro->titulo) ?>
-                            <?= Html::encode($livro->autor->nome_autor) ?>
-                            <p>
-                                Formato:
-                                <?= Html::encode($livro->formato) ?>
-                            </p>
-                        </div>
+                <div class="col-xs-12 col-md-12 col-lg-12 livroField">
+                    <div class="capa-livro-requisicao col-xs-4 col-md-1 col-lg-1">
+                        <?= Html::img($livro->capa, ['class' => 'capaLivroFinalizar']) ?>
                     </div>
-                    <div class="actions-livros-carrinho col-xs-4 col-lg-6">
+                    <div class="detalhes-livro-requisicao col-xs-6 col-md-10 col-lg-10">
+                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h5><?= Html::encode($livro->autor->nome_autor) ?></h5>
+                        <h6>Edição: <?= Html::encode($livro->ano) ?></h6>
+                    </div>
+                    <div class="col-xs-2 col-md-1 col-lg-1">
                         <?= Html::a(null, ['carrinho/remover', 'id_livro' => $livro->id_livro], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro?'],
-                            'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer']) ?>
+                                'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer']) ?>
                     </div>
                 </div>
             <?php } ?>

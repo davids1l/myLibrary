@@ -56,8 +56,8 @@ class Comentario extends \yii\db\ActiveRecord
         return [
             'id_comentario' => 'Id Comentario',
             'dta_comentario' => 'Dta Comentario',
-            'comentario' => 'Comentario',
-            'id_livro' => 'Id Livros',
+            'comentario' => 'Comentário',
+            'id_livro' => 'Id Livro',
             'id_utilizador' => 'Id Utilizador',
         ];
     }

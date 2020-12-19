@@ -72,21 +72,21 @@ AppAsset::register($this);
 
         $carrinhoSession = Yii::$app->session->get('carrinho');
 
-        if ($carrinhoSession != null) {
-            foreach ($carrinhoSession as $livro) {
-                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 50px']) . ' ' . $livro->titulo, 'url' => '../livro/detalhes?id=' . $livro->id_livro];
-                $items[] = ['label' => '<hr style="margin: 0;>'];
+        if($carrinhoSession!=null){
+            foreach ($carrinhoSession as $livro){
+                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 50px']).' '.$livro->titulo, 'url' => ['/livro/detalhes?id='.$livro->id_livro]];
             }
-            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url' => '../requisicao/finalizar'];
-            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' => $items];
+            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>['/requisicao/finalizar']];
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart badge">'.count($items).'</span>', 'url' => '', 'items' => $items];
 
         } else {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' =>
-                ['label' => '<h4>Carrinho vazio</h4>', 'url' => '']
+                ['label' => '<b>Carrinho vazio</b>', 'url' => '']
             ];
         }
 
         $submenus[] = ['label' => 'Perfil', 'url' => ['/utilizador/perfil']];
+        $submenus[] = ['label' => 'Favoritos', 'url' => ['/favorito/index']];
         $submenus[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
         $menuItems[] = ['label' => $utilizador->primeiro_nome . '&nbsp ' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '20px', 'height' => '20px']), 'url' => '', 'items' => $submenus];
 
