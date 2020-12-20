@@ -9,6 +9,7 @@ use app\models\Autor;
 use app\models\Requisicao;
 use app\models\RequisicaoLivro;
 use app\models\Utilizador;
+use common\models\UploadForm;
 use Yii;
 use app\models\Livro;
 use app\models\LivroSearch;
@@ -18,6 +19,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 /**
  * LivrosController implements the CRUD actions for Livro model.
@@ -125,15 +127,31 @@ class LivrosController extends Controller
             ->all();
         $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_livro]);
+        $modelUpload = new UploadForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $pasta = 'capas';
+            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+
+            if ($modelUpload->upload($model['isbn'], $pasta)) {
+                $model->capa = $modelUpload->imageFile->name;
+                $model->save();
+
+                return $this->redirect(['view', 'id' => $model->id_livro]);
+            }else{
+                Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir a capa.');
+                return $this->actionCreate();
+            }
+
         }
 
         return $this->render('create', [
             'model' => $model,
             'editoras' => $listEditoras,
             'autores' => $listAutores,
-            'bibliotecas' => $listBibliotecas
+            'bibliotecas' => $listBibliotecas,
+            'modelUpload' => $modelUpload
         ]);
     }
 
@@ -147,10 +165,6 @@ class LivrosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        /* TODO
-           fazer uma pesquisa pelo id do livro e ir buscar a biblioteca, editora e autor do livro como está feito no create.
-        */
 
         $editoras = Editora::find()
             ->orderBy(['id_editora' => SORT_ASC])
@@ -167,6 +181,24 @@ class LivrosController extends Controller
             ->all();
         $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
 
+        $modelUpload = new UploadForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $pasta = 'capas';
+            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+
+            if ($modelUpload->upload($model['isbn'], $pasta)) {
+                $model->capa = $modelUpload->imageFile->name;
+                $model->save();
+
+                return $this->redirect(['view', 'id' => $model->id_livro]);
+            }else{
+                Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir a capa.');
+                return $this->actionCreate();
+            }
+
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_livro]);
@@ -176,7 +208,8 @@ class LivrosController extends Controller
             'model' => $model,
             'editoras' => $listEditoras,
             'autores' => $listAutores,
-            'bibliotecas' => $listBibliotecas
+            'bibliotecas' => $listBibliotecas,
+            'modelUpload' => $modelUpload
         ]);
     }
 
@@ -189,7 +222,11 @@ class LivrosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $livro = $this->findModel($id);
+
+        unlink($livro->isbn);
+
+        $livro->delete();
 
         return $this->redirect(['index']);
     }
