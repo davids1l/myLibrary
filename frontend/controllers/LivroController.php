@@ -96,12 +96,6 @@ class LivroController extends Controller
     {
         $model = new Livro();
 
-        //select na BD de todos os livro existentes
-        /*$livros = Livro::find()
-            ->orderBy(['titulo' => SORT_ASC])
-            ->limit(6)
-            ->all();*/
-
         $recentes = $this->livrosRecentesFilter();
         $maisRequisitados = $this->livrosMaisRequisitados();
 
@@ -118,16 +112,17 @@ class LivroController extends Controller
             ->where(['id_livro' => $id_livro])
             ->all();
 
-        $requisicoesTerminadas = [];
-        foreach ($requisicoes as $requisicao){
-            if($requisicao->requisicao->estado != 'Terminada'){
-                array_push($requisicoesTerminadas, $requisicao);
-            }
-        }
-
         if(empty($requisicoes)) {
             $canAdicionarCarrinho = true;
         } else {
+
+            $requisicoesTerminadas = [];
+            foreach ($requisicoes as $requisicao){
+                if($requisicao->requisicao->estado != 'Terminada'){
+                    array_push($requisicoesTerminadas, $requisicao);
+                }
+            }
+
             //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
             if ($requisicoesTerminadas != null) {
                 $canAdicionarCarrinho = false;

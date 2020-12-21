@@ -102,32 +102,14 @@ class RequisicaoController extends Controller
 
     /**
      * Creates a new Requisicao model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
     {
-        /*
-         * TODO:
-         * 1- receber o array de sessão carrinho
-         * 3- receber o post com os dados p
-         * reenchidos da requisição e fazer save
-         * 2- foreach a refetuar save na tabela requisicao_livro para cada um dos livros na session carrinho
-         *
-         * TODO: validar as datas recebidas
-         *
-         */
-
         $carrinho = Yii::$app->session->get('carrinho');
 
         $postData = Yii::$app->request->post();
-
-        /*
-        * 1- receber o post
-        * 2- array_search do index 2 e ir buscar o id_bib.
-        */
-
-        //TODO: validar se livro está em requisicao
 
         if ($carrinho != null){
             $model = new Requisicao();
@@ -138,41 +120,33 @@ class RequisicaoController extends Controller
             $model->id_utilizador = Yii::$app->user->id;
             $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
+            $num_excluir = abs(($total_livros) - 5);
 
-                $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
-                Yii::$app->session->destroy();
-                Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
+            if ($total_livros <= 5){
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-                return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                    $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+                    Yii::$app->session->destroy();
+                    Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
+
+                    return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                }
             } else {
-                Yii::$app->session->setFlash('error', 'Ocurreu um problema ao finalizar a sua requisição. Tente novamente!');
+                Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua '. $num_excluir .' livro para concluir esta requisição.');
                 return $this->redirect(['requisicao/finalizar']);
             }
         }
-        Yii::$app->session->setFlash('error', 'Ocurreu um problema ao finalizar a sua requisição. Tente novamente!');
+        Yii::$app->session->setFlash('error', 'Ocorreu um problema ao finalizar a sua requisição. Tente novamente!');
         return $this->redirect(['requisicao/finalizar']);
-       /*return $this->render('create', [
-            'model' => $model,
-        ]);*/
     }
 
 
     public function adicionarRequisicaoLivro($id_requisicao, $carrinho){
         $requisicaoModel = new RequisicaoLivro();
 
-        //TODO: foreach livro carrinho save requisicao_livro
-
-        //Com foreach-save estava a dar erro
-        /*foreach ($carrinho as $livro) {
-            $requisicaoModel->id_livro = $livro->id_livro;
-            $requisicaoModel->id_requisicao = $id_requisicao;
-
-            $requisicaoModel->save();
-        }*/
-
         /*
-         * Insere dados na tabela requisicao_livro com recuro à estrutura Yii DAO(Database Access Objects)
+         * Insere dados na tabela requisicao_livro com recurso à estrutura Yii DAO(Database Access Objects)
          * recomendado quando o objetivo é inserir multiplos objetos
          */
         foreach ($carrinho as $livro) {
@@ -184,6 +158,25 @@ class RequisicaoController extends Controller
             } catch (Exception $e) {
             }
         }
+    }
+
+    /**
+     * Através do id do utilizador com login efetuado determina a quantidade de livros que este tem em requisição
+     * Se este nº exceder um total de 5, então o utilizador atingiu o limite de livros em requisição e é negado adicionar este ao carrinho/finalizar requisicao
+     */
+    public function totalLivrosEmRequisicao()
+    {
+        //subquery que obtem os dados relativos à requisicao em que se verifique => id utilizador = id utilizador logado e estado da requisicao terminada
+        $subQuery = Requisicao::find()
+            ->where(['id_utilizador' =>Yii::$app->user->id])
+            ->andWhere(['!=', 'estado', 'Terminada']);
+
+        //query responsável por obter a contagem de "requisicao_livro" onde se verfique subquery.id_requisicao = requiscao_livro.id_requisicao
+        $totalReq = RequisicaoLivro::find()
+            ->innerJoin(['sub' => $subQuery], 'requisicao_livro.id_requisicao = sub.id_requisicao')
+            ->count();
+
+        return $totalReq;
     }
 
 

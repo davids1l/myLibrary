@@ -72,7 +72,7 @@ $this->title = "Detalhes do Livro";
     </div>
 
     <div class="row">
-        <section class="col-xs-12">
+        <section>
             <div class="col-xs-12 col-md-7 col-lg-6 comentarios">
                 <div class="commentSection">
                     <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
@@ -145,7 +145,7 @@ $this->title = "Detalhes do Livro";
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-7 col-lg-6" id="bookDetails" style="margin-top: 2%; padding: 3%">
+            <div class="col-xs-12 col-md-7 col-lg-6" id="bookDetails" style="margin-top: 3%">
                 <h4>DETALHES DO LIVRO</h4>
                 <div style="margin-top: 7%">
                     <h4><?= Html::encode($livro->titulo)?></h4>

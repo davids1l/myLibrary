@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
+use yii\widgets\LinkPager;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FavoritoSearch */
@@ -16,22 +17,23 @@ $this->title = 'Meus favoritos';
 <div class="favorito-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <hr>
 
-    <div class="col-xs-12 col-md-12 col-lg-12 searchBar">
-        <div class="col-lg-4">
-            <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'action'=>['favorito/procurar']]); ?>
-            <?= $form->field($searchModel, 'dta_favorito')->textInput(['placeholder'=>'Insira o título do livro'])?>
-            <?= Html::submitButton('Procurar', ['class' => 'btn btn-info']) ?>
-            <?php ActiveForm::end(); ?>
-        </div>
-
-    </div>
 
     <div class="listaFavoritos">
         <?php
-        if ($favoritos != null) {
-            foreach ($favoritos as $fav) { ?>
+        if ($models != null) { ?>
+
+            <div class="col-xs-12 col-md-12 col-lg-12 searchBar">
+                <div class="col-lg-4">
+                    <?php $form = ActiveForm::begin(['id' => 'pesquisa-form', 'action' => ['favorito/procurar']]); ?>
+                    <?= $form->field($searchModel, 'dta_favorito')->textInput(['placeholder' => 'Insira o título do livro']) ?>
+                    <?= Html::submitButton('Procurar', ['class' => 'btn btn-info']) ?>
+                    <?php ActiveForm::end(); ?>
+                </div>
+
+            </div>
+
+            <?php foreach ($models as $fav) { ?>
                 <div class="col-xs-12 col-md-12 col-lg-12 livroField">
                     <div class="capa-livro-requisicao col-xs-4 col-md-1 col-lg-1">
                         <?= Html::img($fav->livro->capa, ['class' => 'capaLivroFinalizar']) ?>
@@ -46,11 +48,16 @@ $this->title = 'Meus favoritos';
                             'class' => 'glyphicon glyphicon-heart favoritoAction']) ?>
                     </div>
                 </div>
-            <?php }
-        } ?>
-    </div>
-    <div class="requisicao">
+            <?php } ?>
 
-    </div>
+            <div class="pagination">
+                <?php LinkPager::widget([
+                   'pagination' => $paginacao,
+                ]); ?>
+            </div>
 
+        <?php } else { ?>
+            <?= Html::encode('Carrinho vazio.');?>
+        <?php } ?>
+    </div>
 </div>
