@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Yii;
 use app\models\Favorito;
 use app\models\FavoritoSearch;
+use yii\data\Pagination;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -41,14 +42,20 @@ class FavoritoController extends Controller
         //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $favoritos = Favorito::find()
-            ->where(['id_utilizador' => Yii::$app->user->id])
-            ->all();
+            ->where(['id_utilizador' => Yii::$app->user->id]);
 
+        $total = $favoritos->count();
+        $paginacao = new Pagination(['totalCount' => $total]);
+        $models = $favoritos->offset($paginacao->offset)
+            ->limit($paginacao->limit)
+            ->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             //'dataProvider' => $dataProvider,
-            'favoritos' => $favoritos,
+            //'favoritos' => $favoritos,
+            'models' => $models,
+            'paginacao' => $paginacao,
         ]);
     }
 
@@ -136,7 +143,8 @@ class FavoritoController extends Controller
         $model = $this->findModel($id);
         $model->delete();
 
-        return $this->redirect(['favorito/index', 'id' => $model->id_livro]);
+        return $this->redirect(Yii::$app->request->urlReferrer);
+        //return $this->redirect(['favorito/index', 'id' => $model->id_livro]);
     }
 
     /**

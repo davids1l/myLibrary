@@ -16,7 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LivroController implements the CRUD actions for Livros model.
+ * LivroController implements the CRUD actions for Livro model.
  */
 class LivroController extends Controller
 {
@@ -36,7 +36,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Lists all Livros models.
+     * Lists all Livro models.
      * @return mixed
      */
     public function actionIndex()
@@ -96,12 +96,6 @@ class LivroController extends Controller
     {
         $model = new Livro();
 
-        //select na BD de todos os livro existentes
-        /*$livros = Livros::find()
-            ->orderBy(['titulo' => SORT_ASC])
-            ->limit(6)
-            ->all();*/
-
         $recentes = $this->livrosRecentesFilter();
         $maisRequisitados = $this->livrosMaisRequisitados();
 
@@ -118,16 +112,17 @@ class LivroController extends Controller
             ->where(['id_livro' => $id_livro])
             ->all();
 
-        $requisicoesTerminadas = [];
-        foreach ($requisicoes as $requisicao){
-            if($requisicao->requisicao->estado != 'Terminada'){
-                array_push($requisicoesTerminadas, $requisicao);
-            }
-        }
-
         if(empty($requisicoes)) {
             $canAdicionarCarrinho = true;
         } else {
+
+            $requisicoesTerminadas = [];
+            foreach ($requisicoes as $requisicao){
+                if($requisicao->requisicao->estado != 'Terminada'){
+                    array_push($requisicoesTerminadas, $requisicao);
+                }
+            }
+
             //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
             if ($requisicoesTerminadas != null) {
                 $canAdicionarCarrinho = false;
@@ -203,7 +198,7 @@ class LivroController extends Controller
 
 
     /**
-     * Displays a single Livros model.
+     * Displays a single Livro model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -216,7 +211,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Creates a new Livros model.
+     * Creates a new Livro model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
@@ -234,7 +229,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Updates an existing Livros model.
+     * Updates an existing Livro model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -254,7 +249,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Deletes an existing Livros model.
+     * Deletes an existing Livro model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -268,7 +263,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Finds the Livros model based on its primary key value.
+     * Finds the Livro model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Livro the loaded model

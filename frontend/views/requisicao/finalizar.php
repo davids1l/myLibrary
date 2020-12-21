@@ -18,7 +18,7 @@ $this->title = 'Finalizar requisição';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <hr>
     <div class="livrosCarrinho">
         <?php
         $carrinhoSession = Yii::$app->session->get('carrinho');
@@ -58,5 +58,8 @@ $this->title = 'Finalizar requisição';
         <?php } else { ?>
             <h3>Carrinho vazio.</h3>
         <?php } ?>
+    </div>
+    <div>
+
     </div>
 </div>
