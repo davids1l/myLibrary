@@ -3,9 +3,17 @@
 namespace app\controllers;
 namespace backend\controllers;
 
+use app\models\Biblioteca;
+use app\models\Livro;
+use app\models\LivroSearch;
+use app\models\RequisicaoLivro;
+use app\models\Utilizador;
+use Carbon\Carbon;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -88,13 +96,42 @@ class RequisicaoController extends Controller
     public function actionCreate()
     {
         $model = new Requisicao();
+        $livro = new Livro();
+        $modelReqLivro = new RequisicaoLivro();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $livros = Livro::find()
+            ->orderBy(['titulo' => SORT_ASC])
+            ->all();
+
+        $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
+        $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
+        $model->estado = "Em requisição";
+
+        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $utilizadores = Utilizador::find()
+            ->where(['id_utilizador' => $subQueryRole])
+            ->orderBy('id_utilizador')
+            ->all();
+        $listUtilizadores = ArrayHelper::map($utilizadores,'id_utilizador','num_telemovel');
+
+        $bibliotecas = Biblioteca::find()
+            ->orderBy(['id_biblioteca' => SORT_ASC])
+            ->all();
+        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
+        if(Yii::$app->request->post('Livro')['titulo'] != null) {
+            $searchModel = new LivroSearch();
+            $livros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
+        } else if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_requisicao]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'utilizadores' => $listUtilizadores,
+            'bibliotecas' => $listBibliotecas,
+            'livros' => $livros,
+            'searchModel' => $livro
         ]);
     }
 

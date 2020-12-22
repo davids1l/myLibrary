@@ -222,12 +222,7 @@ class LivrosController extends Controller
      */
     public function actionDelete($id)
     {
-        $livro = $this->findModel($id);
-
-        unlink($livro->isbn);
-
-        $livro->delete();
-
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 
