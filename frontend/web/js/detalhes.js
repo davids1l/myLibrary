@@ -1,3 +1,28 @@
+//Mostrar mais sinopse
+$(document).ready(function () {
+    var sizeofsinopse = $(".sinopse_more").text().length;
+
+    if (sizeofsinopse > 800){
+        $('.sinopse_more').hide();
+    } else {
+        $(".sinopse_less").hide();
+        $(".mostrarmais").hide();
+    }
+});
+
+$(".mostrarmais").on("click", function () {
+    if($(".sinopse_more").is(':visible')){
+        $(".mostrarmais").text('Mostrar mais');
+        $('.sinopse_more').hide();
+        $(".sinopse_less").show();
+    } else if ($(".sinopse_less").is(':visible')) {
+        $(".mostrarmais").text('Mostrar menos');
+        $('.sinopse_more').show();
+        $(".sinopse_less").hide();
+    }
+});
+
+
 //Animação para o scroll dos detalhes dos livros
 $('a').on('click', function (event) {
 
@@ -13,33 +38,6 @@ $('a').on('click', function (event) {
             window.location.hash = hash;
         });
     }
-});
-
-
-jQuery(function () {
-
-    var sinopsep = $('p.sinopse');
-
-    sinopsep.each(function () {
-        var sinopse = $(this).text();
-        if (sinopse.length < 400) return;
-
-        $(this).html(
-            sinopse.slice(0, 800)+'<span>... </span><a href="#" class="mais"> (mostrar mais)</a>'+
-            '<span style="display: none;">'+ sinopse.slice(800, sinopse.length)+'<a href="#" class="menos">(mostrar menos)</a></span>'
-        );
-    });
-
-    $('a.mais', sinopsep).click(function(event){
-        event.preventDefault();
-        $(this).hide().prev().hide();
-        $(this).next().show();
-    });
-
-    $('a.menos', sinopsep).click(function(event){
-        event.preventDefault();
-        $(this).parent().hide().prev().show().prev().show();
-    });
 });
 
 

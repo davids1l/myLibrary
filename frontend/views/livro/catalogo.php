@@ -68,7 +68,7 @@ $this->title = "Catálogo de Livros";
             <h3>MAIS REQUISITADOS</h3>
             <?php if($maisRequisitados != null) { ?>
                 <?php foreach ($maisRequisitados as $livro) { ?>
-                    <div class="col-xs-12 col-md-2 catalogo-grid" style="background-color: whitesmoke; border: 1px black;">
+                    <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                                 <?= Html::img($livro->capa, ['id'=> 'imgCapa'])?>

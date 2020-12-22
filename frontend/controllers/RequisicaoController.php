@@ -193,17 +193,6 @@ class RequisicaoController extends Controller
         return $totalReq;
     }
 
-
-    /**
-     * Função que determina a data de entrega de acordo com a data de levantamento
-     */
-    public function gerarDataEntrega($data_levantamento)
-    {
-        return date('d/m/Y', strtotime($data_levantamento. ' +30 days'));
-    }
-
-
-
     /**
      * Updates an existing Requisicao model.
      * If update is successful, the browser will be redirected to the 'view' page.

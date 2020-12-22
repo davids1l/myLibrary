@@ -37,15 +37,8 @@ $this->title = "Detalhes do Livros";
                     </span>
                 </div>
                 <div class="rating">
-                    <!--<span class="glyphicon glyphicon-star star-filed" style="color: darkorange"></span>
-                    <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
-                    <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
-                    <span class="glyphicon glyphicon-star" style="color: darkorange"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span><span> 4/5</span> -->
                     <!-- <span ><b class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></b><i>(<?= $totalFav?>) favoritos</i></span> -->
                     <span class="badge"><i class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></i><?= $totalFav?></span>
-
-
                 </div>
                 <div class="actions" style="display: flex;">
                     <?php if(!is_null($favorito)){ ?>
@@ -58,11 +51,19 @@ $this->title = "Detalhes do Livros";
                 </div>
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>
-                    <?php if($livro->sinopse != null) {
-                        if (strlen($livro->sinopse) > 400){
-                            $sinopse = substr($livro->sinopse, 0, 800) . '...' ?>
-                            <span class="sinopse" id="lessSinopse "><?= Html::encode($sinopse) ?> (<a class="mostrarmais">mostrar mais</a>)</span>
-                        <?php }?>
+                    <?php if($livro->sinopse != null) { ?>
+                        <div class="sinopse_more">
+                            <span><?= Html::encode($livro->sinopse)?></span>
+                        </div>
+                        <div class="sinopse_less">
+                            <?php if (strlen($livro->sinopse) > 800){
+                                $sinopse = substr($livro->sinopse, 0, 800) . '...' ?>
+                                <span class="sinopse" id="lessSinopse "><?= Html::encode(substr($livro->sinopse, 0, 800) . '...') ?></span>
+                            <?php } else { ?>
+                            <span class="sinopse" id="lessSinopse "><?= Html::encode($livro->sinopse)?></span>
+                            <?php } ?>
+                        </div>
+                        <a href="#" class="mostrarmais" data-content="toggle-text">Mostrar mais</a>
                     <?php } else { ?>
                         <p>Sinopse Indisponível</p>
                     <?php }?>
@@ -151,7 +152,7 @@ $this->title = "Detalhes do Livros";
                     <h4><?= Html::encode($livro->titulo)?></h4>
                     <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                 </div>
-                <div style="margin-top: 4%; background-color: #e5e5e5">
+                <div style="margin-top: 4%">
                     <div class="col-xs-12 col-lg-4">
                         <p><?= Html::img($livro->capa, ['style' => 'width: 155px;'])?></p>
                     </div>
