@@ -27,15 +27,15 @@ class CarrinhoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['adicionar', 'remover', 'create', 'update', 'delete'],
+                'only' => ['adicionar', 'remover'],
                 'rules' => [
                     [
-                        'actions' => ['carrinho', 'remover', 'create', 'update', 'delete'],
+                        'actions' => ['remover', 'adicionar'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['adicionar', 'carrinho', 'remover', 'create', 'update', 'delete'],
+                        'actions' => ['remover', 'adicionar'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -43,9 +43,7 @@ class CarrinhoController extends Controller
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
+                'actions' => [],
             ],
         ];
     }
@@ -55,27 +53,30 @@ class CarrinhoController extends Controller
      */
     public function actionAdicionar($id_livro)
     {
-        //query para encontrar o livro pelo $id
+        //query que retorna o livro de acordo com o id_livro recebido por parametro
         $livro = Livro::findOne($id_livro);
 
         //define a variável da sessão
         $session = Yii::$app->session;
         $flag = 0;
 
+        //obtem os dados armazenados na sessão "carrinho"
         $carrinho = $session->get('carrinho');
 
         //verifica se o livro já se encontra requisitado
         if($this->verificarEmRequisicao($id_livro) == true){
-            //verifica se o carrinho está null
-            if(isset($carrinho)){
+
+            //verifica se o carrinho está null ou definido
+            if (isset($carrinho)) {
                 //Limita o carrinho a um máximo de 5 livros
-                if(count($carrinho) < 5) {
+                if (count($carrinho) < 5) {
                     //verifica se o livro a inserir já se encontra no array do carrinho
                     foreach ($carrinho as $obj_livro) {
                         if ($obj_livro->id_livro == $id_livro) {
                             $flag++;
                         }
                     }
+                    //se estiver não permite a duplicação do mesmo, caso contrário o livro é adicionado à sessão
                     if ($flag == 0) {
                         $_SESSION['carrinho'][] = $livro;
                         $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
@@ -86,6 +87,7 @@ class CarrinhoController extends Controller
                     $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
                 }
             } else {
+                //se o carrinho não estiver definido ou estiver null então a sessão é criada e adicionado o livro
                 $session->open();
                 $_SESSION['carrinho'][] = $livro;
                 $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
@@ -128,6 +130,12 @@ class CarrinhoController extends Controller
 
     }
 
+    /**
+     * @param $id_livro
+     * @return bool
+     * Recebe o id do livro e verifica se este se encontra em requisição e se o estado dessa requição é terminada
+     *
+     */
     public function verificarEmRequisicao($id_livro){
 
         $requisicoes = RequisicaoLivro::find()
@@ -153,5 +161,4 @@ class CarrinhoController extends Controller
         }
         return $canAdicionarCarrinho;
     }
-
 }

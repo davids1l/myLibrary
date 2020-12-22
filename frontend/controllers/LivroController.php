@@ -4,6 +4,7 @@ namespace app\controllers;
 namespace frontend\controllers;
 
 use app\models\Comentario;
+use app\models\Favorito;
 use app\models\Requisicao;
 use app\models\RequisicaoLivro;
 use Yii;
@@ -51,7 +52,7 @@ class LivroController extends Controller
 
 
     /**
-     * search na BD do últimos 6 livros inseridos
+     * search na BD os livros mais recentes de acordo com a data de edição
      */
     public function livrosRecentesFilter() {
 
@@ -63,6 +64,10 @@ class LivroController extends Controller
         return $livrosRecentes;
     }
 
+    /**
+     * @return array
+     * Função responsável por
+     */
     public function livrosMaisRequisitados() {
 
         $query = (new \yii\db\Query())
@@ -91,17 +96,43 @@ class LivroController extends Controller
     {
         $model = new Livro();
 
-        //select na BD de todos os livro existentes
-        /*$livros = Livro::find()
-            ->orderBy(['titulo' => SORT_ASC])
-            ->limit(6)
-            ->all();*/
-
         $recentes = $this->livrosRecentesFilter();
         $maisRequisitados = $this->livrosMaisRequisitados();
 
         return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes]);
     }
+
+    /**
+     * @param $id_livro
+     * @return bool
+     */
+    public function verificarEmRequisicao($id_livro){
+
+        $requisicoes = RequisicaoLivro::find()
+            ->where(['id_livro' => $id_livro])
+            ->all();
+
+        if(empty($requisicoes)) {
+            $canAdicionarCarrinho = true;
+        } else {
+
+            $requisicoesTerminadas = [];
+            foreach ($requisicoes as $requisicao){
+                if($requisicao->requisicao->estado != 'Terminada'){
+                    array_push($requisicoesTerminadas, $requisicao);
+                }
+            }
+
+            //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
+            if ($requisicoesTerminadas != null) {
+                $canAdicionarCarrinho = false;
+            } else {
+                $canAdicionarCarrinho = true;
+            }
+        }
+        return $canAdicionarCarrinho;
+    }
+
 
     /**
      * Recebe um post do form do catalgo e executa a function search no modelo LivroSearch
@@ -128,8 +159,7 @@ class LivroController extends Controller
      */
     public function actionDetalhes($id)
     {
-
-        $model = new Comentario();
+        $modelComentario = new Comentario();
 
         //find na base de dados do livro com determinado id
         $livro = Livro::findOne($id);
@@ -140,17 +170,30 @@ class LivroController extends Controller
             ->orderBy('dta_comentario DESC')
             ->all();
 
-        if($livro != null && $model!= null){
-            //return da view detalhes com o livro de acordo com o $id recebido
+        $totalFav = Favorito::find()
+            ->where(['id_livro' => $id])
+            ->count();
+
+        $fav = Favorito::find()
+            ->where(['id_livro' => $id, 'id_utilizador' => Yii::$app->user->id])
+            ->one();
+
+        //return da view detalhes com o livro de acordo com o $id recebido
+        if(!is_null($livro)){
+            //!is_null($fav) ? $isFav = true : $isFav = false;
             return $this->render('detalhes', [
                 'livro' => $livro,
-                'model' => $model,
+                'modelComentario' => $modelComentario,
                 'comentarios' => $comentarios,
+                'totalFav' => $totalFav,
+                //'isFav' => $isFav,
+                'favorito' => $fav,
             ]);
         }
 
-        //caso determinado livro não seja encontrado é retornado o erro 404 not found
-        throw new NotFoundHttpException('O livro não foi encontrado.');
+        //caso determinado livro não seja encontrado é apresentada a vista de catálogo e uma messagem de erro
+        Yii::$app->session->setFlash('error', 'Ocorreu um erro. Tente novamente.');
+        return $this->redirect(['livro/catalogo']);
     }
 
 

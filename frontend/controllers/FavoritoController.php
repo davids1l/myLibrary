@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Yii;
 use app\models\Favorito;
 use app\models\FavoritoSearch;
+use yii\data\Pagination;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -38,11 +39,23 @@ class FavoritoController extends Controller
     public function actionIndex()
     {
         $searchModel = new FavoritoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $favoritos = Favorito::find()
+            ->where(['id_utilizador' => Yii::$app->user->id]);
+
+        $total = $favoritos->count();
+        $paginacao = new Pagination(['totalCount' => $total]);
+        $models = $favoritos->offset($paginacao->offset)
+            ->limit($paginacao->limit)
+            ->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            //'dataProvider' => $dataProvider,
+            //'favoritos' => $favoritos,
+            'models' => $models,
+            'paginacao' => $paginacao,
         ]);
     }
 
@@ -64,7 +77,7 @@ class FavoritoController extends Controller
      */
     public function checkFavorito($id)
     {
-        //search na BD que verifique dados iguais
+        //search na BD que verifica se existe algum um registo em que sejam verificados os dois parametros
         $alreadyFav = Favorito::find()
             ->where(['id_livro' => $id, 'id_utilizador' => Yii::$app->user->id])
             ->all();
@@ -82,11 +95,8 @@ class FavoritoController extends Controller
     {
         $model = new Favorito();
 
-        //função que valida se já existe um favorito com o mesmo id_user e id_livro
-        $alreadyFav = $this->checkFavorito($id);
-
-        //verifica se
-        if($alreadyFav == null)
+        //valida se já existe um favorito com o mesmo id_user e id_livro
+        if($this->checkFavorito($id) == null)
         {
             //if($model->load(Yii::$app->request->post()) && $model->validate())
             $model->dta_favorito = Carbon::now();
@@ -94,20 +104,10 @@ class FavoritoController extends Controller
             $model->id_utilizador = Yii::$app->user->id;
 
             $model->save();
-            Yii::$app->session->setFlash('success', 'Livro adicionado aos seus favoritos!');
+            //Yii::$app->session->setFlash('success', 'Livro adicionado aos seus favoritos!');
         }
 
         return $this->redirect(['livro/detalhes', 'id' => $id]);
-
-
-        //actionCreate gerado pelo gii CRUD
-        /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_favorito]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);*/
     }
 
     /**
@@ -123,6 +123,7 @@ class FavoritoController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_favorito]);
+
         }
 
         return $this->render('update', [
@@ -139,9 +140,11 @@ class FavoritoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->urlReferrer);
+        //return $this->redirect(['favorito/index', 'id' => $model->id_livro]);
     }
 
     /**
