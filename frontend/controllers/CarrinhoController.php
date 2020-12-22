@@ -65,37 +65,33 @@ class CarrinhoController extends Controller
 
         //verifica se o livro já se encontra requisitado
         if($this->verificarEmRequisicao($id_livro) == true){
-            //verifica o total de livros que o o utilizador tem em requsição, se este total for <= 5 então pode adicionar ao carrinho
-            if($this->totalLivrosEmRequisicao() <= 5){
-                //verifica se o carrinho está null ou definido
-                if(isset($carrinho)){
-                    //Limita o carrinho a um máximo de 5 livros
-                    if(count($carrinho) < 5) {
-                        //verifica se o livro a inserir já se encontra no array do carrinho
-                        foreach ($carrinho as $obj_livro) {
-                            if ($obj_livro->id_livro == $id_livro) {
-                                $flag++;
-                            }
+
+            //verifica se o carrinho está null ou definido
+            if (isset($carrinho)) {
+                //Limita o carrinho a um máximo de 5 livros
+                if (count($carrinho) < 5) {
+                    //verifica se o livro a inserir já se encontra no array do carrinho
+                    foreach ($carrinho as $obj_livro) {
+                        if ($obj_livro->id_livro == $id_livro) {
+                            $flag++;
                         }
-                        //se estiver não permite a duplicação do mesmo, caso contrário o livro é adicionado à sessão
-                        if ($flag == 0) {
-                            $_SESSION['carrinho'][] = $livro;
-                            $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
-                        } else {
-                            $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
-                        }
+                    }
+                    //se estiver não permite a duplicação do mesmo, caso contrário o livro é adicionado à sessão
+                    if ($flag == 0) {
+                        $_SESSION['carrinho'][] = $livro;
+                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
                     } else {
-                        $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
+                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
                     }
                 } else {
-                    //se o carrinho não estiver definido ou estiver null então a sessão é criada e adicionado o livro
-                    $session->open();
-                    $_SESSION['carrinho'][] = $livro;
-                    $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
-                    $session->close();
+                    $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
                 }
             } else {
-                $session->setFlash('error', 'Opss! Excedeu o limite de 5 livros em requisição.');
+                //se o carrinho não estiver definido ou estiver null então a sessão é criada e adicionado o livro
+                $session->open();
+                $_SESSION['carrinho'][] = $livro;
+                $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                $session->close();
             }
         } else {
             $session->setFlash('error', 'Opss! Este livro já se encontra em requisição.');
@@ -165,25 +161,4 @@ class CarrinhoController extends Controller
         }
         return $canAdicionarCarrinho;
     }
-
-    /**
-     * Através do id do utilizador com login efetuado determina a quantidade de livros que este tem em requisição
-     * Se este nº exceder um total de 5, então o utilizador atingiu o limite de livros em requisição e é negado adicionar este ao carrinho/finalizar requisicao
-     */
-    public function totalLivrosEmRequisicao()
-    {
-        //subquery que obtem os dados relativos à requisicao em que se verifique => id utilizador = id utilizador logado e estado da requisicao terminada
-        $subQuery = Requisicao::find()
-            ->where(['id_utilizador' =>Yii::$app->user->id])
-            ->andWhere(['!=', 'estado', 'Terminada']);
-
-        //query responsável por obter a contagem de "requisicao_livro" onde se verfique subquery.id_requisicao = requiscao_livro.id_requisicao
-        $totalReq = RequisicaoLivro::find()
-            ->innerJoin(['sub' => $subQuery], 'requisicao_livro.id_requisicao = sub.id_requisicao')
-            ->count();
-
-        return $totalReq;
-    }
-
-
 }

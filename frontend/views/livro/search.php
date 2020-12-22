@@ -44,6 +44,12 @@ $this->title = "Catálogo de Livros";
                             <h5><?= Html::encode($result->genero)?></h5>
                             <h6>Idioma: <?= Html::encode($result->idioma)?></h6>
                             <h6>Formato: <?= Html::encode($result->formato)?></h6>
+                            <?php
+                            if($this->context->verificarEmRequisicao($result->id_livro) == true){ ?>
+                                <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                            <?php } else { ?>
+                                <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                            <?php } ?>
                         </div>
                         <?= Html::a('VER', ['livro/detalhes', 'id' => $result->id_livro])?>
                     </div>
