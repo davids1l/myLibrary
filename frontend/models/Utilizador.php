@@ -56,10 +56,10 @@ class Utilizador extends \yii\db\ActiveRecord
             [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_nascimento', 'nif', 'num_telemovel'], 'required'],
             [['bloqueado', 'num_telemovel'], 'integer'],
             [['dta_bloqueado', 'dta_nascimento', 'dta_registo'], 'safe'],
-            [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 400],
+            [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 50],
             [['numero'], 'string', 'max' => 4],
-            [['nif'], 'string', 'max' => 9],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_utilizador' => 'id']],
+
 
             ['nif', 'required'],
             ['nif', 'string', 'min' => 9, 'max' => 9],

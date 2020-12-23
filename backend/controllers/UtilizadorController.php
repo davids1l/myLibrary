@@ -82,6 +82,20 @@ class UtilizadorController extends Controller
         return $this->render('view', ['model' => $this->findModel($id),]);
     }
 
+
+    function actionShowmodal($model = null){
+        if($model == null){
+            $model = new SignupForm();
+        }
+
+        $searchModel = new UtilizadorSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $js='$("#criarLeitorModal").modal("show")';
+        $this->getView()->registerJs($js);
+        return $this->render('index', ['model' => $model, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider]);
+    }
+
     /**
      * Creates a new Utilizador model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -98,7 +112,7 @@ class UtilizadorController extends Controller
         Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o leitor.');
         $model->password = '';
         $model->confirmarPassword = '';
-        return $this->actionIndex($model);
+        return $this->actionShowmodal($model);
     }
 
     /**

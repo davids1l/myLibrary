@@ -138,14 +138,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
                 <h2 class="modal-title" id="exampleModalLabel">Criar Leitor</h2>
             </div>
             <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
                     <?php $form = ActiveForm::begin([
                         'action' => ['utilizador/create']]) ?>
                     <div class="row">

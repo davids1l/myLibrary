@@ -53,6 +53,23 @@ class BibliotecarioController extends Controller
         return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model, 'bibliotecas' => $listBib]);
     }
 
+
+    function actionShowmodal($model = null){
+        if($model == null){
+            $model = new SignupForm();
+        }
+
+        $searchModel = new BibliotecarioSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $bibliotecas = Biblioteca::find()->all();
+
+        $listBib = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
+        $js='$("#criarBibliotecarioModal").modal("show")';
+        $this->getView()->registerJs($js);
+        return $this->render('index', ['model' => $model, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'bibliotecas' => $listBib]);
+    }
+
     /**
      * Displays a single Utilizador model.
      * @param integer $id
@@ -77,18 +94,17 @@ class BibliotecarioController extends Controller
 
             $biblioteca = Yii::$app->request->post();
             $model->id_biblioteca = $biblioteca['SignupForm']['id_biblioteca'];
+
             if($model->signup(1)){
                 Yii::$app->session->setFlash('success', 'Bibliotecário inserido com sucesso.');
-                return $this->actionIndex();
-            }else{
-                $model->password = '';
-                $model->confirmarPassword = '';
-                return $this->actionIndex($model);
+                return $this->redirect(['index']);
             }
         }
+
+        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o bibliotecário.');
         $model->password = '';
         $model->confirmarPassword = '';
-        return $this->actionIndex($model);
+        return $this->actionShowmodal($model);
     }
 
     /**

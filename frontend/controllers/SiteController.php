@@ -98,7 +98,6 @@ class SiteController extends Controller
             $model = new SignupForm();
         }
 
-
         $js='$("#regLogModal").modal("show")';
         $this->getView()->registerJs($js);
         return $this->render('index', ['modelLogin'=> $modelLogin, 'model' => $model]);

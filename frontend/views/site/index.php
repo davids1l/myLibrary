@@ -71,21 +71,21 @@ use yii\widgets\ActiveForm; ?>
                     <ul class="nav nav-tabs" role="tablist">
                         <?php if ($model->primeiro_nome == null) { ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#login" data-toggle="tab" role="tab">Login</a>
+                                <a class="nav-link" href="#login" data-toggle="tab" role="tab"><b>Login</b></a>
                             </li>
                         <?php } else { ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="#login" data-toggle="tab" role="tab">Login</a>
+                                <a class="nav-link" href="#login" data-toggle="tab" role="tab"><b>Login</b></a>
                             </li>
                         <?php } ?>
 
                         <?php if ($model->primeiro_nome != null) { ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab">Registar</a>
+                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
                             </li>
                         <?php } else { ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab">Registar</a>
+                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
                             </li>
                         <?php } ?>
                     </ul>
@@ -97,28 +97,23 @@ use yii\widgets\ActiveForm; ?>
                             <div class="tab-pane fade" id="login" role="tabpanel">
                                 <?php } ?>
                                 <div class="modal-body mb-1">
-                                    <div class="md-form form-sm mb-5">
-                                        <?php $form = ActiveForm::begin(['id' => 'login-form', 'action' => ['site/login']]); ?>
-                                        <?= $form->field($modelLogin, 'email')->textInput(['autofocus' => true]) ?>
+                                    <p>Preencha os campos para fazer login:</p>
+                                    <div class="row">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6">
+                                            <?php $form = ActiveForm::begin(['id' => 'login-form', 'action' => ['site/login']]); ?>
+                                            <?= $form->field($modelLogin, 'email')->textInput(['autofocus' => true]) ?>
+
+                                            <?= $form->field($modelLogin, 'password')->passwordInput()->label('Palavra-passe') ?>
+
+                                            <div class="text-center mt-2">
+                                                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                                                <?php ActiveForm::end(); ?>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="md-form form-sm mb-4">
-                                        <?= $form->field($modelLogin, 'password')->passwordInput()->label('Palavra-passe') ?>
-                                    </div>
 
-                                    <div class="text-center mt-2">
-                                        <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                                        <?php ActiveForm::end(); ?>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="options text-center text-md-right mt-1">
-                                        <p>Not a member? <a href="#" class="blue-text">Sign Up</a></p>
-                                        <p>Forgot <a href="#" class="blue-text">Password?</a></p>
-                                    </div>
-                                    <button type="button" class="btn btn-outline-info waves-effect ml-auto"
-                                            data-dismiss="modal">Close
-                                    </button>
                                 </div>
                             </div>
 
@@ -129,48 +124,46 @@ use yii\widgets\ActiveForm; ?>
                                     <?php } ?>
 
                                     <div class="modal-body mb-1">
-                                        <div class="md-form form-sm mb-5">
-                                            <?php $form = ActiveForm::begin(['id' => 'form-signup', 'action' => ['site/signup']]); ?>
-                                            <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
-                                        </div>
-                                        <div class="md-form form-sm mb-5">
-                                            <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
-                                        </div>
-                                        <div class="md-form form-sm mb-5">
-                                            <?= $form->field($model, 'email') ?>
-                                        </div>
-                                        <div class="md-form form-sm mb-5">
-                                            <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
-                                        </div>
-                                        <div class="md-form form-sm mb-5">
-                                            <?= $form->field($model, 'nif')->label('NIF') ?>
-                                        </div>
-                                        <div class="md-form form-sm mb-5">
-                                            <?= $form->field($model, 'num_telemovel')->label('Nº de telefone') ?>
-                                        </div>
-                                        <div class="md-form form-sm mb-5">
-                                            <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
-                                        </div>
-                                        <div class="md-form form-sm mb-5">
-                                            <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
-                                        </div>
+                                        <p>Preencha todos os campos para se registar:</p>
+                                        <div class="row">
+                                            <div class="col-sm-3"></div>
+                                            <div class="col-sm-6">
+                                                <div class="md-form form-sm mb-5">
+                                                    <?php $form = ActiveForm::begin(['id' => 'form-signup', 'action' => ['site/signup']]); ?>
+                                                    <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
+                                                </div>
+                                                <div class="md-form form-sm mb-5">
+                                                    <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
+                                                </div>
+                                                <div class="md-form form-sm mb-5">
+                                                    <?= $form->field($model, 'email') ?>
+                                                </div>
+                                                <div class="md-form form-sm mb-5">
+                                                    <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
+                                                </div>
+                                                <div class="md-form form-sm mb-5">
+                                                    <?= $form->field($model, 'nif')->label('NIF') ?>
+                                                </div>
+                                                <div class="md-form form-sm mb-5">
+                                                    <?= $form->field($model, 'num_telemovel')->label('Nº de telefone') ?>
+                                                </div>
+                                                <div class="md-form form-sm mb-5">
+                                                    <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
+                                                </div>
+                                                <div class="md-form form-sm mb-5">
+                                                    <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
+                                                </div>
 
 
-                                        <div class="text-center form-sm mt-2">
-                                            <?= Html::submitButton('Registar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
-                                            <?php ActiveForm::end(); ?>
+                                                <div class="text-center form-sm mt-2">
+                                                    <?= Html::submitButton('Registar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                                                    <?php ActiveForm::end(); ?>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
 
-                                    <div class="modal-footer">
-                                        <div class="options text-right">
-                                            <p class="pt-1">Already have an account? <a href="#" class="blue-text">Log
-                                                    In</a></p>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-info waves-effect ml-auto"
-                                                data-dismiss="modal">Close
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>

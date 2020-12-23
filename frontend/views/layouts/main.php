@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use frontend\models\Utilizador;
@@ -37,19 +38,30 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
-        //['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
-        ['label' => 'Requisições', 'url' => ['/requisicao/index']],
-    ];
+
+    //$menuItems = [
+    //    ['label' => 'Home', 'url' => ['/site/index']],
+    //    ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
+    //    //['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
+    //    ['label' => 'Requisições', 'url' => ['/requisicao/index']],
+    //];
+
     if (Yii::$app->user->isGuest) {
         //$menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Iniciar Sessão/Registar', 'url' => ['/site/showmodal']];
+        $menuItems = [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Iniciar Sessão/Registar', 'url' => ['/site/showmodal']],
+        ];
 
     } else {
+        $menuItems = [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
+            //['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
+            ['label' => 'Requisições', 'url' => ['/requisicao/index']],
+        ];
 
-        if(Yii::$app->user->can('admin')){
+        if (Yii::$app->user->can('admin')) {
 
         }
 
@@ -60,12 +72,12 @@ AppAsset::register($this);
 
         $carrinhoSession = Yii::$app->session->get('carrinho');
 
-        if($carrinhoSession!=null){
-            foreach ($carrinhoSession as $livro){
-                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 50px']).' '.$livro->titulo, 'url' => '../livro/detalhes?id='.$livro->id_livro];
+        if ($carrinhoSession != null) {
+            foreach ($carrinhoSession as $livro) {
+                $items[] = ['label' => Html::img($livro->capa, ['id' => 'imgCapa', 'style' => 'width: 50px']) . ' ' . $livro->titulo, 'url' => '../livro/detalhes?id=' . $livro->id_livro];
                 $items[] = ['label' => '<hr style="margin: 0;>'];
             }
-            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>'../requisicao/finalizar'];
+            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url' => '../requisicao/finalizar'];
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' => $items];
 
         } else {
@@ -76,7 +88,7 @@ AppAsset::register($this);
 
         $submenus[] = ['label' => 'Perfil', 'url' => ['/utilizador/perfil']];
         $submenus[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
-        $menuItems[] = ['label' => $utilizador->primeiro_nome . '&nbsp ' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width'=>'20px', 'height' => '20px']), 'url' => '', 'items' => $submenus];
+        $menuItems[] = ['label' => $utilizador->primeiro_nome . '&nbsp ' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '20px', 'height' => '20px']), 'url' => '', 'items' => $submenus];
 
         //$menuItems[] = '<li>'
         //    . Html::beginForm(['/site/logout'], 'post')

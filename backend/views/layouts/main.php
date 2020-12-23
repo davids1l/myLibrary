@@ -46,12 +46,17 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
+
         $menuItems = [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Gerir Livros', 'url' => ['/livros/index']],
             ['label' => 'Gerir Leitores', 'url' => ['/utilizador/index']],
-            ['label' => 'Gerir Bibliotecários', 'url' => ['/bibliotecario/index']],
         ];
+
+        if (Yii::$app->user->can('admin')) {
+            $menuItems[] = ['label' => 'Gerir Bibliotecários', 'url' => ['/bibliotecario/index']];
+        }
+
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

@@ -19,7 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div>
-        <?= Html::button('Inserir Bibliotecário', ['data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal']) ?>
+        <a style="color: black">
+            <?= Html::button('Inserir Bibliotecário', ['data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal', 'id' => 'inserirBibliotecario']) ?>
+        </a>
     </div>
     <br>
 
@@ -50,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute' => 'num_telemovel',
+                'value' => 'num_telemovel',
                 'label' => 'Nº de telemóvel',
             ],
             [
@@ -112,8 +115,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h2 class="modal-title" id="exampleModalLabel">Inserir Bibliotecário</h2>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
                         <?php $form = ActiveForm::begin(['action' => ['bibliotecario/create']]) ?>
                         <div class="row">
                             <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
@@ -127,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                         </div>
                         <div class="modal-footer">
-                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn-perfil']) ?>
+                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn-perfil', 'id' => 'inserirBibliotecario']) ?>
                         </div>
                         <?php ActiveForm::end() ?>
                     </div>
