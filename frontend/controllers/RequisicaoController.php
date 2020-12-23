@@ -109,16 +109,15 @@ class RequisicaoController extends Controller
     {
         $carrinho = Yii::$app->session->get('carrinho');
 
-        $postData = Yii::$app->request->post();
+        $postData = Yii::$app->request->post('Requisicao');
+
 
         if ($carrinho != null){
             $model = new Requisicao();
 
             $model->estado = 'A aguardar tratamento';
-            //$model->dta_levantamento = null; //$postData['Requisicao']['dta_levantamento'];
-            //$model->dta_entrega = null; //$this->gerarDataEntrega($postData['Requisicao']['dta_levantamento']);
             $model->id_utilizador = Yii::$app->user->id;
-            $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
+            $model->id_bib_levantamento = $postData['id_bib_levantamento'];
 
             $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
             $num_excluir = abs(($total_livros) - 5);

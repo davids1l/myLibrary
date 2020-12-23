@@ -42,12 +42,12 @@
     }
 }
 
-.listaFavoritos {
-
-}
-
 .favoritoAction {
     color: darkred;
+}
+
+.imgCapa {
+    width: 150%;
 }
 
 .livroField {
