@@ -143,8 +143,8 @@ class FavoritoController extends Controller
         $model = $this->findModel($id);
         $model->delete();
 
-        return $this->redirect(Yii::$app->request->urlReferrer);
-        //return $this->redirect(['favorito/index', 'id' => $model->id_livro]);
+        //return $this->redirect(Yii::$app->request->urlReferrer);
+        return $this->redirect(['favorito/index', 'id' => $model->id_livro]);
     }
 
     /**

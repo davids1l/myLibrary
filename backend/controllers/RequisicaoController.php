@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
+use yii\db\Exception;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -95,18 +96,14 @@ class RequisicaoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Requisicao();
+        // Modelo e lista de livros a passar para a vista
         $livro = new Livro();
-        $modelReqLivro = new RequisicaoLivro();
 
         $livros = Livro::find()
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
-        $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
-        $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
-        $model->estado = "Em requisição";
-
+        // Dados para popular os menus dropdown.
         $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
         $utilizadores = Utilizador::find()
             ->where(['id_utilizador' => $subQueryRole])
@@ -119,12 +116,46 @@ class RequisicaoController extends Controller
             ->all();
         $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
 
+        // Requisição
+        $carrinho = Yii::$app->session->get('carrinho');
+        $postData = Yii::$app->request->post();
+
+        $model = new Requisicao();
+        $modelReqLivro = new RequisicaoLivro();
+
+        $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
+        $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
+        $model->estado = "Em requisição";
+        $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
+
+        if ($carrinho != null) {
+            $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
+            $num_excluir = abs(($total_livros) - 5);
+
+            if ($total_livros <= 5){
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+                    $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+
+                    Yii::$app->session->destroy();
+                    Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
+
+                    return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                }
+            } else {
+                Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua '. $num_excluir .' livro para concluir esta requisição.');
+                return $this->redirect(['requisicao/create']);
+            }
+        } else if($model->load(Yii::$app->request->post()) && $carrinho == null) {
+            Yii::$app->session->setFlash('error', 'Ocorreu um problema ao finalizar a sua requisição! Tente novamente.');
+        }
+
         if(Yii::$app->request->post('Livro')['titulo'] != null) {
             $searchModel = new LivroSearch();
             $livros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
-        } else if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        }/*else if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_requisicao]);
-        }
+        }*/
 
         return $this->render('create', [
             'model' => $model,
@@ -145,6 +176,12 @@ class RequisicaoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        $dtaLevantamento = new Carbon($model->dta_levantamento);
+        $dtaEntrega = new Carbon($model->dta_entrega);
+
+        $model->dta_levantamento = $dtaLevantamento->format("Y-m-d\TH:i");
+        $model->dta_entrega = $dtaEntrega->format("Y-m-d\TH:i");
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_requisicao]);
@@ -167,6 +204,43 @@ class RequisicaoController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function adicionarRequisicaoLivro($id_requisicao, $carrinho){
+        $requisicaoModel = new RequisicaoLivro();
+
+        /*
+         * Insere dados na tabela requisicao_livro com recurso à estrutura Yii DAO(Database Access Objects)
+         * recomendado quando o objetivo é inserir multiplos objetos
+         */
+        foreach ($carrinho as $livro) {
+            try {
+                Yii::$app->db->createCommand()->insert('requisicao_livro', [
+                    'id_livro' => $livro->id_livro,
+                    'id_requisicao' => $id_requisicao,
+                ])->execute();
+            } catch (Exception $e) {
+            }
+        }
+    }
+
+    /**
+     * Através do id do utilizador com login efetuado determina a quantidade de livros que este tem em requisição
+     * Se este nº exceder um total de 5, então o utilizador atingiu o limite de livros em requisição e é negado adicionar este ao carrinho/finalizar requisicao
+     */
+    public function totalLivrosEmRequisicao()
+    {
+        //subquery que obtem os dados relativos à requisicao em que se verifique => id utilizador = id utilizador logado e estado da requisicao terminada
+        $subQuery = Requisicao::find()
+            ->where(['id_utilizador' =>Yii::$app->user->id])
+            ->andWhere(['!=', 'estado', 'Terminada']);
+
+        //query responsável por obter a contagem de "requisicao_livro" onde se verfique subquery.id_requisicao = requiscao_livro.id_requisicao
+        $totalReq = RequisicaoLivro::find()
+            ->innerJoin(['sub' => $subQuery], 'requisicao_livro.id_requisicao = sub.id_requisicao')
+            ->count();
+
+        return $totalReq;
     }
 
     /**

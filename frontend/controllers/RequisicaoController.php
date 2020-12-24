@@ -54,21 +54,19 @@ class RequisicaoController extends Controller
     }
 
     public function actionFinalizar()
-{
-    $model = new Requisicao();
+    {
+        $model = new Requisicao();
 
-    $bibliotecas = Biblioteca::find()
-        ->all();
+        $bibliotecas = Biblioteca::find()
+            ->all();
 
-    $listBib = \yii\helpers\ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
+        $listBib = \yii\helpers\ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
-    return $this->render('finalizar', [
-        //'searchModel' => $searchModel,
-        //'dataProvider' => $dataProvider,
-        'model' => $model,
-        'bibliotecas' => $listBib
-    ]);
-}
+        return $this->render('finalizar', [
+            'model' => $model,
+            'bibliotecas' => $listBib
+        ]);
+    }
 
 
     /**
