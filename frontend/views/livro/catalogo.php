@@ -41,7 +41,9 @@ $this->title = "Catálogo de Livros";
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['detalhes', 'id' => $recente->id_livro])?>">
-                                <?= Html::img($recente->capa, ['id'=> 'imgCapa'])?>
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $recente->capa, [
+                                    'id' => 'imgCapa'
+                                ])?>
                             </a>
                         </div>
                         <div class="book-info">
@@ -71,7 +73,9 @@ $this->title = "Catálogo de Livros";
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
-                                <?= Html::img($livro->capa, ['id'=> 'imgCapa'])?>
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $recente->capa, [
+                                    'id' => 'imgCapa'
+                                ])?>
                             </a>
                         </div>
                         <div class="book-info">

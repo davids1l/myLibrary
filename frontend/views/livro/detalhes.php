@@ -13,6 +13,7 @@ use yii\widgets\ActiveForm;
 $this->title = "Detalhes do Livro";
 //$this->params['breadcrumbs'][] = ['label' => 'Catálogo', 'url' => ['catalogo']];
 //$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="container">
@@ -20,7 +21,10 @@ $this->title = "Detalhes do Livro";
         <section class="col-xs-12">
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="capa-livro">
-                    <?= Html::img($livro->capa, ['id'=> 'imgCapa', 'style' => 'width: 150%']) ?>
+                    <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                        'id' => 'imgCapa',
+                        'style' => 'width: 150%;'
+                    ])?>
                 </div>
             </div>
 
