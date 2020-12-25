@@ -126,7 +126,9 @@ class RequisicaoController extends Controller
         $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
         $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
         $model->estado = "Em requisição";
-        $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
+
+        if ($model->load(Yii::$app->request->post()))
+            $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
 
         if ($carrinho != null) {
             $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
@@ -153,9 +155,7 @@ class RequisicaoController extends Controller
         if(Yii::$app->request->post('Livro')['titulo'] != null) {
             $searchModel = new LivroSearch();
             $livros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
-        }/*else if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_requisicao]);
-        }*/
+        }
 
         return $this->render('create', [
             'model' => $model,

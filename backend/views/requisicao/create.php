@@ -33,54 +33,34 @@ $carrinhoSession = Yii::$app->session->get('carrinho');
 
         <?php ActiveForm::end() ?>
         <br/>
-
         <div class="row">
             <div class="col-md-8" style="overflow-y: scroll; height:400px;">
-                <?php $form = ActiveForm::begin(); ?>
-                <?php if($livros != null) { ?>
-                    <?php foreach ($livros as $livro) { ?>
-                        <?php if ($carrinhoSession != null) {
-                            foreach ($carrinhoSession as $carrinhoLivro) { ?>
-                                <?php if ($carrinhoLivro->id_livro == $livro->id_livro) { ?>
-                                    <div class="col-xs-12 col-md-4 catalogo-grid gridLivros">
-                                        <div class="capa">
-                                            <a href="<?= Url::to(['livros/view', 'id' => $livro->id_livro]) ?>">
-                                                <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $livro->capa, ['id'=> 'imgCapa'])?>
-                                            </a>
-                                        </div>
-                                        <div class="book-info">
-                                            <h4><?= Html::encode($livro->titulo)?></h4>
-                                            <h5><?= Html::encode($livro->genero)?></h5>
-                                            <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
-                                            <h6>Formato: <?= Html::encode($livro->formato)?></h6>
-                                        </div>
-
-                                        <?= Html::a('<span class="glyphicon glyphicon-minus"></span> Remover', ['carrinho/remover', 'id_livro' => $livro->id_livro], [
-                                            'class' => 'btn btn-danger book-buttons'
-                                        ])?>
+                <div class="row">
+                    <?php $form = ActiveForm::begin(); ?>
+                    <?php if($livros != null) { ?>
+                        <?php if($carrinhoSession != null) { ?>
+                            <?php foreach ($carrinhoSession as $carrinhoLivro) { ?>
+                                <div class="col-md-4 catalogo-grid gridLivros">
+                                    <div class="capa">
+                                        <a href="<?= Url::to(['livros/view', 'id' => $carrinhoLivro->id_livro]) ?>">
+                                            <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $carrinhoLivro->capa, ['id'=> 'imgCapa'])?>
+                                        </a>
                                     </div>
-                                <?php } if ($carrinhoLivro->id_livro != $livro->id_livro){ ?>
-                                    <div class="col-xs-12 col-md-4 catalogo-grid gridLivros">
-                                        <div class="capa">
-                                            <a href="<?= Url::to(['livros/view', 'id' => $livro->id_livro]) ?>">
-                                                <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $livro->capa, ['id'=> 'imgCapa'])?>
-                                            </a>
-                                        </div>
-                                        <div class="book-info">
-                                            <h4><?= Html::encode($livro->titulo)?></h4>
-                                            <h5><?= Html::encode($livro->genero)?></h5>
-                                            <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
-                                            <h6>Formato: <?= Html::encode($livro->formato)?></h6>
-                                        </div>
-
-                                        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], [
-                                            'class' => 'btn btn-success book-buttons'
-                                        ])?>
+                                    <div class="book-info">
+                                        <h4><?= Html::encode($carrinhoLivro->titulo)?></h4>
+                                        <h5><?= Html::encode($carrinhoLivro->genero)?></h5>
+                                        <h6>Idioma: <?= Html::encode($carrinhoLivro->idioma)?></h6>
+                                        <h6>Formato: <?= Html::encode($carrinhoLivro->formato)?></h6>
                                     </div>
-                                <?php } ?>
+
+                                    <?= Html::a('<span class="glyphicon glyphicon-minus"></span> Remover', ['carrinho/remover', 'id_livro' => $carrinhoLivro->id_livro], [
+                                        'class' => 'btn btn-danger book-buttons'
+                                    ])?>
+                                </div>
                             <?php } ?>
-                        <?php } else { ?>
-                            <div class="col-xs-12 col-md-4 catalogo-grid gridLivros">
+                        <?php } ?>
+                        <?php foreach ($livros as $livro) { ?>
+                            <div class="col-md-4 catalogo-grid gridLivros">
                                 <div class="capa">
                                     <a href="<?= Url::to(['livros/view', 'id' => $livro->id_livro]) ?>">
                                         <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $livro->capa, ['id'=> 'imgCapa'])?>
@@ -97,12 +77,12 @@ $carrinhoSession = Yii::$app->session->get('carrinho');
                                     'class' => 'btn btn-success book-buttons'
                                 ])?>
                             </div>
-                    <?php }
-                    }
-                } else { ?>
-                    <br/>
-                    <p>Parece que não foram encontrados livros.</p>
-                <?php } ?>
+                        <?php }
+                    } else { ?>
+                        <br/>
+                        <p>Parece que não foram encontrados livros.</p>
+                    <?php } ?>
+                </div>
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'dta_levantamento')->label('Data de levantamento')->input('datetime-local') ?>
