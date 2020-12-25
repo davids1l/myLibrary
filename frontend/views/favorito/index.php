@@ -69,7 +69,7 @@ $this->title = 'Meus favoritos';
             </div>
 
         <?php } else { ?>
-            <?= Html::encode('Não existem livros na sua lista de favoritos.');?>
+            <?= Html::encode('Não existem livros na sua lista de favoritos.'); ?>
         <?php } ?>
     </div>
 </div>

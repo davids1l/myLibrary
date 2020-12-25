@@ -8,6 +8,7 @@ use Yii;
 use app\models\Favorito;
 use app\models\FavoritoSearch;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\Link;
@@ -26,6 +27,21 @@ class FavoritoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -42,7 +58,6 @@ class FavoritoController extends Controller
     public function actionIndex()
     {
         $searchModel = new FavoritoSearch();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $session = Yii::$app->session;
         $post = Yii::$app->request->post('listar');
@@ -143,7 +158,10 @@ class FavoritoController extends Controller
             $model->id_livro = $id;
             $model->id_utilizador = Yii::$app->user->id;
 
-            $model->save();
+            if (Yii::$app->user->can('createFavorito')){
+                $model->save();
+            }
+
             //Yii::$app->session->setFlash('success', 'Livro adicionado aos seus favoritos!');
         }
 
@@ -181,12 +199,14 @@ class FavoritoController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $model->delete();
 
-        //return $this->redirect(Yii::$app->request->urlReferrer);
+        if (Yii::$app->user->can('deleteFavorito')){
+            $model->delete();
+        }
 
-        return Yii::$app->user->getReturnUrl();
-        //return $this->redirect(['favorito/index', 'id' => $model->id_livro]);
+        //Yii::$app->request->referrer => retorna a ultima página em que o utilizador esteve
+        //se esta for != null então o redirect é feito para a página anteriror
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     /**
