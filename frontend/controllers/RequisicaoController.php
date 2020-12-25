@@ -30,15 +30,14 @@ class RequisicaoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['index', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['index', 'create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -123,13 +122,15 @@ class RequisicaoController extends Controller
             $num_excluir = abs(($total_livros) - 5);
 
             if ($total_livros <= 5){
-                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                if (Yii::$app->user->can('createRequisicao')){
+                    if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-                    $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
-                    Yii::$app->session->destroy();
-                    Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
+                        $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+                        Yii::$app->session->destroy();
+                        Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
 
-                    return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                        return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                    }
                 }
             } else {
                 Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua '. $num_excluir .' livro para concluir esta requisição.');
@@ -188,9 +189,10 @@ class RequisicaoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_requisicao]);
+        if (Yii::$app->user->can('updateRequisicao')){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_requisicao]);
+            }
         }
 
         return $this->render('update', [
@@ -207,7 +209,9 @@ class RequisicaoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (Yii::$app->user->can('deleteRequisicao')){
+            $this->findModel($id)->delete();
+        }
 
         return $this->redirect(['index']);
     }

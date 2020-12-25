@@ -4,6 +4,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 
 
+use Carbon\Carbon;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -37,7 +38,6 @@ $this->title = "Detalhes do Livro";
                     </span>
                 </div>
                 <div class="rating">
-                    <!-- <span ><b class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></b><i>(<?= $totalFav?>) favoritos</i></span> -->
                     <span class="badge"><i class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></i><?= $totalFav?></span>
                 </div>
                 <div class="actions" style="display: flex;">
@@ -63,9 +63,9 @@ $this->title = "Detalhes do Livro";
                             <span class="sinopse" id="lessSinopse "><?= Html::encode($livro->sinopse)?></span>
                             <?php } ?>
                         </div>
-                        <a href="#" class="mostrarmais" data-content="toggle-text">Mostrar mais</a>
+                        <a href="#mostrarmais" class="mostrarmais" data-content="toggle-text">Mostrar mais</a>
                     <?php } else { ?>
-                        <p>Sinopse Indisponível</p>
+                        <p><?= Html::encode('Sinopse Indisponível') ?></p>
                     <?php }?>
                 </div>
             </div>
@@ -91,10 +91,10 @@ $this->title = "Detalhes do Livro";
                                 <div class="">
                                     <span><?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $comentario->utilizador->foto_perfil, ['class' => 'imgPerfil'])?>
                                         <?= Html::a($comentario->utilizador->primeiro_nome . ' ' .$comentario->utilizador->ultimo_nome) ?></span>
-                                    <p><?= $comentario->comentario ?></p>
-                                    <i><?= $comentario->dta_comentario ?></i>
+                                    <p><?= Html::encode($comentario->comentario) ?></p>
+                                    <i><?= Carbon::parse(Html::encode($comentario->dta_comentario))->format('d/m/Y H:i:s') ?></i>
                                     <span class="commentActions">
-                                    <?php if($comentario->id_utilizador == Yii::$app->user->id){ //TODO:alterar pela rule do RBAC ?>
+                                    <?php if($comentario->id_utilizador == Yii::$app->user->id){ ?>
                                         <?= Html::a('', null, ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer',
                                            'data-toggle'=>'modal', 'data-target' => "#alterarComentarioModal" ])?>
                                         <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario],
@@ -136,12 +136,12 @@ $this->title = "Detalhes do Livro";
                         <?php }
                          if(sizeof($comentarios) > 3) {?>
                         <div class="showMoreComments">
-                            <a>Mostar mais</a>
+                            <a><?=Html::encode('Mostar mais')?></a>
                         </div>
                     <?php }
 
                     } else { ?>
-                        <p>Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!</p>
+                        <p><?= Html::encode('Este livro ainda não tem nenhum comentário. Seja o primeiro a comentar!') ?></p>
                     <?php }?>
                 </div>
             </div>

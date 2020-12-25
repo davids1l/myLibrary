@@ -77,16 +77,16 @@ class ComentarioController extends Controller
 
 
     /**
-     * Creates a new Comentario model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Função responsável por criar um novo comentário
+     * recebe o comentário no post efetuado no form da vista
+     * valida a
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException
      */
     public function actionCreate($id)
     {
-        //TODO: validar se o utilizador é um leitor e se tem o login efetuado, se não retornar mensagem de erro -> ACF / RBAC
-
         $model = new Comentario();
 
         $comentario = Yii::$app->request->post('Comentario');
@@ -94,25 +94,17 @@ class ComentarioController extends Controller
         $model->dta_comentario = Carbon::now();
         $model->comentario = $comentario;
         $model->id_livro = $id;
-        $model->id_utilizador = Yii::$app->user->id; //Yii::$app->user->identity->ID
+        $model->id_utilizador = Yii::$app->user->id;
 
-        if($model->load(Yii::$app->request->post()) && $model->validate()){
-            $model->save();
-            Yii::$app->session->setFlash('success', 'Obrigado pelo seu comentário!');
-            return $this->redirect(['livro/detalhes', 'id' => $id]);
+        if(Yii::$app->user->can('createComentario')){
+            if($model->load(Yii::$app->request->post()) && $model->validate()){
+                $model->save();
+                Yii::$app->session->setFlash('success', 'Obrigado pelo seu comentário!');
+                return $this->redirect(['livro/detalhes', 'id' => $id]);
+            }
         }
 
         return $this->redirect(['livro/detalhes', 'id' => $id]);
-
-
-        /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_comentario]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);*/
-
     }
 
     /**
@@ -127,9 +119,11 @@ class ComentarioController extends Controller
         $model = $this->findModel($id);
         $model->dta_comentario = Carbon::now();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Comentário alterado com sucesso');
-            return $this->redirect(['livro/detalhes', 'id' => $model->id_livro]);
+        if (Yii::$app->user->can('updateComentario')){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Comentário alterado com sucesso');
+                return $this->redirect(['livro/detalhes', 'id' => $model->id_livro]);
+            }
         }
 
         return $this->render('detalhes', [
@@ -150,9 +144,9 @@ class ComentarioController extends Controller
     {
         $id_livro = $this->findModel($id)->id_livro;
 
-        $this->findModel($id)->delete();
-
-        //return $this->redirect(['index', 'teste' => $teste]);
+        if(Yii::$app->user->can('deleteComentario')){
+            $this->findModel($id)->delete();
+        }
 
         return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
     }
