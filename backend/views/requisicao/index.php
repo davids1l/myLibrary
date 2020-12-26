@@ -21,8 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar Todas', ['index'], ['class' => 'btn btn-info']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -35,8 +33,36 @@ $this->params['breadcrumbs'][] = $this->title;
             'estado',
             'id_utilizador',
             //'id_bib_levantamento',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{preparar}',
+                'buttons' => [
+                    'preparar' => function ($url, $model, $key) {
+                        if ($model->estado === "A aguardar tratamento") {
+                            return Html::a('Tratar requisição', ['requisicao/preparar'], ['class' => 'btn btn-success',
+                                'data' => [
+                                    'method' => 'post',
+                                ]
+                            ]);
+                        } else if ($model->estado === "Pronta a levantar") {
+                            return Html::a('Finalizar requisição', ['requisicao/levantar'], ['class' => 'btn btn-success',
+                                'data' => [
+                                    'method' => 'post',
+                                ]
+                            ]);
+                        } else if ($model->estado === "Em requisição") {
+                            return Html::a('Terminar requisição', ['requisicao/terminar', 'id' => $model->id_requisicao], ['class' => 'btn btn-danger',
+                                'data' => [
+                                    'method' => 'post',
+                                ]
+                            ]);
+                        } else {
+                            return Html::label('Terminada');
+                        }
+                    },
+                ],
+            ],
+            ['class' => 'yii\grid\ActionColumn']
         ],
     ]); ?>
 

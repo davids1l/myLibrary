@@ -72,7 +72,7 @@ class LivrosController extends Controller
 
         $requisicoesTerminadas = [];
         foreach ($requisicoes as $requisicao){
-            if($requisicao->requisicao->estado == 'Pronta para levantamento' || $requisicao->requisicao->estado == 'Levantada'){
+            if($requisicao->requisicao->estado == 'Pronta a levantar' || $requisicao->requisicao->estado == 'Em requisição'){
                 array_push($requisicoesTerminadas, $requisicao->id_livro);
             }
         }

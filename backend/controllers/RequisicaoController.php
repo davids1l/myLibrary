@@ -47,6 +47,7 @@ class RequisicaoController extends Controller
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //var_dump($dataProvider);die;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -59,6 +60,14 @@ class RequisicaoController extends Controller
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 1);
 
+        if ($searchModel->load(Yii::$app->request->post())) {
+            $searchModel->estado = "Pronta a levantar";
+
+            $searchModel->save();
+
+            return $this->redirect(['requisicao/preparar']);
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider
@@ -69,6 +78,24 @@ class RequisicaoController extends Controller
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 2);
+        //var_dump($dataProvider);die;
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionTerminar($id)
+    {
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $model = $this->findModel($id);
+
+        $model->dta_entrega = Carbon::now()->format("Y-m-d\TH:i");
+        $model->estado = "Terminada";
+        $model->save();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
