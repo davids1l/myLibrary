@@ -11,10 +11,20 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+
+    'modules' => [
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
+    ],
+
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' =>
+                [
+                    'application/json' => 'yii\web\JsonParser'
+                ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -42,6 +52,20 @@ return [
             'enablePrettyUrl' => true,
             //'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/livro',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET total' => 'total',
+                        'DELETE all' => 'delete-all',
+                        'GET ano/{ano}' => 'ano',
+                    ],
+
+                    'tokens' => [
+                        '{ano}' => '<ano:\\d+>',
+                    ],
+                ],
             ],
         ],
 

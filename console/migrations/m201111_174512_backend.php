@@ -404,7 +404,7 @@ class m201111_174512_backend extends Migration
             'CASCADE'
         );
 
-        // Tabela Requisicao-Livro
+        // Tabela Requisicao-Livros
 
         $this->createTable('requisicao_livro', [
             'id_livro' => $this->integer()->notNull()->unsigned(),

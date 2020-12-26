@@ -57,7 +57,7 @@ class Comentario extends \yii\db\ActiveRecord
             'id_comentario' => 'Id Comentario',
             'dta_comentario' => 'Dta Comentario',
             'comentario' => 'Comentario',
-            'id_livro' => 'Id Livro',
+            'id_livro' => 'Id Livros',
             'id_utilizador' => 'Id Utilizador',
         ];
     }

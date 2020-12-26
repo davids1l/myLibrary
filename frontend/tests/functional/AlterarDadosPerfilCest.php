@@ -26,6 +26,7 @@ class AlterarDadosPerfilCest
         $I->fillField(['id' => 'utilizador-dta_nascimento'], '25/02/2001');
         $I->fillField(['id' => 'utilizador-nif'], '919191919');
         $I->click('Guardar Alterações');
-        $I->see('Dados alterados com sucesso!');
+        //$I->see('×', 'button');
+        $I->see("Dados alterados com sucesso!");
     }
 }

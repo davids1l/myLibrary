@@ -98,18 +98,18 @@ class m201112_191844_init_rbac extends Migration
         $deleteFavorito->description = 'Eliminar um Favorito';
         $auth->add($deleteFavorito);
 
-        // Permissões Livro
+        // Permissões Livros
 
         $createLivro = $auth->createPermission('createLivro');
-        $createLivro->description = 'Criar um Livro';
+        $createLivro->description = 'Criar um Livros';
         $auth->add($createLivro);
 
         $updateLivro = $auth->createPermission('updateLivro');
-        $updateLivro->description = 'Atualizar um Livro';
+        $updateLivro->description = 'Atualizar um Livros';
         $auth->add($updateLivro);
 
         $deleteLivro = $auth->createPermission('deleteLivro');
-        $deleteLivro->description = 'Eliminar um Livro';
+        $deleteLivro->description = 'Eliminar um Livros';
         $auth->add($deleteLivro);
 
         // Permissões Multa

@@ -44,7 +44,7 @@ class Avaliacao extends \yii\db\ActiveRecord
             'id_avaliacao' => 'Id Avaliacao',
             'data_avaliacao' => 'Data Avaliacao',
             'avaliacao' => 'Avaliacao',
-            'id_livro' => 'Id Livro',
+            'id_livro' => 'Id Livros',
             'id_utilizador' => 'Id Utilizador',
         ];
     }

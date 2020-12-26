@@ -8,7 +8,7 @@ use app\models\Livro;
 use yii\db\Query;
 
 /**
- * LivroSearch represents the model behind the search form of `app\models\Livro`.
+ * LivroSearch represents the model behind the search form of `app\models\Livros`.
  */
 class LivroSearch extends Livro
 {
@@ -35,7 +35,7 @@ class LivroSearch extends Livro
     public function procurar($params)
     {
 
-        $post = $params['Livro'];
+        $post = $params['Livros'];
         $titulo = $post['titulo'];
 
         $query = Livro::find()

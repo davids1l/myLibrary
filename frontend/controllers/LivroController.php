@@ -15,7 +15,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LivroController implements the CRUD actions for Livro model.
+ * LivroController implements the CRUD actions for Livros model.
  */
 class LivroController extends Controller
 {
@@ -35,7 +35,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Lists all Livro models.
+     * Lists all Livros models.
      * @return mixed
      */
     public function actionIndex()
@@ -92,7 +92,7 @@ class LivroController extends Controller
         $model = new Livro();
 
         //select na BD de todos os livro existentes
-        /*$livros = Livro::find()
+        /*$livros = Livros::find()
             ->orderBy(['titulo' => SORT_ASC])
             ->limit(6)
             ->all();*/
@@ -155,7 +155,7 @@ class LivroController extends Controller
 
 
     /**
-     * Displays a single Livro model.
+     * Displays a single Livros model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -168,7 +168,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Creates a new Livro model.
+     * Creates a new Livros model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
@@ -186,7 +186,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Updates an existing Livro model.
+     * Updates an existing Livros model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -206,7 +206,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Deletes an existing Livro model.
+     * Deletes an existing Livros model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -220,7 +220,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Finds the Livro model based on its primary key value.
+     * Finds the Livros model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Livro the loaded model

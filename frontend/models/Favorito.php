@@ -42,7 +42,7 @@ class Favorito extends \yii\db\ActiveRecord
         return [
             'id_favorito' => 'Id Favorito',
             'dta_favorito' => 'Data Fav',
-            'id_livro' => 'Id Livro',
+            'id_livro' => 'Id Livros',
             'id_utilizador' => 'Id Utilizador',
         ];
     }

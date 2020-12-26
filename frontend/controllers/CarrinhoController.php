@@ -78,7 +78,7 @@ class CarrinhoController extends Controller
                     }
                     if ($flag == 0) {
                         $_SESSION['carrinho'][] = $livro;
-                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                        $session->setFlash('success', 'Livros adicionado ao seu carrinho!');
                     } else {
                         $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
                     }
@@ -88,7 +88,7 @@ class CarrinhoController extends Controller
             } else {
                 $session->open();
                 $_SESSION['carrinho'][] = $livro;
-                $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                $session->setFlash('success', 'Livros adicionado ao seu carrinho!');
                 $session->close();
             }
         } else {
@@ -119,7 +119,7 @@ class CarrinhoController extends Controller
                 if ($obj_livro->id_livro == $id_livro) {
                     $index = array_search($obj_livro, $carrinho);
                     unset($_SESSION['carrinho'][$index]);
-                    $session->setFlash('success', 'Livro excluído do carrinho.');
+                    $session->setFlash('success', 'Livros excluído do carrinho.');
                 }
             }
         }

@@ -94,7 +94,7 @@ class FavoritoController extends Controller
             $model->id_utilizador = Yii::$app->user->id;
 
             $model->save();
-            Yii::$app->session->setFlash('success', 'Livro adicionado aos seus favoritos!');
+            Yii::$app->session->setFlash('success', 'Livros adicionado aos seus favoritos!');
         }
 
         return $this->redirect(['livro/detalhes', 'id' => $id]);

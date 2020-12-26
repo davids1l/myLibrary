@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use app\models\Livro;
 
 /**
- * LivroSearch represents the model behind the search form of `app\models\Livro`.
+ * LivroSearch represents the model behind the search form of `app\models\Livros`.
  */
 class LivroSearch extends Livro
 {

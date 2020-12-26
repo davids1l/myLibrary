@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
 \frontend\assets\ViewsAssets::register($this);
 
-$this->title = "Detalhes do Livro";
+$this->title = "Detalhes do Livros";
 //$this->params['breadcrumbs'][] = ['label' => 'Catálogo', 'url' => ['catalogo']];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
