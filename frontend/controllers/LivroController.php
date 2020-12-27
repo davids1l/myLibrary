@@ -52,12 +52,12 @@ class LivroController extends Controller
 
 
     /**
-     * search na BD os livros mais recentes de acordo com a data de edição
+     * search na BD os livros mais recentes de acordo com a data de edição (ano)
      */
     public function livrosRecentesFilter() {
 
         $livrosRecentes = Livro::find()
-            ->orderBy(['ano' => SORT_DESC]) //TODO:alterar para orderBy(['edicao' => SORT_DESC]);
+            ->orderBy(['ano' => SORT_DESC])
             ->limit(6)
             ->all();
 
@@ -66,11 +66,12 @@ class LivroController extends Controller
 
     /**
      * @return array
-     * Função responsável por
+     * Função responsável por listar por ordem descresente os livros com mais requisições
+     * recorrendo a uma query que para cada id_livro em requisicao_livro conta o nº de vezes que o mesmo se repete
      */
     public function livrosMaisRequisitados() {
 
-        $query = (new \yii\db\Query())
+        $query = (new Query())
             ->select(['*' ,'COUNT(*) AS num_requisicoes'])
             ->from('requisicao_livro')
             ->groupBy('id_livro')
@@ -105,31 +106,28 @@ class LivroController extends Controller
     /**
      * @param $id_livro
      * @return bool
+     *
+     *
      */
     public function verificarEmRequisicao($id_livro){
 
-        $requisicoes = RequisicaoLivro::find()
-            ->where(['id_livro' => $id_livro])
+        //Obter os registos de requisicao_livros em que se verifique id_livro = id_livro recebido por post
+        $subQuery = RequisicaoLivro::find()
+            ->where(['id_livro' => $id_livro]);
+
+        //Obter as requisições em que o estado seja diferente de "Terminada" e que se verifique que o id_requisicao = id_requesicao da subquery
+        $query = Requisicao::find()
+            ->where(['!=', 'estado', 'Terminada'])
+            ->innerJoin(['sub' => $subQuery], 'requisicao.id_requisicao = sub.id_requisicao')
             ->all();
 
-        if(empty($requisicoes)) {
-            $canAdicionarCarrinho = true;
+        //Se o livro não tiver nenhuma requisição com estado concluído implica estar requisitado
+        if ($query != null) {
+            $canAdicionarCarrinho = false;
         } else {
-
-            $requisicoesTerminadas = [];
-            foreach ($requisicoes as $requisicao){
-                if($requisicao->requisicao->estado != 'Terminada'){
-                    array_push($requisicoesTerminadas, $requisicao);
-                }
-            }
-
-            //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
-            if ($requisicoesTerminadas != null) {
-                $canAdicionarCarrinho = false;
-            } else {
-                $canAdicionarCarrinho = true;
-            }
+            $canAdicionarCarrinho = true;
         }
+
         return $canAdicionarCarrinho;
     }
 
@@ -146,7 +144,6 @@ class LivroController extends Controller
         $results = $model->procurar($params);
 
         return $this->render('search', ['model'=> new Livro(), 'results'=>$results]);
-        //return $this->render('view', ['model'=>$searchModel, 'dataProvider'=>$dataProvider]);
     }
 
 
@@ -180,7 +177,6 @@ class LivroController extends Controller
 
         //return da view detalhes com o livro de acordo com o $id recebido
         if(!is_null($livro)){
-            //!is_null($fav) ? $isFav = true : $isFav = false;
             return $this->render('detalhes', [
                 'livro' => $livro,
                 'modelComentario' => $modelComentario,
@@ -197,25 +193,27 @@ class LivroController extends Controller
     }
 
 
+    //TODO: Inutilizado
     /**
      * Displays a single Livro model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    /*public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
+    }*/
 
+    //TODO: Inutilizado
     /**
      * Creates a new Livro model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    /*public function actionCreate()
     {
         $model = new Livro();
 
@@ -226,8 +224,9 @@ class LivroController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
-    }
+    }*/
 
+    //TODO: Inutilizado
     /**
      * Updates an existing Livro model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -235,7 +234,7 @@ class LivroController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    /*public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -246,8 +245,9 @@ class LivroController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
+    }*/
 
+    //TODO: Inutilizado
     /**
      * Deletes an existing Livro model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -255,12 +255,12 @@ class LivroController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    /*public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
+    }*/
 
     /**
      * Finds the Livro model based on its primary key value.

@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use app\models\Utilizador;
 use common\models\LoginFormBackend;
 use Yii;
 use yii\web\Controller;
@@ -75,16 +76,24 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $this->layout = 'blank';
+        //$this->layout = 'blank';
 
-        $model = new LoginFormBackend();
+        $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-            return $this->goBack();
+            if(Yii::$app->user->can('bibliotecario') || Yii::$app->user->can('admin')){
+                return $this->goBack();
+            }else{
+                Yii::$app->user->logout();
+                Yii::$app->session->setFlash('error', 'Não tem permissões para aceder.');
+                $model->password = '';
+                $model->email = '';
+                return $this->render('login', ['model' => $model]);
+            }
         } else {
-            $model->password = '';
 
-            return $this->render('login', ['model' => $model,]);
+            $model->password = '';
+            return $this->render('login', ['model' => $model]);
         }
     }
 

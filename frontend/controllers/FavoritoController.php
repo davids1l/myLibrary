@@ -3,14 +3,18 @@
 namespace frontend\controllers;
 
 use Carbon\Carbon;
+use MongoDB\Driver\Session;
 use Yii;
 use app\models\Favorito;
 use app\models\FavoritoSearch;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
+use yii\web\Link;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\LinkPager;
 
 /**
  * FavoritoController implements the CRUD actions for Favorito model.
@@ -23,6 +27,21 @@ class FavoritoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -33,31 +52,66 @@ class FavoritoController extends Controller
     }
 
     /**
-     * Lists all Favorito models.
+     *
      * @return mixed
      */
     public function actionIndex()
     {
         $searchModel = new FavoritoSearch();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $favoritos = Favorito::find()
-            ->where(['id_utilizador' => Yii::$app->user->id]);
+        $session = Yii::$app->session;
+        $post = Yii::$app->request->post('listar');
 
-        $total = $favoritos->count();
-        $paginacao = new Pagination(['totalCount' => $total]);
-        $models = $favoritos->offset($paginacao->offset)
+        //se o post!=null, então cria uma variavél de sessão para armazenar o tipo de listagem (SORT_ASC/SORT_DESC) dos favoritos
+        //assim quando muda a página na paginação mantem a mesma listagem
+        if($post != null){
+            $session->isActive ? $_SESSION['favoritoList'] = $post : $session->open();
+        }
+
+        $tipoListagem = $session->get('favoritoList');
+
+        /*
+         * De acordo com o valor recebido no post é realizada a filtragem pela data mais recente ou mais antiga
+         * se o valor recebido for 1, então os livros são listados por ordem decrescente da data
+         * se for 2, então os livros são listados por ordem crescente da data
+         *
+         * SORT_ASC = 4 e SORT_DESC = 3
+         */
+        switch ($tipoListagem){
+            case 1:
+                $favoritos = $this->listarPorData(3);
+                break;
+            case 2:
+                $favoritos = $this->listarPorData(4);
+                break;
+            default:
+                $favoritos = Favorito::find()
+                    ->where(['id_utilizador' => Yii::$app->user->id]);
+        }
+
+
+        $paginacao = new Pagination(['totalCount' => $favoritos->count(), 'pageSize' => 5]);
+
+        $livros = $favoritos->offset($paginacao->offset)
             ->limit($paginacao->limit)
             ->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            //'dataProvider' => $dataProvider,
-            //'favoritos' => $favoritos,
-            'models' => $models,
+            'livros' => $livros,
             'paginacao' => $paginacao,
         ]);
     }
+
+
+    public function listarPorData($sort) {
+        $query = Favorito::find()
+            ->where(['id_utilizador' => Yii::$app->user->id])
+            ->orderBy(['dta_favorito' => $sort]);
+
+        return $query;
+    }
+
 
     /**
      * Displays a single Favorito model.
@@ -103,7 +157,10 @@ class FavoritoController extends Controller
             $model->id_livro = $id;
             $model->id_utilizador = Yii::$app->user->id;
 
-            $model->save();
+            if (Yii::$app->user->can('createFavorito')){
+                $model->save();
+            }
+
             //Yii::$app->session->setFlash('success', 'Livro adicionado aos seus favoritos!');
         }
 
@@ -141,10 +198,14 @@ class FavoritoController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $model->delete();
 
-        //return $this->redirect(Yii::$app->request->urlReferrer);
-        return $this->redirect(['favorito/index', 'id' => $model->id_livro]);
+        if (Yii::$app->user->can('deleteFavorito')){
+            $model->delete();
+        }
+
+        //Yii::$app->request->referrer => retorna a ultima página em que o utilizador esteve
+        //se esta for != null então o redirect é feito para a página anteriror
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     /**

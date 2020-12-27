@@ -35,7 +35,6 @@ class CarrinhoController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['remover', 'adicionar'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -138,27 +137,23 @@ class CarrinhoController extends Controller
      */
     public function verificarEmRequisicao($id_livro){
 
-        $requisicoes = RequisicaoLivro::find()
-            ->where(['id_livro' => $id_livro])
+        //Obter os registos de requisicao_livros em que se verifique id_livro = id_livro recebido por post
+        $subQuery = RequisicaoLivro::find()
+            ->where(['id_livro' => $id_livro]);
+
+        //Obter as requisições em que o estado seja diferente de "Terminada" e que se verifique que o id_requisicao = id_requesicao da subquery
+        $query = Requisicao::find()
+            ->where(['!=', 'estado', 'Terminada'])
+            ->innerJoin(['sub' => $subQuery], 'requisicao.id_requisicao = sub.id_requisicao')
             ->all();
 
-        $requisicoesTerminadas = [];
-        foreach ($requisicoes as $requisicao){
-            if($requisicao->requisicao->estado != 'Terminada'){
-                array_push($requisicoesTerminadas, $requisicao);
-            }
+        //Se o livro não tiver nenhuma requisição com estado concluído implica estar requisitado
+        if ($query != null) {
+            $canAdicionarCarrinho = false;
+        } else {
+            $canAdicionarCarrinho = true;
         }
 
-        if(empty($requisicoes)) {
-            $canAdicionarCarrinho = true;
-        } else {
-            //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
-            if ($requisicoesTerminadas != null) {
-                $canAdicionarCarrinho = false;
-            } else {
-                $canAdicionarCarrinho = true;
-            }
-        }
         return $canAdicionarCarrinho;
     }
 }

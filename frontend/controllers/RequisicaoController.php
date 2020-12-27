@@ -30,15 +30,14 @@ class RequisicaoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['index', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['index', 'create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -52,6 +51,17 @@ class RequisicaoController extends Controller
             ],
         ];
     }
+
+
+    function actionShowmodal($key){
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $js='$("#livrosModal").modal("show")';
+        $this->getView()->registerJs($js);
+        return $this->render('index', ['key' => $key, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider]);
+    }
+
 
     public function actionFinalizar()
     {
@@ -81,8 +91,11 @@ class RequisicaoController extends Controller
 
         $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
 
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $key = null;
 
-        return $this->render('index', ['requisicoes' => $requisicoes]);
+        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $searchModel, 'key' => $key, 'requisicoes' => $requisicoes]);
     }
 
     /**
@@ -107,28 +120,29 @@ class RequisicaoController extends Controller
     {
         $carrinho = Yii::$app->session->get('carrinho');
 
-        $postData = Yii::$app->request->post();
+        $postData = Yii::$app->request->post('Requisicao');
+
 
         if ($carrinho != null){
             $model = new Requisicao();
 
             $model->estado = 'A aguardar tratamento';
-            //$model->dta_levantamento = null; //$postData['Requisicao']['dta_levantamento'];
-            //$model->dta_entrega = null; //$this->gerarDataEntrega($postData['Requisicao']['dta_levantamento']);
             $model->id_utilizador = Yii::$app->user->id;
-            $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
+            $model->id_bib_levantamento = $postData['id_bib_levantamento'];
 
             $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
             $num_excluir = abs(($total_livros) - 5);
 
             if ($total_livros <= 5){
-                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                if (Yii::$app->user->can('createRequisicao')){
+                    if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-                    $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
-                    Yii::$app->session->destroy();
-                    Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
+                        $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+                        Yii::$app->session->destroy();
+                        Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
 
-                    return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                        return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                    }
                 }
             } else {
                 Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua '. $num_excluir .' livro para concluir esta requisição.');
@@ -187,9 +201,10 @@ class RequisicaoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_requisicao]);
+        if (Yii::$app->user->can('updateRequisicao')){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_requisicao]);
+            }
         }
 
         return $this->render('update', [
@@ -206,7 +221,9 @@ class RequisicaoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (Yii::$app->user->can('deleteRequisicao')){
+            $this->findModel($id)->delete();
+        }
 
         return $this->redirect(['index']);
     }

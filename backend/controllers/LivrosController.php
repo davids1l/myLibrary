@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 /**
- * LivrosController implements the CRUD actions for Livro model.
+ * LivrosController implements the CRUD actions for Livros model.
  */
 class LivrosController extends Controller
 {
@@ -42,7 +42,7 @@ class LivrosController extends Controller
     }
 
     /**
-     * Lists all Livro models.
+     * Lists all Livros models.
      * @return mixed
      */
     public function actionIndex()
@@ -51,9 +51,9 @@ class LivrosController extends Controller
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
-        if(Yii::$app->request->post('Livro')['titulo'] != null) {
+        if(Yii::$app->request->post('Livros')['titulo'] != null) {
             $searchModel = new LivroSearch();
-            $livros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
+            $livros = $searchModel->procurar(Yii::$app->request->post('Livros')['titulo']);
         }
 
         $livro = new Livro();
@@ -91,7 +91,7 @@ class LivrosController extends Controller
     }
 
     /**
-     * Displays a single Livro model.
+     * Displays a single Livros model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -104,7 +104,7 @@ class LivrosController extends Controller
     }
 
     /**
-     * Creates a new Livro model.
+     * Creates a new Livros model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
@@ -156,7 +156,7 @@ class LivrosController extends Controller
     }
 
     /**
-     * Updates an existing Livro model.
+     * Updates an existing Livros model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -214,7 +214,7 @@ class LivrosController extends Controller
     }
 
     /**
-     * Deletes an existing Livro model.
+     * Deletes an existing Livros model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -227,7 +227,7 @@ class LivrosController extends Controller
     }
 
     /**
-     * Finds the Livro model based on its primary key value.
+     * Finds the Livros model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Livro the loaded model

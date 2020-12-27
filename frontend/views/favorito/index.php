@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\LinkPager;
 
@@ -17,29 +18,38 @@ $this->title = 'Meus favoritos';
 <div class="favorito-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <hr>
 
 
     <div class="listaFavoritos">
         <?php
-        if ($models != null) { ?>
+        if ($livros != null) { ?>
 
-            <div class="col-xs-12 col-md-12 col-lg-12 searchBar">
-                <div class="col-lg-4">
-                    <?php $form = ActiveForm::begin(['id' => 'pesquisa-form', 'action' => ['favorito/procurar']]); ?>
-                    <?= $form->field($searchModel, 'dta_favorito')->textInput(['placeholder' => 'Insira o título do livro']) ?>
-                    <?= Html::submitButton('Procurar', ['class' => 'btn btn-info']) ?>
-                    <?php ActiveForm::end(); ?>
+            <div class="col-xs-12 col-md-12 col-lg-12 searchBar" style="margin-bottom: 2%">
+                <!-- <?php $form = ActiveForm::begin(['id' => 'listar-form', 'action' => ['favorito/']]); ?>
+                <?= $form->field($searchModel, 'dta_favorito')->label('Listar')->dropDownList(['0'=>'Nenhum..', '1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro']) ?>
+                <?= Html::submitButton('Listar', ['class' => 'btn btn-success']) ?>
+                <?php ActiveForm::end(); ?> -->
+
+                <div class="dropdown">
+                    <?= Html::beginForm(['favorito/index'], 'post')?>
+                        <?= Html::dropDownList('listar', null, ['0'=>'Selecione..', '1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'], ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
+                        <?= Html::submitButton('Listar', ['class' => '']) ?>
+                    <?= Html::endForm() ?>
                 </div>
-
             </div>
 
-            <?php foreach ($models as $fav) { ?>
+            <?php foreach ($livros as $fav) { ?>
                 <div class="col-xs-12 col-md-12 col-lg-12 livroField">
                     <div class="capa-livro-requisicao col-xs-4 col-md-1 col-lg-1">
-                        <?= Html::img($fav->livro->capa, ['class' => 'capaLivroFinalizar']) ?>
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
+                            <?= Html::img($fav->livro->capa, ['class' => 'capaLivroFinalizar']) ?>
+                        </a>
                     </div>
                     <div class="detalhes-livro-requisicao col-xs-6 col-md-10 col-lg-10">
-                        <h4><?= Html::encode($fav->livro->titulo) ?></h4>
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
+                            <h4><?= Html::encode($fav->livro->titulo) ?></h4>
+                        </a>
                         <h5>de <?= Html::encode($fav->livro->autor->nome_autor) ?></h5>
                         <h6>Edição: <?= Html::encode($fav->livro->ano) ?></h6>
                     </div>
@@ -51,13 +61,15 @@ $this->title = 'Meus favoritos';
             <?php } ?>
 
             <div class="pagination">
-                <?php LinkPager::widget([
-                   'pagination' => $paginacao,
-                ]); ?>
+                <?php
+                echo LinkPager::widget([
+                    'pagination' => $paginacao,
+                ]);
+                ?>
             </div>
 
         <?php } else { ?>
-            <?= Html::encode('Carrinho vazio.');?>
+            <?= Html::encode('Não existem livros na sua lista de favoritos.'); ?>
         <?php } ?>
     </div>
 </div>

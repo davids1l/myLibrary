@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Livro */
 
-$this->title = 'Atualizar Livro: ' . $model->id_livro;
+$this->title = 'Atualizar Livros: ' . $model->id_livro;
 $this->params['breadcrumbs'][] = ['label' => 'Livros', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_livro, 'url' => ['view', 'id' => $model->id_livro]];
 $this->params['breadcrumbs'][] = 'Update';

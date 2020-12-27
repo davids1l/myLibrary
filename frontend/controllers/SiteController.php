@@ -78,9 +78,29 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($modelLogin = null)
     {
-        return $this->render('index');
+        if($modelLogin == null){
+            $modelLogin = new LoginForm();
+        }
+
+        $model = new SignupForm();
+
+        return $this->render('index', ['modelLogin' => $modelLogin, 'model' => $model]);
+    }
+
+
+    function actionShowmodal($modelLogin = null, $model = null){
+        if($modelLogin == null){
+            $modelLogin = new LoginForm();
+        }
+        if($model == null){
+            $model = new SignupForm();
+        }
+
+        $js='$("#regLogModal").modal("show")';
+        $this->getView()->registerJs($js);
+        return $this->render('index', ['modelLogin'=> $modelLogin, 'model' => $model]);
     }
 
     /**
@@ -99,17 +119,18 @@ class SiteController extends Controller
 
             $utilizador = Utilizador::find()->where(['id_utilizador' => $model->User->id])->one();
 
-            if($utilizador->bloqueado == null){
-                return $this->goBack();
-            }else{
+            if($utilizador->bloqueado != null){
+                Yii::$app->user->logout();
                 $model->password = '';
                 Yii::$app->session->setFlash('error', 'A conta a que está a tentar aceder encontra-se bloqueada.');
-                return $this->render('login', ['model' => $model,]);
+                return $this->actionIndex($model);
+            }else{
+                return $this->goBack();
             }
 
         } else {
             $model->password = '';
-            return $this->render('login', ['model' => $model,]);
+            return $this->actionShowmodal($model);
         }
     }
 
@@ -167,14 +188,14 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $user = new SignupForm();
-        if ($user->load(Yii::$app->request->post()) && $user->signup(0)) { // TODO função signup requer um tipo, 0 -> utilizador, 1 -> bibliotecario, 2 -> admin
+        if ($user->load(Yii::$app->request->post()) && $user->signup(0)) {
             Yii::$app->session->setFlash('success', 'Obrigado pelo seu registo.');
             return $this->goHome();
         }
 
         $user->password = '';
         $user->confirmarPassword = '';
-        return $this->render('signup', ['model' => $user]);
+        return $this->actionShowmodal(null, $user);
     }
 
     /**

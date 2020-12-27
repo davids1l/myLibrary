@@ -88,7 +88,7 @@ $this->title = /*$utilizador->id_utilizador*/
 
             <div class="row">
                 <div class="col-sm-6 text-center">
-                    <button type="button" class="btn-perfil" data-toggle="modal" data-target="#perfilModal">Alterar dados</button>
+                    <button id="alterarDados" type="button" class="btn-perfil" data-toggle="modal" data-target="#perfilModal">Alterar dados</button>
                 </div>
 
                 <div class="col-sm-6 text-center">

@@ -43,13 +43,13 @@ class RequisicaoLivro extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_livro' => 'Id Livro',
+            'id_livro' => 'Id Livros',
             'id_requisicao' => 'Id Requisicao',
         ];
     }
 
     /**
-     * Gets query for [[Livro]].
+     * Gets query for [[Livros]].
      *
      * @return \yii\db\ActiveQuery
      */

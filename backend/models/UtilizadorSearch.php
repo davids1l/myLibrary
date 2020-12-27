@@ -18,8 +18,8 @@ class UtilizadorSearch extends Utilizador
     public function rules()
     {
         return [
-            [['id_utilizador', 'bloqueado', 'id_biblioteca'], 'integer'],
-            [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_bloqueado', 'dta_nascimento', 'nif', 'num_telemovel', 'dta_registo', 'foto_perfil'], 'safe'],
+            [['bloqueado', 'id_biblioteca'], 'integer'],
+            [['id_utilizador', 'primeiro_nome', 'ultimo_nome', 'numero', 'dta_bloqueado', 'dta_nascimento', 'nif', 'num_telemovel', 'dta_registo', 'foto_perfil'], 'safe'],
         ];
     }
 
@@ -49,6 +49,7 @@ class UtilizadorSearch extends Utilizador
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 5],
         ]);
 
         $this->load($params);
@@ -59,9 +60,11 @@ class UtilizadorSearch extends Utilizador
             return $dataProvider;
         }
 
+        $query->joinWith('user');
+
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_utilizador' => $this->id_utilizador,
+            //'id_utilizador' => $this->id_utilizador,
             'bloqueado' => $this->bloqueado,
             'dta_bloqueado' => $this->dta_bloqueado,
             'dta_nascimento' => $this->dta_nascimento,
@@ -74,7 +77,8 @@ class UtilizadorSearch extends Utilizador
             ->andFilterWhere(['like', 'numero', $this->numero])
             ->andFilterWhere(['like', 'nif', $this->nif])
             ->andFilterWhere(['like', 'num_telemovel', $this->num_telemovel])
-            ->andFilterWhere(['like', 'foto_perfil', $this->foto_perfil]);
+            ->andFilterWhere(['like', 'foto_perfil', $this->foto_perfil])
+            ->andFilterWhere(['like', 'user.email', $this->id_utilizador]);
 
         return $dataProvider;
     }

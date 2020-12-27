@@ -8,7 +8,7 @@ use app\models\Livro;
 use yii\db\Query;
 
 /**
- * LivroSearch represents the model behind the search form of `app\models\Livro`.
+ * LivroSearch represents the model behind the search form of `app\models\Livros`.
  */
 class LivroSearch extends Livro
 {
@@ -34,15 +34,11 @@ class LivroSearch extends Livro
 
     public function procurar($params)
     {
-
-        $post = $params['Livro'];
-        $titulo = $post['titulo'];
+        $titulo = $params['Livro']['titulo'];
 
         $query = Livro::find()
             ->where(['like', 'titulo',  $titulo])
             ->all();
-
-        //$query->andFilterWhere(['like', 'titulo', $this->titulo]);
 
         return $query;
     }

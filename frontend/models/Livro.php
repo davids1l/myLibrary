@@ -67,7 +67,7 @@ class Livro extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_livro' => 'Id Livro',
+            'id_livro' => 'Id Livros',
             'titulo' => 'Titulo',
             'isbn' => 'Isbn',
             'ano' => 'Ano',

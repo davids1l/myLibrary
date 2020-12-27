@@ -1,0 +1,14 @@
+suite_namespace: frontend\tests\acceptance
+actor: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            url: http://localhost/
+            browser: chrome
+            port: 9515
+
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+        - Codeception\Extension\RunProcess:
+            - chromedriver --url-base=/wd/hub

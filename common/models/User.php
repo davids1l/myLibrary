@@ -75,22 +75,11 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 
-    public static function findLeitorByEmail($email)
+    public static function findUserByEmail($email)
     {
-        $idLeitor = User::find()->where(['email' => $email]);
-        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
-
-        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE, 'id' => $subQuery]);
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
-
-    public static function findBackendByEmail($email)
-    {
-        $id = User::find()->where(['email' => $email]);
-        $subQuery = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => ['admin', 'bibliotecario']]);
-
-        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE, 'id' => $subQuery]);
-    }
 
     /**
      * {@inheritdoc}
