@@ -14,6 +14,7 @@ use app\models\Requisicao;
 use app\models\RequisicaoSearch;
 use yii\db\Exception;
 use yii\db\Query;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -30,6 +31,21 @@ class RequisicaoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'preparar', 'levantar', 'terminar', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'preparar', 'levantar', 'terminar', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

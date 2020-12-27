@@ -14,6 +14,7 @@ use Yii;
 use app\models\Livro;
 use app\models\LivroSearch;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,6 +33,21 @@ class LivrosController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'requisitado', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'requisitado', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -38,6 +38,7 @@ $this->title = 'Painel';
             </div>
         </div>
 
+        <?php if (Yii::$app->user->can('admin')) { ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">
@@ -61,7 +62,7 @@ $this->title = 'Painel';
                 </div>
             </div>
         </div>
-
+        <?php } ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">
@@ -80,7 +81,7 @@ $this->title = 'Painel';
                 </div>
             </div>
         </div>
-
+        <?php if (Yii::$app->user->can('admin')) { ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">
@@ -99,7 +100,7 @@ $this->title = 'Painel';
                 </div>
             </div>
         </div>
-
+        <?php } ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">

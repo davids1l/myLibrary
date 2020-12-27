@@ -7,6 +7,7 @@ use app\Models\Biblioteca;
 use app\Models\Livro;
 use app\models\BibliotecaSearch;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,6 +23,21 @@ class BibliotecasController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'catalogo', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'catalogo', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?', 'bibliotecario'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -88,8 +104,13 @@ class BibliotecasController extends Controller
     {
         $model = new Biblioteca();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+        if ($model->load(Yii::$app->request->post())) {
+            if(Yii::$app->user->can('createBiblioteca')) {
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Não tem as permissões necessárias para efetuar essa operação.');
+            }
         }
 
         return $this->render('create', [
@@ -108,8 +129,13 @@ class BibliotecasController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+        if ($model->load(Yii::$app->request->post())) {
+            if(Yii::$app->user->can('updateBiblioteca')) {
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Não tem as permissões necessárias para efetuar essa operação.');
+            }
         }
 
         return $this->render('update', [
@@ -126,7 +152,11 @@ class BibliotecasController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(Yii::$app->user->can('deleteBiblioteca')) {
+            $this->findModel($id)->delete();
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem as permissões necessárias para efetuar essa operação.');
+        }
 
         return $this->redirect(['index']);
     }
