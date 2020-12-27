@@ -82,7 +82,7 @@ class RequisicaoSearch extends Requisicao
         if($type == 1)
             $type = "A aguardar tratamento";
         else if($type == 2)
-            $type = "Levantada";
+            $type = "Pronta a levantar";
 
         $query = Requisicao::find()->where(['estado' => $type])->orderBy('id_requisicao');
 

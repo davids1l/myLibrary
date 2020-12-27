@@ -39,13 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'preparar' => function ($url, $model, $key) {
                         if ($model->estado === "A aguardar tratamento") {
-                            return Html::a('Tratar requisição', ['requisicao/preparar'], ['class' => 'btn btn-success',
+                            return Html::a('Tratar requisição', ['requisicao/preparar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                 'data' => [
                                     'method' => 'post',
                                 ]
                             ]);
                         } else if ($model->estado === "Pronta a levantar") {
-                            return Html::a('Finalizar requisição', ['requisicao/levantar'], ['class' => 'btn btn-success',
+                            return Html::a('Finalizar requisição', ['requisicao/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                 'data' => [
                                     'method' => 'post',
                                 ]

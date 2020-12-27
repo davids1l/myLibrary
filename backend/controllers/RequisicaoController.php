@@ -60,12 +60,15 @@ class RequisicaoController extends Controller
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 1);
 
-        if ($searchModel->load(Yii::$app->request->post())) {
-            $searchModel->estado = "Pronta a levantar";
+        if (Yii::$app->request->queryParams) {
+            $id = Yii::$app->request->queryParams['id'];
+            $model = $this->findModel($id);
 
-            $searchModel->save();
+            $model->estado = "Pronta a levantar";
+            $model->save();
 
-            return $this->redirect(['requisicao/preparar']);
+
+            return $this->redirect(['requisicao/index']);
         }
 
         return $this->render('index', [
@@ -78,7 +81,18 @@ class RequisicaoController extends Controller
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 2);
-        //var_dump($dataProvider);die;
+
+        if (Yii::$app->request->queryParams) {
+            $id = Yii::$app->request->queryParams['id'];
+            $model = $this->findModel($id);
+
+            $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
+            $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
+            $model->estado = "Em requisição";
+            $model->save();
+
+            return $this->redirect(['requisicao/index']);
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
