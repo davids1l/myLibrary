@@ -111,6 +111,8 @@ class RequisicaoController extends Controller
         $model->estado = "Terminada";
         $model->save();
 
+        $this->redirect(['requisicao/index']);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
