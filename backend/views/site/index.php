@@ -27,12 +27,18 @@ $this->title = 'Painel';
                                     'class' => 'btn btn-success'
                                 ]) ?>
                             </div>
+                            <div class="col-md-2">
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Livros Requisitados', ['livros/requisitado'], [
+                                    'class' => 'btn btn-info'
+                                ]) ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <?php if (Yii::$app->user->can('admin')) { ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">
@@ -56,7 +62,7 @@ $this->title = 'Painel';
                 </div>
             </div>
         </div>
-
+        <?php } ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">
@@ -75,7 +81,7 @@ $this->title = 'Painel';
                 </div>
             </div>
         </div>
-
+        <?php if (Yii::$app->user->can('admin')) { ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">
@@ -94,7 +100,7 @@ $this->title = 'Painel';
                 </div>
             </div>
         </div>
-
+        <?php } ?>
         <div class="row">
             <div class="col">
                 <div class="panel panel-default">
@@ -104,13 +110,23 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Requisições', ['site/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Requisições', ['requisicao/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['site/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['requisicao/create'], [
                                     'class' => 'btn btn-success'
+                                ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Req. Por Preparar', ['requisicao/preparar'], [
+                                    'class' => 'btn btn-info'
+                                ]) ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Req. Prontas a Levantar', ['requisicao/levantar'], [
+                                    'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                         </div>

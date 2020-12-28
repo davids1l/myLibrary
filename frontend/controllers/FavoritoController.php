@@ -96,7 +96,6 @@ class FavoritoController extends Controller
             ->limit($paginacao->limit)
             ->all();
 
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'livros' => $livros,

@@ -30,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row rowStyling">
         <div class="col-md-2">
-            <?= Html::img($model->capa, ['style'=> 'width: 100%; margin: 10% auto;'])?>
+            <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $model->capa, [
+                    'id' => 'imgCapa',
+                    'style' => 'width: 100%; margin: 10% auto;'
+            ])?>
         </div>
         <br />
         <div class="col-md-10">

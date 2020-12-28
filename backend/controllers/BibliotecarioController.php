@@ -9,6 +9,7 @@ use common\models\User;
 use Yii;
 use app\models\Utilizador;
 use app\models\BibliotecarioSearch;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -25,6 +26,21 @@ class BibliotecarioController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'showmodal', 'bloquear', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'showmodal', 'bloquear', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?', 'bibliotecario'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

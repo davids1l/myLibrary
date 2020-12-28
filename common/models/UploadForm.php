@@ -21,10 +21,11 @@ class UploadForm extends Model
         ];
     }
 
-    public function upload($numero)
+    public function upload($numero, $pasta)
     {
         if ($this->validate()) {
-            $this->imageFile->saveAs('../web/imgs/perfil/' . $numero . '.' . $this->imageFile->extension);
+
+            $this->imageFile->saveAs('../web/imgs/' . $pasta . '/' . $numero . '.' . $this->imageFile->extension);
             $this->imageFile->name = $numero . '.' . $this->imageFile->extension;
             return true;
         } else {

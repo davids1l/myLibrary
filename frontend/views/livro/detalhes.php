@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
 \frontend\assets\ViewsAssets::register($this);
 
-$this->title = "Detalhes do Livros";
+$this->title = "Detalhes do Livro";
 //$this->params['breadcrumbs'][] = ['label' => 'Catálogo', 'url' => ['catalogo']];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -21,7 +21,10 @@ $this->title = "Detalhes do Livros";
         <section class="col-xs-12">
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="capa-livro">
-                    <?= Html::img($livro->capa, ['class'=> 'imgCapa']) ?>
+                    <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                        'id' => 'imgCapa',
+                        'style' => 'width: 150%;'
+                    ])?>
                 </div>
             </div>
 
