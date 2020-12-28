@@ -29,12 +29,35 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_requisicao',
-            'dta_levantamento',
-            'dta_entrega',
+            [
+                'label' => 'ID de requisição',
+                'attribute' => 'id_requisicao',
+            ],
+            [
+                'label' => 'Data de levantamento',
+                'attribute' => 'dta_levantamento',
+            ],
+            [
+                'label' => 'Data de entrega',
+                'attribute' => 'dta_entrega',
+            ],
             'estado',
-            'id_utilizador',
-            'id_bib_levantamento',
+            [
+                'label' => 'ID de utilizador',
+                'attribute' => 'id_utilizador',
+            ],
+            [
+                'label' => 'Nome de utilizador',
+                'attribute' => 'utilizador.user.username',
+            ],
+            [
+                'label' => 'Número de telemóvel',
+                'attribute' => 'utilizador.num_telemovel',
+            ],
+            [
+                'label' => 'Biblioteca de Levantamento',
+                'attribute' => 'bibLevantamento.nome'
+            ]
         ],
     ]) ?>
 

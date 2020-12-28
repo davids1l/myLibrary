@@ -63,7 +63,6 @@ class RequisicaoController extends Controller
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //var_dump($dataProvider);die;
 
         return $this->render('index', [
             'searchModel' => $searchModel,

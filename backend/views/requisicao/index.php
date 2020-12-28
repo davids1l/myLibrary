@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -22,17 +23,39 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= GridView::widget([
+        'summary' => 'Total de Requisições: {totalCount}',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id_requisicao',
-            'dta_levantamento',
-            'dta_entrega',
+            [
+                'attribute' => 'id_requisicao',
+                'label' => 'Nº da Requisição',
+            ],
+            [
+                'attribute' => 'dta_levantamento',
+                'label' => 'Data de Levantamento',
+                'value' => function ($model) {
+                    return Carbon::parse($model->dta_levantamento)->format('d-m-Y H:i:s');
+                },
+            ],
+            [
+                'attribute' => 'dta_entrega',
+                'label' => 'Data de Entrega',
+                'value' => function ($model) {
+                    return Carbon::parse($model->dta_entrega)->format('d-m-Y H:i:s');
+                }
+            ],
             'estado',
-            'id_utilizador',
-            //'id_bib_levantamento',
+            [
+                'attribute' => 'id_utilizador',
+                'value' => 'utilizador.user.username',
+                'label' => 'Nome de utilizador'
+            ],
+            [
+                'attribute' => 'id_utilizador',
+                'value' => 'utilizador.num_telemovel',
+                'label' => 'Telemóvel'
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{preparar}',
