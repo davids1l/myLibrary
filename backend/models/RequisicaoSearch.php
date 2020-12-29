@@ -101,8 +101,6 @@ class RequisicaoSearch extends Requisicao
             return $dataProvider;
         }
 
-        $query->joinWith('biblioteca');
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id_requisicao' => $this->id_requisicao,
@@ -112,8 +110,7 @@ class RequisicaoSearch extends Requisicao
             //'id_bib_levantamento' => $this->id_bib_levantamento,
         ]);
 
-        $query->andFilterWhere(['like', 'estado', $this->estado])
-            ->andFilterWhere(['like', 'biblioteca.nome', $this->id_bib_levantamento]);
+        $query->andFilterWhere(['like', 'estado', $this->estado]);
 
         return $dataProvider;
     }
