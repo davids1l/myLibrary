@@ -154,7 +154,7 @@ class UtilizadorController extends Controller
             $user->save();
             $model->save();
 
-            Yii::$app->session->setFlash('success', 'Dados alterados com sucesso!');
+            Yii::$app->session->setFlash('success', '<p id="msg" class="teste">Dados alterados com sucesso!</p>');
             return $this->actionPerfil();
         }
 

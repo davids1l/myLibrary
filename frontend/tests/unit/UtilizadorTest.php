@@ -51,6 +51,8 @@ class UtilizadorTest extends \Codeception\Test\Unit
         $user->password_hash = '$2y$13$eT0yrX2rwu3bFxlksaYVpeEt9QMJfW.TnGbu7i6jMP.KDV8QyAoWy';
         $user->email = "userTestes@gmail.com";
         $user->status = 10;
+        $user->created_at = '1608420184';
+        $user->updated_at = '1608420184';
         $user->save();
 
         $utilizador = new Utilizador();
@@ -66,22 +68,22 @@ class UtilizadorTest extends \Codeception\Test\Unit
         $this->tester->seeInDatabase('utilizador', ['primeiro_nome' => 'Manuel']);
     }
 
-    /*public function testD_E()
+    public function testD_E()
     {
-        $utilizador = $this->tester->grabRecord('frontend\models\Utilizador', ['numero' => 'a891']);
+        $utilizador = $this->tester->grabRecord('frontend\models\utilizador', ['primeiro_nome' => 'Manuel']);
 
-        $utilizador->nome = "Tiago";
-        $utilizador->save();
+        $utilizador->primeiro_nome = "Tiago";
+        $utilizador->save(false);
 
-        $this->tester->seeInDatabase('utilizador', ['nome' => 'Tiago']);
-    }*/
+        $this->tester->seeInDatabase('utilizador', ['primeiro_nome' => 'Tiago']);
+    }
 
-    /*public function testF_G()
+    public function testF_G()
     {
-        $utilizador = $this->tester->grabRecord('app\models\utilizador', ['numero' => 'a891']);
+        $utilizador = $this->tester->grabRecord('frontend\models\utilizador', ['primeiro_nome' => 'Tiago']);
 
         $utilizador->delete();
 
-        $this->tester->cantSeeInDatabase('utilizador', ['nome' =>'Tiago']);
-    }*/
+        $this->tester->cantSeeInDatabase('utilizador', ['primeiro_nome' =>'Tiago']);
+    }
 }

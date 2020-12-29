@@ -60,15 +60,34 @@ return [
                         'GET total' => 'total',
                         'DELETE all' => 'delete-all',
                         'GET ano/{ano}' => 'ano',
+                        'GET maisRequisitados' => 'mais-requisitados',
                     ],
 
                     'tokens' => [
+                        '{id}' => '<id:\\d+>',
                         '{ano}' => '<ano:\\d+>',
+                    ],
+                ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/requisicao',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET estado/{estado}' => 'procurar-estado',
+                        'GET utilizadoresMaisRequisicoes' => 'utilizadores-mais-requisicoes',
+                        'GET requisicoesBiblioteca' => 'requisicoes-biblioteca',
+                        'GET tempoRestante' => 'tempo-restante',
+                    ],
+
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        '{estado}' => '<estado:\\d+>',
+
                     ],
                 ],
             ],
         ],
-
     ],
     'params' => $params,
 ];

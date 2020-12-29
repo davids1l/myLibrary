@@ -37,8 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
 
-
-
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id_utilizador], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -53,8 +51,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             //'id_utilizador',
             'numero',
-            'primeiro_nome',
-            'ultimo_nome',
+            [
+                    'value' => function($model){
+                        return $model->primeiro_nome . " " . $model->ultimo_nome;
+                    },
+                    'label' => 'Nome',
+            ],
             'user.email',
             //'bloqueado',
             //'dta_bloqueado',
