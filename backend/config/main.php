@@ -83,7 +83,21 @@ return [
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
                         '{estado}' => '<estado:\\d+>',
+                    ],
+                ],
 
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/utilizador',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST create' => 'create-utilizador',
+                        'GET numero/{numero}' => 'utilizador-numero'
+                    ],
+
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        '{numero}' => '<numero:\\w+>',
                     ],
                 ],
             ],

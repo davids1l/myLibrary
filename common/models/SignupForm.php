@@ -122,7 +122,7 @@ class SignupForm extends Model
             case 0:
                 $utilizador->numero = $utilizador->gerarNumeroLeitor();
                 if($utilizador->numero == null){
-                    Yii::$app->session->setFlash('error', 'Impossível registar. O sistema excedeu o limite de utilizadores.');
+                    Yii::$app->session->setFlash('error', 'Impossível registar. O sistema excedeu o limite de leitores.');
                     return null;
                 }
 
