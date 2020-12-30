@@ -45,7 +45,7 @@ class UtilizadorTest extends \Codeception\Test\Unit
 
     public function testB_C()
     {
-        $user = new User();
+        /*$user = new User();
         $user->username = "username";
         $user->auth_key = "zvo1x0LuaNWF115MojjMg6MKFaNdr-0C";
         $user->password_hash = '$2y$13$eT0yrX2rwu3bFxlksaYVpeEt9QMJfW.TnGbu7i6jMP.KDV8QyAoWy';
@@ -53,10 +53,10 @@ class UtilizadorTest extends \Codeception\Test\Unit
         $user->status = 10;
         $user->created_at = '1608420184';
         $user->updated_at = '1608420184';
-        $user->save();
+        $user->save();*/
 
         $utilizador = new Utilizador();
-        $utilizador->id_utilizador = $user->id;
+        //$utilizador->id_utilizador = $user->id;
         $utilizador->primeiro_nome = "Manuel";
         $utilizador->ultimo_nome = "Garcia";
         $utilizador->numero = "a123";
