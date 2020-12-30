@@ -5,8 +5,10 @@ namespace app\modules\api\controllers;
 use app\models\Utilizador;
 use common\models\SignupForm;
 use common\models\User;
+use GuzzleHttp\Psr7\Query;
 use yii\rest\ActiveController;
 use yii\web\HttpException;
+use yii\web\NotFoundHttpException;
 
 class UtilizadorController extends ActiveController
 {
@@ -75,8 +77,23 @@ class UtilizadorController extends ActiveController
     {
         $model = new $this->modelClass;
 
-        $utilizador = $model::find()->where(['numero' => $numero])->one();
+        $subQuery = (new \yii\db\Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $utilizador = $model::find()->where(['id_utilizador' => $subQuery, 'numero' => $numero])->one();
+
+        if($utilizador == null){
+            throw new NotFoundHttpException('Leitor com o número ' . $numero . ' não encontrado.');
+        }
 
         return $utilizador;
+    }
+
+    //leitores bloqueados
+    public function actionBloqueados(){
+        $model = new $this->modelClass;
+
+        $subQuery = (new \yii\db\Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $utilizadores = $model::find()->where(['id_utilizador' => $subQuery, 'bloqueado' => !null])->all();
+
+        return ['Existem ' . count($utilizadores) . ' leitores bloqueados.', $utilizadores];
     }
 }

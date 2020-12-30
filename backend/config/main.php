@@ -60,7 +60,6 @@ return [
                         'GET total' => 'total',
                         'DELETE all' => 'delete-all',
                         'GET ano/{ano}' => 'ano',
-                        'GET maisRequisitados' => 'mais-requisitados',
                     ],
 
                     'tokens' => [
@@ -92,7 +91,8 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST create' => 'create-utilizador',
-                        'GET numero/{numero}' => 'utilizador-numero'
+                        'GET numero/{numero}' => 'utilizador-numero',
+                        'GET bloqueados' => 'bloqueados',
                     ],
 
                     'tokens' => [

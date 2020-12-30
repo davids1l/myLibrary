@@ -43,26 +43,6 @@ class LivroController extends ActiveController
         return ['Total de Livros de  ' . $ano . ':' => count($livros),'Livros' => $livros];
     }
 
-    /*public function actionMaisRequisitados(){
-        $model = new $this->modelClass;
-        $livros = $model::find()->all();
-        $requisicoes = RequisicaoLivro::find()->all();
-
-        $primeiro = array(0,null);
-        $segundo = array(0,null);
-        $terceiro= array(0,null);
-
-        foreach ($livros as $livro){
-            $contador = 0;
-            foreach ($requisicoes as $requisicao){
-                if($requisicao->id_livro == $livro->id_livro){
-                    $contador++;
-                }
-            }
-        }
-
-        return [$primeiro, $segundo, $terceiro];
-    }*/
 
 
 }
