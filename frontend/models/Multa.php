@@ -1,16 +1,18 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
+use app\models\Requisicao;
 use Yii;
 
 /**
  * This is the model class for table "multa".
  *
  * @property int $id_multa
- * @property string $data_multa
+ * @property string $dta_multa
  * @property float $montante
  * @property string $estado
+ * @property int $id_requisicao
  */
 class Multa extends \yii\db\ActiveRecord
 {
@@ -29,9 +31,10 @@ class Multa extends \yii\db\ActiveRecord
     {
         return [
             [['data_multa'], 'safe'],
-            [['montante', 'estado'], 'required'],
+            [['montante', 'estado', 'id_requisicao'], 'required'],
             [['montante'], 'number'],
             [['estado'], 'string', 'max' => 30],
+            [['id_requisicao'], 'exist', 'skipOnError' => true, 'targetClass' => Requisicao::className(), 'targetAttribute' => ['id_requisicao' => 'id_requisicao']],
         ];
     }
 
@@ -42,9 +45,10 @@ class Multa extends \yii\db\ActiveRecord
     {
         return [
             'id_multa' => 'Id Multa',
-            'data_multa' => 'Data Multa',
+            'dta_multa' => 'Data Multa',
             'montante' => 'Montante',
             'estado' => 'Estado',
+            'id_requisicao' => 'Id Requisição'
         ];
     }
 }

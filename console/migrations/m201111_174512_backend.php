@@ -36,8 +36,8 @@ class m201111_174512_backend extends Migration
             'bloqueado' => $this->smallInteger(1)->defaultValue(null),
             'dta_bloqueado' => $this->dateTime()->defaultValue(null),
             'dta_nascimento' => $this->date()->notNull(),
-            'nif' => $this->string(9)->notNull(),
-            'num_telemovel' => $this->string(9)->notNull(),
+            'nif' => $this->integer(9)->notNull(),
+            'num_telemovel' => $this->integer(9)->notNull(),
             'dta_registo' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'foto_perfil' => $this->string(400),
             'id_biblioteca' => $this->integer()->defaultValue(null)->unsigned(),
@@ -84,12 +84,33 @@ class m201111_174512_backend extends Migration
             'designacao' => $this->string(50)->notNull()
         ], $tableOptions);
 
+
         // Tabela multa
         $this->createTable('multa', [
             'id_multa' => $this->primaryKey()->notNull()->unsigned(),
             'montante' => $this->float()->notNull(),
-            'estado' => $this->string(30)->notNull()
+            'estado' => $this->string(30)->notNull(),
+            'dta_multa' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'id_requisicao' => $this->integer()->notNull()->unsigned()
         ], $tableOptions);
+
+        //Chaves estrangeiras
+        $this->createIndex(
+            'idx-multa-id_requisicao',
+            'multa',
+            'id_requisicao'
+        );
+
+        $this->addForeignKey(
+            'idx-multa-id_requisicao',
+            'autor',
+            'id_requisicao',
+            'requisicao',
+            'id_requisicao',
+            'NO ACTION',
+            'CASCADE'
+        );
+
 
        // Autor
 
@@ -149,7 +170,7 @@ class m201111_174512_backend extends Migration
         $this->createTable('livro', [
             'id_livro' => $this->primaryKey()->notNull()->unsigned(),
             'titulo' => $this->string(50)->notNull(),
-            'isbn' => $this->string(13)->notNull(),
+            'isbn' => $this->integer(13)->notNull(),
             'ano' => $this->integer(4)->notNull(),
             'paginas' => $this->integer(11)->notNull(),
             'genero' => $this->string(80)->notNull(),
@@ -447,8 +468,8 @@ class m201111_174512_backend extends Migration
         );
 
         // Tabela Requisicao-Multa
-
-        $this->createTable('requisicao_multa', [
+        //TODO: Excluir --> Não é necessário uma vez que requisicao - multa (1:N)
+        /*$this->createTable('requisicao_multa', [
             'id_requisicao' => $this->integer()->notNull()->unsigned(),
             'id_multa' => $this->integer()->notNull()->unsigned(),
             'dta_multa' => $this->dateTime()->notNull(),
@@ -487,7 +508,7 @@ class m201111_174512_backend extends Migration
             'id_multa',
             'CASCADE',
             'CASCADE'
-        );
+        );*/
 
     }
 

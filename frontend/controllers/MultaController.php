@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\Multa;
+use frontend\models\Multa;
 use app\models\MultaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
