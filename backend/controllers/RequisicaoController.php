@@ -83,6 +83,9 @@ class RequisicaoController extends Controller
             $model->estado = "Pronta a levantar";
             $model->save();
 
+            $publishDta = new Requisicao();
+
+            $publishDta->FazPublish("TESTE", "Isto é um teste");
 
             return $this->redirect(['requisicao/index']);
         }
