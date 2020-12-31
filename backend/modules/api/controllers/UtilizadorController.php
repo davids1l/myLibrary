@@ -94,6 +94,6 @@ class UtilizadorController extends ActiveController
         $subQuery = (new \yii\db\Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
         $utilizadores = $model::find()->where(['id_utilizador' => $subQuery, 'bloqueado' => !null])->all();
 
-        return ['Existem ' . count($utilizadores) . ' leitores bloqueados.', $utilizadores];
+        return ['Existem ' . count($utilizadores) . ' leitores   bloqueados.', $utilizadores];
     }
 }

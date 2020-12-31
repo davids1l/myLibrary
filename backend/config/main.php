@@ -91,7 +91,7 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST create' => 'create-utilizador',
-                        'GET numero/{numero}' => 'utilizador-numero',
+                        'GET leitor/{numero}' => 'utilizador-numero',
                         'GET bloqueados' => 'bloqueados',
                     ],
 

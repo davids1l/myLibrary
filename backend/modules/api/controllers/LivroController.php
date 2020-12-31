@@ -17,7 +17,10 @@ class LivroController extends ActiveController
     public function actionTotal(){
         $model = new $this->modelClass;
         $total = $model::find()->all();
-        return ['total' => count($total)];
+        if($total == null){
+            return 'Não existem livros no sistema.';
+        }
+        return ['Total de Livros: ' . count($total)];
     }
 
     //apaga todos os livros existentes na BD
@@ -40,7 +43,7 @@ class LivroController extends ActiveController
         if($livros == null){
             return 'Não existem livros desse ano.';
         }
-        return ['Total de Livros de  ' . $ano . ':' => count($livros),'Livros' => $livros];
+        return ['Total de Livros de ' . $ano . ':' => count($livros),'Livros' => $livros];
     }
 
 
