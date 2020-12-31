@@ -10,6 +10,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\RequisicaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $multas app\controllers\RequisicaoController*/
 
 $this->title = 'Histórico de Requisicões';
 //$this->params['breadcrumbs'][] = $this->title;
@@ -57,10 +58,24 @@ $this->title = 'Histórico de Requisicões';
             ],
             ['class' => 'yii\grid\ActionColumn',
                 'header' => 'Ações',
-                'template' => '{view}',
+                'template' => '{view} {multa}',
                 'buttons' => [
                     'view' => function ($url, $dataProvider, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['requisicao/showmodal', 'key'=> $key]);
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['requisicao/showmodal', 'key'=> $key]); //glyphicon glyphicon-exclamation-sign
+                    },
+                    'multa' => function ($key, $model) {
+
+                        //return Html::a('', null, ['class' => 'glyphicon glyphicon-exclamation-sign', 'style' => 'cursor: pointer',
+                        //'data-toggle'=>'modal', 'data-target' => "#multasModal" ]);
+
+                        //}
+                        //if (isset($multas)) {
+                            //foreach ($multas as $item) {
+                                //if ($item->id_requisicao == $model->id_requisicao) {
+                                    return Html::a('<span class="glyphicon glyphicon-exclamation-sign"></span>', ['requisicao/showmultamodal', 'key' => $key, 'id_requisicao' => $model->id_requisicao]);
+                                //}
+                            //}
+                        //}
                     }
                 ]
             ],
@@ -111,4 +126,40 @@ $this->title = 'Histórico de Requisicões';
             </div>
         </div>
     </div>
+
+
+    <!-- Modal para mostrar multa -->
+    <div class="modal fade" id="multasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="exampleModalLabel"><?= Html::encode('Multa - Requisição') ?></h2>
+                </div>
+                <div class="modal-body">
+                    <?php if(isset($multa)) {
+                        //foreach ($multas as $multa) {
+
+                            //if($multa->id_requisicao == 1) {?>
+                                <h3><?= Html::encode('Multa: #'.$multa->id_multa) ?></h3>
+                                <p><?= Html::encode('Montante: '.$multa->montante).'€' ?></p>
+                                <p><?= Html::encode('Estado: '.$multa->estado) ?></p>
+                                <p><?= Html::encode('Data: '.$multa->dta_multa) ?></p>
+
+                        <?php //}
+                        //}
+                    } else { ?>
+                        <?= Html::encode('Sem multa.') ?>
+                    <?php }?>
+                </div>
+                <div class="modal-footer">
+                    <?= Html::submitButton('Fechar', ['class' => 'btn-perfil', 'data-dismiss'=> "modal", 'aria-label'=>"Close"]) ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>

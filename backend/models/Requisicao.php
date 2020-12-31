@@ -36,7 +36,7 @@ class Requisicao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dta_levantamento', 'dta_entrega', 'estado', 'id_utilizador', 'id_bib_levantamento'], 'required'],
+            [['estado', 'id_utilizador', 'id_bib_levantamento'], 'required'],
             [['dta_levantamento', 'dta_entrega'], 'safe'],
             [['id_utilizador', 'id_bib_levantamento'], 'integer'],
             [['estado'], 'string', 'max' => 30],

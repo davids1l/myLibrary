@@ -1,4 +1,11 @@
+::-webkit-scrollbar{width:2px;height:2px;}
+::-webkit-scrollbar-button{width:2px;height:2px;}
+
 @media screen and (max-width: 600px){
+
+    .maisRequisitados {
+        margin-top: 10%;
+    }
 
     #imgCapa {
         width: 90%;
@@ -27,6 +34,34 @@
         margin-top: 4%;
         padding: 3%;
     }
+
+    .livroField {
+        background-color: #e5e5e5;
+        margin-top: 1%;
+        padding: 1%;
+    }
+}
+
+.favoritoAction {
+    color: darkred;
+}
+
+.imgCapa {
+    width: 150%;
+}
+
+.livroField {
+    background-color: #e5e5e5;
+    margin-top: 1%;
+    padding: 1%;
+}
+
+.capaLivroFinalizar {
+    max-width: 100%;
+}
+
+.maisRequisitados {
+    margin-top: 3%;
 }
 
 .capa-livro{

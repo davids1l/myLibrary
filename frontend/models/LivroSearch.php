@@ -34,15 +34,11 @@ class LivroSearch extends Livro
 
     public function procurar($params)
     {
-
-        $post = $params['Livros'];
-        $titulo = $post['titulo'];
+        $titulo = $params['Livro']['titulo'];
 
         $query = Livro::find()
             ->where(['like', 'titulo',  $titulo])
             ->all();
-
-        //$query->andFilterWhere(['like', 'titulo', $this->titulo]);
 
         return $query;
     }

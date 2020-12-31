@@ -18,7 +18,7 @@ class FavoritoSearch extends Favorito
     {
         return [
             [['id_favorito', 'id_livro', 'id_utilizador'], 'integer'],
-            [['data_fav'], 'safe'],
+            [['dta_favorito'], 'safe'],
         ];
     }
 
@@ -59,7 +59,7 @@ class FavoritoSearch extends Favorito
         // grid filtering conditions
         $query->andFilterWhere([
             'id_favorito' => $this->id_favorito,
-            'data_fav' => $this->data_fav,
+            'dta_favorito' => $this->dta_favorito,
             'id_livro' => $this->id_livro,
             'id_utilizador' => $this->id_utilizador,
         ]);

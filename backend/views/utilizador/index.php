@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div>
-        <?= Html::button('Inserir Leitor', ['data-toggle' => 'modal', 'data-target' => '#criarLeitorModal']) ?>
+        <?= Html::button('Inserir Leitor', ['class' => 'btn btn-success','data-toggle' => 'modal', 'data-target' => '#criarLeitorModal']) ?>
     </div>
     <br>
 
@@ -156,7 +156,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                     </div>
                     <div class="modal-footer">
-                        <?= Html::submitButton('Inserir Leitor', ['class' => 'btn-perfil']) ?>
+                        <?= Html::submitButton('Inserir Leitor', ['class' => 'btn btn-perfil btn-success']) ?>
                     </div>
                     <?php ActiveForm::end() ?>
                 </div>

@@ -4,6 +4,7 @@ namespace app\controllers;
 namespace frontend\controllers;
 
 use app\models\Comentario;
+use app\models\Favorito;
 use app\models\Requisicao;
 use app\models\RequisicaoLivro;
 use Yii;
@@ -15,7 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LivroController implements the CRUD actions for Livros model.
+ * LivroController implements the CRUD actions for Livro model.
  */
 class LivroController extends Controller
 {
@@ -35,7 +36,7 @@ class LivroController extends Controller
     }
 
     /**
-     * Lists all Livros models.
+     * Lists all Livro models.
      * @return mixed
      */
     public function actionIndex()
@@ -51,21 +52,26 @@ class LivroController extends Controller
 
 
     /**
-     * search na BD do últimos 6 livros inseridos
+     * search na BD os livros mais recentes de acordo com a data de edição (ano)
      */
     public function livrosRecentesFilter() {
 
         $livrosRecentes = Livro::find()
-            ->orderBy(['ano' => SORT_DESC]) //TODO:alterar para orderBy(['edicao' => SORT_DESC]);
+            ->orderBy(['ano' => SORT_DESC])
             ->limit(6)
             ->all();
 
         return $livrosRecentes;
     }
 
+    /**
+     * @return array
+     * Função responsável por listar por ordem descresente os livros com mais requisições
+     * recorrendo a uma query que para cada id_livro em requisicao_livro conta o nº de vezes que o mesmo se repete
+     */
     public function livrosMaisRequisitados() {
 
-        $query = (new \yii\db\Query())
+        $query = (new Query())
             ->select(['*' ,'COUNT(*) AS num_requisicoes'])
             ->from('requisicao_livro')
             ->groupBy('id_livro')
@@ -91,17 +97,40 @@ class LivroController extends Controller
     {
         $model = new Livro();
 
-        //select na BD de todos os livro existentes
-        /*$livros = Livros::find()
-            ->orderBy(['titulo' => SORT_ASC])
-            ->limit(6)
-            ->all();*/
-
         $recentes = $this->livrosRecentesFilter();
         $maisRequisitados = $this->livrosMaisRequisitados();
 
         return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes]);
     }
+
+    /**
+     * @param $id_livro
+     * @return bool
+     *
+     *
+     */
+    public function verificarEmRequisicao($id_livro){
+
+        //Obter os registos de requisicao_livros em que se verifique id_livro = id_livro recebido por post
+        $subQuery = RequisicaoLivro::find()
+            ->where(['id_livro' => $id_livro]);
+
+        //Obter as requisições em que o estado seja diferente de "Terminada" e que se verifique que o id_requisicao = id_requesicao da subquery
+        $query = Requisicao::find()
+            ->where(['!=', 'estado', 'Terminada'])
+            ->innerJoin(['sub' => $subQuery], 'requisicao.id_requisicao = sub.id_requisicao')
+            ->all();
+
+        //Se o livro não tiver nenhuma requisição com estado concluído implica estar requisitado
+        if ($query != null) {
+            $canAdicionarCarrinho = false;
+        } else {
+            $canAdicionarCarrinho = true;
+        }
+
+        return $canAdicionarCarrinho;
+    }
+
 
     /**
      * Recebe um post do form do catalgo e executa a function search no modelo LivroSearch
@@ -115,7 +144,6 @@ class LivroController extends Controller
         $results = $model->procurar($params);
 
         return $this->render('search', ['model'=> new Livro(), 'results'=>$results]);
-        //return $this->render('view', ['model'=>$searchModel, 'dataProvider'=>$dataProvider]);
     }
 
 
@@ -128,8 +156,7 @@ class LivroController extends Controller
      */
     public function actionDetalhes($id)
     {
-
-        $model = new Comentario();
+        $modelComentario = new Comentario();
 
         //find na base de dados do livro com determinado id
         $livro = Livro::findOne($id);
@@ -140,39 +167,53 @@ class LivroController extends Controller
             ->orderBy('dta_comentario DESC')
             ->all();
 
-        if($livro != null && $model!= null){
-            //return da view detalhes com o livro de acordo com o $id recebido
+        $totalFav = Favorito::find()
+            ->where(['id_livro' => $id])
+            ->count();
+
+        $fav = Favorito::find()
+            ->where(['id_livro' => $id, 'id_utilizador' => Yii::$app->user->id])
+            ->one();
+
+        //return da view detalhes com o livro de acordo com o $id recebido
+        if(!is_null($livro)){
             return $this->render('detalhes', [
                 'livro' => $livro,
-                'model' => $model,
+                'modelComentario' => $modelComentario,
                 'comentarios' => $comentarios,
+                'totalFav' => $totalFav,
+                //'isFav' => $isFav,
+                'favorito' => $fav,
             ]);
         }
 
-        //caso determinado livro não seja encontrado é retornado o erro 404 not found
-        throw new NotFoundHttpException('O livro não foi encontrado.');
+        //caso determinado livro não seja encontrado é apresentada a vista de catálogo e uma messagem de erro
+        Yii::$app->session->setFlash('error', 'Ocorreu um erro. Tente novamente.');
+        return $this->redirect(['livro/catalogo']);
     }
 
 
+    //TODO: Inutilizado
     /**
-     * Displays a single Livros model.
+     * Displays a single Livro model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    /*public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
+    }*/
 
+    //TODO: Inutilizado
     /**
-     * Creates a new Livros model.
+     * Creates a new Livro model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    /*public function actionCreate()
     {
         $model = new Livro();
 
@@ -183,16 +224,17 @@ class LivroController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
-    }
+    }*/
 
+    //TODO: Inutilizado
     /**
-     * Updates an existing Livros model.
+     * Updates an existing Livro model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    /*public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -203,24 +245,25 @@ class LivroController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
+    }*/
 
+    //TODO: Inutilizado
     /**
-     * Deletes an existing Livros model.
+     * Deletes an existing Livro model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    /*public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
+    }*/
 
     /**
-     * Finds the Livros model based on its primary key value.
+     * Finds the Livro model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Livro the loaded model

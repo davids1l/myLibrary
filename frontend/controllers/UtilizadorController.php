@@ -46,10 +46,11 @@ class UtilizadorController extends Controller
     {
         $utilizador = $this->findModel($id);
         $model = new UploadForm();
+        $pasta = "perfil";
 
         if (Yii::$app->request->post()) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->upload($utilizador->numero)) {
+            if ($model->upload($utilizador->numero, $pasta)) {
                 $utilizador->foto_perfil = $model->imageFile->name;
                 $utilizador->save();
                 return $this->actionPerfil();

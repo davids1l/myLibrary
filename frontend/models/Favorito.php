@@ -41,9 +41,13 @@ class Favorito extends \yii\db\ActiveRecord
     {
         return [
             'id_favorito' => 'Id Favorito',
-            'dta_favorito' => 'Data Fav',
-            'id_livro' => 'Id Livros',
+            'dta_favorito' => 'Data',
+            'id_livro' => 'Id Livro',
             'id_utilizador' => 'Id Utilizador',
         ];
+    }
+
+    public function getLivro(){
+        return $this->hasOne(Livro::className(), ['id_livro' => 'id_livro']);
     }
 }

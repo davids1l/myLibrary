@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use app\models\Biblioteca;
 use app\models\Livro;
@@ -35,6 +35,7 @@ class CarrinhoController extends Controller
                         'roles' => ['?'],
                     ],
                     [
+                        'actions' => ['remover', 'adicionar'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -48,7 +49,7 @@ class CarrinhoController extends Controller
     }
 
     /**
-     * Função responsavél por adicionar um livro à session do carrinho.
+     * Função responsável por adicionar um livro à session do carrinho.
      */
     public function actionAdicionar($id_livro)
     {
@@ -64,7 +65,6 @@ class CarrinhoController extends Controller
 
         //verifica se o livro já se encontra requisitado
         if($this->verificarEmRequisicao($id_livro) == true){
-
             //verifica se o carrinho está null ou definido
             if (isset($carrinho)) {
                 //Limita o carrinho a um máximo de 5 livros
@@ -78,12 +78,10 @@ class CarrinhoController extends Controller
                     //se estiver não permite a duplicação do mesmo, caso contrário o livro é adicionado à sessão
                     if ($flag == 0) {
                         $_SESSION['carrinho'][] = $livro;
-                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
-                    } else {
-                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
+                        $session->setFlash('success', 'Livro adicionado!');
                     }
                 } else {
-                    $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
+                    $session->setFlash('error', 'Opss! Limite de livros atingido.');
                 }
             } else {
                 //se o carrinho não estiver definido ou estiver null então a sessão é criada e adicionado o livro
@@ -96,7 +94,7 @@ class CarrinhoController extends Controller
             $session->setFlash('error', 'Opss! Este livro já se encontra em requisição.');
         }
 
-        return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
+        return $this->redirect(['requisicao/create', 'id' => $id_livro]);
     }
 
 
@@ -120,12 +118,12 @@ class CarrinhoController extends Controller
                 if ($obj_livro->id_livro == $id_livro) {
                     $index = array_search($obj_livro, $carrinho);
                     unset($_SESSION['carrinho'][$index]);
-                    $session->setFlash('success', 'Livro excluído do carrinho.');
+                    $session->setFlash('danger', 'Livro removido!');
                 }
             }
         }
 
-        return $this->redirect(['requisicao/finalizar']);
+        return $this->redirect(['requisicao/create']);
 
     }
 
@@ -137,23 +135,27 @@ class CarrinhoController extends Controller
      */
     public function verificarEmRequisicao($id_livro){
 
-        //Obter os registos de requisicao_livros em que se verifique id_livro = id_livro recebido por post
-        $subQuery = RequisicaoLivro::find()
-            ->where(['id_livro' => $id_livro]);
-
-        //Obter as requisições em que o estado seja diferente de "Terminada" e que se verifique que o id_requisicao = id_requesicao da subquery
-        $query = Requisicao::find()
-            ->where(['!=', 'estado', 'Terminada'])
-            ->innerJoin(['sub' => $subQuery], 'requisicao.id_requisicao = sub.id_requisicao')
+        $requisicoes = RequisicaoLivro::find()
+            ->where(['id_livro' => $id_livro])
             ->all();
 
-        //Se o livro não tiver nenhuma requisição com estado concluído implica estar requisitado
-        if ($query != null) {
-            $canAdicionarCarrinho = false;
-        } else {
-            $canAdicionarCarrinho = true;
+        $requisicoesTerminadas = [];
+        foreach ($requisicoes as $requisicao){
+            if($requisicao->requisicao->estado != 'Terminada'){
+                array_push($requisicoesTerminadas, $requisicao);
+            }
         }
 
+        if(empty($requisicoes)) {
+            $canAdicionarCarrinho = true;
+        } else {
+            //Se o livro não tiver nenhuma requisição com estado concluído é porque está requisitado
+            if ($requisicoesTerminadas != null) {
+                $canAdicionarCarrinho = false;
+            } else {
+                $canAdicionarCarrinho = true;
+            }
+        }
         return $canAdicionarCarrinho;
     }
 }

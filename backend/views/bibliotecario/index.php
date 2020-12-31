@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div>
         <a style="color: black">
-            <?= Html::button('Inserir Bibliotecário', ['data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal', 'id' => 'inserirBibliotecario']) ?>
+            <?= Html::button(' Inserir Bibliotecário', ['class' => 'btn btn-success', 'data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal', 'id' => 'inserirBibliotecario']) ?>
         </a>
     </div>
     <br>
@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                         </div>
                         <div class="modal-footer">
-                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn-perfil', 'id' => 'inserirBibliotecario']) ?>
+                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn btn-perfil btn-success', 'id' => 'inserirBibliotecario']) ?>
                         </div>
                         <?php ActiveForm::end() ?>
                     </div>

@@ -65,6 +65,23 @@ return [
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
                         '{ano}' => '<ano:\\d+>',
+                        '{id}' => '<id:\d+>',
+                    ],
+                ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/biblioteca',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET total' => 'totalbibliotecas',
+                        'GET codigopostal/{cod_postal}' => 'codigopostal',
+                        'GET {id}/nome' => 'nome',
+                    ],
+
+                    'tokens' => [
+                        '{cod_postal}' => '<cod_postal:\\d+>',
+                        '{id}' => '<id:\d+>',
                     ],
                 ],
 
