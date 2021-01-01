@@ -23,8 +23,9 @@ $this->params['breadcrumbs'][] = 'Update';
                 <?= $form->field($model, 'dta_levantamento')->label('Data de levantamento')->input('datetime-local') ?>
                 <?= $form->field($model, 'dta_entrega')->label('Data de entrega')->input('datetime-local') ?>
                 <?= $form->field($model, 'estado')->textInput() ?>
-                <?= $form->field($model, 'id_utilizador')->textInput() ?>
-                <?= $form->field($model, 'id_bib_levantamento')->textInput() ?>
+                <?= $form->field($model, 'id_utilizador')->dropDownList($users)->label('Nome de utilizador') ?>
+                <?= $form->field($model, 'id_bib_levantamento')->dropDownList($bibliotecas)->label('Biblioteca') ?>
+
             </div>
             <div class="col-md-4"></div>
         </div>

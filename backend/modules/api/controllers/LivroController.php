@@ -2,6 +2,7 @@
 
 namespace app\modules\api\controllers;
 
+use app\models\RequisicaoLivro;
 use yii\rest\ActiveController;
 use yii\web\Controller;
 
@@ -10,7 +11,6 @@ use yii\web\Controller;
  */
 class LivroController extends ActiveController
 {
-
     public $modelClass = 'app\models\Livro';
 
     //devolve o total de livros
@@ -40,15 +40,29 @@ class LivroController extends ActiveController
         if($livros == null){
             return 'Não existem livros desse ano.';
         }
-        return ['Total de Livros: ' => count($livros),'Livros' => $livros];
+        return ['Total de Livros de  ' . $ano . ':' => count($livros),'Livros' => $livros];
     }
 
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
+    /*public function actionMaisRequisitados(){
+        $model = new $this->modelClass;
+        $livros = $model::find()->all();
+        $requisicoes = RequisicaoLivro::find()->all();
+
+        $primeiro = array(0,null);
+        $segundo = array(0,null);
+        $terceiro= array(0,null);
+
+        foreach ($livros as $livro){
+            $contador = 0;
+            foreach ($requisicoes as $requisicao){
+                if($requisicao->id_livro == $livro->id_livro){
+                    $contador++;
+                }
+            }
+        }
+
+        return [$primeiro, $segundo, $terceiro];
+    }*/
+
+
 }

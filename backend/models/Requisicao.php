@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Bluerhinos\phpMQTT;
 use Yii;
 
 /**
@@ -58,6 +59,20 @@ class Requisicao extends \yii\db\ActiveRecord
             'id_utilizador' => 'Id Utilizador',
             'id_bib_levantamento' => 'Id Bib Levantamento',
         ];
+    }
+
+    public function FazPublish($canal, $msg) {
+        $server = "127.0.0.1";
+        $port = 1883;
+        $username = "";
+        $password = "";
+        $client_id = "phpMQTT-publisher";
+        $mqtt = new phpMQTT($server, $port, $client_id);
+        if($mqtt->connect(true, NULL, $username, $password)) {
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+        }
+        else { file_put_contents("debug.output", "Time out!"); }
     }
 
     /**

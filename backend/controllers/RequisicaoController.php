@@ -10,6 +10,7 @@ use app\models\LivroSearch;
 use app\models\RequisicaoLivro;
 use app\models\Utilizador;
 use Carbon\Carbon;
+use common\models\User;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
@@ -83,6 +84,7 @@ class RequisicaoController extends Controller
             $model->estado = "Pronta a levantar";
             $model->save();
 
+            $model->FazPublish("teste_sub", "testing message delivery");
 
             return $this->redirect(['requisicao/index']);
         }
@@ -268,6 +270,20 @@ class RequisicaoController extends Controller
     {
         $model = $this->findModel($id);
 
+        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $users = User::find()
+            ->where(['id' => $subQueryRole])
+            ->orderBy(['id' => SORT_ASC])
+            ->all();
+
+        $listUsers = ArrayHelper::map($users,'id','username');
+
+        $bibliotecas = Biblioteca::find()
+            ->orderBy(['id_biblioteca' => SORT_ASC])
+            ->all();
+        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
+
         $dtaLevantamento = new Carbon($model->dta_levantamento);
         $dtaEntrega = new Carbon($model->dta_entrega);
 
@@ -280,6 +296,8 @@ class RequisicaoController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'users' => $listUsers,
+            'bibliotecas' => $listBibliotecas
         ]);
     }
 
