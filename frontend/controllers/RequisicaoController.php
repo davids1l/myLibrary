@@ -109,17 +109,11 @@ class RequisicaoController extends Controller
 
         $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
 
-        //subquery para obter as requisições de determinado user
-        $subQuery = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id]);
-        //query para obter todas as multas do user
-        $multas = Multa::find()
-            ->innerJoin(['sub' => $subQuery], 'sub.id_requisicao = multa.id_requisicao')->all();
-
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $key = null;
 
-        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $searchModel, 'key' => $key, 'requisicoes' => $requisicoes, 'multas' => $multas]);
+        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $searchModel, 'key' => $key, 'requisicoes' => $requisicoes]);
     }
 
     /**

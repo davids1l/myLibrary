@@ -64,7 +64,6 @@ class RequisicaoController extends Controller
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //var_dump($dataProvider);die;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -118,16 +117,6 @@ class RequisicaoController extends Controller
     }
 
     public function createMulta($requisicaoModel){
-        /**
-         * 1 - Validar se a data atual excede a dta_entrega
-         * 2- se true, obter os dias de diferença entre as 2 datas
-         *  2.1- para cada dia atribuir um montante de 0.50€ de multa
-         *  2.2- estado = 'Em dívida'
-         *  2.3- dta_multa = now
-         *  2.4- id_requisicao atual
-         *  (...)
-         */
-
         //converter de string para data
         $dataEntrega = Carbon::parse($requisicaoModel->dta_entrega)->toDateTime();
 
