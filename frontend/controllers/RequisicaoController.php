@@ -153,6 +153,18 @@ class RequisicaoController extends Controller
         return $this->redirect(['requisicao/finalizar']);
     }
 
+    public function actionSubscribe() {
+        $model = new Requisicao();
+
+        if (Yii::$app->request->post()) {
+            $model->FazSubscribe('req/#');
+
+        }
+
+        return $this->render('subscribe', [
+            'model' => $model
+        ]);
+    }
 
     public function adicionarRequisicaoLivro($id_requisicao, $carrinho){
         $requisicaoModel = new RequisicaoLivro();
