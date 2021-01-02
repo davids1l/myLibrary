@@ -31,7 +31,7 @@ class BibliotecarioController extends Controller
                 'only' => ['index', 'view', 'showmodal', 'bloquear', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'showmodal', 'bloquear', 'create', 'update', 'delete'],
+                        'actions' => ['index', 'view', 'showmodal', 'update-biblioteca', 'remover-biblioteca', 'bloquear', 'create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?', 'bibliotecario'],
                     ],

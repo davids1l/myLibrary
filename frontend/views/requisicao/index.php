@@ -10,7 +10,6 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\RequisicaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $multas app\controllers\RequisicaoController*/
 
 $this->title = 'Histórico de Requisicões';
 //$this->params['breadcrumbs'][] = $this->title;
@@ -65,17 +64,12 @@ $this->title = 'Histórico de Requisicões';
                     },
                     'multa' => function ($key, $model) {
 
-                        //return Html::a('', null, ['class' => 'glyphicon glyphicon-exclamation-sign', 'style' => 'cursor: pointer',
-                        //'data-toggle'=>'modal', 'data-target' => "#multasModal" ]);
+                        //encontrar a multa com o id requisicao = id requisicao do model
+                        $multa = \frontend\models\Multa::find()->where(['id_requisicao' => $model->id_requisicao])->one();
 
-                        //}
-                        //if (isset($multas)) {
-                            //foreach ($multas as $item) {
-                                //if ($item->id_requisicao == $model->id_requisicao) {
-                                    return Html::a('<span class="glyphicon glyphicon-exclamation-sign"></span>', ['requisicao/showmultamodal', 'key' => $key, 'id_requisicao' => $model->id_requisicao]);
-                                //}
-                            //}
-                        //}
+                        if (isset($multa)) {
+                            return Html::a('<span class="glyphicon glyphicon-exclamation-sign" style="color: #c9302c"></span>', ['requisicao/showmultamodal', 'key' => $key, 'id_requisicao' => $model->id_requisicao]);
+                        }
                     }
                 ]
             ],
@@ -139,18 +133,12 @@ $this->title = 'Histórico de Requisicões';
                     <h2 class="modal-title" id="exampleModalLabel"><?= Html::encode('Multa - Requisição') ?></h2>
                 </div>
                 <div class="modal-body">
-                    <?php if(isset($multa)) {
-                        //foreach ($multas as $multa) {
-
-                            //if($multa->id_requisicao == 1) {?>
-                                <h3><?= Html::encode('Multa: #'.$multa->id_multa) ?></h3>
-                                <p><?= Html::encode('Montante: '.$multa->montante).'€' ?></p>
-                                <p><?= Html::encode('Estado: '.$multa->estado) ?></p>
-                                <p><?= Html::encode('Data: '.$multa->dta_multa) ?></p>
-
-                        <?php //}
-                        //}
-                    } else { ?>
+                    <?php if(isset($multa)) { ?>
+                        <h3><?= Html::encode('Multa: #'.$multa->id_multa) ?></h3>
+                        <p><?= Html::encode('Montante: '.$multa->montante).'€' ?></p>
+                        <p><?= Html::encode('Estado: '.$multa->estado) ?></p>
+                        <p><?= Html::encode('Data de emissão: '.$multa->dta_multa) ?></p>
+                    <?php } else { ?>
                         <?= Html::encode('Sem multa.') ?>
                     <?php }?>
                 </div>

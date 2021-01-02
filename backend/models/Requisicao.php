@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Bluerhinos\phpMQTT;
 use Yii;
 
 /**
@@ -58,6 +59,44 @@ class Requisicao extends \yii\db\ActiveRecord
             'id_utilizador' => 'Id Utilizador',
             'id_bib_levantamento' => 'Id Bib Levantamento',
         ];
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if($this->estado = "Pronta a levantar") {
+
+            $id_requisicao=$this->id_requisicao;
+            $estado=$this->estado;
+            $id_utilizador = $this->id_utilizador;
+            $id_bib_levantamento = $this->id_bib_levantamento;
+
+            $myObj = new \stdClass();
+            $myObj->id_req = $id_requisicao;
+            $myObj->estado = $estado;
+            $myObj->id_utilizador = $id_utilizador;
+            $myObj->biblioteca = $id_bib_levantamento;
+
+            $myJson = json_encode($myObj);
+
+            if($insert == false)
+                $this->FazPublish('req/n1', $myJson);
+        }
+    }
+
+    public function FazPublish($canal, $msg) {
+        $server = "127.0.0.1";
+        $port = 1883;
+        $username = "";
+        $password = "";
+        $client_id = "phpMQTT-publisher".rand();
+        $mqtt = new phpMQTT($server, $port, $client_id);
+        if($mqtt->connect(true, NULL, $username, $password)) {
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+        }
+        else { file_put_contents("debug.output", "Time out!"); }
     }
 
     /**

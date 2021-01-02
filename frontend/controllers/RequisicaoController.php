@@ -109,17 +109,11 @@ class RequisicaoController extends Controller
 
         $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
 
-        //subquery para obter as requisições de determinado user
-        $subQuery = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id]);
-        //query para obter todas as multas do user
-        $multas = Multa::find()
-            ->innerJoin(['sub' => $subQuery], 'sub.id_requisicao = multa.id_requisicao')->all();
-
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $key = null;
 
-        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $searchModel, 'key' => $key, 'requisicoes' => $requisicoes, 'multas' => $multas]);
+        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $searchModel, 'key' => $key, 'requisicoes' => $requisicoes]);
     }
 
     /**
@@ -162,6 +156,7 @@ class RequisicaoController extends Controller
                     if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
                         $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+
                         Yii::$app->session->destroy();
                         Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
 
@@ -177,6 +172,18 @@ class RequisicaoController extends Controller
         return $this->redirect(['requisicao/finalizar']);
     }
 
+    public function actionSubscribe() {
+        $model = new Requisicao();
+
+        if (Yii::$app->request->post()) {
+            $model->FazSubscribe('req/#');
+
+        }
+
+        return $this->render('subscribe', [
+            'model' => $model
+        ]);
+    }
 
     public function adicionarRequisicaoLivro($id_requisicao, $carrinho){
         $requisicaoModel = new RequisicaoLivro();

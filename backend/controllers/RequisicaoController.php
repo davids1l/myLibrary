@@ -10,6 +10,7 @@ use app\models\LivroSearch;
 use app\models\RequisicaoLivro;
 use app\models\Utilizador;
 use Carbon\Carbon;
+use common\models\User;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
@@ -64,7 +65,6 @@ class RequisicaoController extends Controller
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //var_dump($dataProvider);die;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -83,7 +83,6 @@ class RequisicaoController extends Controller
 
             $model->estado = "Pronta a levantar";
             $model->save();
-
 
             return $this->redirect(['requisicao/index']);
         }
@@ -118,16 +117,6 @@ class RequisicaoController extends Controller
     }
 
     public function createMulta($requisicaoModel){
-        /**
-         * 1 - Validar se a data atual excede a dta_entrega
-         * 2- se true, obter os dias de diferença entre as 2 datas
-         *  2.1- para cada dia atribuir um montante de 0.50€ de multa
-         *  2.2- estado = 'Em dívida'
-         *  2.3- dta_multa = now
-         *  2.4- id_requisicao atual
-         *  (...)
-         */
-
         //converter de string para data
         $dataEntrega = Carbon::parse($requisicaoModel->dta_entrega)->toDateTime();
 
@@ -279,6 +268,20 @@ class RequisicaoController extends Controller
     {
         $model = $this->findModel($id);
 
+        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+        $users = User::find()
+            ->where(['id' => $subQueryRole])
+            ->orderBy(['id' => SORT_ASC])
+            ->all();
+
+        $listUsers = ArrayHelper::map($users,'id','username');
+
+        $bibliotecas = Biblioteca::find()
+            ->orderBy(['id_biblioteca' => SORT_ASC])
+            ->all();
+        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
+
         $dtaLevantamento = new Carbon($model->dta_levantamento);
         $dtaEntrega = new Carbon($model->dta_entrega);
 
@@ -291,6 +294,8 @@ class RequisicaoController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'users' => $listUsers,
+            'bibliotecas' => $listBibliotecas
         ]);
     }
 
