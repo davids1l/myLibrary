@@ -83,15 +83,6 @@ class RequisicaoController extends Controller
             $model->estado = "Pronta a levantar";
             $model->save();
 
-            $myObj = new \stdClass();
-            $myObj->id_req = $model->id_requisicao;
-            $myObj->estado = $model->estado;
-            $myObj->id_utilizador = $model->id_utilizador;
-            $myObj->biblioteca = $model->id_bib_levantamento;
-
-            $myJson = json_encode($myObj);
-            $model->FazPublish('req/n1', $myJson);
-
             return $this->redirect(['requisicao/index']);
         }
 
