@@ -156,6 +156,7 @@ class RequisicaoController extends Controller
                     if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
                         $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+
                         Yii::$app->session->destroy();
                         Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
 

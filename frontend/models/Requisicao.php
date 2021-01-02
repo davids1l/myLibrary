@@ -71,13 +71,14 @@ class Requisicao extends \yii\db\ActiveRecord
         $mqtt->subscribe($topics, 0);
 
         while($mqtt->proc()) {
+
         }
 
         $mqtt->close();
 
-        function procMsg($topic, $msg){
+        function procMsg($topics, $msg){
             echo 'Msg Recieved: ' . date('r') . "\n";
-            echo "Topic: {$topic}\n\n";
+            echo "Topic: {$topics}\n\n";
             echo "\t$msg\n\n";
         }
     }
