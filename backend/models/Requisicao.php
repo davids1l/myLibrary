@@ -66,7 +66,7 @@ class Requisicao extends \yii\db\ActiveRecord
         $port = 1883;
         $username = "";
         $password = "";
-        $client_id = "phpMQTT-publisher";
+        $client_id = "phpMQTT-publisher".rand();
         $mqtt = new phpMQTT($server, $port, $client_id);
         if($mqtt->connect(true, NULL, $username, $password)) {
             $mqtt->publish($canal, $msg, 0);

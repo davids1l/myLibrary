@@ -58,7 +58,7 @@ class Requisicao extends \yii\db\ActiveRecord
         $port = 1883;
         $username = '';
         $password = '';
-        $client_id = 'phpMQTT-subscriber';
+        $client_id = 'phpMQTT-subscriber'.rand();
 
         $mqtt = new phpMQTT($server, $port, $client_id);
         if(!$mqtt->connect(true, NULL, $username, $password)) {
@@ -76,7 +76,8 @@ class Requisicao extends \yii\db\ActiveRecord
         $mqtt->close();
 
         function procMsg($topic, $msg){
-            echo 'Msg Recieved: ' . date('r') . "\n";
+            //var_dump($topic . " : " . $msg);
+            echo 'Msg Received: ' . date('r') . "\n";
             echo "Topic: {$topic}\n\n";
             echo "\t$msg\n\n";
         }
