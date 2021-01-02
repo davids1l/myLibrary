@@ -129,6 +129,11 @@ $this->title = 'Painel';
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
+                            <div class="col-md-2">
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Req. c/ Multa', ['multa/index'], [
+                                    'class' => 'btn btn-danger'
+                                ]) ?>
+                            </div>
                         </div>
                     </div>
                 </div>

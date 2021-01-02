@@ -1,10 +1,12 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
+use common\models\SignupForm;
 use Yii;
-use frontend\models\Multa;
-use app\models\MultaSearch;
+use app\models\Multa;
+use backend\models\MultaSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +22,21 @@ class MultaController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -86,13 +103,16 @@ class MultaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_multa]);
+        $model->estado = 'Pago';
+
+        if(Yii::$app->user->can('updateMulta')){
+            if ($model->validate() && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Multa paga com sucesso.');
+                return $this->redirect(['multa/index', 'id' => $model->id_multa]);
+            }
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['multa/index', 'id' => $model->id_multa]);
     }
 
     /**

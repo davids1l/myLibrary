@@ -3,6 +3,7 @@
 namespace app\controllers;
 namespace backend\controllers;
 
+use frontend\models\Multa;
 use app\models\Biblioteca;
 use app\models\Livro;
 use app\models\LivroSearch;
@@ -115,12 +116,44 @@ class RequisicaoController extends Controller
         ]);
     }
 
+    public function createMulta($requisicaoModel){
+        //converter de string para data
+        $dataEntrega = Carbon::parse($requisicaoModel->dta_entrega)->toDateTime();
+
+        //verifica se a data de de entrega é inferior á data atual, se sim então foi excedido o prazo de entrega
+        //Carbon::parse($requisicaoModel->dta_entrega)->lessThan(Carbon::now());
+        //$dataEntrega < Carbon::now()
+        if($dataEntrega < Carbon::now()){
+
+            //obtem a diferença entre as datas de entrega e atual
+            $dateDiff = date_diff($dataEntrega, Carbon::now());
+
+            //somar o montante da multa (para cada dia de atraso a multa acresce 0.50€)
+            $multaMontante = 0.50 * $dateDiff->days;
+
+            //parametros a inserir
+            $multaModel = new Multa();
+
+            $multaModel->montante = $multaMontante;
+            $multaModel->estado = "Em dívida";
+            $multaModel->dta_multa = Carbon::now();
+            $multaModel->id_requisicao = $requisicaoModel->id_requisicao;
+
+            //criar multa
+            $multaModel->validate() ? $multaModel->save() : null;
+        }
+
+    }
+
     public function actionTerminar($id)
     {
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $model = $this->findModel($id);
+
+        //função para validar se exite multa de acordo com a data de entrega e atual, se sim é criada uma multa
+        $this->createMulta($model);
 
         $model->dta_entrega = Carbon::now()->format("Y-m-d\TH:i");
         $model->estado = "Terminada";

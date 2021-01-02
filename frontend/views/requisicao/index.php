@@ -57,10 +57,19 @@ $this->title = 'Histórico de Requisicões';
             ],
             ['class' => 'yii\grid\ActionColumn',
                 'header' => 'Ações',
-                'template' => '{view}',
+                'template' => '{view} {multa}',
                 'buttons' => [
                     'view' => function ($url, $dataProvider, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['requisicao/showmodal', 'key'=> $key]);
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['requisicao/showmodal', 'key'=> $key]); //glyphicon glyphicon-exclamation-sign
+                    },
+                    'multa' => function ($key, $model) {
+
+                        //encontrar a multa com o id requisicao = id requisicao do model
+                        $multa = \frontend\models\Multa::find()->where(['id_requisicao' => $model->id_requisicao])->one();
+
+                        if (isset($multa)) {
+                            return Html::a('<span class="glyphicon glyphicon-exclamation-sign" style="color: #c9302c"></span>', ['requisicao/showmultamodal', 'key' => $key, 'id_requisicao' => $model->id_requisicao]);
+                        }
                     }
                 ]
             ],
@@ -111,4 +120,34 @@ $this->title = 'Histórico de Requisicões';
             </div>
         </div>
     </div>
+
+
+    <!-- Modal para mostrar multa -->
+    <div class="modal fade" id="multasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="exampleModalLabel"><?= Html::encode('Multa - Requisição') ?></h2>
+                </div>
+                <div class="modal-body">
+                    <?php if(isset($multa)) { ?>
+                        <h3><?= Html::encode('Multa: #'.$multa->id_multa) ?></h3>
+                        <p><?= Html::encode('Montante: '.$multa->montante).'€' ?></p>
+                        <p><?= Html::encode('Estado: '.$multa->estado) ?></p>
+                        <p><?= Html::encode('Data de emissão: '.$multa->dta_multa) ?></p>
+                    <?php } else { ?>
+                        <?= Html::encode('Sem multa.') ?>
+                    <?php }?>
+                </div>
+                <div class="modal-footer">
+                    <?= Html::submitButton('Fechar', ['class' => 'btn-perfil', 'data-dismiss'=> "modal", 'aria-label'=>"Close"]) ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>

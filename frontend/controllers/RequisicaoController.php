@@ -6,6 +6,7 @@ use app\models\Biblioteca;
 use app\models\Livro;
 use app\models\RequisicaoLivro;
 use Carbon\Carbon;
+use frontend\models\Multa;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
@@ -52,6 +53,23 @@ class RequisicaoController extends Controller
         ];
     }
 
+    function actionShowmultamodal($key, $id_requisicao){
+        $searchModel = new RequisicaoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        //subquery para obter as requisições de determinado user
+        $subQuery = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id])
+            ->andWhere(['id_requisicao' => $id_requisicao]);
+        //query para obter todas as multas do user
+        $multa = Multa::find()
+            ->innerJoin(['sub' => $subQuery], 'sub.id_requisicao = multa.id_requisicao')->one();
+
+        $js='$("#multasModal").modal("show")';
+        $this->getView()->registerJs($js);
+
+        return $this->render('index', ['key' => $key, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'multa'=>$multa]);
+        //return $this->redirect(['requisicao/index', 'key' => $key, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'multas'=>$multas]);
+    }
 
     function actionShowmodal($key){
         $searchModel = new RequisicaoSearch();
@@ -138,6 +156,7 @@ class RequisicaoController extends Controller
                     if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
                         $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+
                         Yii::$app->session->destroy();
                         Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
 
