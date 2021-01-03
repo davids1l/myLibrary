@@ -23,7 +23,7 @@ class InserirBibliotecarioCest
         $I->fillField('Data de Nascimento','14/07/1999');
         $I->fillField('NIF','901249120');
         $I->fillField('Nº de telefone','912051286');
-        $I->selectOption('Biblioteca', 'Biblioteca Admin');
+        $I->selectOption('Biblioteca', 'Biblioteca Municipal de Lisboa');
         $I->fillField('Palavra-Passe','123123123');
         $I->fillField('Confirmar Palavra-Passe','123123123');
         $I->click('inserirBibliotecario');

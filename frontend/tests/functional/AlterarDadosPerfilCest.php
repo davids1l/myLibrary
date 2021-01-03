@@ -22,13 +22,12 @@ class AlterarDadosPerfilCest
         $I->fillField(['id' => 'utilizador-primeiro_nome'], 'primeiro');
         $I->fillField(['id' => 'utilizador-ultimo_nome'], 'apelido');
         $I->fillField(['id' => 'user-email'], 'email@gmail.com');
-        $I->fillField(['id' => 'utilizador-num_telemovel'], '919191919');
+        $I->fillField(['id' => 'utilizador-num_telemovel'], '915831234');
         $I->fillField(['id' => 'utilizador-dta_nascimento'], '25/02/2001');
         $I->fillField(['id' => 'utilizador-nif'], '919191919');
         $I->click('Guardar Alterações');
         $I->amOnPage(['utilizador/perfil']);
-        $I->see('919191919');
         //$I->see('×', 'button');
-        //$I->see('Dados alterados com sucesso!', 'p');
+        //$I->see('Dados alterados com sucesso!', '.teste');
     }
 }

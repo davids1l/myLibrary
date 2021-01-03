@@ -57,7 +57,7 @@ class BibliotecaController extends ActiveController
             return ['id'=>$id, 'nome'=>$nomeBib->nome];
         }
         //return ['id'=>$id, 'nome'=>null];
-        return ['Biblioteca com id='.$id.' não encontrada.'];
+        return ['Biblioteca com id = '.$id.' não encontrada.'];
     }
 
 }
