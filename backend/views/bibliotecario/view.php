@@ -19,13 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Alterar Biblioteca', null, [
-                'data-toggle'=>'modal',
-                'data-target' => '#updateBibliotecarioModal',
-                'class' => 'btn btn-primary'])
+            'data-toggle' => 'modal',
+            'data-target' => '#updateBibliotecarioModal',
+            'class' => 'btn btn-primary'])
         ?>
 
         <?php
-        if($model->id_biblioteca != null){
+        if ($model->id_biblioteca != null) {
             echo Html::a('Desassociar da Biblioteca', ['bibliotecario/remover-biblioteca', 'id' => $model->id_utilizador], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -49,26 +49,63 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id_utilizador',
-            'numero',
             [
-                    'value' => function($model){
-                        return $model->primeiro_nome . " " . $model->ultimo_nome;
-                    },
-                    'label' => 'Nome',
+                'attribute' => 'foto_perfil',
+                'label' => '',
+                'format' => 'html',
+                'filter' => false,
+                'value' => function ($model) {
+                    return Html::img(Yii::$app->request->baseUrl . '/../../frontend/web/imgs/perfil/' . $model['foto_perfil'], ['width' => '100px']);
+                }
             ],
-            'user.email',
-            //'bloqueado',
-            //'dta_bloqueado',
-            'dta_nascimento',
-            'nif',
-            'num_telemovel',
-            //'dta_registo',
-            'foto_perfil',
-            'biblioteca.nome',
+
+            [
+                'attribute' => 'numero',
+                'label' => 'Nº de Bibliotecário',
+            ],
+
+            [
+                'value' => function ($model) {
+                    return $model->primeiro_nome . " " . $model->ultimo_nome;
+                },
+                'label' => 'Nome',
+            ],
+
+            [
+                'attribute' => 'user.email',
+                'label' => 'Email',
+            ],
+
+            [
+                'attribute' => 'dta_nascimento',
+                'label' => 'Data de Nascimento',
+            ],
+
+            [
+                'attribute' => 'nif',
+                'label' => 'NIF',
+            ],
+
+            [
+                'attribute' => 'num_telemovel',
+                'label' => 'Nº de Telemóvel',
+            ],
+
+            [
+                'attribute' => 'biblioteca.nome',
+                'value' => function ($model){
+                    if($model->id_biblioteca == null){
+                        return '';
+                    }else{
+                        $nomeBibli = Biblioteca::find()->where(['id_biblioteca' => $model->id_biblioteca])->one();
+                        return $nomeBibli->nome;
+                    }
+                },
+                'label' => 'Biblioteca associada'
+            ],
+
         ],
     ]) ?>
-
 
 
     <!-- Modal para editar a biblioteca onde o bibliotecario está associado-->
@@ -82,20 +119,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     </button>
                     <h2 class="modal-title" id="exampleModalLabel">Alterar Biblioteca</h2>
                 </div>
-                <div class="row" style="background-color: white">
+                <div class="row">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-8">
                         <?php $form = ActiveForm::begin([
                             'action' => ['bibliotecario/update-biblioteca', 'id' => $model->id_utilizador]]) ?>
-                        <div class="row" style="background-color: white">
-                            <?php
-                            $bibliotecas = Biblioteca::find()->all();
-                            $arrayBibliotecas[] = [];
-                            foreach ($bibliotecas as $biblioteca){
-                                array_push($arrayBibliotecas, $biblioteca->id_biblioteca);
-                            }
-                            ?>
-                            <?= $form->field($model, 'id_biblioteca')->label('Biblioteca')->dropDownList($arrayBibliotecas) ?>
+                        <div class="row">
+                            <?= $form->field($model, 'id_biblioteca')->label('Biblioteca')->dropDownList($bibliotecas) ?>
                         </div>
                         <div class="modal-footer">
                             <?= Html::submitButton('Guardar', ['class' => 'btn-perfil']) ?>

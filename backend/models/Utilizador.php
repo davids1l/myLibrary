@@ -45,14 +45,16 @@ class Utilizador extends \yii\db\ActiveRecord
     {
         return [
             [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_nascimento', 'nif', 'num_telemovel'], 'required'],
-            [['bloqueado', 'id_biblioteca'], 'integer'],
+            [['bloqueado', 'id_biblioteca', 'num_telemovel'], 'integer'],
             [['dta_bloqueado', 'dta_nascimento', 'dta_registo'], 'safe'],
-            [['primeiro_nome', 'ultimo_nome'], 'string', 'max' => 50],
+            [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 50],
             [['numero'], 'string', 'max' => 4],
-            [['nif', 'num_telemovel'], 'string', 'max' => 9],
-            [['foto_perfil'], 'string', 'max' => 400],
             [['id_biblioteca'], 'exist', 'skipOnError' => true, 'targetClass' => Biblioteca::className(), 'targetAttribute' => ['id_biblioteca' => 'id_biblioteca']],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_utilizador' => 'id']],
+
+            ['nif', 'required'],
+            ['nif', 'integer'],
+            ['nif', 'unique', 'targetClass' => '\app\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
         ];
     }
 

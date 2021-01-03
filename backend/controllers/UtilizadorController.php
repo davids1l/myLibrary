@@ -56,7 +56,6 @@ class UtilizadorController extends Controller
 
         $utilizador = $this->findModel($id);
 
-
         if($utilizador->bloqueado == 1){
             $utilizador->bloqueado = null;
             $utilizador->dta_bloqueado = null;
@@ -67,7 +66,7 @@ class UtilizadorController extends Controller
             $utilizador->save();
         }
 
-        return $this->redirect(['view', 'id' => $id]);
+        return $this->redirect(['index', 'pesquisa' => $id]);
     }
 
     /**
@@ -75,14 +74,19 @@ class UtilizadorController extends Controller
      * @param null $model
      * @return mixed
      */
-    public function actionIndex($model = null)
+    public function actionIndex($model = null, $pesquisa = null)
     {
         if($model == null){
             $model = new SignupForm();
         }
 
         $searchModel = new UtilizadorSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if($pesquisa != null){
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $pesquisa);
+        }else{
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }
 
         return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
     }

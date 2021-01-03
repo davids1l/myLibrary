@@ -94,7 +94,12 @@ class BibliotecarioController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', ['model' => $this->findModel($id),]);
+        $bibliotecas = Biblioteca::find()
+            ->orderBy(['id_biblioteca' => SORT_ASC])
+            ->all();
+        $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
+
+        return $this->render('view', ['model' => $this->findModel($id), 'bibliotecas' => $listBibliotecas]);
     }
 
     /**
@@ -148,7 +153,7 @@ class BibliotecarioController extends Controller
             return $this->redirect(['view', 'id' => $model->id_utilizador]);
         }
         Yii::$app->session->setFlash('error', 'Biblioteca inserida inválida.');
-        return $this->render('update', ['model' => $model,]);
+        return $this->render('view', ['id' => $id]);
     }
 
 

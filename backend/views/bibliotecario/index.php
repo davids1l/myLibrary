@@ -16,16 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="utilizador-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <hr>
 
-
-    <div>
+    <p>
         <a style="color: black">
-            <?= Html::button(' Inserir Bibliotecário', ['class' => 'btn btn-success', 'data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal', 'id' => 'inserirBibliotecario']) ?>
+            <?= Html::button('<span class="glyphicon glyphicon-plus"></span> Inserir Bibliotecário', ['class' => 'btn btn-success', 'data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal', 'id' => 'inserirBibliotecario']) ?>
         </a>
-    </div>
-    <br>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    </p>
 
     <?= GridView::widget([
         'summary' => 'Total de Bibliotecários: {totalCount}',
@@ -38,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'numero',
                 'label' => 'Nº de bibliotecário',
             ],
-            //'id_utilizador',
+
             [
                 'attribute' => 'primeiro_nome',
                 'label' => 'Nome',
@@ -47,8 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'ultimo_nome',
                 'label' => 'Apelido',
             ],
-            //'bloqueado',
-            //'dta_bloqueado',
 
             [
                 'attribute' => 'num_telemovel',
@@ -69,18 +64,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Data de Nascimento',
 
             ],
-            //'dta_registo',
+
             [
                 'attribute' => 'id_biblioteca',
-                'value' => 'biblioteca.nome',
+                'value' => function ($model){
+                    if($model->id_biblioteca == null){
+                        return '';
+                    }else{
+                        $nomeBibli = Biblioteca::find()->where(['id_biblioteca' => $model->id_biblioteca])->one();
+                        return $nomeBibli->nome;
+                    }
+                },
                 'label' => 'Biblioteca',
             ],
+
             [
                 'attribute' => 'foto_perfil',
                 'format' => 'html',
                 'filter' => false,
                 'value' => function ($dados) {
-                     return Html::img(Yii::$app->request->baseUrl . '/../../frontend/web/imgs/perfil/' . $dados['foto_perfil'], ['width' => '60px', 'height' => '60px']);
+                     return Html::img(Yii::$app->request->baseUrl . '/../../frontend/web/imgs/perfil/' . $dados['foto_perfil'], ['width' => '60px']);
                 }
             ],
             [

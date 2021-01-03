@@ -21,7 +21,7 @@ $this->title = "Detalhes do Livro";
         <section class="col-xs-12">
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="capa-livro">
-                    <?= Html::img($livro->capa, [
+                    <?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, [
                         'id' => 'imgCapa',
                         'style' => 'width: 150%;'
                     ])?>
