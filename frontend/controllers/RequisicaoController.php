@@ -175,9 +175,10 @@ class RequisicaoController extends Controller
     public function actionSubscribe() {
         $model = new Requisicao();
 
-        if (Yii::$app->request->post()) {
-            $model->FazSubscribe('req/#');
+        if(Yii::$app->request->post()) {
+            //$model->FazSubscribe('req/#');
 
+            $this->getView()->registerJsFile('@web/js/script.js');
         }
 
         return $this->render('subscribe', [

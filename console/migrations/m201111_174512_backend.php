@@ -103,7 +103,7 @@ class m201111_174512_backend extends Migration
 
         $this->addForeignKey(
             'idx-multa-id_requisicao',
-            'autor',
+            'multa',
             'id_requisicao',
             'requisicao',
             'id_requisicao',
