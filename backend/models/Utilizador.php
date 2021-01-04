@@ -5,6 +5,7 @@ namespace app\models;
 use common\models\User;
 use Yii;
 
+
 /**
  * This is the model class for table "utilizador".
  *
@@ -132,10 +133,51 @@ class Utilizador extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Utilizador]].
      *
+     * @param int $id_user
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'id_utilizador']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        // TODO: Implement findIdentityByAccessToken() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getId()
+    {
+        // TODO: Implement getId() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAuthKey()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return null;
     }
 }

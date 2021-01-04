@@ -5,6 +5,7 @@ namespace app\modules\api\controllers;
 use app\models\Utilizador;
 use common\models\SignupForm;
 use common\models\User;
+use yii\filters\auth\HttpBasicAuth;
 use GuzzleHttp\Psr7\Query;
 use yii\rest\ActiveController;
 use yii\web\HttpException;
@@ -14,6 +15,23 @@ class UtilizadorController extends ActiveController
 {
 
     public $modelClass = 'app\models\Utilizador';
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
+
+        return $behaviors;
+    }
+
+    public function authf($email, $password){
+        $user = User::findUserByEmail($email);
+
+        if ($user && $user->validatePassword($password)){
+            return $user;
+        }
+    }
+
 
     //inserir utilizador
     public function actionCreateUtilizador()

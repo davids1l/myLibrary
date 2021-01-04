@@ -1,3 +1,16 @@
+//Função para subscribe de requisição
+function MQTTconnect() {
+    var host = 127.0.0.1;
+    var port = 9001;
+
+    mqtt = new Paho.MQTT.Client(host, port, "clientjs");
+
+}
+
+
+
+
+
 //Mostrar mais sinopse
 $(document).ready(function () {
     var sizeofsinopse = $(".sinopse_more").text().length;

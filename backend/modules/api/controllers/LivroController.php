@@ -3,6 +3,8 @@
 namespace app\modules\api\controllers;
 
 use app\models\RequisicaoLivro;
+use common\models\User;
+use yii\filters\auth\HttpBasicAuth;
 use yii\rest\ActiveController;
 use yii\web\Controller;
 
@@ -12,6 +14,22 @@ use yii\web\Controller;
 class LivroController extends ActiveController
 {
     public $modelClass = 'app\models\Livro';
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
+
+        return $behaviors;
+    }
+
+    public function authf($email, $password){
+        $user = User::findUserByEmail($email);
+
+        if ($user && $user->validatePassword($password)){
+            return $user;
+        }
+    }
 
     //devolve o total de livros
     public function actionTotal(){
