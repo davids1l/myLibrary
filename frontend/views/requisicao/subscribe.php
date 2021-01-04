@@ -20,7 +20,7 @@ use yii\widgets\DetailView;
         </div>
     <?php ActiveForm::end(); ?>
 
-    <div class ="subsDiv">
+    <div id ="subsDiv">
         <p id="messages"></p>
     </div>
 

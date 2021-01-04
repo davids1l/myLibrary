@@ -149,7 +149,7 @@ class Livro extends \yii\db\ActiveRecord
         $client_id = "phpMQTT-publisher".rand();
         $mqtt = new phpMQTT($server, $port, $client_id);
         if($mqtt->connect(true, NULL, $username, $password)) {
-            $mqtt->publish($canal, $msg, 0);
+            $mqtt->publish($canal, $msg, 0, true);
             $mqtt->close();
         }
         else { file_put_contents("debug.output", "Time out!"); }
