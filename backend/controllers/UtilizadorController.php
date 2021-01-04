@@ -54,19 +54,24 @@ class UtilizadorController extends Controller
 
     public function actionBloquear($id){
 
-        $utilizador = $this->findModel($id);
+        if(Yii::$app->user->can('updateLeitor')){
+            $utilizador = $this->findModel($id);
 
-        if($utilizador->bloqueado == 1){
-            $utilizador->bloqueado = null;
-            $utilizador->dta_bloqueado = null;
-            $utilizador->save();
+            if($utilizador->bloqueado == 1){
+                $utilizador->bloqueado = null;
+                $utilizador->dta_bloqueado = null;
+                $utilizador->save();
+            }else{
+                $utilizador->bloqueado = 1;
+                $utilizador->dta_bloqueado = Carbon::now();
+                $utilizador->save();
+            }
+
+            return $this->redirect(['index', 'pesquisa' => $id]);
         }else{
-            $utilizador->bloqueado = 1;
-            $utilizador->dta_bloqueado = Carbon::now();
-            $utilizador->save();
+            Yii::$app->session->setFlash('error', 'Não tens permissões para alterar leitores.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->redirect(['index', 'pesquisa' => $id]);
     }
 
     /**

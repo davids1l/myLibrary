@@ -104,25 +104,41 @@ class Livro extends \yii\db\ActiveRecord
         $id_autor=$this->id_autor;
 
         $myObj = new \stdClass();
-        $myObj->$id_livro = $id_livro;
-        $myObj->$titulo = $titulo;
-        $myObj->$isbn = $isbn;
-        $myObj->$ano = $ano;
-        $myObj->$paginas = $paginas;
-        $myObj->$genero = $genero;
-        $myObj->$idioma = $idioma;
-        $myObj->$formato = $formato;
-        $myObj->$capa = $capa;
-        $myObj->$sinopse = $sinopse;
-        $myObj->$id_editora = $id_editora;
-        $myObj->$id_biblioteca = $id_biblioteca;
-        $myObj->$id_autor = $id_autor;
+        $myObj->id_livro = $id_livro;
+        $myObj->titulo = $titulo;
+        $myObj->isbn = $isbn;
+        $myObj->ano = $ano;
+        $myObj->paginas = $paginas;
+        $myObj->genero = $genero;
+        $myObj->idioma = $idioma;
+        $myObj->formato = $formato;
+        $myObj->capa = $capa;
+        $myObj->sinopse = $sinopse;
+        $myObj->id_editora = $id_editora;
+        $myObj->id_biblioteca = $id_biblioteca;
+        $myObj->id_autor = $id_autor;
 
         $myJson = json_encode($myObj);
 
-        if($insert)
+        if($insert){
             $this->FazPublish('livro/novo', $myJson);
+        }else{
+            $this->FazPublish('livro/update', $myJson);
+        }
+    }
 
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        $id_livro = $this->id_livro;
+
+        $myObj = new \stdClass();
+        $myObj->id_livro = $id_livro;
+
+        $myJSON = json_encode($myObj);
+
+        $this->FazPublish("livro/delete", $myJSON);
     }
 
     public function FazPublish($canal, $msg) {
