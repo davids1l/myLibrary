@@ -85,32 +85,6 @@ class m201111_174512_backend extends Migration
         ], $tableOptions);
 
 
-        // Tabela multa
-        $this->createTable('multa', [
-            'id_multa' => $this->primaryKey()->notNull()->unsigned(),
-            'montante' => $this->float()->notNull(),
-            'estado' => $this->string(30)->notNull(),
-            'dta_multa' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-            'id_requisicao' => $this->integer()->notNull()->unsigned()
-        ], $tableOptions);
-
-        //Chaves estrangeiras
-        $this->createIndex(
-            'idx-multa-id_requisicao',
-            'multa',
-            'id_requisicao'
-        );
-
-        $this->addForeignKey(
-            'idx-multa-id_requisicao',
-            'multa',
-            'id_requisicao',
-            'requisicao',
-            'id_requisicao',
-            'NO ACTION',
-            'CASCADE'
-        );
-
 
        // Autor
 
@@ -467,48 +441,33 @@ class m201111_174512_backend extends Migration
             'CASCADE'
         );
 
-        // Tabela Requisicao-Multa
-        //TODO: Excluir --> Não é necessário uma vez que requisicao - multa (1:N)
-        /*$this->createTable('requisicao_multa', [
-            'id_requisicao' => $this->integer()->notNull()->unsigned(),
-            'id_multa' => $this->integer()->notNull()->unsigned(),
-            'dta_multa' => $this->dateTime()->notNull(),
-            'PRIMARY KEY(id_requisicao)',
+
+
+        // Tabela multa
+        $this->createTable('multa', [
+            'id_multa' => $this->primaryKey()->notNull()->unsigned(),
+            'montante' => $this->float()->notNull(),
+            'estado' => $this->string(30)->notNull(),
+            'dta_multa' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'id_requisicao' => $this->integer()->notNull()->unsigned()
         ], $tableOptions);
 
-        // Chaves estrangeiras
-
+        //Chaves estrangeiras
         $this->createIndex(
-            'idx-requisicao_multa-id_requisicao',
-            'requisicao_multa',
+            'idx-multa-id_requisicao',
+            'multa',
             'id_requisicao'
         );
 
         $this->addForeignKey(
-            'fk-requisicao_multa-id_requisicao',
-            'requisicao_multa',
+            'idx-multa-id_requisicao',
+            'multa',
             'id_requisicao',
             'requisicao',
             'id_requisicao',
-            'CASCADE',
+            'NO ACTION',
             'CASCADE'
         );
-
-        $this->createIndex(
-            'idx-requisicao_multa-id_multa',
-            'requisicao_multa',
-            'id_multa'
-        );
-
-        $this->addForeignKey(
-            'fk-requisicao_multa-id_multa',
-            'requisicao_multa',
-            'id_multa',
-            'multa',
-            'id_multa',
-            'CASCADE',
-            'CASCADE'
-        );*/
 
     }
 

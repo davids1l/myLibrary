@@ -51,7 +51,7 @@ class Livro extends \yii\db\ActiveRecord
             [['ano', 'paginas', 'id_editora', 'id_biblioteca', 'id_autor'], 'integer'],
             [['sinopse'], 'string'],
             [['titulo'], 'string', 'max' => 50],
-            [['isbn'], 'string', 'max' => 13],
+            [['isbn'], 'integer'],
             [['genero'], 'string', 'max' => 80],
             [['idioma', 'formato'], 'string', 'max' => 15],
             [['capa'], 'string', 'max' => 255],

@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -43,7 +43,7 @@ $this->title = 'Meus favoritos';
                 <div class="col-xs-12 col-md-12 col-lg-12 livroField">
                     <div class="capa-livro-requisicao col-xs-4 col-md-1 col-lg-1">
                         <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
-                            <?= Html::img($fav->livro->capa, ['class' => 'capaLivroFinalizar']) ?>
+                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $fav->livro->capa, ['class' => 'capaLivroFinalizar']) ?>
                         </a>
                     </div>
                     <div class="detalhes-livro-requisicao col-xs-6 col-md-10 col-lg-10">

@@ -56,17 +56,22 @@ class BibliotecarioController extends Controller
      */
     public function actionIndex($model = null)
     {
-        if($model == null){
-            $model = new SignupForm();
+        if(Yii::$app->user->can('admin')){
+            if($model == null){
+                $model = new SignupForm();
+            }
+
+            $searchModel = new BibliotecarioSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $bibliotecas = Biblioteca::find()->all();
+
+            $listBib = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+
+            return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model, 'bibliotecas' => $listBib]);
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
-
-        $searchModel = new BibliotecarioSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $bibliotecas = Biblioteca::find()->all();
-
-        $listBib = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
-
-        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model, 'bibliotecas' => $listBib]);
     }
 
 
@@ -94,7 +99,18 @@ class BibliotecarioController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', ['model' => $this->findModel($id),]);
+        if(Yii::$app->user->can('admin')){
+            $bibliotecas = Biblioteca::find()
+                ->orderBy(['id_biblioteca' => SORT_ASC])
+                ->all();
+            $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
+
+            return $this->render('view', ['model' => $this->findModel($id), 'bibliotecas' => $listBibliotecas]);
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
+        }
+
     }
 
     /**
@@ -104,23 +120,29 @@ class BibliotecarioController extends Controller
      */
     public function actionCreate()
     {
-        $model = new SignupForm();
+        if(Yii::$app->user->can('admin')){
+            $model = new SignupForm();
 
-        if ($model->load(Yii::$app->request->post())) {
+            if ($model->load(Yii::$app->request->post())) {
 
-            $biblioteca = Yii::$app->request->post();
-            $model->id_biblioteca = $biblioteca['SignupForm']['id_biblioteca'];
+                $biblioteca = Yii::$app->request->post();
+                $model->id_biblioteca = $biblioteca['SignupForm']['id_biblioteca'];
 
-            if($model->signup(1)){
-                Yii::$app->session->setFlash('success', 'Bibliotecário inserido com sucesso.');
-                return $this->redirect(['index']);
+                if($model->signup(1)){
+                    Yii::$app->session->setFlash('success', 'Bibliotecário inserido com sucesso.');
+                    return $this->redirect(['index']);
+                }
             }
+
+            Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o bibliotecário.');
+            $model->password = '';
+            $model->confirmarPassword = '';
+            return $this->actionShowmodal($model);
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
         }
 
-        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o bibliotecário.');
-        $model->password = '';
-        $model->confirmarPassword = '';
-        return $this->actionShowmodal($model);
     }
 
     /**
@@ -142,22 +164,33 @@ class BibliotecarioController extends Controller
     }
 
     public function actionUpdateBiblioteca($id){
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('updateBibliotecario')){
+            $model = $this->findModel($id);
 
-        if($model->load(Yii::$app->request->post()) && $model->save()){
-            return $this->redirect(['view', 'id' => $model->id_utilizador]);
+            if($model->load(Yii::$app->request->post()) && $model->save()){
+                return $this->redirect(['view', 'id' => $model->id_utilizador]);
+            }
+            Yii::$app->session->setFlash('error', 'Biblioteca inserida inválida.');
+            return $this->render('view', ['id' => $id]);
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
         }
-        Yii::$app->session->setFlash('error', 'Biblioteca inserida inválida.');
-        return $this->render('update', ['model' => $model,]);
+
     }
 
 
     public function actionRemoverBiblioteca($id){
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('updateBibliotecario')){
+            $model = $this->findModel($id);
 
-        $model->id_biblioteca = null;
-        $model->save();
-        return $this->redirect(['view', 'id' => $model->id_utilizador]);
+            $model->id_biblioteca = null;
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->id_utilizador]);
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**
@@ -169,10 +202,15 @@ class BibliotecarioController extends Controller
      */
     public function actionDelete($id)
     {
-        $user = User::find()->where(['id' => $id])->one();
-        $user->delete();
+        if(Yii::$app->user->can('admin')){
+            $user = User::find()->where(['id' => $id])->one();
+            $user->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**

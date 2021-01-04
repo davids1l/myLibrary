@@ -36,17 +36,17 @@ $this->title = 'Histórico de Requisicões';
                 }
             ],
             [
-                'attribute' => 'dta_levantamento',
+                //'attribute' => 'dta_levantamento',
                 'label' => 'Data de Levantamento',
                 'value' => function ($model) {
-                    return Carbon::parse($model->dta_levantamento)->format('d-m-Y H:i:s');
+                    return Carbon::parse($model->dta_levantamento)->format('d-m-Y H:i');
                 },
             ],
             [
-                'attribute' => 'dta_entrega',
+                //'attribute' => 'dta_entrega',
                 'label' => 'Data de Entrega',
                 'value' => function ($model) {
-                    return Carbon::parse($model->dta_entrega)->format('d-m-Y H:i:s');
+                    return Carbon::parse($model->dta_entrega)->format('d-m-Y H:i');
                 }
             ],
             'estado',
@@ -107,7 +107,7 @@ $this->title = 'Histórico de Requisicões';
                                         'label' => 'Capa',
                                         'format' => 'html',
                                         'value' => function ($detalhes) {
-                                            return Html::img($detalhes->capa, ['width' => '100px']);
+                                            return Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $detalhes->capa, ['width' => '100px']);
                                         }
                                     ],
                                 ]

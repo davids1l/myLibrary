@@ -13,14 +13,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="editora-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <hr>
     <p>
         <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Editora', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
+        'summary' => 'Total de Editoras: {totalCount}',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -37,7 +37,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'País'
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            'header' => 'Ações',
+            'template' => '{update} {delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                            'data' => [
+                                'confirm' => 'Tem a certeza que quer eliminar a editora ' . $model->designacao . '?',
+                                'method' => 'post',
+                            ]
+                        ]);
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

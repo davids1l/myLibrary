@@ -54,20 +54,24 @@ class UtilizadorController extends Controller
 
     public function actionBloquear($id){
 
-        $utilizador = $this->findModel($id);
+        if(Yii::$app->user->can('updateLeitor')){
+            $utilizador = $this->findModel($id);
 
+            if($utilizador->bloqueado == 1){
+                $utilizador->bloqueado = null;
+                $utilizador->dta_bloqueado = null;
+                $utilizador->save();
+            }else{
+                $utilizador->bloqueado = 1;
+                $utilizador->dta_bloqueado = Carbon::now();
+                $utilizador->save();
+            }
 
-        if($utilizador->bloqueado == 1){
-            $utilizador->bloqueado = null;
-            $utilizador->dta_bloqueado = null;
-            $utilizador->save();
+            return $this->redirect(['index', 'pesquisa' => $id]);
         }else{
-            $utilizador->bloqueado = 1;
-            $utilizador->dta_bloqueado = Carbon::now();
-            $utilizador->save();
+            Yii::$app->session->setFlash('error', 'Não tens permissões para alterar leitores.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**
@@ -75,14 +79,19 @@ class UtilizadorController extends Controller
      * @param null $model
      * @return mixed
      */
-    public function actionIndex($model = null)
+    public function actionIndex($model = null, $pesquisa = null)
     {
         if($model == null){
             $model = new SignupForm();
         }
 
         $searchModel = new UtilizadorSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if($pesquisa != null){
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $pesquisa);
+        }else{
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }
 
         return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
     }

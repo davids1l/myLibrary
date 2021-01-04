@@ -5,7 +5,7 @@ var options = {
     clientId: 'publisherMQTTest'
 }
 
-var connectUrl = 'ws://127.0.0.1:9001/mqtt'
+var connectUrl = 'ws://127.0.0.1:9002/mqtt'
 var client = mqtt.connect(connectUrl, options)
 
 client.subscribe("req/#")

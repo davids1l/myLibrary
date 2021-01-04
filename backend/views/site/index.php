@@ -18,7 +18,7 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Livros', ['livros/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Livros', ['livros/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
@@ -28,7 +28,7 @@ $this->title = 'Painel';
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Livros Requisitados', ['livros/requisitado'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Livros Requisitados', ['livros/requisitado'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
@@ -48,7 +48,7 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Bibliotecas', ['bibliotecas/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Bibliotecas', ['bibliotecas/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
@@ -72,7 +72,7 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Leitores', ['utilizador/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Leitores', ['utilizador/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
@@ -91,7 +91,7 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Bibliotecários', ['bibliotecario/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Bibliotecários', ['bibliotecario/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
@@ -110,7 +110,7 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Requisições', ['requisicao/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Requisições', ['requisicao/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
@@ -120,17 +120,17 @@ $this->title = 'Painel';
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Req. Por Preparar', ['requisicao/preparar'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Req. Por Preparar', ['requisicao/preparar'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Req. Prontas a Levantar', ['requisicao/levantar'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Req. Prontas a Levantar', ['requisicao/levantar'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Req. c/ Multa', ['multa/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Req. c/ Multa', ['multa/index'], [
                                     'class' => 'btn btn-danger'
                                 ]) ?>
                             </div>
@@ -149,12 +149,12 @@ $this->title = 'Painel';
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Editoras', ['editoras/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Editoras', ['editoras/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>
                             <div class="col-md-2">
-                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Consultar Autores', ['autores/index'], [
+                                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Consultar Autores', ['autores/index'], [
                                     'class' => 'btn btn-info'
                                 ]) ?>
                             </div>

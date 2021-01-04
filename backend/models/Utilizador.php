@@ -5,6 +5,7 @@ namespace app\models;
 use common\models\User;
 use Yii;
 
+
 /**
  * This is the model class for table "utilizador".
  *
@@ -45,14 +46,16 @@ class Utilizador extends \yii\db\ActiveRecord
     {
         return [
             [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_nascimento', 'nif', 'num_telemovel'], 'required'],
-            [['bloqueado', 'id_biblioteca'], 'integer'],
+            [['bloqueado', 'id_biblioteca', 'num_telemovel'], 'integer'],
             [['dta_bloqueado', 'dta_nascimento', 'dta_registo'], 'safe'],
-            [['primeiro_nome', 'ultimo_nome'], 'string', 'max' => 50],
+            [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 50],
             [['numero'], 'string', 'max' => 4],
-            [['nif', 'num_telemovel'], 'string', 'max' => 9],
-            [['foto_perfil'], 'string', 'max' => 400],
             [['id_biblioteca'], 'exist', 'skipOnError' => true, 'targetClass' => Biblioteca::className(), 'targetAttribute' => ['id_biblioteca' => 'id_biblioteca']],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_utilizador' => 'id']],
+
+            ['nif', 'required'],
+            ['nif', 'integer'],
+            ['nif', 'unique', 'targetClass' => '\app\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
         ];
     }
 
@@ -130,10 +133,51 @@ class Utilizador extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Utilizador]].
      *
+     * @param int $id_user
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'id_utilizador']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        // TODO: Implement findIdentityByAccessToken() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getId()
+    {
+        // TODO: Implement getId() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAuthKey()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return null;
     }
 }

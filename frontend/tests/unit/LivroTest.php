@@ -30,7 +30,7 @@ class LivroTest extends \Codeception\Test\Unit
         $livro->titulo = null;
         $this->assertFalse($livro->validate(['titulo']));
 
-        $livro->isbn = '12341234123907123';
+        $livro->isbn = '495018234534g';
         $this->assertFalse($livro->validate(['isbn']));
 
         $livro->ano = 'Dois mil e vinte';
@@ -80,7 +80,7 @@ class LivroTest extends \Codeception\Test\Unit
         $livro->genero = 'Comédia';
         $livro->idioma = 'Português';
         $livro->formato = 'Físico';
-        $livro->capa = 'teste';
+        $livro->capa = '4193101482371.png';
         $livro->sinopse = 'O livro retrata...';
         $livro->id_editora = $editora->id_editora;
         $livro->id_biblioteca = $biblioteca->id_biblioteca;
@@ -95,18 +95,18 @@ class LivroTest extends \Codeception\Test\Unit
     {
         $livro = $this->tester->grabRecord('app\models\livro', ['titulo' => 'Mil Vezes Adeus']);
 
-        $livro->titulo = 'Mil Vezes Olá';
+        $livro->titulo = 'Mil Vezes Bom Dia';
         $livro->save();
 
-        $this->tester->seeInDatabase('livro', ['titulo' => 'Mil Vezes Olá']);
+        $this->tester->seeInDatabase('livro', ['titulo' => 'Mil Vezes Bom Dia']);
     }
 
     public function testF_G()
     {
-        $livro = $this->tester->grabRecord('app\models\livro', ['titulo' => 'Mil Vezes Olá']);
+        $livro = $this->tester->grabRecord('app\models\livro', ['titulo' => 'Mil Vezes Bom Dia']);
 
         $livro->delete();
 
-        $this->tester->cantSeeInDatabase('livro', ['titulo' =>'Mil Vezes Olá']);
+        $this->tester->cantSeeInDatabase('livro', ['titulo' =>'Mil Vezes Bom Dia']);
     }
 }
