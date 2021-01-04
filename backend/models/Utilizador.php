@@ -134,7 +134,7 @@ class Utilizador extends \yii\db\ActiveRecord
      * @param int $id_user
      * @return \yii\db\ActiveQuery
      */
-    public function getUser(int $id_user)
+    public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'id_utilizador']);
     }
