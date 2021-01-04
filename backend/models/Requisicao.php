@@ -65,7 +65,7 @@ class Requisicao extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if($this->estado = "Pronta a levantar") {
+        if($this->estado === "Pronta a levantar") {
 
             $id_requisicao=$this->id_requisicao;
             $estado=$this->estado;
@@ -80,8 +80,10 @@ class Requisicao extends \yii\db\ActiveRecord
 
             $myJson = json_encode($myObj);
 
+            $topico = 'req/' . $id_requisicao;
+
             if($insert == false)
-                $this->FazPublish('req/n1', $myJson);
+                $this->FazPublish($topico, $myJson);
         }
     }
 

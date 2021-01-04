@@ -122,6 +122,9 @@ class Livro extends \yii\db\ActiveRecord
 
         if($insert)
             $this->FazPublish('livro/novo', $myJson);
+        else {
+            $this->FazPublish('livro/update', $myJson);
+        }
 
     }
 

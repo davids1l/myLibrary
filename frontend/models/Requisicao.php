@@ -53,18 +53,16 @@ class Requisicao extends \yii\db\ActiveRecord
         ];
     }
 
-    public function FazSubscribe($subTopic) {
+    /*public function FazSubscribe($subTopic) {
         $server = '127.0.0.1';
         $port = 1883;
-        //$username = '';
-        //$password = '';
+        $username = '';
+        $password = '';
         $client_id = 'phpMQTTsubscriber'.rand();
 
-        $mqtt = new \PhpMqtt\Client\MQTTClient($server, $port, $client_id);
-        //$mqtt = new phpMQTT($server, $port, $client_id);
+        $mqtt = new phpMQTT($server, $port, $client_id);
 
-        $mqtt->connect();
-        /*if(!$mqtt->connect(true, NULL, $username, $password)) {
+        if(!$mqtt->connect(true, NULL, $username, $password)) {
             exit(1);
         }
 
@@ -83,12 +81,8 @@ class Requisicao extends \yii\db\ActiveRecord
             //echo 'Msg Received: ' . date('r') . "\n";
             //echo "Topic: {$topics}\n\n";
             //echo "\t$msg\n\n";
-        }*/
-        $mqtt->subscribe($subTopic, function ($topic, $message) {
-            echo sprintf("Received message on topic [%s]: %s\n", $topic, $message);
-        }, 0);
-        $mqtt->loop(true);
-    }
+        }
+    }*/
 
     public function getBiblioteca()
     {
