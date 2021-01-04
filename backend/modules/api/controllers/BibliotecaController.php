@@ -4,11 +4,31 @@
 namespace app\modules\api\controllers;
 
 
+use app\models\Utilizador;
+use common\models\User;
+use yii\filters\auth\HttpBasicAuth;
 use yii\rest\ActiveController;
 
 class BibliotecaController extends ActiveController
 {
     public $modelClass = 'app\models\Biblioteca';
+
+    //Basic Auth para
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
+
+        return $behaviors;
+    }
+
+    public function authf($email, $password){
+        $user = User::findUserByEmail($email);
+
+        if ($user && $user->validatePassword($password)){
+            return $user;
+        }
+    }
 
     //devolve as bibliotecas cujo código postal contenha o valor procurado
     public function actionCodigopostal($cod_postal){

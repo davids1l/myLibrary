@@ -4,13 +4,31 @@ namespace app\modules\api\controllers;
 
 
 use Carbon\Carbon;
+use common\models\User;
 use yii\db\Query;
+use yii\filters\auth\HttpBasicAuth;
 use yii\rest\ActiveController;
 
 class RequisicaoController extends ActiveController
 {
 
     public $modelClass = 'app\models\Requisicao';
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
+
+        return $behaviors;
+    }
+
+    public function authf($email, $password){
+        $user = User::findUserByEmail($email);
+
+        if ($user && $user->validatePassword($password)){
+            return $user;
+        }
+    }
 
     //procurar requisições por estado
     public function actionProcurarEstado($estado){

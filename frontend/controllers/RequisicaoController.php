@@ -177,7 +177,6 @@ class RequisicaoController extends Controller
 
         if (Yii::$app->request->post()) {
             $model->FazSubscribe('req/#');
-
         }
 
         return $this->render('subscribe', [
