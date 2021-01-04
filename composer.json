@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "nesbot/carbon": "^1.39",
         "bluerhinos/phpmqtt": "@dev",
-        "ext-json": "*"
+        "ext-json": "*",
+        "php-mqtt/client": "^0.3.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
