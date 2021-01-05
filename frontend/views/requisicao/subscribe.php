@@ -9,6 +9,7 @@ use yii\widgets\DetailView;
 
 
 ?>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 <div class="subscribe-view">
 
     <h3>Subscrições</h3>
@@ -18,5 +19,9 @@ use yii\widgets\DetailView;
             <?= Html::submitButton('Subscrever', ['class' => 'btn btn-primary']) ?>
         </div>
     <?php ActiveForm::end(); ?>
+
+    <div id ="subsDiv">
+        <p id="messages"></p>
+    </div>
 
 </div>

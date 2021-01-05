@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="requisicao-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <hr>
 
     <p>
         <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['create'], ['class' => 'btn btn-success']) ?>

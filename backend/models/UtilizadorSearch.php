@@ -39,11 +39,26 @@ class UtilizadorSearch extends Utilizador
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $pesquisa = null)
     {
-        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
-        $query = Utilizador::find()->where(['id_utilizador' => $subQueryRole])->orderBy('id_utilizador');
-        //$query = Utilizador::find();
+
+        switch ($pesquisa){
+            case 'Bloqueados':$query = Utilizador::find()->where(['bloqueado' => 1])->orderBy('id_utilizador');
+                break;
+
+            case 'Desbloqueados':
+                $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+                $query = Utilizador::find()->where(['id_utilizador' => $subQueryRole, 'bloqueado' => null])->orderBy('id_utilizador');
+                break;
+
+            case null:
+                $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+                $query = Utilizador::find()->where(['id_utilizador' => $subQueryRole])->orderBy('id_utilizador');
+                break;
+
+            default: $query = Utilizador::find()->where(['id_utilizador' => $pesquisa]);
+        }
+
 
         // add conditions that should always apply here
 

@@ -84,8 +84,6 @@ class RequisicaoController extends Controller
             $model->estado = "Pronta a levantar";
             $model->save();
 
-            $model->FazPublish('req/n1', "Encomenda pronta");
-
             return $this->redirect(['requisicao/index']);
         }
 

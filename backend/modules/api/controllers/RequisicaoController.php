@@ -96,13 +96,13 @@ class RequisicaoController extends ActiveController
 
         $requisicoes = $model::find()->where(['estado' => 'Em requisição'])->orderBy(['dta_entrega' => SORT_ASC])->all();
         if($requisicoes == null){
-            return 'Não existem requisições';
+            return 'Não existem requisições a decorrer de momento';
         }
 
         $i = 0;
         foreach ($requisicoes as $requisicao){
-            $tempoRestante[$i][0] = 'ID de requisição: ' . $requisicao->id_requisicao;
-            $tempoRestante[$i][1] = 'ID de utilizador: ' . $requisicao->id_utilizador;
+            $tempoRestante[$i][0] = 'ID da requisição: ' . $requisicao->id_requisicao;
+            $tempoRestante[$i][1] = 'ID do utilizador: ' . $requisicao->id_utilizador;
 
             if($requisicao->dta_entrega > $carbon::now()){
                 $horas = $carbon::now()->diffInHours($requisicao->dta_entrega);

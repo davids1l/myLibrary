@@ -17,11 +17,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <hr>
 
+    <p>
+        <?= Html::button('<span class="glyphicon glyphicon-plus"></span> Inserir Leitor',
+            ['class' => 'btn btn-success', 'data-toggle' => 'modal', 'data-target' => '#criarLeitorModal'
+            ]) ?>
 
-    <div>
-        <?= Html::button('Inserir Leitor', ['class' => 'btn btn-success','data-toggle' => 'modal', 'data-target' => '#criarLeitorModal']) ?>
-    </div>
-    <br>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Bloqueados', ['utilizador/index', 'pesquisa' => 'Bloqueados'], [
+            'class' => 'btn btn-info'
+        ]); ?>
+
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Não Bloqueados', ['utilizador/index', 'pesquisa' => 'Desbloqueados'], [
+            'class' => 'btn btn-info'
+        ]); ?>
+
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar todos', ['utilizador/index'], [
+            'class' => 'btn btn-info'
+        ]); ?>
+    </p>
 
 
     <?= GridView::widget([
@@ -44,8 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'ultimo_nome',
                 'label' => 'Apelido',
             ],
+
             [
-                'attribute' => 'bloqueado',
+                'label' => 'Bloqueado',
                 'value' => function ($model) {
                     if ($model->bloqueado != 1) {
                         return '';
@@ -54,14 +67,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ],
+
             [
-                'attribute' => 'dta_bloqueado',
                 'label' => 'Data do bloqueio',
                 'value' => function ($model) {
                     if ($model->dta_bloqueado == null) {
                         return '';
                     } else {
-                        return Carbon::parse($model->dta_bloqueado)->format('d-m-Y H:i:s');
+                        return Carbon::parse($model->dta_bloqueado)->format('d-m-Y H:i');
                     }
                 }
             ],
@@ -156,7 +169,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                     </div>
                     <div class="modal-footer">
-                        <?= Html::submitButton('Inserir Leitor', ['class' => 'btn btn-perfil btn-success']) ?>
+                        <?= Html::submitButton('<span class="glyphicon glyphicon-plus"></span> Inserir Leitor', ['class' => 'btn btn-perfil btn-success']) ?>
                     </div>
                     <?php ActiveForm::end() ?>
                 </div>

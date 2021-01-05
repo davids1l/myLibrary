@@ -31,7 +31,7 @@ class Requisicao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['dta_levantamento', 'dta_entrega'], 'safe'],
+            [['dta_levantamento', 'dta_entrega'], 'safe'],
             [['estado', 'id_utilizador'], 'required'],
             [['id_utilizador', 'id_bib_levantamento'], 'integer'],
             [['estado'], 'string', 'max' => 30],
@@ -53,14 +53,15 @@ class Requisicao extends \yii\db\ActiveRecord
         ];
     }
 
-    public function FazSubscribe($subTopic) {
+    /*public function FazSubscribe($subTopic) {
         $server = '127.0.0.1';
         $port = 1883;
         $username = '';
         $password = '';
-        $client_id = 'phpMQTT-subscriber';
+        $client_id = 'phpMQTTsubscriber'.rand();
 
         $mqtt = new phpMQTT($server, $port, $client_id);
+
         if(!$mqtt->connect(true, NULL, $username, $password)) {
             exit(1);
         }
@@ -71,17 +72,17 @@ class Requisicao extends \yii\db\ActiveRecord
         $mqtt->subscribe($topics, 0);
 
         while($mqtt->proc()) {
-
         }
 
         $mqtt->close();
 
         function procMsg($topics, $msg){
-            echo 'Msg Recieved: ' . date('r') . "\n";
-            echo "Topic: {$topics}\n\n";
-            echo "\t$msg\n\n";
+            //var_dump($topics . " : " . $msg);
+            //echo 'Msg Received: ' . date('r') . "\n";
+            //echo "Topic: {$topics}\n\n";
+            //echo "\t$msg\n\n";
         }
-    }
+    }*/
 
     public function getBiblioteca()
     {

@@ -136,8 +136,19 @@ class UtilizadorController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-           if ($model->validarNumTelemovel() == false) {
-               Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
+            if($model->validarNumTelemovel() == false){
+                Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
+                return $this->actionPerfil();
+            }
+
+            if($model->validarTamanhoNumTele() == false){
+                Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. O número tem de ter 9 dígitos.');
+                return $this->actionPerfil();
+            }
+
+
+           if($model->validarNIF() == false){
+               Yii::$app->session->setFlash('error', 'NIF inválido. O NIF tem de ter 9 dígitos.');
                return $this->actionPerfil();
            }
 
