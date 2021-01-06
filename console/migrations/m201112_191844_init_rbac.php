@@ -259,6 +259,14 @@ class m201112_191844_init_rbac extends Migration
         $auth->addChild($bibliotecario, $updateReqMulta);
         $auth->addChild($bibliotecario, $deleteReqMulta);
 
+        $auth->addChild($bibliotecario, $createComentario);
+        $auth->addChild($bibliotecario, $updateComentario);
+        $auth->addChild($bibliotecario, $deleteComentario);
+
+        $auth->addChild($bibliotecario, $createFavorito);
+        $auth->addChild($bibliotecario, $updateFavorito);
+        $auth->addChild($bibliotecario, $deleteFavorito);
+
 
         // Criação do Role Admin e atribuição das respetivas permissões
 
@@ -303,6 +311,14 @@ class m201112_191844_init_rbac extends Migration
         $auth->addChild($admin, $createReqMulta);
         $auth->addChild($admin, $updateReqMulta);
         $auth->addChild($admin, $deleteReqMulta);
+
+        $auth->addChild($admin, $createComentario);
+        $auth->addChild($admin, $updateComentario);
+        $auth->addChild($admin, $deleteComentario);
+
+        $auth->addChild($admin, $createFavorito);
+        $auth->addChild($admin, $updateFavorito);
+        $auth->addChild($admin, $deleteFavorito);
 
 
 

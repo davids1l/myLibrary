@@ -71,7 +71,6 @@ class UtilizadorController extends Controller
         $model = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->one();
         $userModel = User::find()->where(['id' =>Yii::$app->user->identity->id])->one();
 
-
         return $this->render('view', ['model' => $model, 'modelUpload' => $modelUpload, 'userModel' => $userModel]);
     }
 
@@ -133,46 +132,50 @@ class UtilizadorController extends Controller
         $model = $this->findModel($id);
         $user = User::find()->where(['id' => $id])->one();
 
+        if(Yii::$app->user->can('updateUtilizador')) {
 
-        if ($model->load(Yii::$app->request->post())) {
+            if ($model->load(Yii::$app->request->post())) {
 
-            if($model->validarNumTelemovel() == false){
-                Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
+                if ($model->validarNumTelemovel() == false) {
+                    Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
+                    return $this->actionPerfil();
+                }
+
+                if ($model->validarTamanhoNumTele() == false) {
+                    Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. O número tem de ter 9 dígitos.');
+                    return $this->actionPerfil();
+                }
+
+
+                if ($model->validarNIF() == false) {
+                    Yii::$app->session->setFlash('error', 'NIF inválido. O NIF tem de ter 9 dígitos.');
+                    return $this->actionPerfil();
+                }
+
+                if ($model->validarDataNascimento() == false) {
+                    Yii::$app->session->setFlash('error', 'Data de nascimento inválida. Insira uma data de nascimeto válida.');
+                    return $this->actionPerfil();
+                }
+
+                $user->email = Yii::$app->request->post('User')['email'];
+                if (!$user->validate()) {
+                    Yii::$app->session->setFlash('error', 'Email inválido ou já se encontra em utilização.');
+                    return $this->actionPerfil();
+                }
+
+                $user->save();
+                $model->save();
+
+                Yii::$app->session->setFlash('success', '<p id="msg" class="teste">Dados alterados com sucesso!</p>');
                 return $this->actionPerfil();
             }
 
-            if($model->validarTamanhoNumTele() == false){
-                Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. O número tem de ter 9 dígitos.');
-                return $this->actionPerfil();
-            }
-
-
-           if($model->validarNIF() == false){
-               Yii::$app->session->setFlash('error', 'NIF inválido. O NIF tem de ter 9 dígitos.');
-               return $this->actionPerfil();
-           }
-
-           if ($model->validarDataNascimento() == false) {
-               Yii::$app->session->setFlash('error', 'Data de nascimento inválida. Insira uma data de nascimeto válida.');
-               return $this->actionPerfil();
-           }
-
-           $user->email = Yii::$app->request->post('User')['email'];
-           if(!$user->validate()){
-               Yii::$app->session->setFlash('error', 'Email inválido ou já se encontra em utilização.');
-               return $this->actionPerfil();
-           }
-
-            $user->save();
-            $model->save();
-
-            Yii::$app->session->setFlash('success', '<p id="msg" class="teste">Dados alterados com sucesso!</p>');
+            Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar os dados.');
             return $this->actionPerfil();
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
         }
-
-        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar os dados.');
-        return $this->actionPerfil();
-
     }
 
 
@@ -181,33 +184,40 @@ class UtilizadorController extends Controller
         $user = User::find()->where($id)->one();
 
 
-        if($user->load(Yii::$app->request->post())){
-            $atualPass = Yii::$app->request->post('User')['atual_password'];
-            $novaPass = Yii::$app->request->post('User')['nova_password'];
-            $confPass = Yii::$app->request->post('User')['conf_password'];
+        if(Yii::$app->user->can('updateUtilizador')) {
 
-            if(!$user->validatePassword($atualPass)){
-                Yii::$app->session->setFlash('error', 'Palavra-passe atual incorreta.');
+
+            if ($user->load(Yii::$app->request->post())) {
+                $atualPass = Yii::$app->request->post('User')['atual_password'];
+                $novaPass = Yii::$app->request->post('User')['nova_password'];
+                $confPass = Yii::$app->request->post('User')['conf_password'];
+
+                if (!$user->validatePassword($atualPass)) {
+                    Yii::$app->session->setFlash('error', 'Palavra-passe atual incorreta.');
+                    return $this->actionPerfil();
+                }
+
+                if ($novaPass != $confPass) {
+                    Yii::$app->session->setFlash('error', 'Confirmação de Palavra-passe incorreta.');
+                    return $this->actionPerfil();
+                }
+
+                $user->password_hash = Yii::$app->security->generatePasswordHash($novaPass);
+
+                if (!$user->validate()) {
+                    return $this->actionPerfil();
+                }
+                $user->save();
+
+                Yii::$app->session->setFlash('success', 'Palavra-passe alterada com sucesso!');
                 return $this->actionPerfil();
             }
-
-            if($novaPass != $confPass){
-                Yii::$app->session->setFlash('error', 'Confirmação de Palavra-passe incorreta.');
-                return $this->actionPerfil();
-            }
-
-            $user->password_hash = Yii::$app->security->generatePasswordHash($novaPass);
-
-            if(!$user->validate()){
-                return $this->actionPerfil();
-            }
-            $user->save();
-
-            Yii::$app->session->setFlash('success', 'Palavra-passe alterada com sucesso!');
+            Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar a palavra-passe.');
             return $this->actionPerfil();
+        }else{
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
         }
-        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao alterar a palavra-passe.');
-        return $this->actionPerfil();
     }
 
 

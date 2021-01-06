@@ -84,7 +84,7 @@ use yii\widgets\ActiveForm; ?>
                                 <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
                             </li>
                         <?php } else { ?>
-                            <li class="nav-item">
+                            <li class="nav-item-registar">
                                 <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
                             </li>
                         <?php } ?>
@@ -136,7 +136,7 @@ use yii\widgets\ActiveForm; ?>
                                                     <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
                                                 </div>
                                                 <div class="md-form form-sm mb-5">
-                                                    <?= $form->field($model, 'email') ?>
+                                                    <?= $form->field($model, 'email')?>
                                                 </div>
                                                 <div class="md-form form-sm mb-5">
                                                     <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>

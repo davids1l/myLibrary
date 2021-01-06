@@ -3,12 +3,9 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://localhost/
+            url: 'http://localhost/mylibrary/frontend/web/index.php'
+            window_size: 1920x1080
             browser: chrome
             port: 9515
-
-extensions:
-    enabled:
-        - Codeception\Extension\RunFailed
-        - Codeception\Extension\RunProcess:
-            - chromedriver --url-base=/wd/hub
+            capabilities:
+                "goog:chromeOptions":
