@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="rowStyling rowAddBook">
+        <?php $form = ActiveForm::begin(); ?>
         <div class="row">
-            <?php $form = ActiveForm::begin(); ?>
             <div class="col-md-4">
 
-                <?= $form->field($modelUpload, 'imageFile')->fileInput(['id' => 'files'])->label('Escolha a imagem: ') ?>
+                <?= $form->field($modelUpload, 'imageFile')->fileInput(['id' => 'files'])->label('Escolha a imagem:') ?>
                 <?= Html::img('#',['id' => 'imagemCapa', 'style' => 'width: 70%']) ?>
 
                 <script type="text/JavaScript">
@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary', 'id' => 'livroCreateGuardar']) ?>
                 </div>
             </div>
             <div class="col-md-4"></div>
