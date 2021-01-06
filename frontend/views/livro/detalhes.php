@@ -55,9 +55,9 @@ $this->title = "Detalhes do Livro";
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>
                     <?php if($livro->sinopse != null) { ?>
-                        <div class="sinopse_more">
-                            <span><?= Html::encode($livro->sinopse)?></span>
-                        </div>
+                        <!--<div class="sinopse_more">
+                            <span><?/*= Html::encode($livro->sinopse)*/?></span>
+                        </div>-->
                         <div class="sinopse_less">
                             <?php if (strlen($livro->sinopse) > 800){
                                 $sinopse = substr($livro->sinopse, 0, 800) . '...' ?>
@@ -97,7 +97,7 @@ $this->title = "Detalhes do Livro";
                                     <p><?= Html::encode($comentario->comentario) ?></p>
                                     <i><?= Carbon::parse(Html::encode($comentario->dta_comentario))->format('d/m/Y H:i:s') ?></i>
                                     <span class="commentActions">
-                                    <?php if($comentario->id_utilizador == Yii::$app->user->id){ ?>
+                                    <?php if($comentario->id_utilizador == Yii::$app->user->id || Yii::$app->user->can('admin')){ ?>
                                         <?= Html::a('', null, ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer',
                                            'data-toggle'=>'modal', 'data-target' => "#alterarComentarioModal" ])?>
                                         <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario],
