@@ -190,6 +190,12 @@ class RequisicaoController extends Controller
         // Modelo e lista de livros a passar para a vista
         $livro = new Livro();
 
+        $subQuery = (new Query())->select('id_livro')->from('requisicao_livro');
+        $livrosReq = Livro::find()
+            ->where(['id_livro' => $subQuery])
+            ->orderBy(['titulo' => SORT_ASC])
+            ->all();
+
         $livros = Livro::find()
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
@@ -253,6 +259,7 @@ class RequisicaoController extends Controller
             'utilizadores' => $listUtilizadores,
             'bibliotecas' => $listBibliotecas,
             'livros' => $livros,
+            'livrosReq' => $livrosReq,
             'searchModel' => $livro
         ]);
     }
