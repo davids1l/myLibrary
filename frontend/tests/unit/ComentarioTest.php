@@ -19,19 +19,37 @@ class ComentarioTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testSomeFeature()
+    public function testValidarDataComentario()
     {
-        $this->createComentario();
+        $comentario = new Comentario();
+
+        //DEFAULT CURRENT TIMESTAMP -> pode ser essa a razão de null = true
+        //$comentario->dta_comentario = null;
+        //$this->assertFalse($comentario->validate(['dta_comentario'])); //=>assertFalse
+
+        $comentario->dta_comentario = 'asdasdasdasdasdasdasdasdasdasd';
+        $this->assertFalse($comentario->validate(['dta_comentario'])); //=>assertFalse
+
+        $comentario->dta_comentario = '2020-12-21 11:43:26';
+        $this->assertTrue($comentario->validate(['dta_comentario']));
+
     }
 
 
     public function testValidarComentario()
     {
+        $comentario = new Comentario();
+
+        $comentario->comentario = null;
+        $this->assertFalse($comentario->validate(['comentario']));
+
+        $comentario->comentario = 'Teste Comentário - Validar Comentario (Teste Unitário)';
+        $this->assertTrue($comentario->validate(['comentario']));
 
     }
 
 
-    public function createComentario()
+    public function testCreateComentario()
     {
         $comentario = new Comentario();
 
@@ -44,5 +62,20 @@ class ComentarioTest extends \Codeception\Test\Unit
 
         $this->tester->seeInDatabase('comentario', ['comentario' => 'Teste Unitário - Comentário']);
 
+    }
+
+    public function testUpdateComentario()
+    {
+        $comentario = $this->tester->grabRecord('app\models\comentario', ['comentario' => 'Teste Unitário - Comentário']);
+        $comentario->comentario = 'Teste Unitário - Comentário Updated';
+        $comentario->save();
+        $this->tester->seeInDatabase('comentario', ['comentario' => 'Teste Unitário - Comentário Updated']);
+    }
+
+    public function testDeleteComentario()
+    {
+        $comentario = $this->tester->grabRecord('app\models\comentario', ['comentario' => 'Teste Unitário - Comentário Updated']);
+        $comentario->delete();
+        $this->tester->dontSeeInDatabase('comentario', ['comentario' => 'Teste Unitário - Comentário Updated']);
     }
 }
