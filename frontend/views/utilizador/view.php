@@ -110,7 +110,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <h2 class="modal-title" id="exampleModalLabel">Alterar Dados Pessoais</h2>
                 </div>
                 <?php $form = ActiveForm::begin([
-                    'action' => ['utilizador/update', 'id' => $model->id_utilizador]]) ?>
+                    'action' => ['utilizador/update', 'id' => $model->id_utilizador], 'id' => 'formAlterar']) ?>
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="modal-body col-sm-6">

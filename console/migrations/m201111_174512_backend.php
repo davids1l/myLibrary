@@ -85,6 +85,12 @@ class m201111_174512_backend extends Migration
         ], $tableOptions);
 
 
+        //Preenche a tabela países com os dados que estão no ficheiro 'sql_paises'
+        $sql = file_get_contents(__DIR__ . '/sql_paises');
+        $command = Yii::$app->db->createCommand($sql);
+        $command->execute();
+
+
 
        // Autor
 

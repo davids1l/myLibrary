@@ -45,7 +45,8 @@ class LivroTest extends \Codeception\Test\Unit
         $livro->idioma = 'Portuguêsêsêsêsês';
         $this->assertFalse($livro->validate(['idioma']));
 
-        //CAPA
+        $livro->capa = 1231421;
+        $this->assertFalse($livro->validate(['capa']));
 
         $livro->sinopse = 1977;
         $this->assertFalse($livro->validate(['sinopse']));
@@ -53,25 +54,6 @@ class LivroTest extends \Codeception\Test\Unit
 
     public function testB_C()
     {
-        $pais = new Pais();
-        $pais->designacao = 'Portugal';
-        $pais->save();
-
-        $editora = new Editora();
-        $editora->designacao = 'Editora Luz';
-        $editora->id_pais = $pais->id_pais;
-        $editora->save();
-
-        $biblioteca = new Biblioteca();
-        $biblioteca->nome = 'Biblioteca Municipal Lisboa';
-        $biblioteca->cod_postal = '2430-581';
-        $biblioteca->save();
-
-        $autor = new Autor();
-        $autor->nome_autor = 'Mário Gomes';
-        $autor->id_pais = $pais->id_pais;
-        $autor->save();
-
         $livro = new Livro();
         $livro->titulo = 'Mil Vezes Adeus';
         $livro->isbn = '4193101482371';
@@ -82,9 +64,9 @@ class LivroTest extends \Codeception\Test\Unit
         $livro->formato = 'Físico';
         $livro->capa = '4193101482371.png';
         $livro->sinopse = 'O livro retrata...';
-        $livro->id_editora = $editora->id_editora;
-        $livro->id_biblioteca = $biblioteca->id_biblioteca;
-        $livro->id_autor = $autor->id_autor;
+        $livro->id_editora = 1;
+        $livro->id_biblioteca = 1;
+        $livro->id_autor = 1;
 
         $livro->save();
 

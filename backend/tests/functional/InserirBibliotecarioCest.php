@@ -15,7 +15,7 @@ class InserirBibliotecarioCest
         $I->see('Gerir Bibliotecários');
         $I->click('Gerir Bibliotecários');
         $I->see('Inserir Bibliotecário');
-        $I->click("inserirBibliotecario");
+        $I->click(['id' => 'inserirBibliotecario']);
         $I->see('Primeiro nome');
         $I->fillField('Primeiro nome','Maria');
         $I->fillField('Apelido','Silva');
@@ -23,10 +23,10 @@ class InserirBibliotecarioCest
         $I->fillField('Data de Nascimento','14/07/1999');
         $I->fillField('NIF','901249120');
         $I->fillField('Nº de telefone','912051286');
-        $I->selectOption('Biblioteca', 'Biblioteca Municipal de Lisboa');
+        $I->selectOption('Biblioteca', 1);
         $I->fillField('Palavra-Passe','123123123');
         $I->fillField('Confirmar Palavra-Passe','123123123');
-        $I->click('inserirBibliotecario');
-        //$I->see('Bibliotecário inserido com sucesso.', '.alert-success alert fade in');
+        $I->click('formInserirBibliotecario');
+        $I->see('Bibliotecário inserido com sucesso.');
     }
 }

@@ -25,11 +25,11 @@ class RequisicaoTest extends \Codeception\Test\Unit
     {
         $requisicao = new Requisicao();
 
-        /*$requisicao->dta_levantamento = null;
-        $this->assertFalse($requisicao->validate(['dta_levantamento']));
+        //$requisicao->dta_levantamento = null;
+        //$this->assertFalse($requisicao->validate(['dta_levantamento']));
 
-        $requisicao->dta_entrega = null;
-        $this->assertFalse($requisicao->validate(['dta_entrega']));*/
+        //$requisicao->dta_entrega = null;
+        //$this->assertFalse($requisicao->validate(['dta_entrega']));
 
         $requisicao->estado = 1;
         $this->assertFalse($requisicao->validate(['estado']));
@@ -47,8 +47,8 @@ class RequisicaoTest extends \Codeception\Test\Unit
         $requisicao->dta_levantamento = '2020-12-01 12:37:36';
         $requisicao->dta_entrega = '2020-12-31 14:30:04';
         $requisicao->estado = 'Em requisição';
-        $requisicao->id_utilizador = 7;
-        $requisicao->id_bib_levantamento = 7;
+        $requisicao->id_utilizador = 1;
+        $requisicao->id_bib_levantamento = 1;
         $requisicao->save();
 
         $this->tester->seeInDatabase('requisicao', ['estado' => 'Em requisição']);

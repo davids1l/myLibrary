@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
-                        <?php $form = ActiveForm::begin(['action' => ['bibliotecario/create']]) ?>
+                        <?php $form = ActiveForm::begin(['action' => ['bibliotecario/create'], 'id' => 'formInserirBibliotecario']) ?>
                         <div class="row">
                             <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
                             <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
@@ -133,7 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
                         </div>
                         <div class="modal-footer">
-                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn btn-perfil btn-success', 'id' => 'inserirBibliotecario']) ?>
+                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn btn-perfil btn-success', 'id' => 'formInserirBibliotecario']) ?>
                         </div>
                         <?php ActiveForm::end() ?>
                     </div>
