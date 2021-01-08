@@ -25,11 +25,11 @@ class RequisicaoTest extends \Codeception\Test\Unit
     {
         $requisicao = new Requisicao();
 
-        /*$requisicao->dta_levantamento = null;
+        $requisicao->dta_levantamento = null;
         $this->assertFalse($requisicao->validate(['dta_levantamento']));
 
         $requisicao->dta_entrega = null;
-        $this->assertFalse($requisicao->validate(['dta_entrega']));*/
+        $this->assertFalse($requisicao->validate(['dta_entrega']));
 
         $requisicao->estado = 1;
         $this->assertFalse($requisicao->validate(['estado']));
