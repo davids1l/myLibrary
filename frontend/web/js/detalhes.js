@@ -1,5 +1,3 @@
-
-
 //Mostrar mais sinopse
 $(document).ready(function () {
     var sizeofsinopse = $(".sinopse_more").text().length;

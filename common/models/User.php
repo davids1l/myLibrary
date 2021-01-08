@@ -183,8 +183,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        //return $this->auth_key;
-        return null;
+        return $this->auth_key;
+        //return null;
     }
 
     /**
@@ -192,8 +192,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        //return $this->getAuthKey() === $authKey;
-        return null;
+        return $this->getAuthKey() === $authKey;
+        //return null;
     }
 
     /**
@@ -205,7 +205,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
-        //return $this->password === $password;
     }
 
     /**

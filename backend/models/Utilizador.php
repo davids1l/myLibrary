@@ -170,7 +170,7 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getAuthKey()
     {
-        return null;
+        //return null;
     }
 
     /**
@@ -178,6 +178,6 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function validateAuthKey($authKey)
     {
-        return null;
+        //return null;
     }
 }

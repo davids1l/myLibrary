@@ -42,14 +42,14 @@ $this->title = 'Finalizar requisição';
             <?php } ?>
 
             <div class="detalhesRequisicao">
-                <?php $form = ActiveForm::begin(['action' => ['requisicao/create']]) ?>
+                <?php $form = ActiveForm::begin(['action' => ['requisicao/create'], 'id' => 'formFinalizar']) ?>
                 <div class="">
                     <div class="col-xs-12">
                         <hr>
                         <?= $form->field($model, 'id_bib_levantamento')->label('Bib. de levantamento')->dropDownList($bibliotecas) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= Html::submitButton('Finalizar', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton('Finalizar', ['class' => 'btn btn-success', 'id' => 'finalizarButton', 'value' => 'Finalizar', 'name'=>'finalizarButton']) ?>
                     </div>
                 </div>
 

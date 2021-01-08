@@ -50,7 +50,7 @@ $this->title = "Detalhes do Livro";
                     <?php } else { ?>
                         <div class="btnAction" style="background-color: #ced4da; margin-left: 2%"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
                     <?php }?>
-                    <div class="btnAction" style="margin-left: 2%"><?= Html::a('', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart"])?></div>
+                    <div class="btnAction" style="margin-left: 2%"><?= Html::a('', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart", 'id'=>'adicionarCarrinho'])?></div>
                 </div>
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>

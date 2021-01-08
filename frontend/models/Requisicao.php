@@ -53,7 +53,7 @@ class Requisicao extends \yii\db\ActiveRecord
         ];
     }
 
-    public function FazSubscribe($subTopic) {
+    /*public function FazSubscribe($subTopic) {
         $server = '127.0.0.1';
         $port = 1883;
         $username = '';
@@ -61,6 +61,7 @@ class Requisicao extends \yii\db\ActiveRecord
         $client_id = 'phpMQTTsubscriber'.rand();
 
         $mqtt = new phpMQTT($server, $port, $client_id);
+
         if(!$mqtt->connect(true, NULL, $username, $password)) {
             exit(1);
         }
@@ -81,7 +82,7 @@ class Requisicao extends \yii\db\ActiveRecord
             //echo "Topic: {$topics}\n\n";
             //echo "\t$msg\n\n";
         }
-    }
+    }*/
 
     public function getBiblioteca()
     {
