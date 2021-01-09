@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+
 namespace backend\controllers;
 
 use app\models\UtilizadorSearch;
@@ -52,24 +53,25 @@ class UtilizadorController extends Controller
     }
 
 
-    public function actionBloquear($id){
+    public function actionBloquear($id)
+    {
 
-        if(Yii::$app->user->can('updateLeitor')){
+        if (Yii::$app->user->can('updateLeitor')) {
             $utilizador = $this->findModel($id);
 
-            if($utilizador->bloqueado == 1){
+            if ($utilizador->bloqueado == 1) {
                 $utilizador->bloqueado = null;
                 $utilizador->dta_bloqueado = null;
                 $utilizador->save();
-            }else{
+            } else {
                 $utilizador->bloqueado = 1;
                 $utilizador->dta_bloqueado = Carbon::now();
                 $utilizador->save();
             }
 
             return $this->redirect(['index', 'pesquisa' => $id]);
-        }else{
-            Yii::$app->session->setFlash('error', 'Não tens permissões para alterar leitores.');
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
         }
     }
@@ -81,19 +83,24 @@ class UtilizadorController extends Controller
      */
     public function actionIndex($model = null, $pesquisa = null)
     {
-        if($model == null){
-            $model = new SignupForm();
+        if (Yii::$app->user->can('admin') || if (Yii::$app->user->can('bibliotecario')) {
+            if ($model == null) {
+                $model = new SignupForm();
+            }
+
+            $searchModel = new UtilizadorSearch();
+
+            if ($pesquisa != null) {
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $pesquisa);
+            } else {
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            }
+
+            return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
-
-        $searchModel = new UtilizadorSearch();
-
-        if($pesquisa != null){
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $pesquisa);
-        }else{
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        }
-
-        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
     }
 
     /**
@@ -108,15 +115,16 @@ class UtilizadorController extends Controller
     }
 
 
-    function actionShowmodal($model = null){
-        if($model == null){
+    function actionShowmodal($model = null)
+    {
+        if ($model == null) {
             $model = new SignupForm();
         }
 
         $searchModel = new UtilizadorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $js='$("#criarLeitorModal").modal("show")';
+        $js = '$("#criarLeitorModal").modal("show")';
         $this->getView()->registerJs($js);
         return $this->render('index', ['model' => $model, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider]);
     }

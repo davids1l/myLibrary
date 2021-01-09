@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+
 namespace backend\controllers;
 
 use frontend\models\Multa;
@@ -63,67 +64,83 @@ class RequisicaoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new RequisicaoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')) {
+            $searchModel = new RequisicaoSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     public function actionPreparar()
     {
-        $searchModel = new RequisicaoSearch();
-        $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 1);
+        if (Yii::$app->user->can('updateRequisicao')) {
+            $searchModel = new RequisicaoSearch();
+            $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 1);
 
-        if (Yii::$app->request->queryParams) {
-            $id = Yii::$app->request->queryParams['id'];
-            $model = $this->findModel($id);
+            if (Yii::$app->request->queryParams) {
+                $id = Yii::$app->request->queryParams['id'];
+                $model = $this->findModel($id);
 
-            $model->estado = "Pronta a levantar";
-            $model->save();
+                $model->estado = "Pronta a levantar";
+                $model->save();
 
-            return $this->redirect(['requisicao/index']);
+                return $this->redirect(['requisicao/index']);
+            }
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
-        ]);
     }
 
     public function actionLevantar()
     {
-        $searchModel = new RequisicaoSearch();
-        $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 2);
+        if (Yii::$app->user->can('updateRequisicao')) {
+            $searchModel = new RequisicaoSearch();
+            $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 2);
 
-        if (Yii::$app->request->queryParams) {
-            $id = Yii::$app->request->queryParams['id'];
-            $model = $this->findModel($id);
+            if (Yii::$app->request->queryParams) {
+                $id = Yii::$app->request->queryParams['id'];
+                $model = $this->findModel($id);
 
-            $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
-            $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
-            $model->estado = "Em requisição";
-            $model->save();
+                $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
+                $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
+                $model->estado = "Em requisição";
+                $model->save();
 
-            return $this->redirect(['requisicao/index']);
+                return $this->redirect(['requisicao/index']);
+            }
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
-    public function createMulta($requisicaoModel){
+    public function createMulta($requisicaoModel)
+    {
         //converter de string para data
         $dataEntrega = Carbon::parse($requisicaoModel->dta_entrega)->toDateTime();
 
         //verifica se a data de de entrega é inferior á data atual, se sim então foi excedido o prazo de entrega
         //Carbon::parse($requisicaoModel->dta_entrega)->lessThan(Carbon::now());
         //$dataEntrega < Carbon::now()
-        if($dataEntrega < Carbon::now()){
+        if ($dataEntrega < Carbon::now()) {
 
             //obtem a diferença entre as datas de entrega e atual
             $dateDiff = date_diff($dataEntrega, Carbon::now());
@@ -147,24 +164,29 @@ class RequisicaoController extends Controller
 
     public function actionTerminar($id)
     {
-        $searchModel = new RequisicaoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (Yii::$app->user->can('updateRequisicao')) {
+            $searchModel = new RequisicaoSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $model = $this->findModel($id);
+            $model = $this->findModel($id);
 
-        //função para validar se exite multa de acordo com a data de entrega e atual, se sim é criada uma multa
-        $this->createMulta($model);
+            //função para validar se exite multa de acordo com a data de entrega e atual, se sim é criada uma multa
+            $this->createMulta($model);
 
-        $model->dta_entrega = Carbon::now()->format("Y-m-d\TH:i");
-        $model->estado = "Terminada";
-        $model->save();
+            $model->dta_entrega = Carbon::now()->format("Y-m-d\TH:i");
+            $model->estado = "Terminada";
+            $model->save();
 
-        $this->redirect(['requisicao/index']);
+            $this->redirect(['requisicao/index']);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**
@@ -206,12 +228,12 @@ class RequisicaoController extends Controller
             ->where(['id_utilizador' => $subQueryRole])
             ->orderBy('id_utilizador')
             ->all();
-        $listUtilizadores = ArrayHelper::map($utilizadores,'id_utilizador','num_telemovel');
+        $listUtilizadores = ArrayHelper::map($utilizadores, 'id_utilizador', 'num_telemovel');
 
         $bibliotecas = Biblioteca::find()
             ->orderBy(['id_biblioteca' => SORT_ASC])
             ->all();
-        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+        $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
         // Requisição
         $carrinho = Yii::$app->session->get('carrinho');
@@ -231,7 +253,7 @@ class RequisicaoController extends Controller
             $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
             $num_excluir = abs(($total_livros) - 5);
 
-            if ($total_livros <= 5){
+            if ($total_livros <= 5) {
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
                     $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
@@ -242,14 +264,14 @@ class RequisicaoController extends Controller
                     return $this->redirect(['view', 'id' => $model->id_requisicao]);
                 }
             } else {
-                Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua '. $num_excluir .' livro para concluir esta requisição.');
+                Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua ' . $num_excluir . ' livro para concluir esta requisição.');
                 return $this->redirect(['requisicao/create']);
             }
-        } else if($model->load(Yii::$app->request->post()) && $carrinho == null) {
+        } else if ($model->load(Yii::$app->request->post()) && $carrinho == null) {
             Yii::$app->session->setFlash('error', 'Ocorreu um problema ao finalizar a sua requisição! Tente novamente.');
         }
 
-        if(Yii::$app->request->post('Livro')['titulo'] != null) {
+        if (Yii::$app->request->post('Livro')['titulo'] != null) {
             $searchModel = new LivroSearch();
             $livros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
         }
@@ -273,37 +295,42 @@ class RequisicaoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (Yii::$app->user->can('updateRequisicao')) {
+            $model = $this->findModel($id);
 
-        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
-        $users = User::find()
-            ->where(['id' => $subQueryRole])
-            ->orderBy(['id' => SORT_ASC])
-            ->all();
+            $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
+            $users = User::find()
+                ->where(['id' => $subQueryRole])
+                ->orderBy(['id' => SORT_ASC])
+                ->all();
 
-        $listUsers = ArrayHelper::map($users,'id','username');
+            $listUsers = ArrayHelper::map($users, 'id', 'username');
 
-        $bibliotecas = Biblioteca::find()
-            ->orderBy(['id_biblioteca' => SORT_ASC])
-            ->all();
-        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+            $bibliotecas = Biblioteca::find()
+                ->orderBy(['id_biblioteca' => SORT_ASC])
+                ->all();
+            $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
 
-        $dtaLevantamento = new Carbon($model->dta_levantamento);
-        $dtaEntrega = new Carbon($model->dta_entrega);
+            $dtaLevantamento = new Carbon($model->dta_levantamento);
+            $dtaEntrega = new Carbon($model->dta_entrega);
 
-        $model->dta_levantamento = $dtaLevantamento->format("Y-m-d\TH:i");
-        $model->dta_entrega = $dtaEntrega->format("Y-m-d\TH:i");
+            $model->dta_levantamento = $dtaLevantamento->format("Y-m-d\TH:i");
+            $model->dta_entrega = $dtaEntrega->format("Y-m-d\TH:i");
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_requisicao]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_requisicao]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+                'users' => $listUsers,
+                'bibliotecas' => $listBibliotecas
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'users' => $listUsers,
-            'bibliotecas' => $listBibliotecas
-        ]);
     }
 
     /**
@@ -315,12 +342,18 @@ class RequisicaoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (Yii::$app->user->can('deleteRequisicao')) {
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
+        }
     }
 
-    public function adicionarRequisicaoLivro($id_requisicao, $carrinho){
+    public function adicionarRequisicaoLivro($id_requisicao, $carrinho)
+    {
         $requisicaoModel = new RequisicaoLivro();
 
         /*
@@ -346,7 +379,7 @@ class RequisicaoController extends Controller
     {
         //subquery que obtem os dados relativos à requisicao em que se verifique => id utilizador = id utilizador logado e estado da requisicao terminada
         $subQuery = Requisicao::find()
-            ->where(['id_utilizador' =>Yii::$app->user->id])
+            ->where(['id_utilizador' => Yii::$app->user->id])
             ->andWhere(['!=', 'estado', 'Terminada']);
 
         //query responsável por obter a contagem de "requisicao_livro" onde se verfique subquery.id_requisicao = requiscao_livro.id_requisicao

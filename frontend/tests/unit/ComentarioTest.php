@@ -19,7 +19,7 @@ class ComentarioTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testValidarDataComentario()
+    /*public function testValidarDataComentario()
     {
         $comentario = new Comentario();
 
@@ -33,7 +33,7 @@ class ComentarioTest extends \Codeception\Test\Unit
         $comentario->dta_comentario = '2020-12-21 11:43:26';
         $this->assertTrue($comentario->validate(['dta_comentario']));
 
-    }
+    }*/
 
 
     public function testValidarComentario()

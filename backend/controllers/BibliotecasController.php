@@ -53,16 +53,21 @@ class BibliotecasController extends Controller
      */
     public function actionIndex()
     {
-        $bibliotecas = Biblioteca::find()
-            ->orderBy(['id_biblioteca' => SORT_ASC])
-            ->all();
+        if (Yii::$app->user->can('admin')) {
+            $bibliotecas = Biblioteca::find()
+                ->orderBy(['id_biblioteca' => SORT_ASC])
+                ->all();
 
-        $biblioteca = new Biblioteca();
+            $biblioteca = new Biblioteca();
 
-        return $this->render('index', [
-            'bibliotecas' => $bibliotecas,
-            'searchModel' => $biblioteca,
-        ]);
+            return $this->render('index', [
+                'bibliotecas' => $bibliotecas,
+                'searchModel' => $biblioteca,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**
@@ -80,18 +85,23 @@ class BibliotecasController extends Controller
 
     public function actionCatalogo($id)
     {
-        $livros = Livro::find()
-            ->where(['id_biblioteca' => $id])
-            ->orderBy(['titulo' => SORT_ASC])
-            ->all();
+        if (Yii::$app->user->can('admin')) {
+            $livros = Livro::find()
+                ->where(['id_biblioteca' => $id])
+                ->orderBy(['titulo' => SORT_ASC])
+                ->all();
 
-        $livro = new Livro();
+            $livro = new Livro();
 
-        return $this->render('catalogo', [
-            'model' => $this->findModel($id),
-            'livros' => $livros,
-            'searchModel' => $livro
-        ]);
+            return $this->render('catalogo', [
+                'model' => $this->findModel($id),
+                'livros' => $livros,
+                'searchModel' => $livro
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
+        }
     }
 
 
@@ -105,7 +115,7 @@ class BibliotecasController extends Controller
         $model = new Biblioteca();
 
         if ($model->load(Yii::$app->request->post())) {
-            if(Yii::$app->user->can('createBiblioteca')) {
+            if (Yii::$app->user->can('createBiblioteca')) {
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id_biblioteca]);
             } else {
@@ -130,7 +140,7 @@ class BibliotecasController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            if(Yii::$app->user->can('updateBiblioteca')) {
+            if (Yii::$app->user->can('updateBiblioteca')) {
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id_biblioteca]);
             } else {
@@ -152,7 +162,7 @@ class BibliotecasController extends Controller
      */
     public function actionDelete($id)
     {
-        if(Yii::$app->user->can('deleteBiblioteca')) {
+        if (Yii::$app->user->can('deleteBiblioteca')) {
             $this->findModel($id)->delete();
         } else {
             Yii::$app->session->setFlash('error', 'Não tem as permissões necessárias para efetuar essa operação.');

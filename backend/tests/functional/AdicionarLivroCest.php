@@ -28,9 +28,9 @@ class AdicionarLivroCest
         $I->fillField('Genero','Poesia');
         $I->fillField('Idioma','Portugues');
         $I->fillField('Formato','Fisico');
-        $I->selectOption('Editora', 'Porto Editora');
-        $I->selectOption('Biblioteca', 'Biblioteca Municipal Nº5');
-        $I->selectOption('Autor', 'Fernando Pessoa');
+        $I->selectOption('Editora', 1);
+        $I->selectOption('Biblioteca', 1);
+        $I->selectOption('Autor', 1);
         $I->fillField('Sinopse','Isto é uma sinopse');
         $I->click('Guardar');
     }
