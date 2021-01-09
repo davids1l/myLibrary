@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Pesquisar', ['className' => 'pesquisa', 'class' => 'btn btn-primary']); ?>
 
     <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Livros', ['livros/create'], [
-        'class' => 'btn btn-success'
+        'class' => 'btn btn-success',
+        'id' => 'adicionarLivro'
     ]); ?>
     <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar todos', ['livros/index'], [
         'class' => 'btn btn-info'
