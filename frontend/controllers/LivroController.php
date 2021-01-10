@@ -14,6 +14,7 @@ use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use function GuzzleHttp\Psr7\_caseless_remove;
 
 /**
  * LivroController implements the CRUD actions for Livro model.
@@ -138,12 +139,18 @@ class LivroController extends Controller
      */
     public function actionProcurar()
     {
-        $model = new LivroSearch();
-        $params = Yii::$app->request->post();
+        //$model = new Livro();
+        //$params = Yii::$app->request->post();
+        //$results = $model->procurar(Yii::$app->request->post());
 
-        $results = $model->procurar($params);
+        $titulo = Yii::$app->request->post()['Livro']['titulo'];
 
-        return $this->render('search', ['model'=> new Livro(), 'results'=>$results]);
+        $query = Livro::find()
+            ->where(['like', 'titulo',  $titulo])
+            ->all();
+
+        //return $this->redirect('livro/procurar', array('model' => new Livro(), 'results' => $results));
+        return $this->render('search', ['model'=> new Livro(), 'results'=>$query]);
     }
 
 

@@ -70,6 +70,7 @@ class m201112_191844_init_rbac extends Migration
         $deleteComentario->description = 'Eliminar um Comentario';
         $auth->add($deleteComentario);
 
+
         // Permissões Editora
 
         $createEditora = $auth->createPermission('createEditora');

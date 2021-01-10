@@ -79,9 +79,9 @@ $this->title = "Detalhes do Livro";
         <section>
             <div class="col-xs-12 col-md-7 col-lg-6 comentarios">
                 <div class="commentSection">
-                    <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro]); ?>
-                    <?= $form->field($modelComentario, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', 'style' => 'resize: none']); ?>
-                    <?= Html::submitButton('Comentar', ['name' => 'comentario', 'class' => 'btnComment']) ?>
+                    <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro, 'id' => 'formComentar']); ?>
+                    <?= $form->field($modelComentario, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', 'style' => 'resize: none', 'id'=>'comentarioField']); ?>
+                    <?= Html::submitButton('Comentar', ['name' => 'comentario', 'class' => 'btnComment', 'id' => 'submitComentario']) ?>
                     <?php ActiveForm::end(); ?>
                 </div>
                 <hr>
