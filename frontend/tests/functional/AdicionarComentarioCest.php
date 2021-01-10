@@ -9,7 +9,7 @@ class AdicionarComentarioCest
 
     // tests
     public function testAdicionarComentario(FunctionalTester $I){
-        $I->amLoggedInAs(2);
+        $I->amLoggedInAs(1);
         $I->amOnPage(['livro/detalhes', 'id'=>1]);
         $I->see('Comentário');
         $I->fillField('#comentarioField', 'Teste Funcional - Comentar');
