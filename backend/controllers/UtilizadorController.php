@@ -83,7 +83,7 @@ class UtilizadorController extends Controller
      */
     public function actionIndex($model = null, $pesquisa = null)
     {
-        if (Yii::$app->user->can('admin') || if (Yii::$app->user->can('bibliotecario')) {
+        if (Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')) {
             if ($model == null) {
                 $model = new SignupForm();
             }

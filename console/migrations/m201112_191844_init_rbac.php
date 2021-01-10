@@ -190,9 +190,17 @@ class m201112_191844_init_rbac extends Migration
 
         // Permissões Bibliotecario
 
+        $createBibliotecario = $auth->createPermission('createBibliotecario');
+        $createBibliotecario->description = 'Criar um Bibliotecario';
+        $auth->add($createBibliotecario);
+
         $updateBibliotecario = $auth->createPermission('updateBibliotecario');
         $updateBibliotecario->description = 'Atualizar um Bibliotecario';
         $auth->add($updateBibliotecario);
+
+        $deleteBibliotecario = $auth->createPermission('deleteBibliotecario');
+        $deleteBibliotecario->description = 'Apagar um Bibliotecario';
+        $auth->add($deleteBibliotecario);
 
 
         // ROLES
@@ -306,7 +314,9 @@ class m201112_191844_init_rbac extends Migration
         $auth->addChild($admin, $deleteUtilizador);
 
         $auth->addChild($admin, $updateLeitor);
+        $auth->addChild($admin, $createBibliotecario);
         $auth->addChild($admin, $updateBibliotecario);
+        $auth->addChild($admin, $deleteBibliotecario);
 
         $auth->addChild($admin, $createReqMulta);
         $auth->addChild($admin, $updateReqMulta);

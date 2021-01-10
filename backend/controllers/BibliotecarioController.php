@@ -122,7 +122,7 @@ class BibliotecarioController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->user->can('admin')) {
+        if (Yii::$app->user->can('createBibliotecario')) {
             $model = new SignupForm();
 
             if ($model->load(Yii::$app->request->post())) {
@@ -211,7 +211,7 @@ class BibliotecarioController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::$app->user->can('admin')) {
+        if (Yii::$app->user->can('deleteBibliotecario')) {
             $user = User::find()->where(['id' => $id])->one();
             $user->delete();
 
