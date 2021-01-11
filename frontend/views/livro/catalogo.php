@@ -140,7 +140,7 @@ $this->title = "Catálogo de Livros";
             <?php if($catalogo != null) { ?>
                 <h3>CATÁLOGO</h3>
                 <?php foreach ($catalogo as $livro) { ?>
-                    <div class="col-xs-12 col-md-2 catalogo-grid">
+                    <div class="col-xs-12 col-md-2 catalogo-grid" style="height: 450px">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                                 <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [

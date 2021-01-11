@@ -212,15 +212,33 @@ class RequisicaoController extends Controller
         // Modelo e lista de livros a passar para a vista
         $livro = new Livro();
 
-        $subQuery = (new Query())->select('id_livro')->from('requisicao_livro');
+        $allLivros = Livro::find()->all();
+
+        //livros em requisição
+        $subQuery1 = (new Query())
+            ->select('id_livro')->from('requisicao_livro')
+            ->innerJoin('requisicao', 'requisicao.id_requisicao = requisicao_livro.id_requisicao')
+            ->where(["!=", 'estado', 'Terminada'])->all();
+
         $livrosReq = Livro::find()
-            ->where(['id_livro' => $subQuery])
+            ->where(['id_livro' => $subQuery1])
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
+        //livros que não estão em requisição
+        $subQuery2 = (new Query())
+            ->select('id_livro')->from('requisicao_livro')
+            ->innerJoin('requisicao', 'requisicao.id_requisicao = requisicao_livro.id_requisicao')
+            ->where(['!=', 'estado', 'Em requisição'])
+            ->andWhere(['!=', 'estado', 'A aguardar tratamento'])
+            ->andWhere(['!=', 'estado', 'Pronta a levantar'])
+            ->all();
+
         $livros = Livro::find()
+            ->where(['id_livro' => $subQuery2])
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
+
 
         // Dados para popular menus dropdown.
         $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);

@@ -14,7 +14,7 @@ class LoginBackendCest
     {
         $I->amOnPage('/');
         $I->click('Login');
-        $I->fillField('Email','admin@gmail.com');
+        $I->fillField('Email','admin@admin.com');
         $I->fillField('Palavra-passe', '123123123');
         $I->click('login-button');
         $I->see('Logout');
