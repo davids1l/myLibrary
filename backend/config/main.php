@@ -117,6 +117,18 @@ return [
                         '{numero}' => '<numero:\\w+>',
                     ],
                 ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/favorito',
+                    'pluralize' => false,
+                ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/comentario',
+                    'pluralize' => false,
+                ],
             ],
         ],
     ],

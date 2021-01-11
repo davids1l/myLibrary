@@ -27,12 +27,10 @@ class ComentarioController extends Controller
                 'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -119,16 +117,24 @@ class ComentarioController extends Controller
         $model = $this->findModel($id);
         $model->dta_comentario = Carbon::now();
 
-        if (Yii::$app->user->can('updateComentario')){
+        if (Yii::$app->user->can('updateComentario') && $this->validateUserAutenticity($model)){
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::$app->session->setFlash('success', 'Comentário alterado com sucesso');
-                return $this->redirect(['livro/detalhes', 'id' => $model->id_livro]);
             }
+        } else {
+            Yii::$app->session->setFlash('warning', 'Erro ao alterar comentário');
         }
 
-        return $this->render('detalhes', [
-            'id' => $model->id_livro,
-        ]);
+
+        return $this->redirect(['livro/detalhes',
+            'id' => $model->id_livro]
+        );
+    }
+
+    //Validar se o user logado é o autor do comentario
+    private function validateUserAutenticity($model)
+    {
+        return Yii::$app->user->id == $model->id_utilizador ? true : false;
     }
 
     /**
@@ -142,13 +148,13 @@ class ComentarioController extends Controller
      */
     public function actionDelete($id)
     {
-        $id_livro = $this->findModel($id)->id_livro;
+        $model = $this->findModel($id);
 
-        if(Yii::$app->user->can('deleteComentario')){
+        if(Yii::$app->user->can('deleteComentario') && $this->validateUserAutenticity($model)){
             $this->findModel($id)->delete();
         }
 
-        return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
+        return $this->redirect(['livro/detalhes', 'id' => $model->id_livro]);
     }
 
     /**

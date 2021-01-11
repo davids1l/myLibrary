@@ -31,10 +31,9 @@ class RequisicaoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'create', 'update', 'delete'],
+                'only' => ['index', 'create', 'update', 'delete', 'finalizar', 'showmultamodal', 'showmodal'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
@@ -103,10 +102,6 @@ class RequisicaoController extends Controller
      */
     public function actionIndex()
     {
-        //Operador trenário que verifica se o user é guest. Se sim requisições = null, se estiver logado faz a query para as requisições
-        /*!Yii::$app->user->isGuest ? $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->
-            orderBy(['id_requisicao' =>SORT_DESC])->all() : $requisicoes = null;*/
-
         $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
 
         $searchModel = new RequisicaoSearch();
@@ -136,10 +131,11 @@ class RequisicaoController extends Controller
      */
     public function actionCreate()
     {
+        //obter os livros do carrinho
         $carrinho = Yii::$app->session->get('carrinho');
 
+        //receber o
         $postData = Yii::$app->request->post('Requisicao');
-
 
         if ($carrinho != null){
             $model = new Requisicao();
@@ -149,7 +145,7 @@ class RequisicaoController extends Controller
             $model->id_bib_levantamento = $postData['id_bib_levantamento'];
 
             $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
-            $num_excluir = abs(($total_livros) - 5);
+            $num_excluir = (($total_livros) - 5);
 
             if ($total_livros <= 5){
                 if (Yii::$app->user->can('createRequisicao')){
@@ -167,8 +163,10 @@ class RequisicaoController extends Controller
                 Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua '. $num_excluir .' livro para concluir esta requisição.');
                 return $this->redirect(['requisicao/finalizar']);
             }
+        } else {
+            Yii::$app->session->setFlash('error', 'Ocorreu um problema ao finalizar a sua requisição. Tente novamente!');
         }
-        Yii::$app->session->setFlash('error', 'Ocorreu um problema ao finalizar a sua requisição. Tente novamente!');
+
         return $this->redirect(['requisicao/finalizar']);
     }
 

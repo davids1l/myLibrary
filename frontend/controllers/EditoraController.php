@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use app\models\Editora;
 use app\models\EditoraSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +21,20 @@ class EditoraController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -65,9 +80,10 @@ class EditoraController extends Controller
     public function actionCreate()
     {
         $model = new Editora();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_editora]);
+        if(Yii::$app->user->can('createEditora')){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_editora]);
+            }
         }
 
         return $this->render('create', [
@@ -86,8 +102,10 @@ class EditoraController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_editora]);
+        if(Yii::$app->user->can('updateEditora')){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_editora]);
+            }
         }
 
         return $this->render('update', [
@@ -104,7 +122,9 @@ class EditoraController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(Yii::$app->user->can('deleteEditora')){
+            $this->findModel($id)->delete();
+        }
 
         return $this->redirect(['index']);
     }

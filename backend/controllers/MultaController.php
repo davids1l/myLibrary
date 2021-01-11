@@ -24,10 +24,9 @@ class MultaController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'create', 'update', 'delete'],
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],

@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
 /* @var $searchModel app\models\RequisicaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Histórico de Requisicões';
+$this->title = 'Histórico de Requisições';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requisicao-index">
