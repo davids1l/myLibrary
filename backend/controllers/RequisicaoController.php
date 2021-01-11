@@ -222,7 +222,7 @@ class RequisicaoController extends Controller
             ->orderBy(['titulo' => SORT_ASC])
             ->all();
 
-        // Dados para popular os menus dropdown.
+        // Dados para popular menus dropdown.
         $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
         $utilizadores = Utilizador::find()
             ->where(['id_utilizador' => $subQueryRole])
