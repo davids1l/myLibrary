@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+
 namespace backend\controllers;
 
 use app\models\Biblioteca;
@@ -63,47 +64,58 @@ class LivrosController extends Controller
      */
     public function actionIndex()
     {
-        $livros = Livro::find()
-            ->orderBy(['titulo' => SORT_ASC])
-            ->all();
+        if (Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')) {
+            $livros = Livro::find()
+                ->orderBy(['titulo' => SORT_ASC])
+                ->all();
 
-        if(Yii::$app->request->post('Livros')['titulo'] != null) {
-            $searchModel = new LivroSearch();
-            $livros = $searchModel->procurar(Yii::$app->request->post('Livros')['titulo']);
+            if (Yii::$app->request->post('Livros')['titulo'] != null) {
+                $searchModel = new LivroSearch();
+                $livros = $searchModel->procurar(Yii::$app->request->post('Livros')['titulo']);
+            }
+
+            $livro = new Livro();
+
+            return $this->render('index', [
+                'livros' => $livros,
+                'searchModel' => $livro
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
 
-        $livro = new Livro();
-
-        return $this->render('index', [
-            'livros' => $livros,
-            'searchModel' => $livro
-        ]);
     }
 
-    public function actionRequisitado() {
+    public function actionRequisitado()
+    {
 
-        $requisicoes = RequisicaoLivro::find()
-            ->orderBy('id_livro')
-            ->all();
+        if (Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')) {
+            $requisicoes = RequisicaoLivro::find()
+                ->orderBy('id_livro')
+                ->all();
 
-        $requisicoesTerminadas = [];
-        foreach ($requisicoes as $requisicao){
-            if($requisicao->requisicao->estado == 'Pronta a levantar' || $requisicao->requisicao->estado == 'Em requisição'){
-                array_push($requisicoesTerminadas, $requisicao->id_livro);
+            $requisicoesTerminadas = [];
+            foreach ($requisicoes as $requisicao) {
+                if ($requisicao->requisicao->estado == 'Pronta a levantar' || $requisicao->requisicao->estado == 'Em requisição') {
+                    array_push($requisicoesTerminadas, $requisicao->id_livro);
+                }
             }
+
+            $livros = Livro::find()
+                ->where(['id_livro' => $requisicoesTerminadas])
+                ->all();
+
+            $livro = new Livro();
+
+            return $this->render('index', [
+                'livros' => $livros,
+                'searchModel' => $livro
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
-
-        $livros = Livro::find()
-            ->where(['id_livro' => $requisicoesTerminadas])
-            ->all();
-
-        $livro = new Livro();
-
-        return $this->render('index', [
-            'livros' => $livros,
-            'searchModel' => $livro
-        ]);
-
     }
 
     /**
@@ -126,49 +138,54 @@ class LivrosController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Livro();
+        if (Yii::$app->user->can('createLivro')) {
+            $model = new Livro();
 
-        $editoras = Editora::find()
-            ->orderBy(['id_editora' => SORT_ASC])
-            ->all();
-        $listEditoras = ArrayHelper::map($editoras,'id_editora','designacao');
+            $editoras = Editora::find()
+                ->orderBy(['id_editora' => SORT_ASC])
+                ->all();
+            $listEditoras = ArrayHelper::map($editoras, 'id_editora', 'designacao');
 
-        $autores = Autor::find()
-            ->orderBy(['id_autor' => SORT_ASC])
-            ->all();
-        $listAutores = ArrayHelper::map($autores,'id_autor','nome_autor');
+            $autores = Autor::find()
+                ->orderBy(['id_autor' => SORT_ASC])
+                ->all();
+            $listAutores = ArrayHelper::map($autores, 'id_autor', 'nome_autor');
 
-        $bibliotecas = Biblioteca::find()
-            ->orderBy(['id_biblioteca' => SORT_ASC])
-            ->all();
-        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+            $bibliotecas = Biblioteca::find()
+                ->orderBy(['id_biblioteca' => SORT_ASC])
+                ->all();
+            $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
-        $modelUpload = new UploadForm();
+            $modelUpload = new UploadForm();
 
-        if ($model->load(Yii::$app->request->post())) {
+            if ($model->load(Yii::$app->request->post())) {
 
-            $pasta = 'capas';
-            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+                $pasta = 'capas';
+                $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
 
-            if ($modelUpload->upload($model['isbn'], $pasta)) {
-                $model->capa = $modelUpload->imageFile->name;
-                $model->save();
+                if ($modelUpload->upload($model['isbn'], $pasta)) {
+                    $model->capa = $modelUpload->imageFile->name;
+                    $model->save();
 
-                return $this->redirect(['view', 'id' => $model->id_livro]);
-            }else{
-                Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir a capa.');
-                return $this->actionCreate();
+                    return $this->redirect(['view', 'id' => $model->id_livro]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir a capa.');
+                    return $this->actionCreate();
+                }
+
             }
 
+            return $this->render('create', [
+                'model' => $model,
+                'editoras' => $listEditoras,
+                'autores' => $listAutores,
+                'bibliotecas' => $listBibliotecas,
+                'modelUpload' => $modelUpload
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-            'editoras' => $listEditoras,
-            'autores' => $listAutores,
-            'bibliotecas' => $listBibliotecas,
-            'modelUpload' => $modelUpload
-        ]);
     }
 
     /**
@@ -180,53 +197,59 @@ class LivrosController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
 
-        $editoras = Editora::find()
-            ->orderBy(['id_editora' => SORT_ASC])
-            ->all();
-        $listEditoras = ArrayHelper::map($editoras,'id_editora','designacao');
+        if (Yii::$app->user->can('updateLivro')) {
+            $model = $this->findModel($id);
 
-        $autores = Autor::find()
-            ->orderBy(['id_autor' => SORT_ASC])
-            ->all();
-        $listAutores = ArrayHelper::map($autores,'id_autor','nome_autor');
+            $editoras = Editora::find()
+                ->orderBy(['id_editora' => SORT_ASC])
+                ->all();
+            $listEditoras = ArrayHelper::map($editoras, 'id_editora', 'designacao');
 
-        $bibliotecas = Biblioteca::find()
-            ->orderBy(['id_biblioteca' => SORT_ASC])
-            ->all();
-        $listBibliotecas = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+            $autores = Autor::find()
+                ->orderBy(['id_autor' => SORT_ASC])
+                ->all();
+            $listAutores = ArrayHelper::map($autores, 'id_autor', 'nome_autor');
 
-        $modelUpload = new UploadForm();
+            $bibliotecas = Biblioteca::find()
+                ->orderBy(['id_biblioteca' => SORT_ASC])
+                ->all();
+            $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
-        if ($model->load(Yii::$app->request->post())) {
+            $modelUpload = new UploadForm();
 
-            $pasta = 'capas';
-            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+            if ($model->load(Yii::$app->request->post())) {
 
-            if ($modelUpload->upload($model['isbn'], $pasta)) {
-                $model->capa = $modelUpload->imageFile->name;
-                $model->save();
+                $pasta = 'capas';
+                $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
 
-                return $this->redirect(['view', 'id' => $model->id_livro]);
-            }else{
-                Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir a capa.');
-                return $this->actionCreate();
+                if ($modelUpload->upload($model['isbn'], $pasta)) {
+                    $model->capa = $modelUpload->imageFile->name;
+                    $model->save();
+
+                    return $this->redirect(['view', 'id' => $model->id_livro]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir a capa.');
+                    return $this->actionCreate();
+                }
+
             }
 
-        }
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_livro]);
+            }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_livro]);
+            return $this->render('update', [
+                'model' => $model,
+                'editoras' => $listEditoras,
+                'autores' => $listAutores,
+                'bibliotecas' => $listBibliotecas,
+                'modelUpload' => $modelUpload
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'editoras' => $listEditoras,
-            'autores' => $listAutores,
-            'bibliotecas' => $listBibliotecas,
-            'modelUpload' => $modelUpload
-        ]);
     }
 
     /**
@@ -238,8 +261,13 @@ class LivrosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+        if (Yii::$app->user->can('deleteLivro')) {
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**

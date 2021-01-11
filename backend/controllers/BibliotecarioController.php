@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+
 namespace backend\controllers;
 
 use app\models\Biblioteca;
@@ -56,8 +57,8 @@ class BibliotecarioController extends Controller
      */
     public function actionIndex($model = null)
     {
-        if(Yii::$app->user->can('admin')){
-            if($model == null){
+        if (Yii::$app->user->can('admin')) {
+            if ($model == null) {
                 $model = new SignupForm();
             }
 
@@ -65,18 +66,19 @@ class BibliotecarioController extends Controller
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             $bibliotecas = Biblioteca::find()->all();
 
-            $listBib = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+            $listBib = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
             return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model, 'bibliotecas' => $listBib]);
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
             return $this->redirect(['site/index']);
         }
     }
 
 
-    function actionShowmodal($model = null){
-        if($model == null){
+    function actionShowmodal($model = null)
+    {
+        if ($model == null) {
             $model = new SignupForm();
         }
 
@@ -84,9 +86,9 @@ class BibliotecarioController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $bibliotecas = Biblioteca::find()->all();
 
-        $listBib = ArrayHelper::map($bibliotecas,'id_biblioteca','nome');
+        $listBib = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
-        $js='$("#criarBibliotecarioModal").modal("show")';
+        $js = '$("#criarBibliotecarioModal").modal("show")';
         $this->getView()->registerJs($js);
         return $this->render('index', ['model' => $model, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'bibliotecas' => $listBib]);
     }
@@ -99,14 +101,14 @@ class BibliotecarioController extends Controller
      */
     public function actionView($id)
     {
-        if(Yii::$app->user->can('admin')){
+        if (Yii::$app->user->can('admin')) {
             $bibliotecas = Biblioteca::find()
                 ->orderBy(['id_biblioteca' => SORT_ASC])
                 ->all();
             $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
             return $this->render('view', ['model' => $this->findModel($id), 'bibliotecas' => $listBibliotecas]);
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
             return $this->redirect(['site/index']);
         }
@@ -120,7 +122,7 @@ class BibliotecarioController extends Controller
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->can('admin')){
+        if (Yii::$app->user->can('createBibliotecario')) {
             $model = new SignupForm();
 
             if ($model->load(Yii::$app->request->post())) {
@@ -128,7 +130,7 @@ class BibliotecarioController extends Controller
                 $biblioteca = Yii::$app->request->post();
                 $model->id_biblioteca = $biblioteca['SignupForm']['id_biblioteca'];
 
-                if($model->signup(1)){
+                if ($model->signup(1)) {
                     Yii::$app->session->setFlash('success', 'Bibliotecário inserido com sucesso.');
                     return $this->redirect(['index']);
                 }
@@ -138,7 +140,7 @@ class BibliotecarioController extends Controller
             $model->password = '';
             $model->confirmarPassword = '';
             return $this->actionShowmodal($model);
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
         }
@@ -154,25 +156,31 @@ class BibliotecarioController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_utilizador]);
-        }
-
-        return $this->render('update', ['model' => $model,]);
-    }
-
-    public function actionUpdateBiblioteca($id){
-        if(Yii::$app->user->can('updateBibliotecario')){
+        if (Yii::$app->user->can('updateBibliotecario')) {
             $model = $this->findModel($id);
 
-            if($model->load(Yii::$app->request->post()) && $model->save()){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_utilizador]);
+            }
+
+            return $this->render('update', ['model' => $model,]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
+        }
+    }
+
+    public function actionUpdateBiblioteca($id)
+    {
+        if (Yii::$app->user->can('updateBibliotecario')) {
+            $model = $this->findModel($id);
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id_utilizador]);
             }
             Yii::$app->session->setFlash('error', 'Biblioteca inserida inválida.');
             return $this->render('view', ['id' => $id]);
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
         }
@@ -180,14 +188,15 @@ class BibliotecarioController extends Controller
     }
 
 
-    public function actionRemoverBiblioteca($id){
-        if(Yii::$app->user->can('updateBibliotecario')){
+    public function actionRemoverBiblioteca($id)
+    {
+        if (Yii::$app->user->can('updateBibliotecario')) {
             $model = $this->findModel($id);
 
             $model->id_biblioteca = null;
             $model->save();
             return $this->redirect(['view', 'id' => $model->id_utilizador]);
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
         }
@@ -202,12 +211,12 @@ class BibliotecarioController extends Controller
      */
     public function actionDelete($id)
     {
-        if(Yii::$app->user->can('admin')){
+        if (Yii::$app->user->can('deleteBibliotecario')) {
             $user = User::find()->where(['id' => $id])->one();
             $user->delete();
 
             return $this->redirect(['index']);
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
         }

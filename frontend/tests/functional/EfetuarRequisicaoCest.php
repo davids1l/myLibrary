@@ -12,7 +12,7 @@ class EfetuarRequisicaoCest
     // tests
     public function testEfetuarRequisicao(FunctionalTester $I)
     {
-        $I->amLoggedInAs(2);
+        $I->amLoggedInAs(1);
         $I->amOnPage(['livro/detalhes', 'id'=>1]);
         $I->see('Detalhes do livro');
         $I->click( '#adicionarCarrinho');

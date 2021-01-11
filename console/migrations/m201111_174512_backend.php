@@ -150,7 +150,7 @@ class m201111_174512_backend extends Migration
         $this->createTable('livro', [
             'id_livro' => $this->primaryKey()->notNull()->unsigned(),
             'titulo' => $this->string(50)->notNull(),
-            'isbn' => $this->integer(13)->notNull(),
+            'isbn' => $this->bigInteger(13)->notNull(),
             'ano' => $this->integer(4)->notNull(),
             'paginas' => $this->integer(11)->notNull(),
             'genero' => $this->string(80)->notNull(),
@@ -221,7 +221,7 @@ class m201111_174512_backend extends Migration
             'avaliacao' => $this->integer(5)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull(),
-        ], $tableOptions);*/
+        ], $tableOptions);
 
         // Chaves estrangeiras
 
@@ -255,7 +255,7 @@ class m201111_174512_backend extends Migration
             'id_utilizador',
             'CASCADE',
             'CASCADE'
-        );
+        );*/
 
         // Tabela comentario
 

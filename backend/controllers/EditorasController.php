@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+
 namespace backend\controllers;
 
 use app\models\Pais;
@@ -54,13 +55,19 @@ class EditorasController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new EditoraSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (Yii::$app->user->can('admin') || Yii::$app->user->can('biblitecario')) {
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new EditoraSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**
@@ -83,22 +90,27 @@ class EditorasController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Editora();
+        if (Yii::$app->user->can('createEditora')) {
+            $model = new Editora();
 
-        $paises = Pais::find()
-            ->orderBy(['id_pais' => SORT_ASC])
-            ->all();
-        $listPaises = ArrayHelper::map($paises,'id_pais','designacao');
+            $paises = Pais::find()
+                ->orderBy(['id_pais' => SORT_ASC])
+                ->all();
+            $listPaises = ArrayHelper::map($paises, 'id_pais', 'designacao');
 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_editora]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_editora]);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+                'paises' => $listPaises,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-            'paises' => $listPaises,
-        ]);
     }
 
     /**
@@ -110,21 +122,26 @@ class EditorasController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (Yii::$app->user->can('updateEditora')) {
+            $model = $this->findModel($id);
 
-        $paises = Pais::find()
-            ->orderBy(['id_pais' => SORT_ASC])
-            ->all();
-        $listPaises = ArrayHelper::map($paises,'id_pais','designacao');
+            $paises = Pais::find()
+                ->orderBy(['id_pais' => SORT_ASC])
+                ->all();
+            $listPaises = ArrayHelper::map($paises, 'id_pais', 'designacao');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_editora]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_editora]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+                'paises' => $listPaises
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tens permissões para aceder a essa página.');
+            return $this->redirect(['site/index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'paises' => $listPaises
-        ]);
     }
 
     /**
@@ -136,9 +153,14 @@ class EditorasController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (Yii::$app->user->can('deleteEditora')) {
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        } else {
+            Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**

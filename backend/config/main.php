@@ -109,12 +109,25 @@ return [
                         'POST create' => 'create-utilizador',
                         'GET leitor/{numero}' => 'utilizador-numero',
                         'GET bloqueados' => 'bloqueados',
+                        'POST login' => 'login',
                     ],
 
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
                         '{numero}' => '<numero:\\w+>',
                     ],
+                ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/favorito',
+                    'pluralize' => false,
+                ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/comentario',
+                    'pluralize' => false,
                 ],
             ],
         ],

@@ -36,9 +36,7 @@ $this->title = "Catálogo de Livros";
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $result->id_livro]) ?>">
-                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $result->capa, [
-                                    'id' => 'imgCapa'
-                                ])?>
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $result->capa, ['id'=> 'imgCapa'])?>
                             </a>
                         </div>
                         <div class="book-info">

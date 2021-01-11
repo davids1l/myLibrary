@@ -3,6 +3,7 @@
 namespace app\modules\api\controllers;
 
 use app\models\Utilizador;
+use common\models\LoginForm;
 use common\models\SignupForm;
 use common\models\User;
 use yii\filters\auth\HttpBasicAuth;
@@ -19,7 +20,10 @@ class UtilizadorController extends ActiveController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
+        $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(),
+            'auth'=>[$this, 'authf'],
+            'except' => ['login'],
+            ];
 
         return $behaviors;
     }
@@ -113,5 +117,26 @@ class UtilizadorController extends ActiveController
         $utilizadores = $model::find()->where(['id_utilizador' => $subQuery, 'bloqueado' => !null])->all();
 
         return ['Existem ' . count($utilizadores) . ' leitores   bloqueados.', $utilizadores];
+    }
+
+    //login
+    public function actionLogin(){
+        $login = new LoginForm();
+
+        $email = \Yii::$app->request->post('email');
+        $password = \Yii::$app->request->post('password');
+
+        $user = User::findUserByEmail($email);
+
+        if($user == null){
+            return 'Email incorreto.';
+        }
+
+        if($user->validatePassword($password)){
+            $login->login();
+            return 'Login feito.';
+        }else{
+            return 'Palavra-passe incorreta. Tente novamente.';
+        }
     }
 }
