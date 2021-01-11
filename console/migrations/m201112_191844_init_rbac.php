@@ -215,9 +215,8 @@ class m201112_191844_init_rbac extends Migration
         $auth->addChild($leitor, $updateFavorito);
         $auth->addChild($leitor, $deleteFavorito);
 
-        $auth->addChild($leitor, $createUtilizador);
         $auth->addChild($leitor, $updateUtilizador);
-        $auth->addChild($leitor, $deleteUtilizador);
+        //$auth->addChild($leitor, $deleteUtilizador);
 
         $auth->addChild($leitor, $createRequisicao);
 

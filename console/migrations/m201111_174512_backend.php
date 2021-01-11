@@ -213,15 +213,15 @@ class m201111_174512_backend extends Migration
             'CASCADE'
         );
 
-        // Tabela avaliacao
+        // Tabela avaliacao - Não utilizada
 
-        $this->createTable('avaliacao', [
+        /*$this->createTable('avaliacao', [
             'id_avaliacao' => $this->primaryKey()->notNull()->unsigned(),
             'dta_avaliacao' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'avaliacao' => $this->integer(5)->notNull(),
             'id_livro' => $this->integer()->notNull()->unsigned(),
             'id_utilizador' => $this->integer()->notNull(),
-        ], $tableOptions);
+        ], $tableOptions);*/
 
         // Chaves estrangeiras
 

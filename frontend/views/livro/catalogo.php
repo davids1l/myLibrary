@@ -90,7 +90,7 @@ $this->title = "Catálogo de Livros";
                                 <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
                             <?php } ?>
                         </div>
-                        <!-- <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro])?> -->
+                        <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro])?>
                     </div>
                 <?php }
             } else {?>

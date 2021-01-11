@@ -30,7 +30,7 @@ class Multa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['data_multa'], 'safe'],
+            [['dta_multa'], 'safe'],
             [['montante', 'estado', 'id_requisicao'], 'required'],
             [['montante'], 'number'],
             [['estado'], 'string', 'max' => 30],

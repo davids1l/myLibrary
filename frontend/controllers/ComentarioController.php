@@ -27,12 +27,10 @@ class ComentarioController extends Controller
                 'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'delete'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -107,12 +105,6 @@ class ComentarioController extends Controller
         return $this->redirect(['livro/detalhes', 'id' => $id]);
     }
 
-    //Validar se o user logado é o autor do comentario
-    private function validateUserAutenticity($model)
-    {
-        return Yii::$app->user->id == $model->id_utilizador ? true : false;
-    }
-
     /**
      * Updates an existing Comentario model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -137,6 +129,12 @@ class ComentarioController extends Controller
         return $this->redirect(['livro/detalhes',
             'id' => $model->id_livro]
         );
+    }
+
+    //Validar se o user logado é o autor do comentario
+    private function validateUserAutenticity($model)
+    {
+        return Yii::$app->user->id == $model->id_utilizador ? true : false;
     }
 
     /**
