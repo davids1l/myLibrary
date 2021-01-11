@@ -58,7 +58,7 @@ class LivroController extends Controller
     public function livrosRecentesFilter() {
 
         $livrosRecentes = Livro::find()
-            ->orderBy(['ano' => SORT_DESC])
+            ->orderBy(['ano' => SORT_DESC, 'id_livro' => SORT_DESC])
             ->limit(6)
             ->all();
 
@@ -79,6 +79,7 @@ class LivroController extends Controller
             ->orderBy(['num_requisicoes' => SORT_DESC])
             ->limit(6)
             ->all();
+        //var_dump($query);die();
 
         $maisRequisitados = [];
         foreach ($query as $result){
@@ -87,6 +88,29 @@ class LivroController extends Controller
         }
 
         return $maisRequisitados;
+    }
+
+    /**
+     * @return array
+     * Função responsável por obter os 6 livros com o maior número de favoritos
+     *
+     */
+    public function livrosComMaisFavoritos(){
+        $query = (new Query())
+            ->select(['*' ,'COUNT(*) AS num_fav'])
+            ->from('favorito')
+            ->groupBy('id_livro')
+            ->orderBy(['num_fav' => SORT_DESC])
+            ->limit(6)
+            ->all();
+
+        $maisFavoritos = [];
+        foreach ($query as $result){
+            $livro = Livro::findOne(['id_livro' => $result['id_livro']]);
+            array_push($maisFavoritos, $livro);
+        }
+
+        return $maisFavoritos;
     }
 
 
@@ -100,8 +124,12 @@ class LivroController extends Controller
 
         $recentes = $this->livrosRecentesFilter();
         $maisRequisitados = $this->livrosMaisRequisitados();
+        $maisFavoritos = $this->livrosComMaisFavoritos();
 
-        return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes]);
+        $catalogo = Livro::find()->all();
+
+
+        return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes, 'maisFavoritos' => $maisFavoritos, 'catalogo' => $catalogo]);
     }
 
     /**

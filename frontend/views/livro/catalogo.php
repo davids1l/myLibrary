@@ -30,11 +30,12 @@ $this->title = "Catálogo de Livros";
         </div>
         <div>
 
-        </div><hr>
+        </div>
     </div>
 
     <div class="catalogo-livros">
         <div class="col-md-6 col-lg-12 novos">
+            <hr>
             <h3>NOVOS LANÇAMENTOS</h3>
             <?php if($recentes != null) {?>
                 <?php foreach ($recentes as $recente){ ?>
@@ -67,8 +68,9 @@ $this->title = "Catálogo de Livros";
         </div>
 
         <div class="col-lg-12 maisRequisitados">
-            <h3>MAIS REQUISITADOS</h3>
+            <hr>
             <?php if($maisRequisitados != null) { ?>
+                <h3>MAIS REQUISITADOS</h3>
                 <?php foreach ($maisRequisitados as $livro) { ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
@@ -95,6 +97,74 @@ $this->title = "Catálogo de Livros";
                 <?php }
             } else {?>
                 <p>Não existem livros.</p>
+            <?php }?>
+        </div>
+
+        <div class="col-lg-12 maisFavoritos">
+            <hr>
+            <?php if($maisFavoritos != null) { ?>
+                <h3>OS PREFERIDOS DOS LEITORES</h3>
+                <?php foreach ($maisFavoritos as $livro) { ?>
+                    <div class="col-xs-12 col-md-2 catalogo-grid">
+                        <div class="capa">
+                            <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                                    'id' => 'imgCapa'
+                                ])?>
+                            </a>
+                        </div>
+                        <div class="book-info">
+                            <h4><?= Html::encode($livro->titulo)?></h4>
+                            <h5><?= Html::encode($livro->genero)?></h5>
+                            <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
+                            <h6>Formato: <?= Html::encode($livro->formato)?></h6>
+                            <?php
+                            if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
+                                <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                            <?php } else { ?>
+                                <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                            <?php } ?>
+                        </div>
+                        <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro])?>
+                    </div>
+                <?php }
+            } else {?>
+                <p>Não existem favoritos.</p>
+            <?php }?>
+        </div>
+
+
+
+        <div class="col-lg-12 catalogo">
+            <hr>
+            <?php if($catalogo != null) { ?>
+                <h3>CATÁLOGO</h3>
+                <?php foreach ($catalogo as $livro) { ?>
+                    <div class="col-xs-12 col-md-2 catalogo-grid">
+                        <div class="capa">
+                            <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                                    'id' => 'imgCapa'
+                                ])?>
+                            </a>
+                        </div>
+                        <div class="book-info">
+                            <h4><?= Html::encode($livro->titulo)?></h4>
+                            <h5><?= Html::encode($livro->genero)?></h5>
+                            <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
+                            <h6>Formato: <?= Html::encode($livro->formato)?></h6>
+                            <?php
+                            if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
+                                <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                            <?php } else { ?>
+                                <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                            <?php } ?>
+                        </div>
+                        <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro])?>
+                    </div>
+                <?php }
+            } else {?>
+                <p>Não existem favoritos.</p>
             <?php }?>
         </div>
     </div>
