@@ -251,7 +251,7 @@ class RequisicaoController extends Controller
 
         if ($carrinho != null) {
             $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
-            $num_excluir = abs(($total_livros) - 5);
+            $num_excluir = (($total_livros) - 5);
 
             if ($total_livros <= 5) {
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {

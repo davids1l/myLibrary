@@ -60,7 +60,7 @@ class MultaSearch extends Multa
         // grid filtering conditions
         $query->andFilterWhere([
             'id_multa' => $this->id_multa,
-            'data_multa' => $this->data_multa,
+            'data_multa' => $this->dta_multa,
             'montante' => $this->montante,
         ]);
 

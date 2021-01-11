@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'data_multa')->textInput() ?>
+    <?= $form->field($model, 'dta_multa')->textInput() ?>
 
     <?= $form->field($model, 'montante')->textInput() ?>
 

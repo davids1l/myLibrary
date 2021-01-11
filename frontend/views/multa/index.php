@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id_multa',
-            'data_multa',
+            'dta_multa',
             'montante',
             'estado',
 

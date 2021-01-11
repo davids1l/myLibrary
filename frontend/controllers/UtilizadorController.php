@@ -9,6 +9,7 @@ use frontend\models\Utilizador;
 use Yii;
 use app\models\BibliotecarioSearch;
 use yii\base\ViewRenderer;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -25,6 +26,27 @@ class UtilizadorController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'perfil', 'removerImg', 'uploadImg' , 'updatePassword'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'update', 'delete', 'perfil', 'removerImg', 'uploadImg' , 'updatePassword'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['delete', 'index', 'view'],
+                        'allow' => false,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        //'actions' => ['update', 'perfil', 'removerImg'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

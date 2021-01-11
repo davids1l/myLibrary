@@ -8,7 +8,14 @@ class AdicionarComentarioCest
     }
 
     // tests
-    public function tryToTest(FunctionalTester $I)
-    {
+    public function testAdicionarComentario(FunctionalTester $I){
+        $I->amLoggedInAs(1);
+        $I->amOnPage(['livro/detalhes', 'id'=>1]);
+        $I->see('Comentário');
+        $I->fillField('#comentarioField', 'Teste Funcional - Comentar');
+        $I->see('Teste Funcional - Comentar', '#comentarioField');
+        $I->click(['id'=>'submitComentario']);
+            //$I->submitForm('#formComentar', ['comentario' => 'Teste Funcional - Comentar']);
+        $I->see('Obrigado pelo seu comentário!');
     }
 }
