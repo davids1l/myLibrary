@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <br/>
     <?php if($livros != null) { ?>
         <?php foreach ($livros as $livro) { ?>
-            <div class="col-xs-12 col-md-2 catalogo-grid gridLivros">
+            <div class="col-xs-12 col-md-2 catalogo-grid gridLivros" style="height: 400px">
                 <div class="capa">
                     <a href="<?= Url::to(['livros/view', 'id' => $livro->id_livro]) ?>">
                         <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $livro->capa, ['id'=> 'imgCapa'])?>

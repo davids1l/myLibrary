@@ -40,7 +40,7 @@ $carrinhoSession = Yii::$app->session->get('carrinho');
                     <?php if($livros != null) { ?>
                         <?php if($carrinhoSession != null) { ?>
                             <?php foreach ($carrinhoSession as $carrinhoLivro) { ?>
-                                <div class="col-md-4 catalogo-grid gridLivros">
+                                <div class="col-md-4 catalogo-grid gridLivros" style="height: 450px">
                                     <div class="capa">
                                         <a href="<?= Url::to(['livros/view', 'id' => $carrinhoLivro->id_livro]) ?>">
                                             <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $carrinhoLivro->capa, ['id'=> 'imgCapa'])?>
@@ -60,7 +60,7 @@ $carrinhoSession = Yii::$app->session->get('carrinho');
                             <?php } ?>
                         <?php } ?>
                         <?php foreach ($livros as $livro) { ?>
-                            <div class="col-md-4 catalogo-grid gridLivros">
+                            <div class="col-md-4 catalogo-grid gridLivros" style="height: 450px">
                                 <div class="capa">
                                     <a href="<?= Url::to(['livros/view', 'id' => $livro->id_livro]) ?>">
                                         <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $livro->capa, ['id'=> 'imgCapa'])?>
