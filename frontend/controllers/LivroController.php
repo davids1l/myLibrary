@@ -126,7 +126,10 @@ class LivroController extends Controller
         $maisRequisitados = $this->livrosMaisRequisitados();
         $maisFavoritos = $this->livrosComMaisFavoritos();
 
-        return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes, 'maisFavoritos' => $maisFavoritos]);
+        $catalogo = Livro::find()->all();
+
+
+        return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes, 'maisFavoritos' => $maisFavoritos, 'catalogo' => $catalogo]);
     }
 
     /**
