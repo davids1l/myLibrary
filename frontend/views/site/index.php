@@ -2,63 +2,52 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'MyLibrary';
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm; ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
+        <h1>Bem vindo à sua Biblioteca digital!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+        <p class="lead">Aceda à sua Biblioteca em qualquer lugar</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <?= Html::a('Crie uma conta', ['site/showmodal'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 5%;']); ?>
+
     </div>
 
     <div class="body-content">
 
         <div class="row">
             <div class="col-lg-4">
-                <h2>Heading</h2>
+                <h2 class="text-center">Feedback</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
+                <p> Deixe o seu feedback sobre os livros que requisitou
+                    através do nosso sistema de comentários, onde poderá ler
+                    a opinião de outros leitores!
+                </p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
             </div>
             <div class="col-lg-4">
-                <h2>Heading</h2>
+                <h2 class="text-center">Catálogo</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
+                <p> Consulte já o nosso extenso catálogo de volumes, que estão
+                    disponiveis nos formatos físico e digital!
+                </p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+                <?= Html::a('Consulte já', ['livro/catalogo'], ['class' => 'btn btn-default center-block', 'style' => 'margin-top: 3%;']); ?>
+
             </div>
             <div class="col-lg-4">
-                <h2>Heading</h2>
+                <h2 class="text-center" >Requisições</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a>
+                <p> Pode utilizar o nosso sistema de requisições para levantar
+                    os seus volumes na biblioteca que se encontra mais próxima
+                    de si!
                 </p>
             </div>
+
         </div>
     </div>
 
