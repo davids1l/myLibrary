@@ -67,8 +67,8 @@ $this->title = "Catálogo de Livros";
         </div>
 
         <div class="col-lg-12 maisRequisitados">
-            <h3>MAIS REQUISITADOS</h3>
             <?php if($maisRequisitados != null) { ?>
+                <h3>MAIS REQUISITADOS</h3>
                 <?php foreach ($maisRequisitados as $livro) { ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">
@@ -99,8 +99,8 @@ $this->title = "Catálogo de Livros";
         </div>
 
         <div class="col-lg-12 maisFavoritos">
-            <h3>OS FAVORITOS DOS LEITORES</h3>
             <?php if($maisFavoritos != null) { ?>
+                <h3>OS PREFERIDOS DOS LEITORES</h3>
                 <?php foreach ($maisFavoritos as $livro) { ?>
                     <div class="col-xs-12 col-md-2 catalogo-grid">
                         <div class="capa">

@@ -7,6 +7,10 @@
         margin-top: 10%;
     }
 
+    .maisFavoritos {
+        margin-top: 10%;
+    }
+
     #imgCapa {
         width: 90%;
     }
@@ -61,6 +65,10 @@
 }
 
 .maisRequisitados {
+    margin-top: 3%;
+}
+
+.maisFavoritos {
     margin-top: 3%;
 }
 

@@ -90,16 +90,12 @@ class LivroController extends Controller
         return $maisRequisitados;
     }
 
+    /**
+     * @return array
+     * Função responsável por obter os 6 livros com o maior número de favoritos
+     *
+     */
     public function livrosComMaisFavoritos(){
-        /*$query = Favorito::find()
-            ->select('*','count(*) AS num_favoritos')
-            ->from('favorito')
-            ->groupBy('id_livro')
-            ->orderBy(['num_favoritos' => SORT_DESC])
-            ->limit(6)
-            ->all(); */
-
-
         $query = (new Query())
             ->select(['*' ,'COUNT(*) AS num_fav'])
             ->from('favorito')
@@ -115,7 +111,6 @@ class LivroController extends Controller
         }
 
         return $maisFavoritos;
-
     }
 
 
