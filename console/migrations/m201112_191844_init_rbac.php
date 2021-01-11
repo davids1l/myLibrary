@@ -154,19 +154,6 @@ class m201112_191844_init_rbac extends Migration
         $deleteRequisicao->description = 'Eliminar uma Requisicao';
         $auth->add($deleteRequisicao);
 
-        // Permissões RequisicaoMulta
-
-        $createReqMulta = $auth->createPermission('createReqMulta');
-        $createReqMulta->description = 'Criar uma Requisicao-Multa';
-        $auth->add($createReqMulta);
-
-        $updateReqMulta = $auth->createPermission('updateReqMulta');
-        $updateReqMulta->description = 'Atualizar uma Requisicao-Multa';
-        $auth->add($updateReqMulta);
-
-        $deleteReqMulta = $auth->createPermission('deleteReqMulta');
-        $deleteReqMulta->description = 'Eliminar uma Requisicao-Multa';
-        $auth->add($deleteReqMulta);
 
         // Permissões Utilizador
 
@@ -263,10 +250,6 @@ class m201112_191844_init_rbac extends Migration
 
         $auth->addChild($bibliotecario, $updateLeitor);
 
-        $auth->addChild($bibliotecario, $createReqMulta);
-        $auth->addChild($bibliotecario, $updateReqMulta);
-        $auth->addChild($bibliotecario, $deleteReqMulta);
-
         $auth->addChild($bibliotecario, $createComentario);
         $auth->addChild($bibliotecario, $updateComentario);
         $auth->addChild($bibliotecario, $deleteComentario);
@@ -317,10 +300,6 @@ class m201112_191844_init_rbac extends Migration
         $auth->addChild($admin, $createBibliotecario);
         $auth->addChild($admin, $updateBibliotecario);
         $auth->addChild($admin, $deleteBibliotecario);
-
-        $auth->addChild($admin, $createReqMulta);
-        $auth->addChild($admin, $updateReqMulta);
-        $auth->addChild($admin, $deleteReqMulta);
 
         $auth->addChild($admin, $createComentario);
         $auth->addChild($admin, $updateComentario);
