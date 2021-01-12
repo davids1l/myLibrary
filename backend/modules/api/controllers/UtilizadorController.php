@@ -134,7 +134,7 @@ class UtilizadorController extends ActiveController
 
         if($user->validatePassword($password)){
             $login->login();
-            return 'Login feito.';
+            return ['success' => true, 'token' => base64_encode($email.$password)];
         }else{
             return 'Palavra-passe incorreta. Tente novamente.';
         }
