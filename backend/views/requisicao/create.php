@@ -106,7 +106,25 @@ $carrinhoSession = Yii::$app->session->get('carrinho');
                                         </div>
                                     <?php } ?>
                                 <?php } ?>
-                            <?php } ?>
+                            <?php } else { ?>
+                                <div class="col-md-4 catalogo-grid gridLivros">
+                                    <div class="capa">
+                                        <a href="<?= Url::to(['livros/view', 'id' => $livro->id_livro]) ?>">
+                                            <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $livro->capa, ['id' => 'imgCapa']) ?>
+                                        </a>
+                                    </div>
+                                    <div class="book-info">
+                                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                                        <h5><?= Html::encode($livro->genero) ?></h5>
+                                        <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
+                                        <h6>Formato: <?= Html::encode($livro->formato) ?></h6>
+                                    </div>
+
+                                    <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], [
+                                        'class' => 'btn btn-success book-buttons'
+                                    ]) ?>
+                                </div>
+                           <?php } ?>
                         <?php } ?>
 
 
