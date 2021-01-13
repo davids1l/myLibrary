@@ -35,19 +35,19 @@ class FavoritoController extends ActiveController
         $favs = $model->find()->where(['id_utilizador' => $id])->all();
 
         $liv = [];
-        foreach ($favs as $favorito){
+        foreach($favs as $favorito) {
             array_push($liv, $favorito->id_livro);
         }
 
-        foreach ($liv as $livro){
+        foreach($liv as $livro) {
             $livros[] = Livro::find()->where(['id_livro' => $livro])->all();
         }
 
         if($favs != null){
-            return ['Favoritos' => $livros];
+            return ['favoritos' => $favs, 'livros' => $livros];
         }
 
-        return ['Esse utilizador não tem favoritos.'];
+        return ['Ainda não existem favoritos.'];
     }
 
 }
