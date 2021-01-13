@@ -22,7 +22,7 @@ class UtilizadorController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(),
             'auth'=>[$this, 'authf'],
-            'except' => ['login'],
+            'except' => ['login', 'create-utilizador'],
             ];
 
         return $behaviors;
@@ -87,7 +87,7 @@ class UtilizadorController extends ActiveController
         $result = $user->save();
 
         if ($result) {
-            return 'Leitor Inserido';
+            return ['success' => true, 'result' => 'ok'];
         } else {
             $err = json_encode($user->getErrors());
             throw new HttpException(422, $err);
