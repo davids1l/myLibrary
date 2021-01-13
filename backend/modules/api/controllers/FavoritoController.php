@@ -29,4 +29,15 @@ class FavoritoController extends ActiveController
         }
     }
 
+    public function actionUtilizadorFavs($id){
+        $model = new $this->modelClass;
+        $favs = $model->find()->where(['id_utilizador' => $id])->all();
+
+        if($favs != null){
+            return ['Favoritos' => $favs];
+        }
+
+        return ['Esse utilizador não tem favoritos.'];
+    }
+
 }
