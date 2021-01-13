@@ -122,6 +122,13 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/favorito',
                     'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET utilizador/{id}' => 'utilizador-favs'
+                    ],
+
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ],
                 ],
 
                 [
