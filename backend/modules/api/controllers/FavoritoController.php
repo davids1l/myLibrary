@@ -2,6 +2,7 @@
 
 namespace app\modules\api\controllers;
 
+use app\models\Livro;
 use common\models\User;
 use yii\filters\auth\HttpBasicAuth;
 use yii\rest\ActiveController;
@@ -33,11 +34,20 @@ class FavoritoController extends ActiveController
         $model = new $this->modelClass;
         $favs = $model->find()->where(['id_utilizador' => $id])->all();
 
-        if($favs != null){
-            return ['Favoritos' => $favs];
+        $liv = [];
+        foreach($favs as $favorito) {
+            array_push($liv, $favorito->id_livro);
         }
 
-        return ['Esse utilizador não tem favoritos.'];
+        foreach($liv as $livro) {
+            $livros[] = Livro::find()->where(['id_livro' => $livro])->all();
+        }
+
+        if($favs != null){
+            return ['favoritos' => $favs, 'livros' => $livros];
+        }
+
+        return ['Ainda não existem favoritos.'];
     }
 
 }
