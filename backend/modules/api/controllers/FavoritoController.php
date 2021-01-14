@@ -44,7 +44,7 @@ class FavoritoController extends ActiveController
         }
 
         if($favs != null){
-            return ['favoritos' => $favs, 'livros' => $livros];
+            return ['favoritos' => $livros];
         }
 
         return ['Ainda não existem favoritos.'];
