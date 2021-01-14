@@ -15,6 +15,7 @@ class LivroController extends ActiveController
 {
     public $modelClass = 'app\models\Livro';
 
+    /*
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -29,7 +30,7 @@ class LivroController extends ActiveController
         if ($user && $user->validatePassword($password)){
             return $user;
         }
-    }
+    }*/
 
     //devolve o total de livros
     public function actionTotal(){
