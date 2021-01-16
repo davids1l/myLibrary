@@ -15,7 +15,8 @@ class LivroController extends ActiveController
 {
     public $modelClass = 'app\models\Livro';
 
-    /*public function behaviors()
+    /*
+    public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
