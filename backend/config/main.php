@@ -136,6 +136,12 @@ return [
                     'controller' => 'api/comentario',
                     'pluralize' => false,
                 ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/user',
+                    'pluralize' => false,
+                ],
             ],
         ],
     ],
