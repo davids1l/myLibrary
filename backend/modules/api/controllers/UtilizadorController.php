@@ -6,6 +6,8 @@ use app\models\Utilizador;
 use common\models\LoginForm;
 use common\models\SignupForm;
 use common\models\User;
+use Yii;
+use yii\bootstrap\Html;
 use yii\filters\auth\HttpBasicAuth;
 use GuzzleHttp\Psr7\Query;
 use yii\rest\ActiveController;
@@ -17,12 +19,12 @@ class UtilizadorController extends ActiveController
 
     public $modelClass = 'app\models\Utilizador';
 
-    public function behaviors()
+    /*public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(),
             'auth'=>[$this, 'authf'],
-            'except' => ['login'],
+            'except' => ['login', 'create-utilizador'],
             ];
 
         return $behaviors;
@@ -34,7 +36,7 @@ class UtilizadorController extends ActiveController
         if ($user && $user->validatePassword($password)){
             return $user;
         }
-    }
+    }*/
 
 
     //inserir utilizador
@@ -87,7 +89,7 @@ class UtilizadorController extends ActiveController
         $result = $user->save();
 
         if ($result) {
-            return 'Leitor Inserido';
+            return ['success' => true, 'result' => 'ok'];
         } else {
             $err = json_encode($user->getErrors());
             throw new HttpException(422, $err);
@@ -132,9 +134,12 @@ class UtilizadorController extends ActiveController
             return 'Email incorreto.';
         }
 
+        $utilizador = Utilizador::find()->where(['id_utilizador' => $user->id])->one();
+
+
         if($user->validatePassword($password)){
             $login->login();
-            return ['success' => true, 'token' => base64_encode($email.$password)];
+            return ['success' => true, 'token' => base64_encode($email.$password), 'id' => $user->id, 'bloqueado' => $utilizador->bloqueado];
         }else{
             return 'Palavra-passe incorreta. Tente novamente.';
         }
