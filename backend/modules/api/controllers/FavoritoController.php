@@ -14,7 +14,7 @@ class FavoritoController extends ActiveController
 
 
     //Basic Auth
-    public function behaviors()
+    /*public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
@@ -28,23 +28,14 @@ class FavoritoController extends ActiveController
         if ($user && $user->validatePassword($password)){
             return $user;
         }
-    }
+    }*/
 
     public function actionUtilizadorFavs($id){
         $model = new $this->modelClass;
         $favs = $model->find()->where(['id_utilizador' => $id])->all();
 
-        $liv = [];
-        foreach($favs as $favorito) {
-            array_push($liv, $favorito->id_livro);
-        }
-
-        foreach($liv as $livro) {
-            $livros[] = Livro::find()->where(['id_livro' => $livro])->all();
-        }
-
         if($favs != null){
-            return ['favoritos' => $favs, 'livros' => $livros];
+            return $favs;
         }
 
         return ['Ainda não existem favoritos.'];

@@ -121,9 +121,9 @@ class Livro extends \yii\db\ActiveRecord
         $myJson = json_encode($myObj);
 
         if($insert){
-            $this->FazPublish('livro/novo', $myJson);
+            //$this->FazPublish('livro/novo', $myJson);
         }else{
-            $this->FazPublish('livro/update', $myJson);
+            //$this->FazPublish('livro/update', $myJson);
         }
     }
 
@@ -138,7 +138,7 @@ class Livro extends \yii\db\ActiveRecord
 
         $myJSON = json_encode($myObj);
 
-        $this->FazPublish("livro/delete", $myJSON);
+        //$this->FazPublish("livro/delete", $myJSON);
     }
 
     public function FazPublish($canal, $msg) {
