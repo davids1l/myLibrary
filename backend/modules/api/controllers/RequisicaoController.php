@@ -127,6 +127,7 @@ class RequisicaoController extends ActiveController
 
         $carrinho_size = \Yii::$app->request->post('carrinho_size');
 
+
         for ($i = 0; $i < $carrinho_size; $i++){
             $livros[] = \Yii::$app->request->post('id_livro'.$i);
         }
@@ -141,18 +142,14 @@ class RequisicaoController extends ActiveController
         $requisicao->id_utilizador = $id_utilizador;
         $requisicao->id_bib_levantamento = $id_biblioteca;
         $requisicao->save();
+        
 
-        for ($i = 0; $i < $carrinho_size; $i++){
-            $requisicao_livro->id_requisicao = $requisicao->id_requisicao;
-            $requisicao_livro->id_livro = $livros[$i];
-            $requisicao_livro->save();
-        }
-
-        /*foreach ($livros as $livro){
+        foreach ($livros as $livro){
+            $requisicao_livro = new RequisicaoLivro();
             $requisicao_livro->id_requisicao = $requisicao->id_requisicao;
             $requisicao_livro->id_livro = $livro;
             $requisicao_livro->save();
-        }*/
+        }
 
     }
 
