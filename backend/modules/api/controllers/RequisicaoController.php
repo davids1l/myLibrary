@@ -3,6 +3,9 @@
 namespace app\modules\api\controllers;
 
 
+use app\models\Livro;
+use app\models\Requisicao;
+use app\models\RequisicaoLivro;
 use Carbon\Carbon;
 use common\models\User;
 use yii\db\Query;
@@ -14,7 +17,7 @@ class RequisicaoController extends ActiveController
 
     public $modelClass = 'app\models\Requisicao';
 
-    public function behaviors()
+    /*public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
@@ -28,7 +31,7 @@ class RequisicaoController extends ActiveController
         if ($user && $user->validatePassword($password)){
             return $user;
         }
-    }
+    }*/
 
     //procurar requisições por estado
     public function actionProcurarEstado($estado){
@@ -116,6 +119,41 @@ class RequisicaoController extends ActiveController
             $i++;
         }
         return $tempoRestante;
+    }
+
+    public function actionCreateRequisicao(){
+        $requisicao = new Requisicao();
+        $requisicao_livro = new RequisicaoLivro();
+
+        $carrinho_size = \Yii::$app->request->post('carrinho_size');
+
+        for ($i = 0; $i < $carrinho_size; $i++){
+            $livros[] = \Yii::$app->request->post('id_livro'.$i);
+        }
+
+
+        $id_biblioteca = \Yii::$app->request->post('id_biblioteca');
+        $id_utilizador = \Yii::$app->request->post('id_utilizador');
+
+        $requisicao->dta_levantamento = null;
+        $requisicao->dta_entrega = null;
+        $requisicao->estado = "A aguardar tratamento";
+        $requisicao->id_utilizador = $id_utilizador;
+        $requisicao->id_bib_levantamento = $id_biblioteca;
+        $requisicao->save();
+
+        for ($i = 0; $i < $carrinho_size; $i++){
+            $requisicao_livro->id_requisicao = $requisicao->id_requisicao;
+            $requisicao_livro->id_livro = $livros[$i];
+            $requisicao_livro->save();
+        }
+
+        /*foreach ($livros as $livro){
+            $requisicao_livro->id_requisicao = $requisicao->id_requisicao;
+            $requisicao_livro->id_livro = $livro;
+            $requisicao_livro->save();
+        }*/
+
     }
 
 }
