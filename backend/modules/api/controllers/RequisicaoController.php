@@ -142,7 +142,7 @@ class RequisicaoController extends ActiveController
         $requisicao->id_utilizador = $id_utilizador;
         $requisicao->id_bib_levantamento = $id_biblioteca;
         $requisicao->save();
-        
+
 
         foreach ($livros as $livro){
             $requisicao_livro = new RequisicaoLivro();
