@@ -38,7 +38,7 @@ class FavoritoController extends ActiveController
             return $favs;
         }
 
-        return ['Ainda não existem favoritos.'];
+        return [["id_favorito" => "false"]];
     }
 
 }
