@@ -19,7 +19,7 @@ class UtilizadorController extends ActiveController
 
     public $modelClass = 'app\models\Utilizador';
 
-    /*public function behaviors()
+    public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(),
@@ -36,7 +36,7 @@ class UtilizadorController extends ActiveController
         if ($user && $user->validatePassword($password)){
             return $user;
         }
-    }*/
+    }
 
 
     //inserir utilizador
@@ -139,7 +139,7 @@ class UtilizadorController extends ActiveController
 
         if($user->validatePassword($password)){
             $login->login();
-            return ['success' => true, 'token' => base64_encode($email.$password), 'id' => $user->id, 'bloqueado' => $utilizador->bloqueado];
+            return ['success' => true, 'token' => "Basic " . base64_encode($email . ":" .$password), 'id' => $user->id, 'bloqueado' => $utilizador->bloqueado];
         }else{
             return 'Palavra-passe incorreta. Tente novamente.';
         }

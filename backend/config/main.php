@@ -141,6 +141,13 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/user',
                     'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST email/{id}' => 'editar-email'
+                    ],
+
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ],
                 ],
             ],
         ],
