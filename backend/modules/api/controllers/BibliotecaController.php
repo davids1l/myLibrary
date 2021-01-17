@@ -15,7 +15,7 @@ class BibliotecaController extends ActiveController
     public $modelClass = 'app\models\Biblioteca';
 
     //Basic Auth para
-    public function behaviors()
+   /* public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
@@ -29,7 +29,7 @@ class BibliotecaController extends ActiveController
         if ($user && $user->validatePassword($password)){
             return $user;
         }
-    }
+    }*/
 
     //devolve as bibliotecas cujo código postal contenha o valor procurado
     public function actionCodigopostal($cod_postal){

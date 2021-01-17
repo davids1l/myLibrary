@@ -93,6 +93,7 @@ return [
                         'GET utilizadoresMaisRequisicoes' => 'utilizadores-mais-requisicoes',
                         'GET requisicoesBiblioteca' => 'requisicoes-biblioteca',
                         'GET tempoRestante' => 'tempo-restante',
+                        'POST create' => 'create-requisicao',
                     ],
 
                     'tokens' => [
@@ -148,6 +149,12 @@ return [
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
                     ],
+                ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/requisicao_livro',
+                    'pluralize' => false,
                 ],
             ],
         ],
