@@ -123,7 +123,6 @@ class RequisicaoController extends ActiveController
 
     public function actionCreateRequisicao(){
         $requisicao = new Requisicao();
-        $requisicao_livro = new RequisicaoLivro();
 
         $carrinho_size = \Yii::$app->request->post('carrinho_size');
 
