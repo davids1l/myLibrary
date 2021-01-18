@@ -111,6 +111,7 @@ return [
                         'GET leitor/{numero}' => 'utilizador-numero',
                         'GET bloqueados' => 'bloqueados',
                         'POST login' => 'login',
+                        'POST editar/{id}' => 'editar',
                     ],
 
                     'tokens' => [

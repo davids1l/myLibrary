@@ -144,4 +144,25 @@ class UtilizadorController extends ActiveController
             return 'Palavra-passe incorreta. Tente novamente.';
         }
     }
+
+
+    public function actionEditar($id){
+
+        $utilizador = Utilizador::find()->where(['id_utilizador' => $id])->one();
+        $user = User::find()->where(['id' => $id])->one();
+
+        $utilizador->primeiro_nome = Yii::$app->request->post('primeiro_nome');
+        $utilizador->ultimo_nome = Yii::$app->request->post('ultimo_nome');
+        $utilizador->num_telemovel = Yii::$app->request->post('num_telemovel');
+        $utilizador->dta_nascimento = Yii::$app->request->post('dta_nascimento');
+        $utilizador->nif = Yii::$app->request->post('nif');
+
+        $user->email = Yii::$app->request->post('email');
+
+        $utilizador->save();
+        $user->save();
+
+        return [$utilizador, 'email' => $user->email];
+
+    }
 }
