@@ -93,6 +93,8 @@ return [
                         'GET utilizadoresMaisRequisicoes' => 'utilizadores-mais-requisicoes',
                         'GET requisicoesBiblioteca' => 'requisicoes-biblioteca',
                         'GET tempoRestante' => 'tempo-restante',
+                        'GET emrequisicao/{id}' => 'verificar-em-requisicao',
+                        'GET total/{id}' => 'total-em-requisicao',
                         'POST create' => 'create-requisicao',
                     ],
 
@@ -156,6 +158,19 @@ return [
                     'controller' => 'api/requisicao_livro',
                     'pluralize' => false,
                 ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/autor',
+                    'pluralize' => false,
+                ],
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/editora',
+                    'pluralize' => false,
+                ],
+
             ],
         ],
     ],

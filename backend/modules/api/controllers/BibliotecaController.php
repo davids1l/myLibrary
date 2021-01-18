@@ -3,11 +3,6 @@
 
 namespace app\modules\api\controllers;
 
-
-use app\models\Utilizador;
-use common\models\User;
-use yii\filters\auth\HttpBasicAuth;
-use app\models\Requisicao;
 use yii\rest\ActiveController;
 
 class BibliotecaController extends ActiveController
