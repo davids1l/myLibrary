@@ -137,6 +137,13 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/comentario',
                     'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET utilizador/{id}' => 'utilizador-coments'
+                    ],
+
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ],
                 ],
 
                 [
