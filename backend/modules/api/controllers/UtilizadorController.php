@@ -170,7 +170,7 @@ class UtilizadorController extends ActiveController
     public function actionLeitor($id){
         $utilizador = Utilizador::find()->where(['id_utilizador' => $id])->one();
         $user = User::find()->where(['id' => $id])->one();
-        
+
         return ['utilizador' => $utilizador, 'email' => $user->email];
     }
 }

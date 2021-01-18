@@ -14,7 +14,7 @@ class FavoritoController extends ActiveController
 
 
     //Basic Auth
-    /*public function behaviors()
+    public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = ['class'=>HttpBasicAuth::className(), 'auth'=>[$this, 'authf']];
@@ -28,7 +28,7 @@ class FavoritoController extends ActiveController
         if ($user && $user->validatePassword($password)){
             return $user;
         }
-    }*/
+    }
 
     public function actionUtilizadorFavs($id){
         $model = new $this->modelClass;
