@@ -123,7 +123,6 @@ class RequisicaoController extends ActiveController
 
     public function actionCreateRequisicao(){
         $requisicao = new Requisicao();
-        $requisicao_livro = new RequisicaoLivro();
 
         $carrinho_size = \Yii::$app->request->post('carrinho_size');
 
@@ -151,6 +150,39 @@ class RequisicaoController extends ActiveController
             $requisicao_livro->save();
         }
 
+    }
+
+    public function actionVerificarEmRequisicao($id) {
+        $model = new $this->modelClass;
+
+        $sub = RequisicaoLivro::find()
+            ->where(['id_livro' => $id]);
+
+        $query = Requisicao::find()
+            ->where(['!=', 'estado', 'Terminada'])
+            ->innerJoin(['sub' => $sub], 'requisicao.id_requisicao = sub.id_requisicao')
+            ->all();
+
+        if ($query != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function actionTotalEmRequisicao($id) {
+        //$id => id_utilizador
+        $model = new $this->modelClass;
+
+        $sub = Requisicao::find()
+            ->where(['id_utilizador' => $id])
+            ->andWhere(['!=', 'estado', 'Terminada']);
+
+        $query = RequisicaoLivro::find()
+            ->innerJoin(['sub' => $sub], 'requisicao_livro.id_requisicao = sub.id_requisicao')
+            ->count();
+
+        return intval($query);
     }
 
 }
