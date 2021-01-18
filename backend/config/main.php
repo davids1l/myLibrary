@@ -112,6 +112,7 @@ return [
                         'GET bloqueados' => 'bloqueados',
                         'POST login' => 'login',
                         'POST editar/{id}' => 'editar',
+                        'GET dadosLeitor/{id}' => 'leitor',
                     ],
 
                     'tokens' => [
