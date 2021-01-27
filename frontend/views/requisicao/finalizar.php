@@ -27,7 +27,7 @@ $this->title = 'Finalizar requisição';
             foreach ($carrinhoSession as $livro) { ?>
                 <div class="col-xs-12 col-md-12 col-lg-12 livroField">
                     <div class="capa-livro-requisicao col-xs-4 col-md-1 col-lg-1">
-                        <?= Html::img($livro->capa, ['class' => 'capaLivroFinalizar']) ?>
+                        <?= Html::img('/myLibrary/backend/web/imgs/capas/' .$livro->capa, ['class' => 'capaLivroFinalizar']) ?>
                     </div>
                     <div class="detalhes-livro-requisicao col-xs-6 col-md-10 col-lg-10">
                         <h4><?= Html::encode($livro->titulo) ?></h4>

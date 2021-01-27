@@ -47,6 +47,7 @@ class UtilizadorController extends ActiveController
 
         $utilizador->primeiro_nome = preg_replace('/[^a-z]/i', '', iconv("UTF-8", "US-ASCII//TRANSLIT", \Yii::$app->request->post('primeiro_nome')));
         $utilizador->ultimo_nome = preg_replace('/[^a-z]/i', '', iconv("UTF-8", "US-ASCII//TRANSLIT", \Yii::$app->request->post('ultimo_nome')));
+        $utilizador->foto_perfil = $utilizador->atribuirImg();
 
         $user->username = strtolower($utilizador->primeiro_nome) . strtolower($utilizador->ultimo_nome);
 

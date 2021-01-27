@@ -38,7 +38,7 @@ $this->title = 'Requisição #' . $model->id_requisicao;
                     'label' => 'Capa',
                     'format' => 'html',
                     'value' => function ($detalhes) {
-                            return Html::img($detalhes->capa, ['width' => '100px']);
+                            return Html::img('/myLibrary/backend/web/imgs/capas/' . $detalhes->capa, ['width' => '100px']);
                     }
                 ],
             ]
