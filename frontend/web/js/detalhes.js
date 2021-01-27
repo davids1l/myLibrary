@@ -40,5 +40,16 @@ $('a').on('click', function (event) {
     }
 });
 
+//Animação para o botão de favorito
+var btnFav = document.querySelector('.fa-heart');
+
+btnFav.addEventListener('houver', function () {
+   btnFav.classList.toggle('btnFav');
+});
+
+/*$('fa-heart').on('click', function () {
+    toggleClass('')
+});*/
+
 
 
