@@ -27,7 +27,6 @@ $this->title = "Detalhes do Livro";
                     ])?>
                     <div class="overlay">
                         <?php if(!is_null($favorito)){ ?>
-                            <!-- <? Html::a('', ['favorito/delete', 'id' => $favorito->id_favorito], ['class'=>'fa fa-heart', ['data' => ['method' => 'post']]]) ?> -->
                              <a href="<?= Url::to(['favorito/delete', 'id' => $favorito->id_favorito])?>" data-method="POST" class="icon">
                                 <i class="fa fa-heart"></i>
                             </a>
@@ -56,16 +55,18 @@ $this->title = "Detalhes do Livro";
                     <!-- <span class="badge"><i class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></i><?= $totalFav?></span> -->
                 </div>
                 <div class="actions">
-                    <div class="col-lg-9">
-                        <?php if(!is_null($favorito)){ ?>
-                            <span class="badge" style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/delete', 'id' => $favorito->id_favorito],
-                                    ['data' => ['method' => 'post'], 'class' =>"glyphicon glyphicon-heart btnFav"])?><?= $totalFav?></span>
+                    <div class="">
+                        <?php if (!is_null($favorito)) { ?>
+                            <span class="badge"
+                                  style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/delete', 'id' => $favorito->id_favorito],
+                                    ['data' => ['method' => 'post'], 'class' => "glyphicon glyphicon-heart btnFav"]) ?><?= $totalFav ?></span>
                         <?php } else { ?>
-                            <span class="badge" style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"far fa-heart btnNotFav"])?><?= $totalFav?></span>
-                        <?php }?>
+                            <span class="badge"
+                                  style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' => "far fa-heart btnNotFav"]) ?><?= $totalFav ?></span>
+                        <?php } ?>
                     </div>
-                    <div class="col-lg-3" style="">
-                        <?= Html::a('', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart", 'id'=>'adicionarCarrinho'])?>
+                    <div class="" style="margin-top: 2%">
+                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']) ?> <!-- glyphicon glyphicon-shopping-cart -->
                     </div>
                 </div>
                 <div class="sinopse-content">

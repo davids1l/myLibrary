@@ -147,6 +147,19 @@
     height: auto;
 }
 
+#adicionarCarrinho {
+    background-color: red;
+    font-weight: bold;
+    color: white;
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#adicionarCarrinho:hover {
+    background-color: #555;
+}
+
 .capaDetalhes:hover .overlay {
     opacity: 0.6;
 }
@@ -216,6 +229,6 @@
     background-position:0 -15px;
 }
 
-.actions {
+/*.actions {
     display: flex;
-}
+}*/
