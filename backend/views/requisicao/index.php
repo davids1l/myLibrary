@@ -17,10 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr>
 
     <p>
-        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição p/ preparar', ['preparar'], ['class' => 'btn btn-info']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição pronta a Levantar', ['levantar'], ['class' => 'btn btn-info']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar Todas', ['index'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['site/index'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição por preparar', ['preparar'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição pronta a entregar', ['levantar'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar Todas', ['index'], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= GridView::widget([

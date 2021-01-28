@@ -4,6 +4,7 @@ namespace app\controllers;
 
 namespace backend\controllers;
 
+use app\models\UtilizadorSearch;
 use frontend\models\Multa;
 use app\models\Biblioteca;
 use app\models\Livro;
@@ -12,6 +13,7 @@ use app\models\RequisicaoLivro;
 use app\models\Utilizador;
 use Carbon\Carbon;
 use common\models\User;
+use SebastianBergmann\CodeCoverage\Util;
 use Yii;
 use app\models\Requisicao;
 use app\models\RequisicaoSearch;
@@ -202,6 +204,26 @@ class RequisicaoController extends Controller
         ]);
     }
 
+    public function actionAddUser() {
+        $user = new Utilizador();
+        $session = Yii::$app->session;
+
+        if (Yii::$app->request->post('Utilizador')['numero'] != null) {
+            $searchModel = new UtilizadorSearch();
+            $utilizador = $searchModel->procurar(Yii::$app->request->post('Utilizador')['numero']);
+
+            $session->open();
+            $_SESSION['dadosUser'] = $utilizador;
+            $session->close();
+        }else if (Yii::$app->request->post()) {
+            return $this->redirect(['create']);
+        }
+
+        return $this->render('addUser', [
+            'searchModel' => $user
+        ]);
+    }
+
     /**
      * Creates a new Requisicao model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -209,99 +231,65 @@ class RequisicaoController extends Controller
      */
     public function actionCreate()
     {
-        // Modelo e lista de livros a passar para a vista
-        $livro = new Livro();
+        $session = Yii::$app->session;
+        $utilizadorDados = $session->get('dadosUser');
+        if (isset($utilizadorDados)) {
+            // Modelo e lista de livros a passar para a vista
+            $livro = new Livro();
 
-        $allLivros = Livro::find()->all();
+            $allLivros = Livro::find()->all();
 
-        //livros em requisição
-        $subQuery1 = (new Query())
-            ->select('id_livro')->from('requisicao_livro')
-            ->innerJoin('requisicao', 'requisicao.id_requisicao = requisicao_livro.id_requisicao')
-            ->where(["!=", 'estado', 'Terminada'])->all();
+            // Requisição
+            $carrinho = Yii::$app->session->get('carrinho');
+            $postData = Yii::$app->request->post();
+            $userData = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->one();
+            $model = new Requisicao();
+            $modelReqLivro = new RequisicaoLivro();
 
-        $livrosReq = Livro::find()
-            ->where(['id_livro' => $subQuery1])
-            ->orderBy(['titulo' => SORT_ASC])
-            ->all();
+            $session = Yii::$app->session;
+            $utilizadorDados = $session->get('dadosUser');
 
-        //livros que não estão em requisição
-        $subQuery2 = (new Query())
-            ->select('id_livro')->from('requisicao_livro')
-            ->innerJoin('requisicao', 'requisicao.id_requisicao = requisicao_livro.id_requisicao')
-            ->where(['!=', 'estado', 'Em requisição'])
-            ->andWhere(['!=', 'estado', 'A aguardar tratamento'])
-            ->andWhere(['!=', 'estado', 'Pronta a levantar'])
-            ->all();
+            $model->id_utilizador = $utilizadorDados[0]->id_utilizador;
+            $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
+            $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
+            $model->estado = "Em requisição";
+            $model->id_bib_levantamento = $userData->id_biblioteca;
 
-        $livros = Livro::find()
-            ->where(['id_livro' => $subQuery2])
-            ->orderBy(['titulo' => SORT_ASC])
-            ->all();
+            if ($carrinho != null) {
+                $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
+                $num_excluir = (($total_livros) - 5);
 
+                if ($total_livros <= 5) {
+                    if (Yii::$app->request->post() && $model->save()) {
 
-        // Dados para popular menus dropdown.
-        $subQueryRole = (new Query())->select('user_id')->from('auth_assignment')->where(['item_name' => 'leitor']);
-        $utilizadores = Utilizador::find()
-            ->where(['id_utilizador' => $subQueryRole])
-            ->orderBy('id_utilizador')
-            ->all();
-        $listUtilizadores = ArrayHelper::map($utilizadores, 'id_utilizador', 'num_telemovel');
+                        $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
 
-        $bibliotecas = Biblioteca::find()
-            ->orderBy(['id_biblioteca' => SORT_ASC])
-            ->all();
-        $listBibliotecas = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
+                        Yii::$app->session->destroy();
+                        Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
 
-        // Requisição
-        $carrinho = Yii::$app->session->get('carrinho');
-        $postData = Yii::$app->request->post();
-
-        $model = new Requisicao();
-        $modelReqLivro = new RequisicaoLivro();
-
-        $model->dta_levantamento = Carbon::now()->format("Y-m-d\TH:i");
-        $model->dta_entrega = Carbon::now()->addDays("30")->format("Y-m-d\TH:i");
-        $model->estado = "Em requisição";
-
-        if ($model->load(Yii::$app->request->post()))
-            $model->id_bib_levantamento = $postData['Requisicao']['id_bib_levantamento'];
-
-        if ($carrinho != null) {
-            $total_livros = $this->totalLivrosEmRequisicao() + count($carrinho);
-            $num_excluir = (($total_livros) - 5);
-
-            if ($total_livros <= 5) {
-                if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-                    $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
-
-                    Yii::$app->session->destroy();
-                    Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
-
-                    return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                        return $this->redirect(['view', 'id' => $model->id_requisicao]);
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua ' . $num_excluir . ' livro para concluir esta requisição.');
+                    return $this->redirect(['requisicao/create']);
                 }
-            } else {
-                Yii::$app->session->setFlash('error', 'Excedeu o limite de 5 livros em requisição. Por favor, exclua ' . $num_excluir . ' livro para concluir esta requisição.');
-                return $this->redirect(['requisicao/create']);
+            } else if ($model->load(Yii::$app->request->post()) && $carrinho == null) {
+                Yii::$app->session->setFlash('error', 'Ocorreu um problema ao finalizar a sua requisição! Tente novamente.');
             }
-        } else if ($model->load(Yii::$app->request->post()) && $carrinho == null) {
-            Yii::$app->session->setFlash('error', 'Ocorreu um problema ao finalizar a sua requisição! Tente novamente.');
-        }
 
-        if (Yii::$app->request->post('Livro')['titulo'] != null) {
-            $searchModel = new LivroSearch();
-            $livros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
-        }
+            if (Yii::$app->request->post('Livro')['titulo'] != null) {
+                $searchModel = new LivroSearch();
+                $allLivros = $searchModel->procurar(Yii::$app->request->post('Livro')['titulo']);
+            }
 
-        return $this->render('create', [
-            'model' => $model,
-            'utilizadores' => $listUtilizadores,
-            'bibliotecas' => $listBibliotecas,
-            'livros' => $livros,
-            'livrosReq' => $livrosReq,
-            'searchModel' => $livro
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+                'allLivros' => $allLivros,
+                'searchModel' => $livro
+            ]);
+        } else {
+            return $this->redirect(['requisicao/add-user']);
+        }
     }
 
     /**
