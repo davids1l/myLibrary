@@ -26,21 +26,14 @@ $this->title = "Catálogo de Livros";
             </div>
             <div class="col-md-1 btnProcurar">
                 <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-info']) ?>
-                <!-- <?php ActiveForm::end(); ?> -->
             </div>
         </div>
         <div class="pesquisaDetalhada">
             <!--<?= Html::a('Filtros de pesquisa <i class="fa fa-caret-down"></i>', null, ['class'=>'pesquisaAvancada'])?> -->
             <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
-
         <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
             <?= Html::beginForm(['favorito/index'], 'post')?>
-            <!-- <?= Html::dropDownList('listar', null, ['Selecione o gênero..', 'Romance', 'Poesia', 'Biografia', 'Aventura', 'Drama', 'Conto', 'Infantil'],
-                ['class' => '', 'style' => 'height: 25px !important; width: 250px;']) ?>
-            <?= Html::dropDownList('listar', null, ['0'=>'Selecione a edição..', '1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'],
-                ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?> -->
-
             <div style="display: flex">
                 <div class="col-md-6">
                     <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
@@ -50,9 +43,7 @@ $this->title = "Catálogo de Livros";
                         ['prompt'=>'Selecione o gênero...'])?>
                 </div>
             </div>
-
-            <!-- <?= Html::submitButton('Procurar', ['class' => 'btnProcurarFiltros']) ?> -->
-            <?= Html::endForm() ?>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 
@@ -62,7 +53,7 @@ $this->title = "Catálogo de Livros";
             <!-- <h3>CATÁLOGO</h3> -->
             <?php if($catalogo != null) { ?>
                 <?php foreach ($catalogo as $livro) { ?>
-                    <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid" >
+                    <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                                 <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [

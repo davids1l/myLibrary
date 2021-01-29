@@ -22,8 +22,7 @@ $this->title = "Detalhes do Livro";
             <div class="col-xs-12 col-md-6 col-lg-4">
                 <div class="capaDetalhes">
                     <?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, [
-                        'id' => 'imgCapa',
-                        'style' => 'width: 100%;'
+                        'id' => 'imgCapa'
                     ])?>
                     <div class="overlay">
                         <?php if(!is_null($favorito)){ ?>

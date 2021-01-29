@@ -30,16 +30,11 @@ $this->title = "Catálogo de Livros";
             </div>
         </div>
         <div class="pesquisaDetalhada">
-            <a href="#pesquisa" class="pesquisa" data-content="toggle-text">Filtros de pesquisa <i class="fa fa-caret-down"></i></a>
+            <!--<?= Html::a('Filtros de pesquisa <i class="fa fa-caret-down"></i>', null, ['class'=>'pesquisaAvancada'])?> -->
+            <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
-
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; "> <!-- display: none; -->
+        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
             <?= Html::beginForm(['favorito/index'], 'post')?>
-            <!-- <?= Html::dropDownList('listar', null, ['Selecione o gênero..', 'Romance', 'Poesia', 'Biografia', 'Aventura', 'Drama', 'Conto', 'Infantil'],
-                ['class' => '', 'style' => 'height: 25px !important; width: 250px;']) ?>
-            <?= Html::dropDownList('listar', null, ['0'=>'Selecione a edição..', '1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'],
-                ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?> -->
-
             <div style="display: flex">
                 <div class="col-md-6">
                     <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
@@ -50,16 +45,16 @@ $this->title = "Catálogo de Livros";
                 </div>
             </div>
 
-            <!-- <?= Html::submitButton('Procurar', ['class' => 'btnProcurarFiltros']) ?> -->
             <?= Html::endForm() ?>
         </div>
     </div>
 
     <div class="catalogo-livros" style="margin-bottom: 2%;">
+        <hr>
         <div class="searchResults">
             <div class="col-md-12 livros-titulo">
                 <?php if ($livros != null) { ?>
-                    <h3>TÍTULOS(S) ENCONTRADOS</h3>
+                    <h3>LIVRO(S) ENCONTRADOS</h3>
                     <?php foreach ($livros as $livro) { ?>
                         <div class="col-xs-12 col-md-2 catalogo-grid">
                             <div class="capa">
