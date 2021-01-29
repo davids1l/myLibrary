@@ -1,11 +1,12 @@
-@media screen and (max-width: 600px){
+@media (max-width: 575.98px) {
     #imgCapa {
         width: 15%;
     }
 
-    /*.catalogo-grid{
-        margin-top: 50%;
-    }*/
+    .catalogo-grid{
+        /*margin-top: 50%;*/
+        height: 150px;
+    }
 }
 
 .capa {
@@ -20,4 +21,12 @@
 
 .capa:hover img {
     transform: scale(1.5);
+}
+
+.catalogo-grid {
+    height: 450px;
+}
+
+.btnProcurar {
+    margin-top: 1.75%;
 }

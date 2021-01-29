@@ -4,52 +4,109 @@
 
 $this->title = 'MyLibrary';
 
+use app\models\RequisicaoLivro;
+use app\models\Requisicao;
+
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm; ?>
+
 <div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Bem vindo à sua Biblioteca digital!</h1>
-
-        <p class="lead">Aceda à sua Biblioteca em qualquer lugar</p>
-
-        <?= Html::a('Crie uma conta', ['site/showmodal'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 5%;']); ?>
-
+    <div class="novos">
+        <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
+        <?php if($recentes != null) {?>
+            <?php foreach ($recentes as $recente){ ?>
+                <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
+                    <div class="capa">
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $recente->id_livro])?>">
+                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $recente->capa, [
+                                'id' => 'imgCapa'
+                            ])?>
+                        </a>
+                    </div>
+                    <div class="book-info">
+                        <h4><?= Html::encode($recente->titulo)?></h4>
+                        <h5><?= Html::encode($recente->genero)?></h5>
+                        <h6>Idioma: <?= Html::encode($recente->idioma)?></h6>
+                        <h6>Formato: <?= Html::encode($recente->formato)?></h6>
+                        <?php
+                        if($this->context->verificarEmRequisicao($recente->id_livro) == true){ ?>
+                            <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                        <?php } else { ?>
+                            <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php }
+        } else {?>
+            <p>Não existem livros.</p>
+        <?php }?>
     </div>
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2 class="text-center">Feedback</h2>
-
-                <p> Deixe o seu feedback sobre os livros que requisitou
-                    através do nosso sistema de comentários, onde poderá ler
-                    a opinião de outros leitores!
-                </p>
-
-            </div>
-            <div class="col-lg-4">
-                <h2 class="text-center">Catálogo</h2>
-
-                <p> Consulte já o nosso extenso catálogo de volumes, que estão
-                    disponiveis nos formatos físico e digital!
-                </p>
-
-                <?= Html::a('Consulte já', ['livro/catalogo'], ['class' => 'btn btn-default center-block', 'style' => 'margin-top: 3%;']); ?>
-
-            </div>
-            <div class="col-lg-4">
-                <h2 class="text-center" >Requisições</h2>
-
-                <p> Pode utilizar o nosso sistema de requisições para levantar
-                    os seus volumes na biblioteca que se encontra mais próxima
-                    de si!
-                </p>
-            </div>
-
-        </div>
+    <div class="col-lg-12 maisRequisitados">
+        <hr>
+        <?php if($maisRequisitados != null) { ?>
+            <h3 class="sub-titulo">MAIS REQUISITADOS</h3>
+            <?php foreach ($maisRequisitados as $livro) { ?>
+                <div class="col-xs-12 col-md-2 catalogo-grid">
+                    <div class="capa">
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
+                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                                'id' => 'imgCapa'
+                            ])?>
+                        </a>
+                    </div>
+                    <div class="book-info">
+                        <h4><?= Html::encode($livro->titulo)?></h4>
+                        <h5><?= Html::encode($livro->genero)?></h5>
+                        <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
+                        <h6>Formato: <?= Html::encode($livro->formato)?></h6>
+                        <?php
+                        if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
+                            <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                        <?php } else { ?>
+                            <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php }
+        } else {?>
+            <p>Não existem livros.</p>
+        <?php }?>
     </div>
+
+    <div class="col-lg-12 maisFavoritos">
+        <hr>
+        <?php if($maisFavoritos != null) { ?>
+            <h3 class="sub-titulo">OS PREFERIDOS DOS LEITORES</h3>
+            <?php foreach ($maisFavoritos as $livro) { ?>
+                <div class="col-xs-12 col-md-2 catalogo-grid">
+                    <div class="capa">
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
+                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                                'id' => 'imgCapa'
+                            ])?>
+                        </a>
+                    </div>
+                    <div class="book-info">
+                        <h4><?= Html::encode($livro->titulo)?></h4>
+                        <h5><?= Html::encode($livro->genero)?></h5>
+                        <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
+                        <h6>Formato: <?= Html::encode($livro->formato)?></h6>
+                        <?php
+                        if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
+                            <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                        <?php } else { ?>
+                            <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php }
+        } else {?>
+            <p>Não existem favoritos.</p>
+        <?php }?>
+    </div>
+
 
     <!-- Modal para abrir o login e o registo -->
     <div class="modal fade" id="regLogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

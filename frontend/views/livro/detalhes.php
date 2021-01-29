@@ -42,7 +42,7 @@ $this->title = "Detalhes do Livro";
             <div class="col-xs-12 col-md-7 col-lg-8 livro-info">
                 <h1><?= Html::encode($livro->titulo)?></h1>
                 <h3>de <?= Html::encode($livro->autor->nome_autor) ?></h3>
-                <div class="livro-info-detail">
+                <div class="livro-info-detail" >
                     <span>
                         <b>Edição: </b><?= Html::encode($livro->ano)?> |
                         <b>ISBN: </b><?= Html::encode($livro->isbn)?> |
@@ -65,22 +65,21 @@ $this->title = "Detalhes do Livro";
                                   style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' => "far fa-heart btnNotFav"]) ?><?= $totalFav ?></span>
                         <?php } ?>
                     </div>
-                    <div class="" style="margin-top: 2%">
+                    <div class="" style="margin-top: 5%">
                         <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']) ?> <!-- glyphicon glyphicon-shopping-cart -->
                     </div>
                 </div>
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>
                     <?php if($livro->sinopse != null) { ?>
-                        <div class="sinopse_more">
+                        <div class="sinopse_more" style="display: none;">
                             <span><?= Html::encode($livro->sinopse)?></span>
                         </div>
                         <div class="sinopse_less">
-                            <?php if (strlen($livro->sinopse) > 800){
-                                $sinopse = substr($livro->sinopse, 0, 800) . '...' ?>
+                            <?php if (strlen($livro->sinopse) > 800){ ?>
                                 <span class="sinopse" id="lessSinopse "><?= Html::encode(substr($livro->sinopse, 0, 800) . '...') ?></span>
                             <?php } else { ?>
-                            <span class="sinopse" id="lessSinopse "><?= Html::encode($livro->sinopse)?></span>
+                                <span class="sinopse" id="lessSinopse "><?= Html::encode($livro->sinopse)?></span>
                             <?php } ?>
                         </div>
                         <a href="#mostrarmais" class="mostrarmais" data-content="toggle-text">Mostrar mais</a>
@@ -173,9 +172,9 @@ $this->title = "Detalhes do Livro";
                     <h4><?= Html::encode($livro->titulo)?></h4>
                     <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                 </div>
-                <div style="margin-top: 4%">
+                <div class="row" style="margin-top: 4%">
                     <div class="col-xs-12 col-lg-4">
-                        <p><?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 155px;'])?></p>
+                        <p><?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 165px; height: 230px;'])?></p>
                     </div>
                     <div class="col-xs-12 col-lg-8">
                         <p><b>Edição: </b><?= Html::encode($livro->ano)?></p>

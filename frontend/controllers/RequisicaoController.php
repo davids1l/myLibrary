@@ -89,6 +89,7 @@ class RequisicaoController extends Controller
 
         $listBib = \yii\helpers\ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
 
+
         return $this->render('finalizar', [
             'model' => $model,
             'bibliotecas' => $listBib

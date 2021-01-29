@@ -1,5 +1,5 @@
 //Mostrar mais sinopse
-$(document).ready(function () {
+/*$(document).ready(function () {
     var sizeofsinopse = $(".sinopse_more").text().length;
 
     if (sizeofsinopse > 800){
@@ -8,7 +8,13 @@ $(document).ready(function () {
         $(".sinopse_less").hide();
         $(".mostrarmais").hide();
     }
-});
+});*/
+
+$('.sinopse_more').hide();
+
+if ( $(".sinopse_more").text().length < 800){
+    $('.mostrarmais').hide();
+}
 
 $(".mostrarmais").on("click", function () {
     if($(".sinopse_more").is(':visible')){
@@ -40,16 +46,6 @@ $('a').on('click', function (event) {
     }
 });
 
-//Animação para o botão de favorito
-var btnFav = document.querySelector('.fa-heart');
-
-btnFav.addEventListener('houver', function () {
-   btnFav.classList.toggle('btnFav');
-});
-
-/*$('fa-heart').on('click', function () {
-    toggleClass('')
-});*/
 
 
 

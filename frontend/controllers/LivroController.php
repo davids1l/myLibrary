@@ -3,6 +3,7 @@
 namespace app\controllers;
 namespace frontend\controllers;
 
+use app\models\Autor;
 use app\models\Comentario;
 use app\models\Favorito;
 use app\models\Requisicao;
@@ -122,14 +123,16 @@ class LivroController extends Controller
     {
         $model = new Livro();
 
-        $recentes = $this->livrosRecentesFilter();
+        /*$recentes = $this->livrosRecentesFilter();
         $maisRequisitados = $this->livrosMaisRequisitados();
-        $maisFavoritos = $this->livrosComMaisFavoritos();
+        $maisFavoritos = $this->livrosComMaisFavoritos();*/
 
         $catalogo = Livro::find()->all();
 
+        $generos = $this->obterGenerosLivros();
 
-        return $this->render('catalogo', ['model' => $model, 'maisRequisitados' => $maisRequisitados, 'recentes' => $recentes, 'maisFavoritos' => $maisFavoritos, 'catalogo' => $catalogo]);
+
+        return $this->render('catalogo', ['model' => $model, 'catalogo' => $catalogo, 'generos' => $generos]);
     }
 
     /**
@@ -162,7 +165,7 @@ class LivroController extends Controller
 
 
     /**
-     * Recebe um post do form do catalgo e executa a function search no modelo LivroSearch
+     * Recebe um post do form do catalgo e executa um search em que se verifique um livro com determinado título ou nome de autor
      *
      */
     public function actionProcurar()
@@ -171,16 +174,55 @@ class LivroController extends Controller
         //$params = Yii::$app->request->post();
         //$results = $model->procurar(Yii::$app->request->post());
 
-        $titulo = Yii::$app->request->post()['Livro']['titulo'];
+        $pesquisa = Yii::$app->request->post()['Livro']['titulo'];
 
-        $query = Livro::find()
-            ->where(['like', 'titulo',  $titulo])
+        $generoProcurado = Yii::$app->request->post()['Livro']['genero'];
+        $formatoProcurado = Yii::$app->request->post()['Livro']['formato'];
+
+        //var_dump(Yii::$app->request->post());die();
+
+        $generos = $this->obterGenerosLivros();
+
+
+
+        //obter os autores em que se verifique o nome recebido na pesquisa
+        $autores = Autor::find()
+            ->where(['like', 'nome_autor', $pesquisa]);
+
+        //obter os livros com o titulo que verifique o nome recebido na pesquisa
+        $livrosAutor = Livro::find()
+            //->where(['like', 'titulo',  $pesquisa])
+            ->innerJoin(['sub' => $autores], 'livro.id_autor = sub.id_autor')
             ->all();
 
+        $livros = Livro::find()
+            ->where(['like', 'titulo',  $pesquisa])
+            ->all();
+
+
         //return $this->redirect('livro/procurar', array('model' => new Livro(), 'results' => $results));
-        return $this->render('search', ['model'=> new Livro(), 'results'=>$query]);
+        return $this->render('search', ['model'=> new Livro(), 'livros'=>$livros, 'livrosAutor'=>$livrosAutor]);
     }
 
+    public function obterGenerosLivros() {
+
+        $query = (new yii\db\Query())
+            ->select('genero')
+            ->from('livro')
+            ->all();
+
+        $arrayHelper = [];
+
+        for ($i=0; $i < sizeof($query); $i++){
+            array_push($arrayHelper, $query[$i]['genero']);
+        }
+
+        $generos = array_unique($arrayHelper);
+
+        //var_dump($generos);die();
+
+        return $generos;
+    }
 
     /**
      * Displays detalhes page.
