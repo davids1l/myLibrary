@@ -20,79 +20,156 @@ $this->title = /*$utilizador->id_utilizador*/
     <h1><?= Html::encode($this->title) ?></h1>
     <hr>
     <div class="row perfil">
-        <div class="col-sm-5 text-center">
-            <?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $model->foto_perfil, ['width' => '234px', 'height' => '234px', 'class' => 'imagemPerfil']) ?>
-            <div class="row">
-                <div class="col-sm-6">
-                    <button type="button" class="btn-perfil" data-toggle="modal" data-target="#imageModel">Alterar
-                        Imagem
-                    </button>
+
+        <div class="col-md-4" style="padding: 10px">
+            <div class="col-md-12 text-center card"
+                 style="margin-right: 20px; margin-bottom: 20px; padding: 10px; height: 289px">
+                <?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $model->foto_perfil, ['width' => '234px', 'height' => '234px', 'class' => 'imagemPerfil']) ?>
+                <div class="text-right">
+                    <div class="dropdown">
+                        <a onclick="mostrarDropdown()" class="dropbtn glyphicon glyphicon-menu-down"
+                           style="font-size: 20px"></span></a>
+                        <div id="myDropdown" class="dropdown-content">
+                            <a data-toggle="modal" data-target="#imageModel">Alterar Foto</a>
+                            <?= Html::a('Remover Foto', ['utilizador/remover-img', 'id' => $model->id_utilizador]) ?>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <?php $form = ActiveForm::begin(['action' => ['utilizador/remover-img', 'id' => $model->id_utilizador]]) ?>
-                    <?= Html::submitButton('Remover Imagem', ['class' => 'btn-perfil']) ?>
-                    <?php ActiveForm::end() ?>
+            </div>
+
+            <div class="col-md-12 card" style="padding: 10px">
+                <h4 style="font-weight: bold">Outras informações</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5 style="font-weight: bold">Data de Registo</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5><?= Carbon::parse($model->dta_registo)->format('d/m/Y H:i:s') ?></h5>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-5">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h4 style="float: right">Nº de Leitor:</h4>
+
+
+        <div class="col-md-8" style="padding: 10px">
+            <div class="col-md-12 card" style="padding: 10px; margin-bottom: 20px">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 style="font-weight: bold">Nº de Leitor</h4>
+                    </div>
+                    <div class="col-sm-8 dados">
+                        <h4><?= Html::encode($model->numero) ?></h4>
+                    </div>
                 </div>
-                <div class="col-sm-6 perfil-dados">
-                    <h4><?= Html::encode($model->numero) ?></h4>
+
+                <hr style="margin: 3px;">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 style="font-weight: bold">Nome</h4>
+                    </div>
+                    <div class="col-sm-8 dados">
+                        <h4><?= Html::encode($model->primeiro_nome . " " . $model->ultimo_nome) ?> </h4>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h4 style="float: right">Nome:</h4>
+
+                <hr style="margin: 3px;">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 style="font-weight: bold">Email</h4>
+                    </div>
+                    <div class="col-sm-8 dados">
+                        <h4><?= Html::encode($userModel->email) ?> </h4>
+                    </div>
                 </div>
-                <div class="col-sm-6 perfil-dados">
-                    <h4><?= Html::encode($model->primeiro_nome . " " . $model->ultimo_nome) ?> </h4>
+
+                <hr style="margin: 3px;">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 style="font-weight: bold">Telemóvel</h4>
+                    </div>
+                    <div class="col-sm-8 dados">
+                        <h4><?= Html::encode($model->num_telemovel) ?> </h4>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h4 style="float: right">Email:</h4>
+
+                <hr style="margin: 3px;">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 style="font-weight: bold">Data de Nascimento</h4>
+                    </div>
+                    <div class="col-sm-8 dados">
+                        <h4><?= Carbon::parse($model->dta_nascimento)->format('d/m/Y') ?> </h4>
+                    </div>
                 </div>
-                <div class="col-sm-6 perfil-dados">
-                    <h4><?= Html::encode($userModel->email) ?> </h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h4 style="float: right">Nº de telemóvel:</h4>
-                </div>
-                <div class="col-sm-6 perfil-dados">
-                    <h4><?= Html::encode($model->num_telemovel) ?> </h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h4 style="float: right">Data de Nascimento:</h4>
-                </div>
-                <div class="col-sm-6 perfil-dados">
-                    <h4><?= Carbon::parse($model->dta_nascimento)->format('d/m/Y') ?> </h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h4 style="float: right">NIF:</h4>
-                </div>
-                <div class="col-sm-6 perfil-dados">
-                    <h4><?= Html::encode($model->nif) ?> </h4>
+
+                <hr style="margin: 3px;">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 style="font-weight: bold">NIF</h4>
+                    </div>
+                    <div class="col-sm-7 dados">
+                        <h4><?= Html::encode($model->nif) ?> </h4>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="dropdown">
+                            <a onclick="mostrarDropdownDados()" class="dropbtn glyphicon glyphicon-menu-down"
+                               style="font-size: 20px"></span></a>
+                            <div id="myDropdownDados" class="dropdown-content">
+                                <a data-toggle="modal" data-target="#perfilModal">Alterar Dados</a>
+                                <a data-toggle="modal" data-target="#passwordModal">Alterar Palavra-passe</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-sm-6 text-center">
-                    <button id="alterarDados" type="button" class="btn-perfil" data-toggle="modal" data-target="#perfilModal">Alterar dados</button>
+            <div class="col-md-12 card">
+                <div class="col-md-12" style="margin-right: 20px; padding: 10px">
+                    <h4><b>Estatísticas</b> - As estatísticas são calculadas conforme a lista de favoritos</h4>
                 </div>
+            </div>
 
-                <div class="col-sm-6 text-center">
-                    <button type="button" class="btn-perfil" data-toggle="modal" data-target="#passwordModal">Alterar palavra-passe</button>
+
+            <div class="row">
+                <div class="col-md-12" style="display: flex">
+
+                    <div class="col-md-6 card" style="margin-top: 10px; margin-right: 10px">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <h5 style="font-weight: bold">Autor favorito</h5>
+                            </div>
+                            <div class="col-sm-5">
+                                <h5><?= $autorFavorito ?></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 card" style="margin-top: 10px">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <h5 style="font-weight: bold">Gênero favorito</h5>
+                            </div>
+                            <div class="col-sm-5">
+                                <h5><?= $generoFavorito ?></h5>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6 card" style="margin-top: 10px">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <h5 style="font-weight: bold">Nº de livros requisitados</h5>
+                    </div>
+                    <div class="col-sm-5">
+                        <h5><?= $livrosRequisitados ?></h5>
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,7 +184,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Alterar Dados Pessoais</h2>
+                    <h2 class="modal-title" id="exampleModalLabel">Alterar Dados</h2>
                 </div>
                 <?php $form = ActiveForm::begin([
                     'action' => ['utilizador/update', 'id' => $model->id_utilizador], 'id' => 'formAlterar']) ?>
@@ -192,7 +269,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Alterar Imagem do Perfil</h2>
+                    <h2 class="modal-title" id="exampleModalLabel">Alterar Foto</h2>
                 </div>
                 <?php $form = ActiveForm::begin([
                     'action' => ['utilizador/upload-img', 'id' => $model->id_utilizador]]) ?>
@@ -208,7 +285,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Alterar Imagem', ['class' => 'btn-perfil']) ?>
+                    <?= Html::submitButton('Alterar Foto', ['class' => 'btn-perfil']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>

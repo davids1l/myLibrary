@@ -2,6 +2,10 @@
 
 namespace frontend\controllers;
 
+use app\models\Autor;
+use app\models\Favorito;
+use app\models\Livro;
+use app\models\Requisicao;
 use app\models\RequisicaoLivro;
 use common\models\UploadForm;
 use common\models\User;
@@ -9,6 +13,7 @@ use frontend\models\Utilizador;
 use Yii;
 use app\models\BibliotecarioSearch;
 use yii\base\ViewRenderer;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -93,7 +98,61 @@ class UtilizadorController extends Controller
         $model = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->identity->id])->one();
         $userModel = User::find()->where(['id' =>Yii::$app->user->identity->id])->one();
 
-        return $this->render('view', ['model' => $model, 'modelUpload' => $modelUpload, 'userModel' => $userModel]);
+
+        //Query para desobrir o número de livros requisitados
+        $subQuery = Requisicao::find()
+            ->where(['id_utilizador' => Yii::$app->user->id]);
+
+        $livrosRequisitados = RequisicaoLivro::find()
+            ->innerJoin(['sub' => $subQuery], 'requisicao_livro.id_requisicao = sub.id_requisicao')
+            ->count();
+
+        if($livrosRequisitados == 0){
+            $livrosRequisitados = 'Nenhum';
+        }
+
+
+        //Query para descobrir o autor favorito
+        $subQueryFavorito = Favorito::find()
+            ->where(['id_utilizador' => Yii::$app->user->id]);
+
+        $queryAutor = (new Query())
+            ->select(['*', 'COUNT(*) AS numAutor'])
+            ->from('livro')
+            ->innerJoin(['sub' => $subQueryFavorito], 'livro.id_livro = sub.id_livro')
+            ->groupBy('id_autor')
+            ->orderBy(['numAutor' => SORT_DESC])
+            ->limit(1)
+            ->all();
+
+        if($queryAutor == null){
+            $autorFavorito = 'Nenhum';
+        }else{
+            $autorFavorito = Autor::find()->where(['id_autor' => $queryAutor[0]['id_autor']])->one();
+            $autorFavorito = $autorFavorito->nome_autor;
+        }
+
+
+
+        //Query para descobrir o gênero favorito
+        $queryGenero = (new Query())
+            ->select(['*', 'COUNT(*) AS numGenero'])
+            ->from('livro')
+            ->innerJoin(['sub' => $subQueryFavorito], 'livro.id_livro = sub.id_livro')
+            ->groupBy('genero')
+            ->orderBy(['numGenero' => SORT_DESC])
+            ->limit(1)
+            ->all();
+
+        if($queryGenero == null){
+            $generoFavorito = 'Nenhum';
+        }else{
+            $generoFavorito = $queryGenero[0]['genero'];
+        }
+
+
+        return $this->render('view', ['model' => $model, 'modelUpload' => $modelUpload, 'userModel' => $userModel,
+            'autorFavorito' => $autorFavorito, 'generoFavorito' => $generoFavorito, 'livrosRequisitados' => $livrosRequisitados]);
     }
 
     /**
