@@ -30,9 +30,11 @@ $this->title = "Catálogo de Livros";
             </div>
         </div>
         <div class="pesquisaDetalhada">
-            <?= Html::a('Filtros de Pesquisa')?> <!-- , ['url' => ''], ['style' => 'cursor: pointer'] -->
+            <!--<?= Html::a('Filtros de pesquisa <i class="fa fa-caret-down"></i>', null, ['class'=>'pesquisaAvancada'])?> -->
+            <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; display: none;"> <!--  -->
+
+        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
             <?= Html::beginForm(['favorito/index'], 'post')?>
             <!-- <?= Html::dropDownList('listar', null, ['Selecione o gênero..', 'Romance', 'Poesia', 'Biografia', 'Aventura', 'Drama', 'Conto', 'Infantil'],
                 ['class' => '', 'style' => 'height: 25px !important; width: 250px;']) ?>
@@ -41,7 +43,7 @@ $this->title = "Catálogo de Livros";
 
             <div style="display: flex">
                 <div class="col-md-6">
-                    <?= $form->field($model, 'formato')->dropDownList(['Selecione o formato..','Físico', 'Ebook'])?>
+                    <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'genero')->dropDownList($generos,

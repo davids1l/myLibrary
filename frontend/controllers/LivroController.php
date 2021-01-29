@@ -170,10 +170,6 @@ class LivroController extends Controller
      */
     public function actionProcurar()
     {
-        //$model = new Livro();
-        //$params = Yii::$app->request->post();
-        //$results = $model->procurar(Yii::$app->request->post());
-
         $pesquisa = Yii::$app->request->post()['Livro']['titulo'];
 
         $generoProcurado = Yii::$app->request->post()['Livro']['genero'];
@@ -182,26 +178,40 @@ class LivroController extends Controller
         //var_dump(Yii::$app->request->post());die();
 
         $generos = $this->obterGenerosLivros();
+        $formatos = ['0'=>'Físico', '1'=>'Ebook'];
 
 
+        $livrosAutor = null;
 
-        //obter os autores em que se verifique o nome recebido na pesquisa
-        $autores = Autor::find()
-            ->where(['like', 'nome_autor', $pesquisa]);
 
-        //obter os livros com o titulo que verifique o nome recebido na pesquisa
-        $livrosAutor = Livro::find()
-            //->where(['like', 'titulo',  $pesquisa])
-            ->innerJoin(['sub' => $autores], 'livro.id_autor = sub.id_autor')
-            ->all();
+        if($generoProcurado!=null ){
+            //obter os livros de acordo com a pesquisa
+            $livros = Livro::find()
+                ->where(['like', 'titulo',  $pesquisa])
+                ->andWhere(['like', 'genero', $generos[$generoProcurado]])
+                ->all();
+        } elseif ($formatoProcurado!=null){
+            //obter os livros de acordo com a pesquisa
+            $livros = Livro::find()
+                ->where(['like', 'titulo',  $pesquisa])
+                ->andWhere(['like', 'formato', $formatos[$formatoProcurado]])
+                ->all();
+        } else {
+            $livros = Livro::find()
+                ->where(['like', 'titulo',  $pesquisa])
+                ->all();
 
-        $livros = Livro::find()
-            ->where(['like', 'titulo',  $pesquisa])
-            ->all();
+            $autores = Autor::find()
+                ->where(['like', 'nome_autor', $pesquisa]);
+
+            $livrosAutor = Livro::find()
+                ->innerJoin(['sub' => $autores], 'livro.id_autor = sub.id_autor')
+                ->all();
+        }
 
 
         //return $this->redirect('livro/procurar', array('model' => new Livro(), 'results' => $results));
-        return $this->render('search', ['model'=> new Livro(), 'livros'=>$livros, 'livrosAutor'=>$livrosAutor]);
+        return $this->render('search', ['model'=> new Livro(), 'livros'=>$livros, 'livrosAutor'=>$livrosAutor, 'generos'=>$generos]);
     }
 
     public function obterGenerosLivros() {

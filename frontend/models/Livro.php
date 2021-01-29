@@ -47,7 +47,7 @@ class Livro extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['titulo', 'isbn', 'ano', 'paginas', 'genero', 'idioma', 'formato', 'capa', 'sinopse', 'id_editora', 'id_biblioteca', 'id_autor'], 'required'],
+            [[/*'titulo',*/ 'isbn', 'ano', 'paginas', 'genero', 'idioma', 'formato', 'capa', 'sinopse', 'id_editora', 'id_biblioteca', 'id_autor'], 'required'],
             [['ano', 'paginas', 'id_editora', 'id_biblioteca', 'id_autor'], 'integer'],
             [['sinopse'], 'string'],
             [['titulo'], 'string', 'max' => 50],
