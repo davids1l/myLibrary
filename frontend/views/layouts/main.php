@@ -21,6 +21,9 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -36,6 +39,7 @@ AppAsset::register($this);
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
+            'role' => 'navigation',
         ],
     ]);
 
@@ -76,18 +80,18 @@ AppAsset::register($this);
             foreach ($carrinhoSession as $livro){
                 $items[] = ['label' => Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 50px']).' '.$livro->titulo, 'url' => ['/livro/detalhes/', 'id' => $livro->id_livro]];
             }
-            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>['/requisicao/finalizar'], 'class'=>'finalizarRequisicaoCarrinho'];
-            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart badge" id="carrinhoLivros">'.(count($items)-1).'</span>', 'url' => '', 'items' => $items];
+            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>['/requisicao/finalizar'], 'style'=>'background-color: #b9bbbe', 'class'=>'finalizarRequisicaoCarrinho'];
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart badge" id="carrinhoLivros">'.(count($items)-1).'/5</span>', 'url' => '', 'items' => $items];
 
         } else {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' =>
-                ['label' => '<b>Carrinho vazio</b>', 'url' => '']
+                ['label' => '<i>Carrinho vazio</i>']
             ];
         }
 
-        $submenus[] = ['label' => 'Perfil', 'url' => ['/utilizador/perfil']];
-        $submenus[] = ['label' => 'Favoritos', 'url' => ['/favorito/index']];
-        $submenus[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
+        $submenus[] = ['label' => '<i class="fas fa-user-circle"></i> Perfil', 'url' => ['/utilizador/perfil']];
+        $submenus[] = ['label' => '<i class="fab fa-gratipay"></i> Favoritos', 'url' => ['/favorito/index']];
+        $submenus[] = ['label' => '<i class="fas fa-sign-out-alt"></i> Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
         $menuItems[] = ['label' => $utilizador->primeiro_nome . '&nbsp ' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '20px', 'height' => '20px']), 'url' => '', 'items' => $submenus];
 
         //$menuItems[] = '<li>'
@@ -102,6 +106,14 @@ AppAsset::register($this);
         'items' => $menuItems,
         'encodeLabels' => false,
     ]);
+
+    echo "<form class='navbar-form navbar-left' role='search'>
+           <div class='form-group has-feedback'>
+                <input id='searchbox' type='text' placeholder='Search' class='form-control'>
+                <span id='searchicon' class='fa fa-search form-control-feedback'></span>
+            </div>
+         </form>";
+
     NavBar::end();
     ?>
 

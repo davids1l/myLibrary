@@ -1,4 +1,3 @@
-
 <?php
 
 /* @var $this yii\web\View */
@@ -16,141 +15,54 @@ use yii\widgets\LinkPager;
 $this->title = "Catálogo de Livros";
 
 //$this->params['breadcrumbs'][] = $this->title;
-/*<h1><?= Html::encode($this->title)?></h1><hr>
-
-<?= $form->field($model, 'formato')->dropDownList(['Nenhum','Físico', 'Ebook'])?>*/
+/*<h1><?= Html::encode($this->title)?></h1><hr>*/
 ?>
 <div class="container">
-    <div class="col-xs-12 col-md-12 col-lg-12 searchBar">
-        <div>
-            <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'action'=>['livro/procurar']]); ?>
-            <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Insira o título do livro'])?>
-            <?= Html::submitButton('Procurar', ['class' => 'btn btn-info']) ?>
-            <?php ActiveForm::end(); ?>
+    <div class="searchBar">
+         <div class="" style="display: flex;">
+            <div class="col-md-11">
+                <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'options' => ['class' => 'form-horizontal'], 'action'=>['livro/procurar']]); ?>
+                <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Pesquisar'])->label('')?>
+            </div>
+            <div class="col-md-1 btnProcurar">
+                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-info']) ?>
+            </div>
         </div>
-        <div>
-
+        <div class="pesquisaDetalhada">
+            <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa
+                <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
+        </div>
+        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
+            <?= Html::beginForm(['favorito/index'], 'post')?>
+            <div style="display: flex">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'genero')->dropDownList($generos,
+                        ['prompt'=>'Selecione o gênero...'])?>
+                </div>
+            </div>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 
     <div class="catalogo-livros">
-        <div class="col-md-6 col-lg-12 novos">
-            <hr>
-            <h3>NOVOS LANÇAMENTOS</h3>
-            <?php if($recentes != null) {?>
-                <?php foreach ($recentes as $recente){ ?>
-                    <div class="col-xs-12 col-md-2 catalogo-grid">
-                        <div class="capa">
-                            <a href="<?= Url::to(['detalhes', 'id' => $recente->id_livro])?>">
-                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $recente->capa, [
-                                    'id' => 'imgCapa'
-                                ])?>
-                            </a>
-                        </div>
-                        <div class="book-info">
-                            <h4><?= Html::encode($recente->titulo)?></h4>
-                            <h5><?= Html::encode($recente->genero)?></h5>
-                            <h6>Idioma: <?= Html::encode($recente->idioma)?></h6>
-                            <h6>Formato: <?= Html::encode($recente->formato)?></h6>
-                            <?php
-                            if($this->context->verificarEmRequisicao($recente->id_livro) == true){ ?>
-                                <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
-                            <?php } else { ?>
-                                <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
-                            <?php } ?>
-                        </div>
-                        <?= Html::a('VER', ['livro/detalhes', 'id' => $recente->id_livro])?>
-                    </div>
-                <?php }
-            } else {?>
-                <p>Não existem livros.</p>
-            <?php }?>
-        </div>
-
-        <div class="col-lg-12 maisRequisitados">
-            <hr>
-            <?php if($maisRequisitados != null) { ?>
-                <h3>MAIS REQUISITADOS</h3>
-                <?php foreach ($maisRequisitados as $livro) { ?>
-                    <div class="col-xs-12 col-md-2 catalogo-grid">
-                        <div class="capa">
-                            <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
-                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
-                                    'id' => 'imgCapa'
-                                ])?>
-                            </a>
-                        </div>
-                        <div class="book-info">
-                            <h4><?= Html::encode($livro->titulo)?></h4>
-                            <h5><?= Html::encode($livro->genero)?></h5>
-                            <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
-                            <h6>Formato: <?= Html::encode($livro->formato)?></h6>
-                            <?php
-                            if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
-                                <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
-                            <?php } else { ?>
-                                <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
-                            <?php } ?>
-                        </div>
-                        <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro])?>
-                    </div>
-                <?php }
-            } else {?>
-                <p>Não existem livros.</p>
-            <?php }?>
-        </div>
-
-        <div class="col-lg-12 maisFavoritos">
-            <hr>
-            <?php if($maisFavoritos != null) { ?>
-                <h3>OS PREFERIDOS DOS LEITORES</h3>
-                <?php foreach ($maisFavoritos as $livro) { ?>
-                    <div class="col-xs-12 col-md-2 catalogo-grid">
-                        <div class="capa">
-                            <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
-                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
-                                    'id' => 'imgCapa'
-                                ])?>
-                            </a>
-                        </div>
-                        <div class="book-info">
-                            <h4><?= Html::encode($livro->titulo)?></h4>
-                            <h5><?= Html::encode($livro->genero)?></h5>
-                            <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
-                            <h6>Formato: <?= Html::encode($livro->formato)?></h6>
-                            <?php
-                            if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
-                                <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
-                            <?php } else { ?>
-                                <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
-                            <?php } ?>
-                        </div>
-                        <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro])?>
-                    </div>
-                <?php }
-            } else {?>
-                <p>Não existem favoritos.</p>
-            <?php }?>
-        </div>
-
-
-
-        <div class="col-lg-12 catalogo">
-            <hr>
+        <hr>
+        <div class="catalogo">
+            <!-- <h3>CATÁLOGO</h3> -->
             <?php if($catalogo != null) { ?>
-                <h3>CATÁLOGO</h3>
                 <?php foreach ($catalogo as $livro) { ?>
-                    <div class="col-xs-12 col-md-2 catalogo-grid" style="height: 450px">
+                    <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
-                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
-                                    'id' => 'imgCapa'
-                                ])?>
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'])?>
                             </a>
                         </div>
                         <div class="book-info">
                             <h4><?= Html::encode($livro->titulo)?></h4>
-                            <h5><?= Html::encode($livro->genero)?></h5>
+                            <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
+                            <h6><?= Html::encode($livro->genero) ?></h6>
                             <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
                             <h6>Formato: <?= Html::encode($livro->formato)?></h6>
                             <?php
@@ -160,7 +72,6 @@ $this->title = "Catálogo de Livros";
                                 <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
                             <?php } ?>
                         </div>
-                        <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro])?>
                     </div>
                 <?php }
             } else {?>

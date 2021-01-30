@@ -19,19 +19,27 @@ $this->title = "Detalhes do Livro";
 <div class="container">
     <div class="row">
         <section class="col-xs-12">
-            <div class="col-xs-12 col-md-6 col-lg-6">
-                <div class="capa-livro">
-                    <?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, [
-                        'id' => 'imgCapa',
-                        'style' => 'width: 150%;'
-                    ])?>
+            <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="capaDetalhes">
+                    <?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa'])?>
+                    <div class="overlay">
+                        <?php if(!is_null($favorito)){ ?>
+                             <a href="<?= Url::to(['favorito/delete', 'id' => $favorito->id_favorito])?>" data-method="POST" class="icon">
+                                <i class="fa fa-heart"></i>
+                            </a>
+                        <?php } else { ?>
+                            <a href="<?= Url::to(['favorito/create', 'id' => $livro->id_livro]) ?>" class="icon">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        <?php }?>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-7 col-lg-6 livro-info">
+            <div class="col-xs-12 col-md-7 col-lg-8 livro-info">
                 <h1><?= Html::encode($livro->titulo)?></h1>
                 <h3>de <?= Html::encode($livro->autor->nome_autor) ?></h3>
-                <div class="livro-info-detail">
+                <div class="livro-info-detail" >
                     <span>
                         <b>Edição: </b><?= Html::encode($livro->ano)?> |
                         <b>ISBN: </b><?= Html::encode($livro->isbn)?> |
@@ -41,29 +49,34 @@ $this->title = "Detalhes do Livro";
                     </span>
                 </div>
                 <div class="rating">
-                    <span class="badge"><i class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></i><?= $totalFav?></span>
+                    <!-- <span class="badge"><i class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></i><?= $totalFav?></span> -->
                 </div>
-                <div class="actions" style="display: flex;">
-                    <?php if(!is_null($favorito)){ ?>
-                            <div class="btnAction" style="background-color: #c9302c; margin-left: 2%"><?= Html::a('', ['favorito/delete', 'id' => $favorito->id_favorito],
-                                    ['data' => ['method' => 'post'], 'class' =>"glyphicon glyphicon-heart"])?></div>
-                    <?php } else { ?>
-                        <div class="btnAction" style="background-color: #ced4da; margin-left: 2%"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' =>"glyphicon glyphicon-heart"])?></div>
-                    <?php }?>
-                    <div class="btnAction" style="margin-left: 2%"><?= Html::a('', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' =>"glyphicon glyphicon-shopping-cart", 'id'=>'adicionarCarrinho'])?></div>
+                <div class="actions">
+                    <div class="">
+                        <?php if (!is_null($favorito)) { ?>
+                            <span class="badge"
+                                  style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/delete', 'id' => $favorito->id_favorito],
+                                    ['data' => ['method' => 'post'], 'class' => "glyphicon glyphicon-heart btnFav"]) ?><?= $totalFav ?></span>
+                        <?php } else { ?>
+                            <span class="badge"
+                                  style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' => "far fa-heart btnNotFav"]) ?><?= $totalFav ?></span>
+                        <?php } ?>
+                    </div>
+                    <div class="" style="margin-top: 5%">
+                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']) ?> <!-- glyphicon glyphicon-shopping-cart -->
+                    </div>
                 </div>
                 <div class="sinopse-content">
                     <h4>SINOPSE</h4>
                     <?php if($livro->sinopse != null) { ?>
-                        <div class="sinopse_more">
+                        <div class="sinopse_more" style="display: none;">
                             <span><?= Html::encode($livro->sinopse)?></span>
                         </div>
                         <div class="sinopse_less">
-                            <?php if (strlen($livro->sinopse) > 800){
-                                $sinopse = substr($livro->sinopse, 0, 800) . '...' ?>
+                            <?php if (strlen($livro->sinopse) > 800){ ?>
                                 <span class="sinopse" id="lessSinopse "><?= Html::encode(substr($livro->sinopse, 0, 800) . '...') ?></span>
                             <?php } else { ?>
-                            <span class="sinopse" id="lessSinopse "><?= Html::encode($livro->sinopse)?></span>
+                                <span class="sinopse" id="lessSinopse "><?= Html::encode($livro->sinopse)?></span>
                             <?php } ?>
                         </div>
                         <a href="#mostrarmais" class="mostrarmais" data-content="toggle-text">Mostrar mais</a>
@@ -78,6 +91,7 @@ $this->title = "Detalhes do Livro";
     <div class="row">
         <section>
             <div class="col-xs-12 col-md-7 col-lg-6 comentarios">
+                <h4>COMENTÁRIOS</h4>
                 <div class="commentSection">
                     <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro, 'id' => 'formComentar']); ?>
                     <?= $form->field($modelComentario, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', 'style' => 'resize: none', 'id'=>'comentarioField']); ?>
@@ -155,9 +169,9 @@ $this->title = "Detalhes do Livro";
                     <h4><?= Html::encode($livro->titulo)?></h4>
                     <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                 </div>
-                <div style="margin-top: 4%">
+                <div class="row" style="margin-top: 4%">
                     <div class="col-xs-12 col-lg-4">
-                        <p><?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 155px;'])?></p>
+                        <p><?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 165px; height: 230px;'])?></p>
                     </div>
                     <div class="col-xs-12 col-lg-8">
                         <p><b>Edição: </b><?= Html::encode($livro->ano)?></p>

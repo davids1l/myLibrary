@@ -18,7 +18,8 @@ class ViewsAssets extends AssetBundle
     ];
     public $js = [
         'js/detalhes.js',
-        'js/perfil.js'
+        'js/perfil.js',
+        'js/catalogo.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

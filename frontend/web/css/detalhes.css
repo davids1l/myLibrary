@@ -76,10 +76,6 @@
     margin-top: 3%;
 }
 
-.capa-livro{
-    width: 50%;
-    height: 50%;
-}
 
 .showMoreComments{
     margin-top: 5%;
@@ -124,12 +120,94 @@
     text-align: justify;
 }
 
-.sinopse-content, .actions {
+.sinopse-content {
     margin-top: 10%;
 }
 
 .rating {
     margin-top: 2%;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: white;
+}
+
+#imgCapa {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#adicionarCarrinho {
+    background-color: red;
+    font-weight: bold;
+    color: white;
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#adicionarCarrinho:hover {
+    background-color: #555;
+}
+
+.capaDetalhes:hover .overlay {
+    opacity: 0.6;
+}
+
+.icon {
+    color: #cc2525;
+    font-size: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.fa-heart:hover {
+    color: red;
+}
+
+.btnFav {
+    /*background-color: red;*/
+    color: #a3000b;
+    /*height: 50px;
+    line-height: 42px;
+    width: 50px;*/
+    font-size: 20px;
+
+    text-decoration: none;
+}
+
+.btnFav:hover {
+    /*background-color: #ce0606;*/
+    text-decoration: none;
+    color: #8a0009;
+    /*font-size: 25px;*/
+}
+
+.btnNotFav {
+    /*background-color: red;*/
+    color: #a3000b;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.btnNotFav:hover {
+    /*background-color: #ce0606;*/
+    text-decoration: none;
+    color: #8a0009;
 }
 
 .btnAction {
@@ -151,6 +229,7 @@
     background-position:0 -15px;
 }
 
-.actions {
+/*.actions {
     display: flex;
-}
+}*/
+
