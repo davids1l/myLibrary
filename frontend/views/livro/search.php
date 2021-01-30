@@ -52,14 +52,14 @@ $this->title = "Catálogo de Livros";
     <div class="catalogo-livros" style="margin-bottom: 2%;">
         <hr>
         <div class="searchResults">
-            <div class="col-md-12 livros-titulo">
+            <div class="livros-titulo">
                 <?php if ($livros != null) { ?>
                     <h3>LIVRO(S) ENCONTRADOS</h3>
                     <?php foreach ($livros as $livro) { ?>
                         <div class="col-xs-12 col-md-2 catalogo-grid">
                             <div class="capa">
                                 <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
-                                    <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa']) ?>
+                                    <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;']) ?>
                                 </a>
                             </div>
                             <div class="book-info">
@@ -75,7 +75,6 @@ $this->title = "Catálogo de Livros";
                                     </h6>
                                 <?php } ?>
                             </div>
-                            <?= Html::a('VER', ['livro/detalhes', 'id' => $livro->id_livro]) ?>
                         </div>
                     <?php }
                 } ?>
@@ -105,7 +104,6 @@ $this->title = "Catálogo de Livros";
                                     </h6>
                                 <?php } ?>
                             </div>
-                            <?= Html::a('VER', ['livro/detalhes', 'id' => $livroAut->id_livro]) ?>
                         </div>
                     <?php }
                 } ?>

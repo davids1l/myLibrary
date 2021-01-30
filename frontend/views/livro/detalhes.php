@@ -21,9 +21,7 @@ $this->title = "Detalhes do Livro";
         <section class="col-xs-12">
             <div class="col-xs-12 col-md-6 col-lg-4">
                 <div class="capaDetalhes">
-                    <?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, [
-                        'id' => 'imgCapa'
-                    ])?>
+                    <?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa'])?>
                     <div class="overlay">
                         <?php if(!is_null($favorito)){ ?>
                              <a href="<?= Url::to(['favorito/delete', 'id' => $favorito->id_favorito])?>" data-method="POST" class="icon">

@@ -27,6 +27,11 @@
     height: 450px;
 }
 
-.btnProcurar {
+/*.btnProcurar {
     margin-top: 1.75%;
+}*/
+
+#imgCapa {
+    width: 160px;
+    height: 240px;
 }

@@ -29,8 +29,8 @@ $this->title = "Catálogo de Livros";
             </div>
         </div>
         <div class="pesquisaDetalhada">
-            <!--<?= Html::a('Filtros de pesquisa <i class="fa fa-caret-down"></i>', null, ['class'=>'pesquisaAvancada'])?> -->
-            <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
+            <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa
+                <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
         <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
             <?= Html::beginForm(['favorito/index'], 'post')?>
@@ -56,9 +56,7 @@ $this->title = "Catálogo de Livros";
                     <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
-                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
-                                    'id' => 'imgCapa'
-                                ])?>
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'])?>
                             </a>
                         </div>
                         <div class="book-info">

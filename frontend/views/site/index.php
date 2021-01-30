@@ -12,7 +12,43 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm; ?>
 
 <div class="site-index">
-    <div class="novos">
+
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-bottom: 3%;">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg')?>
+                <div class="carousel-caption">
+                    <button class="btn btn-success btn-sm">CATÁLOGO</button>
+                </div>
+            </div>
+            <div class="item">
+                <img src="..." alt="...">
+                <div class="carousel-caption">
+                    ...
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="col-lg-12 novos">
         <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
         <?php if($recentes != null) {?>
             <?php foreach ($recentes as $recente){ ?>
@@ -20,7 +56,7 @@ use yii\widgets\ActiveForm; ?>
                     <div class="capa">
                         <a href="<?= Url::to(['livro/detalhes', 'id' => $recente->id_livro])?>">
                             <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $recente->capa, [
-                                'id' => 'imgCapa'
+                                'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ])?>
                         </a>
                     </div>
@@ -52,7 +88,7 @@ use yii\widgets\ActiveForm; ?>
                     <div class="capa">
                         <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                             <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
-                                'id' => 'imgCapa'
+                                'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ])?>
                         </a>
                     </div>
@@ -84,7 +120,7 @@ use yii\widgets\ActiveForm; ?>
                     <div class="capa">
                         <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                             <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
-                                'id' => 'imgCapa'
+                                'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ])?>
                         </a>
                     </div>

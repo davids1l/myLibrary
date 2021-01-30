@@ -19,8 +19,6 @@ $this->title = 'Meus favoritos';
 
     <h1><?= Html::encode($this->title) ?></h1>
     <hr>
-
-
     <div class="listaFavoritos">
         <?php
         if ($livros != null) { ?>
