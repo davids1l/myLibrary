@@ -40,19 +40,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'buttons' => [
                                         'preparar' => function ($url, $model, $key) {
                                             if ($model->estado === "A aguardar tratamento") {
-                                                return Html::a('Tratar requisição', ['site/preparar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                    ]
-                                                ]);
-                                            } else if ($model->estado === "Pronta a levantar") {
-                                                return Html::a('Finalizar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                    ]
-                                                ]);
-                                            } else if ($model->estado === "Em requisição") {
-                                                return Html::a('Terminar requisição', ['site/terminar', 'id' => $model->id_requisicao], ['class' => 'btn btn-danger',
+                                                return Html::a('Tratar requisição', ['site/livro', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                                     'data' => [
                                                         'method' => 'post',
                                                     ]
@@ -103,20 +91,8 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'template' => '{preparar}',
                                     'buttons' => [
                                         'preparar' => function ($url, $model, $key) {
-                                            if ($model->estado === "A aguardar tratamento") {
-                                                return Html::a('Tratar requisição', ['site/preparar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                    ]
-                                                ]);
-                                            } else if ($model->estado === "Pronta a levantar") {
+                                            if ($model->estado === "Pronta a levantar") {
                                                 return Html::a('Finalizar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                    ]
-                                                ]);
-                                            } else if ($model->estado === "Em requisição") {
-                                                return Html::a('Terminar requisição', ['site/terminar', 'id' => $model->id_requisicao], ['class' => 'btn btn-danger',
                                                     'data' => [
                                                         'method' => 'post',
                                                     ]
@@ -197,7 +173,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
             <div class="col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Requisições prontas a entregar</h3>
+                        <h3 class="panel-title">Requisições ativas</h3>
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
@@ -220,19 +196,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'template' => '{preparar}',
                                     'buttons' => [
                                         'preparar' => function ($url, $model, $key) {
-                                            if ($model->estado === "A aguardar tratamento") {
-                                                return Html::a('Tratar requisição', ['site/preparar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                    ]
-                                                ]);
-                                            } else if ($model->estado === "Pronta a levantar") {
-                                                return Html::a('Finalizar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                    ]
-                                                ]);
-                                            } else if ($model->estado === "Em requisição") {
+                                            if ($model->estado === "Em requisição") {
                                                 return Html::a('Terminar requisição', ['site/terminar', 'id' => $model->id_requisicao], ['class' => 'btn btn-danger',
                                                     'data' => [
                                                         'method' => 'post',

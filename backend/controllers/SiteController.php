@@ -1,7 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use app\models\Livro;
 use app\models\Requisicao;
+use app\models\RequisicaoLivro;
 use app\models\RequisicaoSearch;
 use app\models\Utilizador;
 use app\models\UtilizadorSearch;
@@ -128,6 +130,19 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
         }
+    }
+
+    public function actionLivro($id) {
+        $reqLivro = RequisicaoLivro::find()->where(['id_requisicao' => $id])->all();
+
+        foreach($reqLivro as $rl) {
+            $livros[] = Livro::find()->where(['id_livro' => $rl->id_livro])->all();
+        }
+
+        return $this->render('/requisicao/livro', [
+            'livros' => $livros,
+            'requisicao' => $id
+        ]);
     }
 
     public function actionLevantar()
