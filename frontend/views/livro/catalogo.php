@@ -61,7 +61,8 @@ $this->title = "Catálogo de Livros";
                         </div>
                         <div class="book-info">
                             <h4><?= Html::encode($livro->titulo)?></h4>
-                            <h5><?= Html::encode($livro->genero)?></h5>
+                            <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
+                            <h6><?= Html::encode($livro->genero) ?></h6>
                             <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
                             <h6>Formato: <?= Html::encode($livro->formato)?></h6>
                             <?php

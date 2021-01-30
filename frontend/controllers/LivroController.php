@@ -218,18 +218,17 @@ class LivroController extends Controller
 
         $query = (new yii\db\Query())
             ->select('genero')
+            ->distinct('genero')
             ->from('livro')
             ->all();
 
-        $arrayHelper = [];
+
+        $generos = [];
 
         for ($i=0; $i < sizeof($query); $i++){
-            array_push($arrayHelper, $query[$i]['genero']);
+            array_push($generos, $query[$i]['genero']);
         }
 
-        $generos = array_unique($arrayHelper);
-
-        //var_dump($generos);die();
 
         return $generos;
     }

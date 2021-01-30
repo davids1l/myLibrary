@@ -147,3 +147,21 @@ a.desc:after {
 .sub-titulo {
     padding-left: 15px;
 }
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("myLibrary/frontend/web/imgs/diversos/carousel_1.jpg");
+
+    /* Full height */
+    height: 20%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

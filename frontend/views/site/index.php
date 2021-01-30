@@ -11,6 +11,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm; ?>
 
+
 <div class="site-index">
 
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-bottom: 3%;">
@@ -24,9 +25,9 @@ use yii\widgets\ActiveForm; ?>
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg')?>
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg') ?>
                 <div class="carousel-caption">
-                    <button class="btn btn-success btn-sm">CATÁLOGO</button>
+                    <!-- <button class="btn btn-success btn-sm">CATÁLOGO</button> -->
                 </div>
             </div>
             <div class="item">
@@ -50,23 +51,23 @@ use yii\widgets\ActiveForm; ?>
 
     <div class="col-lg-12 novos">
         <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
-        <?php if($recentes != null) {?>
-            <?php foreach ($recentes as $recente){ ?>
+        <?php if ($recentes != null) { ?>
+            <?php foreach ($recentes as $recente) { ?>
                 <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
                     <div class="capa">
-                        <a href="<?= Url::to(['livro/detalhes', 'id' => $recente->id_livro])?>">
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $recente->id_livro]) ?>">
                             <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $recente->capa, [
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
-                            ])?>
+                            ]) ?>
                         </a>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($recente->titulo)?></h4>
-                        <h5><?= Html::encode($recente->genero)?></h5>
-                        <h6>Idioma: <?= Html::encode($recente->idioma)?></h6>
-                        <h6>Formato: <?= Html::encode($recente->formato)?></h6>
+                        <h4><?= Html::encode($recente->titulo) ?></h4>
+                        <h5><?= Html::encode($recente->genero) ?></h5>
+                        <h6>Idioma: <?= Html::encode($recente->idioma) ?></h6>
+                        <h6>Formato: <?= Html::encode($recente->formato) ?></h6>
                         <?php
-                        if($this->context->verificarEmRequisicao($recente->id_livro) == true){ ?>
+                        if ($this->context->verificarEmRequisicao($recente->id_livro) == true) { ?>
                             <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
                         <?php } else { ?>
                             <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
@@ -74,14 +75,14 @@ use yii\widgets\ActiveForm; ?>
                     </div>
                 </div>
             <?php }
-        } else {?>
+        } else { ?>
             <p>Não existem livros.</p>
-        <?php }?>
+        <?php } ?>
     </div>
 
     <div class="col-lg-12 maisRequisitados">
         <hr>
-        <?php if($maisRequisitados != null) { ?>
+        <?php if ($maisRequisitados != null) { ?>
             <h3 class="sub-titulo">MAIS REQUISITADOS</h3>
             <?php foreach ($maisRequisitados as $livro) { ?>
                 <div class="col-xs-12 col-md-2 catalogo-grid">
@@ -89,16 +90,16 @@ use yii\widgets\ActiveForm; ?>
                         <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                             <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
-                            ])?>
+                            ]) ?>
                         </a>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($livro->titulo)?></h4>
-                        <h5><?= Html::encode($livro->genero)?></h5>
-                        <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
-                        <h6>Formato: <?= Html::encode($livro->formato)?></h6>
+                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h5><?= Html::encode($livro->genero) ?></h5>
+                        <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
+                        <h6>Formato: <?= Html::encode($livro->formato) ?></h6>
                         <?php
-                        if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
+                        if ($this->context->verificarEmRequisicao($livro->id_livro) == true) { ?>
                             <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
                         <?php } else { ?>
                             <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
@@ -106,14 +107,14 @@ use yii\widgets\ActiveForm; ?>
                     </div>
                 </div>
             <?php }
-        } else {?>
+        } else { ?>
             <p>Não existem livros.</p>
-        <?php }?>
+        <?php } ?>
     </div>
 
     <div class="col-lg-12 maisFavoritos">
         <hr>
-        <?php if($maisFavoritos != null) { ?>
+        <?php if ($maisFavoritos != null) { ?>
             <h3 class="sub-titulo">OS PREFERIDOS DOS LEITORES</h3>
             <?php foreach ($maisFavoritos as $livro) { ?>
                 <div class="col-xs-12 col-md-2 catalogo-grid">
@@ -121,16 +122,16 @@ use yii\widgets\ActiveForm; ?>
                         <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                             <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
-                            ])?>
+                            ]) ?>
                         </a>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($livro->titulo)?></h4>
-                        <h5><?= Html::encode($livro->genero)?></h5>
-                        <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>
-                        <h6>Formato: <?= Html::encode($livro->formato)?></h6>
+                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h5><?= Html::encode($livro->genero) ?></h5>
+                        <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
+                        <h6>Formato: <?= Html::encode($livro->formato) ?></h6>
                         <?php
-                        if($this->context->verificarEmRequisicao($livro->id_livro) == true){ ?>
+                        if ($this->context->verificarEmRequisicao($livro->id_livro) == true) { ?>
                             <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
                         <?php } else { ?>
                             <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
@@ -138,9 +139,9 @@ use yii\widgets\ActiveForm; ?>
                     </div>
                 </div>
             <?php }
-        } else {?>
+        } else { ?>
             <p>Não existem favoritos.</p>
-        <?php }?>
+        <?php } ?>
     </div>
 
 
@@ -163,11 +164,13 @@ use yii\widgets\ActiveForm; ?>
 
                         <?php if ($model->primeiro_nome != null) { ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
+                                <a class="nav-link" href="#registar" data-toggle="tab"
+                                   role="tab"><b>Registar</b></a>
                             </li>
                         <?php } else { ?>
                             <li class="nav-item-registar">
-                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
+                                <a class="nav-link" href="#registar" data-toggle="tab"
+                                   role="tab"><b>Registar</b></a>
                             </li>
                         <?php } ?>
                     </ul>
@@ -218,7 +221,7 @@ use yii\widgets\ActiveForm; ?>
                                                     <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
                                                 </div>
                                                 <div class="md-form form-sm mb-5">
-                                                    <?= $form->field($model, 'email')?>
+                                                    <?= $form->field($model, 'email') ?>
                                                 </div>
                                                 <div class="md-form form-sm mb-5">
                                                     <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
@@ -253,3 +256,6 @@ use yii\widgets\ActiveForm; ?>
                 </div>
             </div>
         </div>
+    </div>
+
+</div>
