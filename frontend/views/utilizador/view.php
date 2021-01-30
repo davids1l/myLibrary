@@ -27,8 +27,7 @@ $this->title = /*$utilizador->id_utilizador*/
                 <?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $model->foto_perfil, ['width' => '234px', 'height' => '234px', 'class' => 'imagemPerfil']) ?>
                 <div class="text-right">
                     <div class="dropdown">
-                        <a onclick="mostrarDropdown()" class="dropbtn glyphicon glyphicon-menu-down"
-                           style="font-size: 20px"></span></a>
+                        <a onclick="mostrarDropdown()" class="dropbtn glyphicon glyphicon-menu-down" style="font-size: 20px"></a>
                         <div id="myDropdown" class="dropdown-content">
                             <a data-toggle="modal" data-target="#imageModel">Alterar Foto</a>
                             <?= Html::a('Remover Foto', ['utilizador/remover-img', 'id' => $model->id_utilizador]) ?>

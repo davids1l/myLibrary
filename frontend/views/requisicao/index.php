@@ -31,6 +31,7 @@ $this->title = 'Histórico de Requisições';
             ],
             [
                 'label' => 'Nº de Livros',
+                'format' => 'html',
                 'value' => function ($model) {
                     return RequisicaoLivro::find()->where(['id_requisicao' => $model->id_requisicao])->count();
                 }
@@ -60,7 +61,7 @@ $this->title = 'Histórico de Requisições';
                 'template' => '{view} {multa}',
                 'buttons' => [
                     'view' => function ($url, $dataProvider, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['requisicao/showmodal', 'key'=> $key]); //glyphicon glyphicon-exclamation-sign
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['requisicao/view', 'id'=> $key]);
                     },
                     'multa' => function ($key, $model) {
 
@@ -75,51 +76,6 @@ $this->title = 'Histórico de Requisições';
             ],
         ],
     ]); ?>
-
-
-    <!-- Modal para mostrar a lista de livros -->
-    <div class="modal fade" id="livrosModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Requisição #<?= $key ?></h2>
-                </div>
-                <div class="row">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
-                        <?php
-                        $livros = RequisicaoLivro::find()->where(['id_requisicao' => $key])->all();
-                        foreach ($livros as $livro) {
-                            $detalhes = Livro::find()->where(['id_livro' => $livro->id_livro])->one();
-                            echo DetailView::widget([
-                                'model' => $detalhes,
-                                'attributes' => [
-                                    [
-                                        'label' => 'Título',
-                                        'value' => function ($detalhes) {
-                                            return $detalhes->titulo;
-                                        }
-                                    ],
-                                    [
-                                        'label' => 'Capa',
-                                        'format' => 'html',
-                                        'value' => function ($detalhes) {
-                                            return Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $detalhes->capa, ['width' => '100px']);
-                                        }
-                                    ],
-                                ]
-                            ]);
-                        }
-                        ?>
-                    </div>
-                    <div class="col-sm-2"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <!-- Modal para mostrar multa -->
