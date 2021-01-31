@@ -4,52 +4,146 @@
 
 $this->title = 'MyLibrary';
 
+use app\models\RequisicaoLivro;
+use app\models\Requisicao;
+
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm; ?>
+
+
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Bem vindo à sua Biblioteca digital!</h1>
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-bottom: 3%;">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
 
-        <p class="lead">Aceda à sua Biblioteca em qualquer lugar</p>
-
-        <?= Html::a('Crie uma conta', ['site/showmodal'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 5%;']); ?>
-
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2 class="text-center">Feedback</h2>
-
-                <p> Deixe o seu feedback sobre os livros que requisitou
-                    através do nosso sistema de comentários, onde poderá ler
-                    a opinião de outros leitores!
-                </p>
-
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg') ?>
+                <div class="carousel-caption">
+                    <!-- <button class="btn btn-success btn-sm">CATÁLOGO</button> -->
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2 class="text-center">Catálogo</h2>
-
-                <p> Consulte já o nosso extenso catálogo de volumes, que estão
-                    disponiveis nos formatos físico e digital!
-                </p>
-
-                <?= Html::a('Consulte já', ['livro/catalogo'], ['class' => 'btn btn-default center-block', 'style' => 'margin-top: 3%;']); ?>
-
+            <div class="item">
+                <img src="..." alt="...">
+                <div class="carousel-caption">
+                    ...
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2 class="text-center" >Requisições</h2>
-
-                <p> Pode utilizar o nosso sistema de requisições para levantar
-                    os seus volumes na biblioteca que se encontra mais próxima
-                    de si!
-                </p>
-            </div>
-
         </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
+
+    <div class="col-lg-12 novos">
+        <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
+        <?php if ($recentes != null) { ?>
+            <?php foreach ($recentes as $recente) { ?>
+                <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
+                    <div class="capa">
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $recente->id_livro]) ?>">
+                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $recente->capa, [
+                                'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
+                            ]) ?>
+                        </a>
+                    </div>
+                    <div class="book-info">
+                        <h4><?= Html::encode($recente->titulo) ?></h4>
+                        <h5><?= Html::encode($recente->genero) ?></h5>
+                        <h6>Idioma: <?= Html::encode($recente->idioma) ?></h6>
+                        <h6>Formato: <?= Html::encode($recente->formato) ?></h6>
+                        <?php
+                        if ($this->context->verificarEmRequisicao($recente->id_livro) == true) { ?>
+                            <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                        <?php } else { ?>
+                            <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php }
+        } else { ?>
+            <p>Não existem livros.</p>
+        <?php } ?>
+    </div>
+
+    <div class="col-lg-12 maisRequisitados">
+        <hr>
+        <?php if ($maisRequisitados != null) { ?>
+            <h3 class="sub-titulo">MAIS REQUISITADOS</h3>
+            <?php foreach ($maisRequisitados as $livro) { ?>
+                <div class="col-xs-12 col-md-2 catalogo-grid">
+                    <div class="capa">
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
+                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                                'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
+                            ]) ?>
+                        </a>
+                    </div>
+                    <div class="book-info">
+                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h5><?= Html::encode($livro->genero) ?></h5>
+                        <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
+                        <h6>Formato: <?= Html::encode($livro->formato) ?></h6>
+                        <?php
+                        if ($this->context->verificarEmRequisicao($livro->id_livro) == true) { ?>
+                            <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                        <?php } else { ?>
+                            <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php }
+        } else { ?>
+            <p>Não existem livros.</p>
+        <?php } ?>
+    </div>
+
+    <div class="col-lg-12 maisFavoritos">
+        <hr>
+        <?php if ($maisFavoritos != null) { ?>
+            <h3 class="sub-titulo">OS PREFERIDOS DOS LEITORES</h3>
+            <?php foreach ($maisFavoritos as $livro) { ?>
+                <div class="col-xs-12 col-md-2 catalogo-grid">
+                    <div class="capa">
+                        <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
+                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, [
+                                'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
+                            ]) ?>
+                        </a>
+                    </div>
+                    <div class="book-info">
+                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h5><?= Html::encode($livro->genero) ?></h5>
+                        <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
+                        <h6>Formato: <?= Html::encode($livro->formato) ?></h6>
+                        <?php
+                        if ($this->context->verificarEmRequisicao($livro->id_livro) == true) { ?>
+                            <h6>Disponível:<b style="color: #3c763d" class="glyphicon glyphicon-ok"></b></h6>
+                        <?php } else { ?>
+                            <h6>Disponível:<b style="color: #c9302c" class="glyphicon glyphicon-remove"></b></h6>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php }
+        } else { ?>
+            <p>Não existem favoritos.</p>
+        <?php } ?>
+    </div>
+
 
     <!-- Modal para abrir o login e o registo -->
     <div class="modal fade" id="regLogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -70,11 +164,13 @@ use yii\widgets\ActiveForm; ?>
 
                         <?php if ($model->primeiro_nome != null) { ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
+                                <a class="nav-link" href="#registar" data-toggle="tab"
+                                   role="tab"><b>Registar</b></a>
                             </li>
                         <?php } else { ?>
                             <li class="nav-item-registar">
-                                <a class="nav-link" href="#registar" data-toggle="tab" role="tab"><b>Registar</b></a>
+                                <a class="nav-link" href="#registar" data-toggle="tab"
+                                   role="tab"><b>Registar</b></a>
                             </li>
                         <?php } ?>
                     </ul>
@@ -125,7 +221,7 @@ use yii\widgets\ActiveForm; ?>
                                                     <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
                                                 </div>
                                                 <div class="md-form form-sm mb-5">
-                                                    <?= $form->field($model, 'email')?>
+                                                    <?= $form->field($model, 'email') ?>
                                                 </div>
                                                 <div class="md-form form-sm mb-5">
                                                     <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
@@ -160,3 +256,6 @@ use yii\widgets\ActiveForm; ?>
                 </div>
             </div>
         </div>
+    </div>
+
+</div>

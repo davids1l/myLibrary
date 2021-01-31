@@ -17,7 +17,9 @@ class ViewsAssets extends AssetBundle
         'css/historicoRequisicoes'
     ];
     public $js = [
-        'js/detalhes.js'
+        'js/detalhes.js',
+        'js/perfil.js',
+        'js/catalogo.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
