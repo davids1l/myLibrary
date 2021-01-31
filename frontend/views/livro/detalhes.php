@@ -63,7 +63,7 @@ $this->title = "Detalhes do Livro";
                         <?php } ?>
                     </div>
                     <div class="adicionar-carrinho" style="margin-top: 5%">
-                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']) ?>
+                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['id' => 'adicionarCarrinho']) ?>
                     </div>
                 </div>
                 <div class="sinopse-content">

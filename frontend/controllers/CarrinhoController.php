@@ -96,7 +96,15 @@ class CarrinhoController extends Controller
             $session->setFlash('error', 'Opss! Este livro já se encontra em requisição.');
         }
 
-        return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
+        //obter o url anterior
+        $previousUrl = Yii::$app->request->referrer;
+
+        //se o url anterior não for o da vista de detalhes então é feito o redrect para a página anterior
+        if("localhost".$previousUrl != ("localhost/mylibrary/frontend/web/index.php/livro/detalhes?id=".$id_livro)) {
+            return $this->redirect($previousUrl);
+        } else {
+            return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
+        }
     }
 
 

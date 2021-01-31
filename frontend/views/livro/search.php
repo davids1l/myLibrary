@@ -64,6 +64,9 @@ $this->title = "Catálogo de Livros";
                                 <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                                     <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;']) ?>
                                 </a>
+
+                                <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro],
+                                    ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                             </div>
                             <div class="book-info">
                                 <h4><?= Html::encode($livro->titulo) ?></h4>
@@ -93,6 +96,9 @@ $this->title = "Catálogo de Livros";
                                 <a href="<?= Url::to(['livro/detalhes', 'id' => $livroAut->id_livro]) ?>">
                                     <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livroAut->capa, ['id' => 'imgCapa']) ?>
                                 </a>
+
+                                <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livroAut->id_livro],
+                                    ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                             </div>
                             <div class="book-info">
                                 <h4><?= Html::encode($livroAut->titulo) ?></h4>
