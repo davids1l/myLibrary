@@ -10,8 +10,9 @@
 }
 
 .capa {
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
+
 
 .capa img {
     width: 100%;
@@ -34,4 +35,25 @@
 #imgCapa {
     width: 160px;
     height: 240px;
+}
+
+#btnTopo {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 200px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    width: 50px;
+}
+
+#btnTopo:hover {
+    background-color: #555;
 }
