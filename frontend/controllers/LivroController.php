@@ -180,25 +180,30 @@ class LivroController extends Controller
         $generos = $this->obterGenerosLivros();
         $formatos = ['0'=>'Físico', '1'=>'Ebook'];
 
-
         $livrosAutor = null;
 
-
-        if($generoProcurado!=null ){
+        if ($generoProcurado != null && $formatoProcurado!=null) {
             //obter os livros de acordo com a pesquisa
             $livros = Livro::find()
-                ->where(['like', 'titulo',  $pesquisa])
+                ->where(['like', 'titulo', $pesquisa])
+                ->andWhere(['like', 'formato', $formatos[$formatoProcurado]])
                 ->andWhere(['like', 'genero', $generos[$generoProcurado]])
                 ->all();
-        } elseif ($formatoProcurado!=null){
+        } elseif ($generoProcurado != null){
             //obter os livros de acordo com a pesquisa
             $livros = Livro::find()
-                ->where(['like', 'titulo',  $pesquisa])
+                ->where(['like', 'titulo', $pesquisa])
+                ->andWhere(['like', 'genero', $generos[$generoProcurado]])
+                ->all();
+        } elseif ($formatoProcurado != null) {
+            //obter os livros de acordo com a pesquisa
+            $livros = Livro::find()
+                ->where(['like', 'titulo', $pesquisa])
                 ->andWhere(['like', 'formato', $formatos[$formatoProcurado]])
                 ->all();
         } else {
             $livros = Livro::find()
-                ->where(['like', 'titulo',  $pesquisa])
+                ->where(['like', 'titulo', $pesquisa])
                 ->all();
 
             $autores = Autor::find()
@@ -208,7 +213,6 @@ class LivroController extends Controller
                 ->innerJoin(['sub' => $autores], 'livro.id_autor = sub.id_autor')
                 ->all();
         }
-
 
         //return $this->redirect('livro/procurar', array('model' => new Livro(), 'results' => $results));
         return $this->render('search', ['model'=> new Livro(), 'livros'=>$livros, 'livrosAutor'=>$livrosAutor, 'generos'=>$generos]);

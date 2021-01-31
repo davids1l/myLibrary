@@ -51,6 +51,9 @@ $this->title = "Catálogo de Livros";
 
     <div class="catalogo-livros" style="margin-bottom: 2%;">
         <hr>
+        <?php if($livros == null && $livrosAutor == null) { ?>
+            <p>Não foram encontrados resultados para a pesquisa.</p>
+        <?php } else { ?>
         <div class="searchResults">
             <div class="livros-titulo">
                 <?php if ($livros != null) { ?>
@@ -108,6 +111,7 @@ $this->title = "Catálogo de Livros";
                     <?php }
                 } ?>
             </div>
+            <?php } ?>
         </div>
     </div>
 </div>
