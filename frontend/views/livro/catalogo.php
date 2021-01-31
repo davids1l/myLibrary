@@ -14,10 +14,13 @@ use yii\widgets\LinkPager;
 
 $this->title = "Catálogo de Livros";
 
-//$this->params['breadcrumbs'][] = $this->title;
-/*<h1><?= Html::encode($this->title)?></h1><hr>*/
+
 ?>
+
 <div class="container">
+
+    <button id="btnTopo" title="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+
     <div class="searchBar">
          <div class="" style="display: flex;">
             <div class="col-md-11">

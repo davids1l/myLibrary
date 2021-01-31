@@ -97,4 +97,14 @@ class UtilizadorSearch extends Utilizador
 
         return $dataProvider;
     }
+
+    public function procurar($params)
+    {
+
+        $query = Utilizador::find()
+            ->where(['like', 'numero',  $params])
+            ->all();
+
+        return $query;
+    }
 }

@@ -62,8 +62,8 @@ $this->title = "Detalhes do Livro";
                                   style="background-color: #dedede; color: dimgrey;"><?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' => "far fa-heart btnNotFav"]) ?><?= $totalFav ?></span>
                         <?php } ?>
                     </div>
-                    <div class="" style="margin-top: 5%">
-                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']) ?> <!-- glyphicon glyphicon-shopping-cart -->
+                    <div class="adicionar-carrinho" style="margin-top: 5%">
+                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']) ?>
                     </div>
                 </div>
                 <div class="sinopse-content">
@@ -149,7 +149,6 @@ $this->title = "Detalhes do Livro";
                                 </div>
                             </div>
 
-
                         <?php }
                          if(sizeof($comentarios) > 3) {?>
                         <div class="showMoreComments">
@@ -163,7 +162,7 @@ $this->title = "Detalhes do Livro";
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-7 col-lg-6" id="bookDetails" style="margin-top: 3%">
+            <div class="col-xs-12 col-md-7 col-lg-6" id="bookDetails" style="margin-top: 4%">
                 <h4>DETALHES DO LIVRO</h4>
                 <div style="margin-top: 7%">
                     <h4><?= Html::encode($livro->titulo)?></h4>

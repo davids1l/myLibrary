@@ -95,14 +95,6 @@ AppAsset::register($this);
         'items' => $menuItems,
         'encodeLabels' => false,
     ]);
-
-    echo "<form class='navbar-form navbar-left' role='search'>
-           <div class='form-group has-feedback'>
-                <input id='searchbox' type='text' placeholder='Search' class='form-control'>
-                <span id='searchicon' class='fa fa-search form-control-feedback'></span>
-            </div>
-         </form>";
-
     NavBar::end();
     ?>
 
