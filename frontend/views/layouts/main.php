@@ -43,15 +43,9 @@ AppAsset::register($this);
         ],
     ]);
 
-    //$menuItems = [
-    //    ['label' => 'Home', 'url' => ['/site/index']],
-    //    ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
-    //    //['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
-    //    ['label' => 'Requisições', 'url' => ['/requisicao/index']],
-    //];
+
 
     if (Yii::$app->user->isGuest) {
-        //$menuItems[] = ['label' => 'Registar', 'url' => ['/site/signup']];
         $menuItems = [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Iniciar Sessão/Registar', 'url' => ['/site/showmodal']],
@@ -59,10 +53,9 @@ AppAsset::register($this);
 
     } else {
         $menuItems = [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Catálogo', 'url' => ['/livro/catalogo']],
-            //['label' => 'Perfil', 'url' => ['/utilizador/perfil']],
-            ['label' => 'Requisições', 'url' => ['/requisicao/index']],
+            ['label' => '<div class="text-center"><span style="font-size: 25px" class="fas fa-home"></span> </div><span style="font-size: 11px">HOME</span>', 'url' => ['/site/index']],
+            ['label' => '<div class="text-center"><span style="font-size: 25px" class="fas fa-book-open"></span></div> <span style="font-size: 11px">CATÁLOGO</span>', 'url' => ['/livro/catalogo']],
+            ['label' => '<div class="text-center"><span style="font-size: 25px" class="fas fa-archive"></span></div> <span style="font-size: 11px">REQUISIÇÕES</span>', 'url' => ['/requisicao/index']],
         ];
 
         if (Yii::$app->user->can('admin')) {
@@ -84,7 +77,7 @@ AppAsset::register($this);
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart badge" id="carrinhoLivros">'.(count($items)-1).'/5</span>', 'url' => '', 'items' => $items];
 
         } else {
-            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span>', 'url' => '', 'items' =>
+            $menuItems[] = ['label' => '<div class="text-center"><span style="font-size: 25px" class="fas fa-shopping-basket"></span></div><span style="font-size: 11px">CESTO </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span>', 'items' =>
                 ['label' => '<i>Carrinho vazio</i>']
             ];
         }
@@ -92,17 +85,13 @@ AppAsset::register($this);
         $submenus[] = ['label' => '<i class="fas fa-user-circle"></i> Perfil', 'url' => ['/utilizador/perfil']];
         $submenus[] = ['label' => '<i class="fab fa-gratipay"></i> Favoritos', 'url' => ['/favorito/index']];
         $submenus[] = ['label' => '<i class="fas fa-sign-out-alt"></i> Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
-        $menuItems[] = ['label' => $utilizador->primeiro_nome . '&nbsp ' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '20px', 'height' => '20px']), 'url' => '', 'items' => $submenus];
+        $menuItems[] = ['label' => '<div class="text-center"><span>' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '28px', 'height' => '28px']) . '</span></div><span style="font-size: 11px; text-transform: uppercase">' . $utilizador->primeiro_nome . ' </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span>', 'url' => '', 'items' => $submenus];
 
-        //$menuItems[] = '<li>'
-        //    . Html::beginForm(['/site/logout'], 'post')
-        //    . Html::submitButton('Logout (' . $utilizador->primeiro_nome . " " . $utilizador->ultimo_nome . ')', ['class' => 'btn btn-link logout'])
-        //    . Html::endForm()
-        //    . '</li>';
     }
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'dropDownCaret' => '',
         'items' => $menuItems,
         'encodeLabels' => false,
     ]);
