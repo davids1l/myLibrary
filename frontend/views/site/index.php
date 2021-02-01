@@ -4,6 +4,7 @@
 
 $this->title = 'MyLibrary';
 
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -11,7 +12,9 @@ use yii\widgets\ActiveForm;
 ?>
 
 
-<div class="site-index">
+<div class="container">
+
+    <button id="btnTopo" title="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
 
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-bottom: 3%;">
         <!-- Indicators -->
@@ -24,17 +27,23 @@ use yii\widgets\ActiveForm;
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg') ?>
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_2.jpg') ?>
                 <div class="carousel-caption">
                     <!-- <button class="btn btn-success btn-sm">CATÁLOGO</button> -->
                 </div>
             </div>
             <div class="item">
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg') ?>
+                <div class="carousel-caption">
+                    <!-- <button class="btn btn-success btn-sm">CATÁLOGO</button> -->
+                </div>
+            </div>
+            <!--<div class="item">
                 <img src="..." alt="...">
                 <div class="carousel-caption">
 
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <!-- Controls -->
@@ -48,7 +57,7 @@ use yii\widgets\ActiveForm;
         </a>
     </div>
 
-    <div class="col-lg-12 novos">
+    <div class="novos" style="margin-top: 5%">
         <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
         <?php if ($recentes != null) { ?>
             <?php foreach ($recentes as $recente) { ?>
@@ -59,6 +68,9 @@ use yii\widgets\ActiveForm;
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ]) ?>
                         </a>
+
+                        <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $recente->id_livro],
+                            ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
                         <h4><?= Html::encode($recente->titulo) ?></h4>
@@ -80,7 +92,7 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="col-lg-12 maisRequisitados">
+    <div class="maisRequisitados">
         <hr>
         <?php if ($maisRequisitados != null) { ?>
             <h3 class="sub-titulo">MAIS REQUISITADOS</h3>
@@ -92,6 +104,9 @@ use yii\widgets\ActiveForm;
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ]) ?>
                         </a>
+
+                        <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro],
+                            ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
                         <h4><?= Html::encode($livro->titulo) ?></h4>
@@ -113,7 +128,7 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="col-lg-12 maisFavoritos">
+    <div class="maisFavoritos">
         <hr>
         <?php if ($maisFavoritos != null) { ?>
             <h3 class="sub-titulo">OS PREFERIDOS DOS LEITORES</h3>
@@ -125,6 +140,9 @@ use yii\widgets\ActiveForm;
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ]) ?>
                         </a>
+
+                        <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro],
+                            ['class' => 'carrinho-overlay', 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
                         <h4><?= Html::encode($livro->titulo) ?></h4>

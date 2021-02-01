@@ -18,7 +18,7 @@ $this->title = "Detalhes do Livro";
 
 <div class="container">
     <div class="row">
-        <section class="col-xs-12">
+        <section>
             <div class="col-xs-12 col-md-6 col-lg-4">
                 <div class="capaDetalhes">
                     <?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa'])?>
@@ -63,6 +63,7 @@ $this->title = "Detalhes do Livro";
                         <?php } ?>
                     </div>
                     <div class="adicionar-carrinho" style="margin-top: 5%">
+                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['id' => 'adicionarCarrinho']) ?>
                         <?php
                         $session = Yii::$app->session;
                         $carrinho = $session->get('carrinho');
@@ -106,7 +107,7 @@ $this->title = "Detalhes do Livro";
 
     <div class="row">
         <section>
-            <div class="col-xs-12 col-md-7 col-lg-6 comentarios">
+            <div class="col-xs-12 col-md-6 comentarios" style="padding-left: 15px;">
                 <h4>COMENTÁRIOS</h4>
                 <div class="commentSection">
                     <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro, 'id' => 'formComentar']); ?>
@@ -178,9 +179,9 @@ $this->title = "Detalhes do Livro";
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-7 col-lg-6" id="bookDetails" style="margin-top: 4%">
+            <div class="col-xs-12 col-md-6" id="bookDetails" style="margin-top: 4%">
                 <h4>DETALHES DO LIVRO</h4>
-                <div style="margin-top: 7%">
+                <div style="margin-top: 5%">
                     <h4><?= Html::encode($livro->titulo)?></h4>
                     <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                 </div>

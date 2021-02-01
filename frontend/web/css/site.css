@@ -125,43 +125,75 @@ a.desc:after {
         width: 15%;
     }
 
-    /*.catalogo-grid{
+    .catalogo-grid{
         margin-top: 50%;
-    }*/
+    }
 }
 
-.capa {
-    overflow: hidden;
-}
-
-.capa img {
-    width: 100%;
-    height: 215px;
-    transition: 0.5s all ease-in-out;
-}
-
-.capa:hover img {
+/*.capa:hover img {
     transform: scale(1.5);
-}
+}*/
 
 .sub-titulo {
     padding-left: 15px;
 }
 
-body, html {
-    height: 100%;
-    margin: 0;
+.catalogo-grid {
+    width: 190px;
+    height: 450px;
+    margin-top: 1%
 }
 
-.bg {
-    /* The image used */
-    background-image: url("myLibrary/frontend/web/imgs/diversos/carousel_1.jpg");
-
-    /* Full height */
-    height: 20%;
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+h3 {
+    font-family: "Yu Gothic Light";
+    font-size: 25px;
 }
+
+#btnTopo {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    width: 50px;
+}
+
+#btnTopo:hover {
+    background-color: #555;
+}
+
+/* Adicionar ao carrinho - no hover da capa mostra o btn*/
+.capa .carrinho-overlay {
+    position: absolute;
+    top: 45.7%;
+    width: 84.4%;
+    opacity: 0;
+    text-align: center;
+}
+
+.capa img {
+    display: block;
+}
+
+.capa:hover .carrinho-overlay{
+    opacity: 1;
+    transition: .5s ease;
+}
+
+#adicionarCarrinho {
+    background-color: red;
+    font-weight: bold;
+    color: white;
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+

@@ -14,9 +14,10 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/perfil.css',
-        'css/historicoRequisicoes'
+        'css/historicoRequisicoes',
     ];
     public $js = [
+        'js/site_index.js',
         'js/perfil.js'
     ];
     public $depends = [
