@@ -35,7 +35,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'MyLibrary',
+        'brandLabel' => Html::img('/myLibrary/frontend/web/imgs/diversos/logo_mylibrary_3.png', ['style' => 'width: 70px']),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -71,21 +71,27 @@ AppAsset::register($this);
 
         if($carrinhoSession!=null){
             foreach ($carrinhoSession as $livro){
-                $items[] = ['label' => Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 50px']).' '.$livro->titulo, 'url' => ['/livro/detalhes/', 'id' => $livro->id_livro]];
+                $items[] = ['label' => '<div style="display: flex"><div class="col-md-10" style="display: flex; margin: 5px">' . Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 70px'])
+                    . ' ' . '<span style="margin-top: 40px; margin-left: 10px; width: 150px">' . $livro->titulo . '</span></div>'
+                    . Html::a(' <span style="margin-right: 10px; font-size: 20px; color: red" class="fas fa-times"></span>', ['carrinho/remover', 'id_livro' => $livro->id_livro]) . '</div>',
+                    'url' => ['/livro/detalhes/', 'id' => $livro->id_livro]];
             }
             $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>['/requisicao/finalizar'], 'style'=>'background-color: #b9bbbe', 'class'=>'finalizarRequisicaoCarrinho'];
-            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart badge" id="carrinhoLivros">'.(count($items)-1).'/5</span>', 'url' => '', 'items' => $items];
+            $menuItems[] = ['label' => '<div class="text-center"><span style="font-size: 25px" class="fas fa-shopping-basket" id="carrinhoLivros"></span></div>
+                                       <span style="font-size: 11px">CESTO </span>'.(count($items)-1).'/5<span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span>', 'items' => $items];
 
         } else {
             $menuItems[] = ['label' => '<div class="text-center"><span style="font-size: 25px" class="fas fa-shopping-basket"></span></div><span style="font-size: 11px">CESTO </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span>', 'items' =>
-                ['label' => '<i>Carrinho vazio</i>']
+                ['label' => '<div class="text-center">Cesto vazio</div>']
             ];
         }
 
-        $submenus[] = ['label' => '<i class="fas fa-user-circle"></i> Perfil', 'url' => ['/utilizador/perfil']];
-        $submenus[] = ['label' => '<i class="fab fa-gratipay"></i> Favoritos', 'url' => ['/favorito/index']];
-        $submenus[] = ['label' => '<i class="fas fa-sign-out-alt"></i> Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
-        $menuItems[] = ['label' => '<div class="text-center"><span>' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '28px', 'height' => '28px']) . '</span></div><span style="font-size: 11px; text-transform: uppercase">' . $utilizador->primeiro_nome . ' </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span>', 'url' => '', 'items' => $submenus];
+        $submenus[] = ['label' => '<i style="font-size: 20px; width: 20px" class="fas fa-user"></i> Perfil', 'url' => ['/utilizador/perfil']];
+        $submenus[] = ['label' => '<i style="font-size: 20px" class="fas fa-heart"></i> Favoritos', 'url' => ['/favorito/index']];
+        $submenus[] = ['label' => '<i style="font-size: 20px" class="fas fa-sign-out-alt"></i> Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
+        $menuItems[] = ['label' => '<div class="text-center"><span>' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '28px', 'height' => '28px'])
+            . '</span></div><span style="font-size: 11px; text-transform: uppercase">' . $utilizador->primeiro_nome
+            . ' </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span>', 'url' => '', 'items' => $submenus];
 
     }
 

@@ -125,7 +125,8 @@ class CarrinhoController extends Controller
             }
         }
 
-        return $this->redirect(['requisicao/finalizar']);
+        return $this->redirect(Yii::$app->request->referrer);
+        //return null; //$this->redirect(['requisicao/finalizar']);
 
     }
 

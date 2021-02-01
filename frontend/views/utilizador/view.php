@@ -29,8 +29,8 @@ $this->title = /*$utilizador->id_utilizador*/
                     <div class="dropdown">
                         <a onclick="mostrarDropdown()" class="dropbtn glyphicon glyphicon-menu-down" style="font-size: 20px"></a>
                         <div id="myDropdown" class="dropdown-content">
-                            <a data-toggle="modal" data-target="#imageModel">Alterar Foto</a>
-                            <?= Html::a('Remover Foto', ['utilizador/remover-img', 'id' => $model->id_utilizador]) ?>
+                            <a data-toggle="modal" data-target="#imageModel"><div style="display: inline"><i class="fas fa-image"></i> Alterar Foto</div></a>
+                            <?= Html::a('<div><i class="fas fa-times"></i> Remover Foto</div>', ['utilizador/remover-img', 'id' => $model->id_utilizador]) ?>
                         </div>
                     </div>
                 </div>
@@ -118,9 +118,9 @@ $this->title = /*$utilizador->id_utilizador*/
                         <div class="dropdown">
                             <a onclick="mostrarDropdownDados()" class="dropbtn glyphicon glyphicon-menu-down"
                                style="font-size: 20px"></span></a>
-                            <div id="myDropdownDados" class="dropdown-content">
-                                <a data-toggle="modal" data-target="#perfilModal">Alterar Dados</a>
-                                <a data-toggle="modal" data-target="#passwordModal">Alterar Palavra-passe</a>
+                            <div id="myDropdownDados" class="dropdown-content" style="width: max-content">
+                                <a data-toggle="modal" data-target="#perfilModal"><div style="display: inline"><i class="fas fa-user"></i> Alterar Dados</div></a>
+                                <a data-toggle="modal" data-target="#passwordModal"><div style="display: inline"><i class="fas fa-lock"></i> Alterar Palavra-passe</div></a>
                             </div>
                         </div>
                     </div>
@@ -214,7 +214,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Guardar Alterações', ['class' => 'btn-perfil']) ?>
+                    <?= Html::submitButton('<i class="fas fa-save"></i> Guardar', ['class' => 'btn-perfil']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>
@@ -252,7 +252,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Alterar palavra-passe', ['class' => 'btn-perfil']) ?>
+                    <?= Html::submitButton('<i class="fas fa-save"></i> Guardar', ['class' => 'btn-perfil']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>
@@ -284,7 +284,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Alterar Foto', ['class' => 'btn-perfil']) ?>
+                    <?= Html::submitButton('<i class="fas fa-save"></i> Guardar', ['class' => 'btn-perfil']) ?>
                 </div>
                 <?php ActiveForm::end() ?>
             </div>

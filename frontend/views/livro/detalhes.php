@@ -63,7 +63,23 @@ $this->title = "Detalhes do Livro";
                         <?php } ?>
                     </div>
                     <div class="adicionar-carrinho" style="margin-top: 5%">
-                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']) ?>
+                        <?php
+                        $session = Yii::$app->session;
+                        $carrinho = $session->get('carrinho');
+                        $flag = null;
+                        foreach ($carrinho as $livroCarrinho){
+                            if($livroCarrinho->id_livro == $livro->id_livro){
+                                $flag = 1;
+
+                            }
+                        }
+
+                        if($flag != null){ ?>
+                            <?=Html::a('REMOVER CESTO <i class="fas fa-shopping-basket"></i>', ['carrinho/remover', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']);?>
+                        <?php }else{ ?>
+                            <?=Html::a('ADICIONAR CESTO <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']);?>
+                        <?php } ?>
+
                     </div>
                 </div>
                 <div class="sinopse-content">
