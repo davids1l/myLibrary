@@ -20,6 +20,7 @@ class ViewsAssets extends AssetBundle
     public $js = [
         'js/detalhes.js',
         'js/catalogo.js',
+        'js/favoritos.js',
         //'js/site_index.js'
     ];
     public $depends = [

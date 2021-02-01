@@ -35,7 +35,7 @@ $this->title = "Catálogo de Livros";
             <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa
                 <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
+        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;"> <!-- display: none; -->
             <?= Html::beginForm(['favorito/index'], 'post')?>
             <div style="display: flex">
                 <div class="col-md-6">
@@ -53,7 +53,7 @@ $this->title = "Catálogo de Livros";
     <div class="catalogo-livros">
         <hr>
         <div class="catalogo">
-            <h3>CATÁLOGO</h3>
+            <h3 class="topicos">CATÁLOGO</h3>
             <?php if($catalogo != null) { ?>
                 <?php foreach ($catalogo as $livro) { ?>
                     <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">

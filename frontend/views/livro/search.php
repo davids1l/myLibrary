@@ -33,7 +33,7 @@ $this->title = "Catálogo de Livros";
             <!--<?= Html::a('Filtros de pesquisa <i class="fa fa-caret-down"></i>', null, ['class'=>'pesquisaAvancada'])?> -->
             <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
+        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;">
             <?= Html::beginForm(['favorito/index'], 'post')?>
             <div style="display: flex">
                 <div class="col-md-6">
@@ -57,7 +57,7 @@ $this->title = "Catálogo de Livros";
         <div class="searchResults">
             <div class="livros-titulo">
                 <?php if ($livros != null) { ?>
-                    <h3>LIVRO(S) ENCONTRADOS</h3>
+                    <h3 class="topicos">LIVRO(S) ENCONTRADOS</h3>
                     <?php foreach ($livros as $livro) { ?>
                         <div class="col-xs-12 col-md-2 catalogo-grid">
                             <div class="capa">
@@ -89,7 +89,7 @@ $this->title = "Catálogo de Livros";
 
             <div class="livros-atores">
                 <?php if ($livrosAutor != null) { ?>
-                    <h3>LIVROS DE AUTORES ENCONTRADOS</h3>
+                    <h3 class="topicos">LIVROS DE AUTORES ENCONTRADOS</h3>
                     <?php foreach ($livrosAutor as $livroAut) { ?>
                         <div class="col-xs-12 col-md-2 catalogo-grid">
                             <div class="capa">

@@ -23,16 +23,19 @@ $this->title = 'Meus favoritos';
         <?php
         if ($livros != null) { ?>
 
-            <div class="col-xs-12 col-md-12 col-lg-12 searchBar" style="margin-bottom: 2%">
-                <!-- <?php $form = ActiveForm::begin(['id' => 'listar-form', 'action' => ['favorito/']]); ?>
-                <?= $form->field($searchModel, 'dta_favorito')->label('Listar')->dropDownList(['0'=>'Nenhum..', '1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro']) ?>
-                <?= Html::submitButton('Listar', ['class' => 'btn btn-success']) ?>
-                <?php ActiveForm::end(); ?> -->
+            <div class="searchBar" style="margin-bottom: 2%">
+                <!--<div>
+                    <?php $form = ActiveForm::begin(['id' => 'listar-form', 'action' => ['favorito/']]); ?>
+                    <?= $form->field($searchModel, 'dta_favorito')->label('Listar')->dropDownList(['1' => 'Mais antigos primeiro', '2' => 'Mais recentes primeiro']) ?>
+                    <?= Html::submitButton('Listar', ['class' => 'btn btn-success']) ?>
+                    <?php ActiveForm::end(); ?>
+                </div>-->
 
-                <div class="dropdown">
-                    <?= Html::beginForm(['favorito/index'], 'post')?>
-                        <?= Html::dropDownList('listar', null, ['0'=>'Selecione..', '1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'], ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
-                        <?= Html::submitButton('Listar', ['class' => '']) ?>
+                <div class="filter">
+                    <?= Html::beginForm(['favorito/index'], 'post', ['id'=>'listarFavoritos'])?>
+                        <?= Html::dropDownList('listar', null, ['1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'],
+                            ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
+                        <!-- <?= Html::submitButton('Listar', ['class' => '']) ?> -->
                     <?= Html::endForm() ?>
                 </div>
             </div>
