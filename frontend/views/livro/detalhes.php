@@ -36,9 +36,9 @@ $this->title = "Detalhes do Livro";
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-7 col-lg-8 livro-info">
+            <div class="col-xs-12 col-md-6 col-lg-8 livro-info">
                 <h1><?= Html::encode($livro->titulo)?></h1>
-                <h3>de <?= Html::encode($livro->autor->nome_autor) ?></h3>
+                <h3 style="font-family: 'Yu Gothic Medium'; margin-top: unset; margin-bottom: 3%">de <?= Html::encode($livro->autor->nome_autor) ?></h3>
                 <div class="livro-info-detail" >
                     <span>
                         <b>Edição: </b><?= Html::encode($livro->ano)?> |
@@ -187,10 +187,10 @@ $this->title = "Detalhes do Livro";
                     <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                 </div>
                 <div class="row" style="margin-top: 4%">
-                    <div class="col-xs-12 col-lg-4">
+                    <div class="col-xs-6 col-md-4">
                         <p><?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 165px; height: 230px;'])?></p>
                     </div>
-                    <div class="col-xs-12 col-lg-8">
+                    <div class="col-xs-6 col-md-8">
                         <p><b>Edição: </b><?= Html::encode($livro->ano)?></p>
                         <p><b>Páginas: </b><?= Html::encode($livro->paginas)?></p>
                         <p><b>Formato: </b><?= Html::encode($livro->formato)?></p>

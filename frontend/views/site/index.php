@@ -57,8 +57,8 @@ use yii\widgets\ActiveForm;
         </a>
     </div>
 
-    <div class="novos" style="margin-top: 5%">
-        <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
+    <div class="col-12 novos" style="margin-top: 5%">
+        <h3 class="topicos">NOVOS LANÇAMENTOS</h3>
         <?php if ($recentes != null) { ?>
             <?php foreach ($recentes as $recente) { ?>
                 <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
@@ -92,10 +92,10 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="maisRequisitados">
+    <div class="col-12 maisRequisitados">
         <hr>
         <?php if ($maisRequisitados != null) { ?>
-            <h3 class="sub-titulo">MAIS REQUISITADOS</h3>
+            <h3 class="topicos">MAIS REQUISITADOS</h3>
             <?php foreach ($maisRequisitados as $livro) { ?>
                 <div class="col-xs-12 col-md-2 catalogo-grid">
                     <div class="capa">
@@ -128,10 +128,10 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="maisFavoritos">
+    <div class="col-12 maisFavoritos">
         <hr>
         <?php if ($maisFavoritos != null) { ?>
-            <h3 class="sub-titulo">OS PREFERIDOS DOS LEITORES</h3>
+            <h3 class="topicos">OS PREFERIDOS DOS LEITORES</h3>
             <?php foreach ($maisFavoritos as $livro) { ?>
                 <div class="col-xs-12 col-md-2 catalogo-grid">
                     <div class="capa">
