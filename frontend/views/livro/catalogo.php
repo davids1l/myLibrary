@@ -81,7 +81,7 @@ $this->title = "Catálogo de Livros";
                     </div>
                 <?php }
             } else {?>
-                <p>Não existem favoritos.</p>
+                <p>Não existem livros.</p>
             <?php }?>
         </div>
     </div>

@@ -33,9 +33,14 @@ $this->title = 'Meus favoritos';
 
                 <div class="filter">
                     <?= Html::beginForm(['favorito/index'], 'post', ['id'=>'listarFavoritos'])?>
-                        <?= Html::dropDownList('listar', null, ['1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'],
-                            ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
-                        <!-- <?= Html::submitButton('Listar', ['class' => '']) ?> -->
+                        <?php if (Yii::$app->session->get('favoritoList') == 2) {?>
+                            <?= Html::dropDownList('listar', null, ['2' => 'Mais antigos primeiro', '1' => 'Mais recentes primeiro'],
+                                ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
+                        <?php } else { ?>
+                            <?= Html::dropDownList('listar', null, ['1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'],
+                                ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
+                        <?php } ?>
+                        <?= Html::submitButton('Listar', ['class' => '']) ?>
                     <?= Html::endForm() ?>
                 </div>
             </div>

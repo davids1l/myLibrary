@@ -60,6 +60,8 @@ class FavoritoController extends Controller
         $searchModel = new FavoritoSearch();
 
         $session = Yii::$app->session;
+        //$session->destroySession('favoritoList');
+
         $post = Yii::$app->request->post('listar');
 
         //se o post!=null, então cria uma variavél de sessão para armazenar o tipo de listagem (SORT_ASC/SORT_DESC) dos favoritos
@@ -80,9 +82,11 @@ class FavoritoController extends Controller
         switch ($tipoListagem){
             case 1:
                 $favoritos = $this->listarPorData(3);
+                //$session->destroySession('favoritoList');
                 break;
             case 2:
                 $favoritos = $this->listarPorData(4);
+                //$session->destroySession('favoritoList');
                 break;
             default:
                 $favoritos = Favorito::find()
