@@ -38,6 +38,12 @@
     transform: scale(1.5);
 }*/
 
+h3 {
+    font-family: "Yu Gothic Light";
+    font-size: 25px;
+    padding-left: 15px;
+}
+
 .catalogo-grid {
     width: 190px;
     height: 450px;
@@ -46,11 +52,6 @@
 /*.btnProcurar {
     margin-top: 1.75%;
 }*/
-
-#imgCapa {
-    width: 160px;
-    height: 240px;
-}
 
 #btnTopo {
     display: none;

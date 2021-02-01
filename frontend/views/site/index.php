@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
         </a>
     </div>
 
-    <div class="novos">
+    <div class="novos" style="margin-top: 5%">
         <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
         <?php if ($recentes != null) { ?>
             <?php foreach ($recentes as $recente) { ?>

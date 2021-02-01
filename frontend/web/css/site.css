@@ -141,8 +141,13 @@ a.desc:after {
 .catalogo-grid {
     width: 190px;
     height: 450px;
+    margin-top: 1%
 }
 
+h3 {
+    font-family: "Yu Gothic Light";
+    font-size: 25px;
+}
 
 #btnTopo {
     display: none;
