@@ -227,7 +227,8 @@ class SiteController extends Controller
 
         } else {
             $model->password = '';
-            return $this->actionShowmodal($model);
+            return $this->render('login', ['model' => $model]);
+            //return $this->actionShowmodal($model);
         }
     }
 
@@ -292,7 +293,8 @@ class SiteController extends Controller
 
         $user->password = '';
         $user->confirmarPassword = '';
-        return $this->actionShowmodal(null, $user);
+        return $this->render('signup', ['model' => $user]);
+        //return $this->actionShowmodal(null, $user);
     }
 
     /**

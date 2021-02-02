@@ -18,7 +18,7 @@ $this->title = "Detalhes do Livro";
 
 <div class="container">
     <div style="margin-bottom: 2%;margin-top: 10px">
-        <a href="<?= Url::to(['livro/catalogo']) ?>" class="btnCatalogo"><span class="fas fa-arrow-left" style="margin-right: 3px"></span> Catálogo</a>
+        <a href="<?= Url::to(['livro/catalogo']) ?>" class="btnCatalogo" style="color: #f26b3b"><span class="fas fa-arrow-left" style="margin-right: 3px"></span> Catálogo</a>
     </div>
     <div class="row">
         <section>
@@ -40,8 +40,8 @@ $this->title = "Detalhes do Livro";
             </div>
 
             <div class="col-xs-12 col-md-6 col-lg-8 livro-info">
-                <h1 class="titulo"><?= Html::encode($livro->titulo)?></h1>
-                <h3 class="autor" style="font-family: 'Yu Gothic Medium'; margin-top: unset; margin-bottom: 3%">de <?= Html::encode($livro->autor->nome_autor) ?></h3>
+                <h1 class="tituloLivro"><?= Html::encode($livro->titulo)?></h1>
+                <h3 style="font-family: 'Yu Gothic Medium'; margin-top: unset; margin-bottom: 3%">de <?= Html::encode($livro->autor->nome_autor) ?></h3>
                 <div class="livro-info-detail" >
                     <span>
                         <b class="campos">Edição: </b><?= Html::encode($livro->ano)?> |

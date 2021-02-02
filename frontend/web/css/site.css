@@ -210,11 +210,11 @@ a.desc:after {
 }
 
 .titulo{
-    color: #f26b3b;
     letter-spacing: 1px;
 }
 
-.autor{
+.tituloLivro{
+    letter-spacing: 1px;
     color: #f26b3b;
 }
 
@@ -224,4 +224,60 @@ a.desc:after {
 
 .carousel-indicators li.active{
     background-color: #f26b3b;
+}
+
+.tituloLogin{
+    color: #f26b3b;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    margin-top: 30px;
+}
+
+.tituloRegistar{
+    color: #f26b3b;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    margin-top: 30px;
+}
+
+.btnLogin{
+    background-color: #f26b3b;
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.btnLogin:hover{
+    color: #222;
+}
+
+.divLinkRegistar{
+    background-color: white;
+    border: 2px solid #f26b3b;
+    font-size: 16px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 25px;
+}
+
+.linkRegistar{
+    color: black;
+    text-transform: uppercase;
+}
+
+.linkRegistar:hover{
+    color: #f26b3b;
+    text-decoration: none;
+}
+
+.campoRegisto{
+    height: 40px;
+    font-size: 16px;
 }
