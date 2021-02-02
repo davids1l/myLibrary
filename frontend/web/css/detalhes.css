@@ -40,24 +40,15 @@
     }
 
     .livroField {
-        background-color: #e5e5e5;
+        /*background-color: #e5e5e5;
         margin-top: 1%;
-        padding: 1%;
+        padding: 1%;*/
+
+        padding: 10px;
+        height: 130px;
+        margin: 10px;
+        box-shadow: 0 0 5px lightgray;
     }
-}
-
-.favoritoAction {
-    color: darkred;
-}
-
-.imgCapa {
-    width: 150%;
-}
-
-.livroField {
-    background-color: #e5e5e5;
-    margin-top: 1%;
-    padding: 1%;
 }
 
 .capaLivroFinalizar {

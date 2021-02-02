@@ -73,12 +73,13 @@
 
 #btnTopo:hover {
     background-color: #555;
+    box-shadow: 0 0 15px dimgrey;
 }
 
 /* Adicionar ao carrinho - no hover da capa mostra o btn*/
 .capa .carrinho-overlay {
     position: absolute;
-    top: 45.7%;
+    top: 46%;
     width: 84.4%;
     opacity: 0;
     text-align: center;
@@ -93,3 +94,50 @@
     transition: .5s ease;
 }
 
+.pesquisaSimples {
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+
+/* Lista de favoritos */
+.favoritoAction {
+    color: grey;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.favoritoAction:hover {
+    color: #d43f3a;
+}
+
+
+.dropdown-listar {
+    height: 30px;
+    width: 200px;
+}
+
+.dropdown-listar:focus {
+    box-shadow: 0 0 4px cornflowerblue;
+}
+
+.livroField {
+    /*background-color: #e5e5e5;
+    margin-top: 1%;
+    padding: 1%;*/
+    border-radius: 3px;
+    padding: 10px;
+    height: 130px;
+    max-width: 370px; /* para scale -> 370 */
+    margin: 10px; /* para scale -> 15 */
+    box-shadow: 0 0 5px lightgray;
+    transition: all .2s ease-in-out;
+}
+
+.livroField:hover {
+    box-shadow: 0 0 12px lightgray;
+    /*transform: scale(1.1);*/
+}
+
+/*---------------------------------- */
