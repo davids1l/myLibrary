@@ -68,7 +68,7 @@ class RequisicaoController extends Controller
     {
         if (Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')) {
             $searchModel = new RequisicaoSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 4);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,

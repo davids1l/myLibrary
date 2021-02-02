@@ -53,10 +53,15 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                 ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
-                                    'template' => '{view}',
+                                    'template' => '{delete}',
                                     'buttons' => [
                                         'view' => function ($url, $model, $key) {
-                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao]);
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao], [
+                                                'data' => [
+                                                    'confirm' => 'Pretende eliminar esta requisição?',
+                                                    'method' => 'post',
+                                                ]
+                                            ]);
                                         }
                                     ]
                                 ]
@@ -88,9 +93,9 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                 ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
-                                    'template' => '{preparar}',
+                                    'template' => '{entregar}',
                                     'buttons' => [
-                                        'preparar' => function ($url, $model, $key) {
+                                        'entregar' => function ($url, $model, $key) {
                                             if ($model->estado === "Pronta a levantar") {
                                                 return Html::a('Finalizar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                                     'data' => [
@@ -105,10 +110,15 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                 ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
-                                    'template' => '{view}',
+                                    'template' => '{delete}',
                                     'buttons' => [
                                         'view' => function ($url, $model, $key) {
-                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao]);
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao], [
+                                                'data' => [
+                                                    'confirm' => 'Pretende eliminar esta requisição?',
+                                                    'method' => 'post',
+                                                ]
+                                            ]);
                                         }
                                     ]
                                 ]
@@ -193,9 +203,9 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                 ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
-                                    'template' => '{preparar}',
+                                    'template' => '{terminar}',
                                     'buttons' => [
-                                        'preparar' => function ($url, $model, $key) {
+                                        'terminar' => function ($url, $model, $key) {
                                             if ($model->estado === "Em requisição") {
                                                 return Html::a('Terminar requisição', ['site/terminar', 'id' => $model->id_requisicao], ['class' => 'btn btn-danger',
                                                     'data' => [
@@ -210,10 +220,15 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                 ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
-                                    'template' => '{view}',
+                                    'template' => '{delete}',
                                     'buttons' => [
                                         'view' => function ($url, $model, $key) {
-                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao]);
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao], [
+                                                'data' => [
+                                                    'confirm' => 'Pretende eliminar esta requisição?',
+                                                    'method' => 'post',
+                                                ]
+                                            ]);
                                         }
                                     ]
                                 ]
