@@ -69,7 +69,7 @@ $this->title = "Catálogo de Livros";
                                 ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                         </div>
                         <div class="book-info">
-                            <h4><?= Html::encode($livro->titulo)?></h4>
+                            <h4 class="titulo"><?= Html::encode($livro->titulo)?></h4>
                             <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                             <h6><?= Html::encode($livro->genero) ?></h6>
                             <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>

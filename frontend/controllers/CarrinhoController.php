@@ -78,18 +78,18 @@ class CarrinhoController extends Controller
                     //se estiver não permite a duplicação do mesmo, caso contrário o livro é adicionado à sessão
                     if ($flag == 0) {
                         $_SESSION['carrinho'][] = $livro;
-                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                        $session->setFlash('success', 'Livro adicionado ao seu cesto!');
                     } else {
-                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
+                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu cesto.');
                     }
                 } else {
-                    $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
+                    $session->setFlash('error', 'Opss! Limite de livros no cesto atingido.');
                 }
             } else {
                 //se o carrinho não estiver definido ou estiver null então a sessão é criada e adicionado o livro
                 $session->open();
                 $_SESSION['carrinho'][] = $livro;
-                $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                $session->setFlash('success', 'Livro adicionado ao seu cesto!');
                 $session->close();
             }
         } else {
@@ -128,12 +128,13 @@ class CarrinhoController extends Controller
                 if ($obj_livro->id_livro == $id_livro) {
                     $index = array_search($obj_livro, $carrinho);
                     unset($_SESSION['carrinho'][$index]);
-                    $session->setFlash('success', 'Livro excluído do carrinho.');
+                    $session->setFlash('success', 'Livro excluído do cesto.');
                 }
             }
         }
 
-        return $this->redirect(['requisicao/finalizar']);
+        return $this->redirect(Yii::$app->request->referrer);
+        //return null; //$this->redirect(['requisicao/finalizar']);
 
     }
 

@@ -22,6 +22,7 @@ class ViewsAssets extends AssetBundle
         'js/catalogo.js',
         'js/favoritos.js',
         //'js/site_index.js'
+        'js/perfil.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

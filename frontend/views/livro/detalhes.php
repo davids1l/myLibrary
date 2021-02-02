@@ -17,6 +17,9 @@ $this->title = "Detalhes do Livro";
 ?>
 
 <div class="container">
+    <div style="margin-bottom: 2%;margin-top: 10px">
+        <a href="<?= Url::to(['livro/catalogo']) ?>" class="btnCatalogo"><span class="fas fa-arrow-left" style="margin-right: 3px"></span> Catálogo</a>
+    </div>
     <div class="row">
         <section>
             <div class="col-xs-12 col-md-6 col-lg-4">
@@ -37,14 +40,14 @@ $this->title = "Detalhes do Livro";
             </div>
 
             <div class="col-xs-12 col-md-6 col-lg-8 livro-info">
-                <h1><?= Html::encode($livro->titulo)?></h1>
-                <h3 style="font-family: 'Yu Gothic Medium'; margin-top: unset; margin-bottom: 3%">de <?= Html::encode($livro->autor->nome_autor) ?></h3>
+                <h1 class="titulo"><?= Html::encode($livro->titulo)?></h1>
+                <h3 class="autor" style="font-family: 'Yu Gothic Medium'; margin-top: unset; margin-bottom: 3%">de <?= Html::encode($livro->autor->nome_autor) ?></h3>
                 <div class="livro-info-detail" >
                     <span>
-                        <b>Edição: </b><?= Html::encode($livro->ano)?> |
-                        <b>ISBN: </b><?= Html::encode($livro->isbn)?> |
-                        <b>Formato: </b><?= Html::encode($livro->formato)?> |
-                        <b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?> -
+                        <b class="campos">Edição: </b><?= Html::encode($livro->ano)?> |
+                        <b class="campos">ISBN: </b><?= Html::encode($livro->isbn)?> |
+                        <b class="campos">Formato: </b><?= Html::encode($livro->formato)?> |
+                        <b class="campos">Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?> -
                         <a id="maisDetalhes" href="#bookDetails">mais detalhes deste livro</a>
                     </span>
                 </div>
@@ -63,11 +66,27 @@ $this->title = "Detalhes do Livro";
                         <?php } ?>
                     </div>
                     <div class="adicionar-carrinho" style="margin-top: 5%">
-                        <?= Html::a('ADICIONAR CARRINHO <i class=" glyphicon glyphicon-shopping-cart"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['id' => 'adicionarCarrinho']) ?>
+                        <?php
+                        $session = Yii::$app->session;
+                        $carrinho = $session->get('carrinho');
+                        $flag = null;
+                        if($carrinho != null){
+                            foreach ($carrinho as $livroCarrinho){
+                                if($livroCarrinho->id_livro == $livro->id_livro){
+                                    $flag = 1;
+                                }
+                            }
+                        }
+                        if($flag != null){ ?>
+                            <?=Html::a('REMOVER CESTO <i class="fas fa-shopping-basket"></i>', ['carrinho/remover', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']);?>
+                        <?php }else{ ?>
+                            <?=Html::a('ADICIONAR CESTO <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro], ['class' => "", 'id' => 'adicionarCarrinho']);?>
+                        <?php } ?>
+
                     </div>
                 </div>
                 <div class="sinopse-content">
-                    <h4>SINOPSE</h4>
+                    <h4 class="titulos">SINOPSE</h4>
                     <?php if($livro->sinopse != null) { ?>
                         <div class="sinopse_more" style="display: none;">
                             <span><?= Html::encode($livro->sinopse)?></span>
@@ -91,7 +110,7 @@ $this->title = "Detalhes do Livro";
     <div class="row">
         <section>
             <div class="col-xs-12 col-md-6 comentarios" style="padding-left: 15px;">
-                <h4>COMENTÁRIOS</h4>
+                <h4 class="titulos">COMENTÁRIOS</h4>
                 <div class="commentSection">
                     <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro, 'id' => 'formComentar']); ?>
                     <?= $form->field($modelComentario, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', 'style' => 'resize: none', 'id'=>'comentarioField']); ?>
@@ -163,7 +182,7 @@ $this->title = "Detalhes do Livro";
             </div>
 
             <div class="col-xs-12 col-md-6" id="bookDetails" style="margin-top: 4%">
-                <h4>DETALHES DO LIVRO</h4>
+                <h4 class="titulos">DETALHES DO LIVRO</h4>
                 <div style="margin-top: 5%">
                     <h4><?= Html::encode($livro->titulo)?></h4>
                     <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
@@ -173,14 +192,14 @@ $this->title = "Detalhes do Livro";
                         <p><?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 165px; height: 230px;'])?></p>
                     </div>
                     <div class="col-xs-6 col-md-8">
-                        <p><b>Edição: </b><?= Html::encode($livro->ano)?></p>
-                        <p><b>Páginas: </b><?= Html::encode($livro->paginas)?></p>
-                        <p><b>Formato: </b><?= Html::encode($livro->formato)?></p>
-                        <p><b>Idioma: </b><?= Html::encode($livro->idioma)?></p>
-                        <p><b>Editora: </b><?= Html::encode($livro->editora->designacao)?></p>
-                        <p><b>Genero: </b><?= Html::encode($livro->genero)?>
-                        <p><b>ISBN: </b><?= Html::encode($livro->isbn)?></p>
-                        <p><b>Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?></p>
+                        <p><b class="campos">Edição: </b><?= Html::encode($livro->ano)?></p>
+                        <p><b class="campos">Páginas: </b><?= Html::encode($livro->paginas)?></p>
+                        <p><b class="campos">Formato: </b><?= Html::encode($livro->formato)?></p>
+                        <p><b class="campos">Idioma: </b><?= Html::encode($livro->idioma)?></p>
+                        <p><b class="campos">Editora: </b><?= Html::encode($livro->editora->designacao)?></p>
+                        <p><b class="campos">Genero: </b><?= Html::encode($livro->genero)?>
+                        <p><b class="campos">ISBN: </b><?= Html::encode($livro->isbn)?></p>
+                        <p><b class="campos">Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?></p>
                     </div>
                 </div>
             </div>

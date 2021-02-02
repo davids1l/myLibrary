@@ -17,7 +17,8 @@ class AppAsset extends AssetBundle
         'css/historicoRequisicoes',
     ];
     public $js = [
-        'js/site_index.js'
+        'js/site_index.js',
+        'js/perfil.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

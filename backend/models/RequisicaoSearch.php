@@ -48,7 +48,7 @@ class RequisicaoSearch extends Requisicao
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize' => 10],
+            'pagination' => ['pageSize' => 5],
         ]);
 
         $this->load($params);
@@ -80,10 +80,13 @@ class RequisicaoSearch extends Requisicao
          *  $query = Utilizador::find()->where(['id_utilizador' => $subQueryRole])->orderBy('id_utilizador');
          * */
 
-        if($type == 1)
+        if($type == 1) {
             $type = "A aguardar tratamento";
-        else if($type == 2)
+        } else if($type == 2) {
             $type = "Pronta a levantar";
+        } else if($type == 3) {
+            $type = "Em requisição";
+        }
 
         $query = Requisicao::find()->where(['estado' => $type])->orderBy('id_requisicao');
 
