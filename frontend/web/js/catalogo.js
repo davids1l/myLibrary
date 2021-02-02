@@ -15,6 +15,7 @@ $(document).ready(function(){
             $("#mostrarFiltrosPesquisa").toggleClass('fa-caret-up');
             $('.filtros-pesquisa').show();
         }
+
     });
 
     $(function voltarTopoFunction () {
@@ -30,6 +31,5 @@ $(document).ready(function(){
     $('#btnTopo').click(function () {
         $('html, body').animate({scrollTop : 0}, 800);
     })
-
 
 });

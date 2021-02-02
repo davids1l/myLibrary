@@ -166,22 +166,29 @@ class LivroController extends Controller
 
     /**
      * Recebe um post do form do catalgo e executa um search em que se verifique um livro com determinado título ou nome de autor
-     *
+     * Efetua ainda uma pesquisa com base em filtros avançados, por ex. genero e formato
      */
     public function actionProcurar()
     {
-        $pesquisa = Yii::$app->request->post()['Livro']['titulo'];
+        //se for efetuado um pedido à página em que o post seja null, estão os dados são igualados a empty
+        if(Yii::$app->request->post() != null){
+            $pesquisa = Yii::$app->request->post()['Livro']['titulo'];
+            $generoProcurado = Yii::$app->request->post()['Livro']['genero'];
+            $formatoProcurado = Yii::$app->request->post()['Livro']['formato'];
+        } else {
+            $pesquisa = '';
+            $generoProcurado = '';
+            $formatoProcurado = '';
+        }
 
-        $generoProcurado = Yii::$app->request->post()['Livro']['genero'];
-        $formatoProcurado = Yii::$app->request->post()['Livro']['formato'];
 
-        //var_dump(Yii::$app->request->post());die();
-
+        //obter todos os generos dos livros existentes
         $generos = $this->obterGenerosLivros();
         $formatos = ['0'=>'Físico', '1'=>'Ebook'];
 
         $livrosAutor = null;
 
+        //
         if ($generoProcurado != null && $formatoProcurado!=null) {
             //obter os livros de acordo com a pesquisa
             $livros = Livro::find()
@@ -206,12 +213,16 @@ class LivroController extends Controller
                 ->where(['like', 'titulo', $pesquisa])
                 ->all();
 
-            $autores = Autor::find()
-                ->where(['like', 'nome_autor', $pesquisa]);
+            if($pesquisa!=null){
+                $autores = Autor::find()
+                    ->where(['like', 'nome_autor', $pesquisa]);
 
-            $livrosAutor = Livro::find()
-                ->innerJoin(['sub' => $autores], 'livro.id_autor = sub.id_autor')
-                ->all();
+                $livrosAutor = Livro::find()
+                    ->innerJoin(['sub' => $autores], 'livro.id_autor = sub.id_autor')
+                    ->all();
+            } else {
+                $livrosAutor = null;
+            }
         }
 
         //return $this->redirect('livro/procurar', array('model' => new Livro(), 'results' => $results));
@@ -226,13 +237,11 @@ class LivroController extends Controller
             ->from('livro')
             ->all();
 
-
         $generos = [];
 
         for ($i=0; $i < sizeof($query); $i++){
             array_push($generos, $query[$i]['genero']);
         }
-
 
         return $generos;
     }

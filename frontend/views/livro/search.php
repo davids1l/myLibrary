@@ -33,7 +33,7 @@ $this->title = "Catálogo de Livros";
             <!--<?= Html::a('Filtros de pesquisa <i class="fa fa-caret-down"></i>', null, ['class'=>'pesquisaAvancada'])?> -->
             <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
+        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;">
             <?= Html::beginForm(['favorito/index'], 'post')?>
             <div style="display: flex">
                 <div class="col-md-6">
@@ -57,13 +57,16 @@ $this->title = "Catálogo de Livros";
         <div class="searchResults">
             <div class="livros-titulo">
                 <?php if ($livros != null) { ?>
-                    <h3>LIVRO(S) ENCONTRADOS</h3>
+                    <h3 class="topicos">LIVRO(S) ENCONTRADOS</h3>
                     <?php foreach ($livros as $livro) { ?>
                         <div class="col-xs-12 col-md-2 catalogo-grid">
                             <div class="capa">
                                 <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
                                     <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;']) ?>
                                 </a>
+
+                                <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro],
+                                    ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                             </div>
                             <div class="book-info">
                                 <h4><?= Html::encode($livro->titulo) ?></h4>
@@ -84,15 +87,18 @@ $this->title = "Catálogo de Livros";
             </div>
 
 
-            <div class="col-md-12 livros-atores">
+            <div class="livros-atores">
                 <?php if ($livrosAutor != null) { ?>
-                    <h3>LIVROS DE AUTORES ENCONTRADOS</h3>
+                    <h3 class="topicos">LIVROS DE AUTORES ENCONTRADOS</h3>
                     <?php foreach ($livrosAutor as $livroAut) { ?>
                         <div class="col-xs-12 col-md-2 catalogo-grid">
                             <div class="capa">
                                 <a href="<?= Url::to(['livro/detalhes', 'id' => $livroAut->id_livro]) ?>">
-                                    <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livroAut->capa, ['id' => 'imgCapa']) ?>
+                                    <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livroAut->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;']) ?>
                                 </a>
+
+                                <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livroAut->id_livro],
+                                    ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                             </div>
                             <div class="book-info">
                                 <h4><?= Html::encode($livroAut->titulo) ?></h4>

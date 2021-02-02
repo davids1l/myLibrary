@@ -35,7 +35,7 @@ $this->title = "Catálogo de Livros";
             <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa
                 <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
         </div>
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding: 8px; border-radius: 8px; margin-top: 1%;"> <!-- display: none; -->
+        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;"> <!-- display: none; -->
             <?= Html::beginForm(['favorito/index'], 'post')?>
             <div style="display: flex">
                 <div class="col-md-6">
@@ -53,17 +53,20 @@ $this->title = "Catálogo de Livros";
     <div class="catalogo-livros">
         <hr>
         <div class="catalogo">
-            <!-- <h3>CATÁLOGO</h3> -->
+            <h3 class="topicos">CATÁLOGO</h3>
             <?php if($catalogo != null) { ?>
                 <?php foreach ($catalogo as $livro) { ?>
                     <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
                         <div class="capa">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $livro->id_livro]) ?>">
-                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'])?>
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;']) ?>
                             </a>
+
+                            <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro],
+                                ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                         </div>
                         <div class="book-info">
-                            <h4><?= Html::encode($livro->titulo)?></h4>
+                            <h4 class="titulo"><?= Html::encode($livro->titulo)?></h4>
                             <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                             <h6><?= Html::encode($livro->genero) ?></h6>
                             <h6>Idioma: <?= Html::encode($livro->idioma)?></h6>

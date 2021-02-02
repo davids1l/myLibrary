@@ -4,6 +4,7 @@
 
 $this->title = 'MyLibrary';
 
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -11,7 +12,9 @@ use yii\widgets\ActiveForm;
 ?>
 
 
-<div class="site-index">
+<div class="container">
+
+    <button id="btnTopo" title="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
 
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-bottom: 3%;">
         <!-- Indicators -->
@@ -24,32 +27,38 @@ use yii\widgets\ActiveForm;
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg') ?>
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_2.jpg') ?>
                 <div class="carousel-caption">
                     <!-- <button class="btn btn-success btn-sm">CATÁLOGO</button> -->
                 </div>
             </div>
             <div class="item">
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_1.jpg') ?>
+                <div class="carousel-caption">
+                    <!-- <button class="btn btn-success btn-sm">CATÁLOGO</button> -->
+                </div>
+            </div>
+            <!--<div class="item">
                 <img src="..." alt="...">
                 <div class="carousel-caption">
 
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <!-- Controls -->
         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="color: #f26b3b;"></span>
             <span class="sr-only">Próximo</span>
         </a>
         <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="color: #f26b3b;"></span>
             <span class="sr-only">Anterior</span>
         </a>
     </div>
 
-    <div class="col-lg-12 novos">
-        <h3 class="sub-titulo">NOVOS LANÇAMENTOS</h3>
+    <div class="col-12 novos" style="margin-top: 5%">
+        <h3 class="topicos">NOVOS LANÇAMENTOS</h3>
         <?php if ($recentes != null) { ?>
             <?php foreach ($recentes as $recente) { ?>
                 <div class="col-xs-12 col-md-2 col-lg-2 catalogo-grid">
@@ -59,9 +68,12 @@ use yii\widgets\ActiveForm;
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ]) ?>
                         </a>
+
+                        <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $recente->id_livro],
+                            ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($recente->titulo) ?></h4>
+                        <h4 class="titulo"><?= Html::encode($recente->titulo) ?></h4>
                         <h5>de <?= Html::encode($recente->autor->nome_autor)?></h5>
                         <!-- <h6><?= Html::encode($recente->genero) ?></h6> -->
                         <h6>Idioma: <?= Html::encode($recente->idioma) ?></h6>
@@ -80,10 +92,10 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="col-lg-12 maisRequisitados">
+    <div class="col-12 maisRequisitados">
         <hr>
         <?php if ($maisRequisitados != null) { ?>
-            <h3 class="sub-titulo">MAIS REQUISITADOS</h3>
+            <h3 class="topicos">MAIS REQUISITADOS</h3>
             <?php foreach ($maisRequisitados as $livro) { ?>
                 <div class="col-xs-12 col-md-2 catalogo-grid">
                     <div class="capa">
@@ -92,9 +104,12 @@ use yii\widgets\ActiveForm;
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ]) ?>
                         </a>
+
+                        <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro],
+                            ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h4 class="titulo"><?= Html::encode($livro->titulo) ?></h4>
                         <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                         <h6><?= Html::encode($livro->genero) ?></h6>
                         <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
@@ -113,10 +128,10 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="col-lg-12 maisFavoritos">
+    <div class="col-12 maisFavoritos">
         <hr>
         <?php if ($maisFavoritos != null) { ?>
-            <h3 class="sub-titulo">OS PREFERIDOS DOS LEITORES</h3>
+            <h3 class="topicos">OS PREFERIDOS DOS LEITORES</h3>
             <?php foreach ($maisFavoritos as $livro) { ?>
                 <div class="col-xs-12 col-md-2 catalogo-grid">
                     <div class="capa">
@@ -125,9 +140,12 @@ use yii\widgets\ActiveForm;
                                 'id' => 'imgCapa', 'style' => 'width: 160px; height: 240px;'
                             ]) ?>
                         </a>
+
+                        <?= Html::a('ADICIONAR <i class="fas fa-shopping-basket"></i>', ['carrinho/adicionar', 'id_livro' => $livro->id_livro],
+                            ['class' => 'carrinho-overlay', 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h4 class="titulo"><?= Html::encode($livro->titulo) ?></h4>
                         <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                         <h6><?= Html::encode($livro->genero) ?></h6>
                         <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>

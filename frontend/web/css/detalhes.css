@@ -1,5 +1,5 @@
-::-webkit-scrollbar{width:2px;height:2px;}
-::-webkit-scrollbar-button{width:2px;height:2px;}
+/*::-webkit-scrollbar{width:2px;height:2px;}
+::-webkit-scrollbar-button{width:2px;height:2px;}*/
 
 @media screen and (max-width: 600px){
 
@@ -233,3 +233,22 @@
     display: flex;
 }*/
 
+.btnCatalogo{
+    font-size: 18px;
+}
+
+.btnCatalogo:hover{
+    text-decoration: none;
+}
+
+.campos{
+    color: #f26b3b;
+    letter-spacing: 1px;
+}
+
+.titulos{
+    font-family: "Yu Gothic Light";
+    font-size: 20px;
+    color: #f26b3b;
+    font-weight: bold;
+}

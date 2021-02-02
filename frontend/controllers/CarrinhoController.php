@@ -78,25 +78,33 @@ class CarrinhoController extends Controller
                     //se estiver não permite a duplicação do mesmo, caso contrário o livro é adicionado à sessão
                     if ($flag == 0) {
                         $_SESSION['carrinho'][] = $livro;
-                        $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                        $session->setFlash('success', 'Livro adicionado ao seu cesto!');
                     } else {
-                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu carrinho.');
+                        $session->setFlash('error', 'Opss! Este livro já se encontra no seu cesto.');
                     }
                 } else {
-                    $session->setFlash('error', 'Opss! Limite de livros no carrinho atingido.');
+                    $session->setFlash('error', 'Opss! Limite de livros no cesto atingido.');
                 }
             } else {
                 //se o carrinho não estiver definido ou estiver null então a sessão é criada e adicionado o livro
                 $session->open();
                 $_SESSION['carrinho'][] = $livro;
-                $session->setFlash('success', 'Livro adicionado ao seu carrinho!');
+                $session->setFlash('success', 'Livro adicionado ao seu cesto!');
                 $session->close();
             }
         } else {
             $session->setFlash('error', 'Opss! Este livro já se encontra em requisição.');
         }
 
-        return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
+        //obter o url anterior
+        $previousUrl = Yii::$app->request->referrer;
+
+        //se o url anterior não for o da vista de detalhes então é feito o redrect para a página anterior
+        if($previousUrl != ("localhost/mylibrary/frontend/web/index.php/livro/detalhes?id=".$id_livro)) {
+            return $this->redirect($previousUrl);
+        } else {
+            return $this->redirect(['livro/detalhes', 'id' => $id_livro]);
+        }
     }
 
 
@@ -120,12 +128,13 @@ class CarrinhoController extends Controller
                 if ($obj_livro->id_livro == $id_livro) {
                     $index = array_search($obj_livro, $carrinho);
                     unset($_SESSION['carrinho'][$index]);
-                    $session->setFlash('success', 'Livro excluído do carrinho.');
+                    $session->setFlash('success', 'Livro excluído do cesto.');
                 }
             }
         }
 
-        return $this->redirect(['requisicao/finalizar']);
+        return $this->redirect(Yii::$app->request->referrer);
+        //return null; //$this->redirect(['requisicao/finalizar']);
 
     }
 
