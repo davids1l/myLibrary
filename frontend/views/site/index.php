@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 
-<div class="container">
+<div class="site-index">
 
     <button id="btnTopo" title="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
 
@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
         </a>
     </div>
 
-    <div class="col-12 novos" style="margin-top: 5%">
+    <div class="row novos" style="margin-top: 5%">
         <h3 class="topicos">NOVOS LANÇAMENTOS</h3>
         <?php if ($recentes != null) { ?>
             <?php foreach ($recentes as $recente) { ?>
@@ -92,7 +92,7 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="col-12 maisRequisitados">
+    <div class="row maisRequisitados">
         <hr>
         <?php if ($maisRequisitados != null) { ?>
             <h3 class="topicos">MAIS REQUISITADOS</h3>
@@ -128,7 +128,7 @@ use yii\widgets\ActiveForm;
         <?php } ?>
     </div>
 
-    <div class="col-12 maisFavoritos">
+    <div class="row maisFavoritos">
         <hr>
         <?php if ($maisFavoritos != null) { ?>
             <h3 class="topicos">OS PREFERIDOS DOS LEITORES</h3>
