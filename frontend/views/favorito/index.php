@@ -17,7 +17,7 @@ $this->title = 'Meus favoritos';
 ?>
 <div class="favorito-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 style="font-family: 'Yu Gothic UI Light'"><?= Html::encode($this->title) ?></h1>
     <hr>
     <div class="listaFavoritos">
         <?php
@@ -35,36 +35,40 @@ $this->title = 'Meus favoritos';
                     <?= Html::beginForm(['favorito/index'], 'post', ['id'=>'listarFavoritos'])?>
                         <?php if (Yii::$app->session->get('favoritoList') == 2) {?>
                             <?= Html::dropDownList('listar', null, ['2' => 'Mais antigos primeiro', '1' => 'Mais recentes primeiro'],
-                                ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
+                                ['class' => 'dropdown-listar']) ?>
                         <?php } else { ?>
                             <?= Html::dropDownList('listar', null, ['1' => 'Mais recentes primeiro', '2' => 'Mais antigos primeiro'],
-                                ['class' => 'dropdown', 'style' => 'height: 25px !important; width: 250px;']) ?>
+                                ['class' => 'dropdown-listar']) ?>
                         <?php } ?>
-                        <?= Html::submitButton('Listar', ['class' => '']) ?>
+                        <!-- <?= Html::submitButton('Listar', ['class' => '']) ?> -->
+
                     <?= Html::endForm() ?>
                 </div>
             </div>
 
-            <?php foreach ($livros as $fav) { ?>
-                <div class="col-xs-12 col-md-12 col-lg-12 livroField">
-                    <div class="capa-livro-requisicao col-xs-4 col-md-1 col-lg-1">
-                        <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
-                            <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $fav->livro->capa, ['class' => 'capaLivroFinalizar']) ?>
-                        </a>
+            <div class="row">
+                <?php foreach ($livros as $fav) { ?>
+                    <div class="col-md-4 livroField" style="background-color: #fafafa">
+                        <div class="capa-livro-requisicao col-xs-4 col-md-3">
+                            <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
+                                <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $fav->livro->capa, ['class' => 'capaLivroFinalizar', 'style' => 'position: absolute; width: 80px; height: 110px;']) ?>
+                            </a>
+                        </div>
+                        <div class="detalhes-livro-requisicao col-xs-6 col-md-7">
+                            <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
+                                <p style="color: #363434; font-size: 16px; font-family: 'Yu Gothic UI Semibold'"><?= Html::encode($fav->livro->titulo) ?></p>
+                            </a>
+                            <h5>de <?= Html::encode($fav->livro->autor->nome_autor) ?></h5>
+                            <h6>Edição: <?= Html::encode($fav->livro->ano) ?></h6>
+                        </div>
+                        <div class="col-xs-2 col-md-1">
+                            <?= Html::a('<i class="material-icons md-38">remove_circle</i>', ['favorito/delete', 'id' => $fav->id_favorito], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro dos seus favoritos?', 'method' => 'post'],
+                                'class' => 'favoritoAction']) ?>
+                        </div>
                     </div>
-                    <div class="detalhes-livro-requisicao col-xs-6 col-md-10 col-lg-10">
-                        <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
-                            <h4><?= Html::encode($fav->livro->titulo) ?></h4>
-                        </a>
-                        <h5>de <?= Html::encode($fav->livro->autor->nome_autor) ?></h5>
-                        <h6>Edição: <?= Html::encode($fav->livro->ano) ?></h6>
-                    </div>
-                    <div class="col-xs-2 col-md-1 col-lg-1">
-                        <?= Html::a(null, ['favorito/delete', 'id' => $fav->id_favorito], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro dos seus favoritos?', 'method' => 'post'],
-                            'class' => 'glyphicon glyphicon-heart favoritoAction']) ?>
-                    </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
+
 
             <div class="pagination">
                 <?php

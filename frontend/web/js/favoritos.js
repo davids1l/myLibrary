@@ -1,5 +1,5 @@
 $(function() {
-    $('.dropdown').change(function() {
+    $('.dropdown-listar').change(function() {
         $('#listarFavoritos').submit();
     });
 });

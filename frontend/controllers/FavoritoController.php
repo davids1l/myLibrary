@@ -94,7 +94,7 @@ class FavoritoController extends Controller
         }
 
 
-        $paginacao = new Pagination(['totalCount' => $favoritos->count(), 'pageSize' => 5]);
+        $paginacao = new Pagination(['totalCount' => $favoritos->count(), 'pageSize' => 9]);
 
         $livros = $favoritos->offset($paginacao->offset)
             ->limit($paginacao->limit)
