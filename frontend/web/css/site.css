@@ -138,6 +138,8 @@ a.desc:after {
     font-family: "Yu Gothic Light";
     font-size: 25px;
     padding-left: 15px;
+    color: #f26b3b;
+    font-weight: bold;
 }
 
 .sub-titulo {
@@ -159,16 +161,16 @@ a.desc:after {
     font-size: 18px;
     border: none;
     outline: none;
-    background-color: red;
+    background-color: #222;
     color: white;
     cursor: pointer;
     padding: 15px;
     border-radius: 50%;
-    width: 50px;
+    width: 55px;
 }
 
 #btnTopo:hover {
-    background-color: #555;
+    background-color: #f26b3b;
 }
 
 /* Adicionar ao carrinho - no hover da capa mostra o btn*/
@@ -190,7 +192,7 @@ a.desc:after {
 }
 
 #adicionarCarrinho {
-    background-color: red;
+    background-color: #f26b3b;
     font-weight: bold;
     color: white;
     padding: 0.5em 1.5em;
@@ -198,3 +200,28 @@ a.desc:after {
     text-transform: uppercase;
 }
 
+.menuNav{
+    color: #f26b3b;
+    letter-spacing: 2px;
+}
+
+.navbar-inverse .navbar-nav > .active > a > span, .navbar-inverse .navbar-nav > .active > a > div > span{
+    color: white;
+}
+
+.titulo{
+    color: #f26b3b;
+    letter-spacing: 1px;
+}
+
+.autor{
+    color: #f26b3b;
+}
+
+.carousel-indicators li{
+    border: 1px solid #f26b3b;
+}
+
+.carousel-indicators li.active{
+    background-color: #f26b3b;
+}

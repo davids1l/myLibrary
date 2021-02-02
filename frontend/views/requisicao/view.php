@@ -20,7 +20,7 @@ $this->title = 'Requisição #' . $model->id_requisicao;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <hr>
-    <a href="<?= Url::to(['requisicao/index']) ?>"><span class="glyphicon glyphicon-menu-left"></span> Voltar atrás</a>
+    <a style="text-decoration: none; font-size: 18px" href="<?= Url::to(['requisicao/index']) ?>"><span class="fas fa-arrow-left" style="margin-right: 3px"></span> Histórico de requisições</a>
     <h3>Livros requisitados:</h3>
     <br>
 

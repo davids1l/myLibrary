@@ -48,11 +48,11 @@ use yii\widgets\ActiveForm;
 
         <!-- Controls -->
         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="color: #f26b3b;"></span>
             <span class="sr-only">Próximo</span>
         </a>
         <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="color: #f26b3b;"></span>
             <span class="sr-only">Anterior</span>
         </a>
     </div>
@@ -73,7 +73,7 @@ use yii\widgets\ActiveForm;
                             ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($recente->titulo) ?></h4>
+                        <h4 class="titulo"><?= Html::encode($recente->titulo) ?></h4>
                         <h5>de <?= Html::encode($recente->autor->nome_autor)?></h5>
                         <!-- <h6><?= Html::encode($recente->genero) ?></h6> -->
                         <h6>Idioma: <?= Html::encode($recente->idioma) ?></h6>
@@ -109,7 +109,7 @@ use yii\widgets\ActiveForm;
                             ['class' => "carrinho-overlay", 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h4 class="titulo"><?= Html::encode($livro->titulo) ?></h4>
                         <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                         <h6><?= Html::encode($livro->genero) ?></h6>
                         <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
@@ -145,7 +145,7 @@ use yii\widgets\ActiveForm;
                             ['class' => 'carrinho-overlay', 'id' => 'adicionarCarrinho']) ?>
                     </div>
                     <div class="book-info">
-                        <h4><?= Html::encode($livro->titulo) ?></h4>
+                        <h4 class="titulo"><?= Html::encode($livro->titulo) ?></h4>
                         <h5>de <?= Html::encode($livro->autor->nome_autor)?></h5>
                         <h6><?= Html::encode($livro->genero) ?></h6>
                         <h6>Idioma: <?= Html::encode($livro->idioma) ?></h6>
