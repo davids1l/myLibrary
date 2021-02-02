@@ -22,31 +22,34 @@ $this->title = "Catálogo de Livros";
     <button id="btnTopo" title="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
 
     <div class="searchBar">
-         <div class="" style="display: flex;">
-            <div class="col-md-11">
+         <div class="pesquisaSimples" style="display: flex" >
+            <div class="col-md-11 termosPesquisa">
                 <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'options' => ['class' => 'form-horizontal'], 'action'=>['livro/procurar']]); ?>
                 <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Pesquisar'])->label('')?>
             </div>
             <div class="col-md-1 btnProcurar">
-                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-info']) ?>
+                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Procurar', ['class' => 'btn btn-info']) ?>
             </div>
         </div>
+
         <div class="pesquisaDetalhada">
             <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa
                 <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
-        </div>
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;"> <!-- display: none; -->
-            <?= Html::beginForm(['favorito/index'], 'post')?>
-            <div style="display: flex">
-                <div class="col-md-6">
-                    <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
+
+            <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;"> <!-- display: none; -->
+                <?= Html::beginForm(['favorito/index'], 'post')?>
+                <div style="display: flex">
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'genero')->dropDownList($generos,
+                            ['prompt'=>'Selecione o gênero...'])?>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, 'genero')->dropDownList($generos,
-                        ['prompt'=>'Selecione o gênero...'])?>
-                </div>
+                <?php ActiveForm::end(); ?>
             </div>
-            <?php ActiveForm::end(); ?>
+
         </div>
     </div>
 

@@ -56,7 +56,7 @@ $this->title = 'Meus favoritos';
                         </div>
                         <div class="detalhes-livro-requisicao col-xs-6 col-md-7">
                             <a href="<?= Url::to(['livro/detalhes', 'id' => $fav->livro->id_livro]) ?>">
-                                <p style="color: #363434; font-size: 16px; font-family: 'Yu Gothic UI Semibold'"><?= Html::encode($fav->livro->titulo) ?></p>
+                                <span style="color: #4a4a4a; font-size: 18px; margin-bottom: unset"><?= Html::encode($fav->livro->titulo) ?></span>
                             </a>
                             <h5>de <?= Html::encode($fav->livro->autor->nome_autor) ?></h5>
                             <h6>Edição: <?= Html::encode($fav->livro->ano) ?></h6>

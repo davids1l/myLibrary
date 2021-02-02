@@ -169,12 +169,13 @@ a.desc:after {
 
 #btnTopo:hover {
     background-color: #555;
+    box-shadow: 0 0 15px dimgrey;
 }
 
 /* Adicionar ao carrinho - no hover da capa mostra o btn*/
 .capa .carrinho-overlay {
     position: absolute;
-    top: 45.7%;
+    top: 45.8%;
     width: 84.4%;
     opacity: 0;
     text-align: center;

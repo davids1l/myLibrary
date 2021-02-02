@@ -51,45 +51,6 @@
     }
 }
 
-
-/* Lista de favoritos */
-.favoritoAction {
-    color: grey;
-    font-size: 15px;
-    text-decoration: none;
-}
-
-.favoritoAction:hover {
-    color: #d40611;
-}
-
-.dropdown-listar {
-    height: 30px;
-    width: 200px;
-}
-
-.dropdown-listar:focus {
-    box-shadow: 0 0 4px cornflowerblue;
-}
-
-.livroField {
-    /*background-color: #e5e5e5;
-    margin-top: 1%;
-    padding: 1%;*/
-    border-radius: 3px;
-    padding: 10px;
-    height: 130px;
-    max-width: 370px;
-    margin: 10px;
-    box-shadow: 0 0 5px lightgray;
-}
-
-.livroField:hover {
-    box-shadow: 0 0 12px lightgray;
-}
-
-/*---------------------------------- */
-
 .capaLivroFinalizar {
     max-width: 100%;
 }
