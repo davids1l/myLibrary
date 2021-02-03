@@ -199,8 +199,15 @@ class RequisicaoController extends Controller
      */
     public function actionView($id)
     {
+        $reqLivro = RequisicaoLivro::find()->where(['id_requisicao' => $id])->all();
+
+        foreach($reqLivro as $rl) {
+            $livros[] = Livro::find()->where(['id_livro' => $rl->id_livro])->all();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'livros' => $livros,
         ]);
     }
 

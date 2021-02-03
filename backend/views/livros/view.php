@@ -14,8 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="livro-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <br>
     <p>
+        <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span> Voltar atrás', ['livros/index'], ['class' => 'btn btn-default']) ?>
         <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> Atualizar', ['update', 'id' => $model->id_livro], [
             'class' => 'btn btn-success'
         ]) ?>
@@ -53,24 +54,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-
-
-
-
-    <?php /* DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id_livro',
-            'titulo',
-            'isbn',
-            'ano',
-            'paginas',
-            'genero',
-            'idioma',
-            'formato',
-            'capa',
-            'sinopse:ntext'
-        ],
-    ])*/ ?>
 
 </div>

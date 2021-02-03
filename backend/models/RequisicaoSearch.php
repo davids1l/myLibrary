@@ -90,12 +90,13 @@ class RequisicaoSearch extends Requisicao
             $type = "Terminada";
         }
 
-        $query = Requisicao::find()->where(['estado' => $type])->orderBy('id_requisicao');
+        $query = Requisicao::find()->where(['estado' => $type])->orderBy(['id_requisicao' => SORT_DESC]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 5],
         ]);
 
         $this->load($params);
