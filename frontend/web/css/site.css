@@ -161,7 +161,7 @@ a.desc:after {
     font-size: 18px;
     border: none;
     outline: none;
-    background-color: #222;
+    background-color: #f26b3b;
     color: white;
     cursor: pointer;
     padding: 15px;
@@ -170,9 +170,8 @@ a.desc:after {
 }
 
 #btnTopo:hover {
-    background-color: #555;
     box-shadow: 0 0 15px dimgrey;
-    background-color: #f26b3b;
+    background-color: #222;
 }
 
 /* Adicionar ao carrinho - no hover da capa mostra o btn*/
@@ -202,6 +201,11 @@ a.desc:after {
     text-transform: uppercase;
 }
 
+#adicionarCarrinho:hover{
+    background-color: #555;
+    transition: ease-in 200ms;
+}
+
 .menuNav{
     color: #f26b3b;
     letter-spacing: 2px;
@@ -209,6 +213,11 @@ a.desc:after {
 
 .navbar-inverse .navbar-nav > .active > a > span, .navbar-inverse .navbar-nav > .active > a > div > span{
     color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover{
+    background-color: #080808;
+    transition: ease-in 200ms;
 }
 
 .titulo{
@@ -282,4 +291,70 @@ a.desc:after {
 .campoRegisto{
     height: 40px;
     font-size: 16px;
+}
+
+.dropdownMenuIcon{
+    font-size: 20px;
+    color: #f26b3b;
+}
+
+.dropdownMenuText{
+    color: #f26b3b;
+}
+
+.dropdown-menu{
+    background-color: #222;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a > span, .dropdown-menu > .active > a > i, .dropdown-menu > .active > a:hover{
+    background-color: #080808;
+    color: white;
+}
+
+.dropdown-menu > li > a:hover > i, .dropdown-menu > li > a:hover > span{
+    color: black;
+}
+
+.dropdown-menu > .active > a:hover > i, .dropdown-menu > .active > a:hover > span{
+    color: white;
+}
+
+.btnFinalizarRequisicao{
+    background-color: white;
+}
+
+.btnFinalizarRequisicao:hover{
+    color: #f26b3b;
+}
+
+.footer{
+    background-color: whitesmoke;
+    height: auto;
+}
+
+.footerBranco{
+    color: black;
+    font-size: 18px;
+}
+
+.footerDesenvolvedores > p{
+    color: black;
+    margin-left: 140px;
+    margin-top: -7px;
+}
+
+.footerDesenvolvedores{
+    margin-top: -5px;
+}
+
+.footerTitulos{
+    color: #f26b3b;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+}
+
+.footerInfo > p{
+    color: white;
 }

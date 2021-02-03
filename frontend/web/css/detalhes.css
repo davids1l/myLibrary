@@ -149,6 +149,7 @@
 
 #adicionarCarrinho:hover {
     background-color: #555;
+    transition: ease-in 200ms;
 }
 
 .capaDetalhes:hover .overlay {
@@ -241,4 +242,38 @@
     font-size: 20px;
     color: #f26b3b;
     font-weight: bold;
+}
+
+.btnComment{
+    background-color: white;
+    border: 2px solid #f26b3b;
+    text-transform: uppercase;
+}
+
+.btnComment:hover{
+    color: #f26b3b;
+    transition: ease-in 200ms;
+}
+
+.btnEditarComentario{
+    font-size: 20px;
+    color: black;
+
+}
+
+.btnEditarComentario:hover{
+    text-decoration: none;
+    color: #f26b3b;
+    transition: ease-in 200ms;
+}
+
+.btnApagarComentario{
+    font-size: 20px;
+    color: black;
+}
+
+.btnApagarComentario:hover{
+    text-decoration: none;
+    color: #f26b3b;
+    transition: ease-in 200ms;
 }

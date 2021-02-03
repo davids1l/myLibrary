@@ -71,23 +71,23 @@ AppAsset::register($this);
         if($carrinhoSession!=null){
             foreach ($carrinhoSession as $livro){
                 $items[] = ['label' => '<div style="display: flex"><div class="col-md-10" style="display: flex; margin: 5px">' . Html::img('/myLibrary/backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 70px'])
-                    . ' ' . '<span style="margin-top: 40px; margin-left: 10px; width: 150px">' . $livro->titulo . '</span></div>'
+                    . ' ' . '<span style="margin-top: 40px; margin-left: 10px; width: 150px; color: white">' . $livro->titulo . '</span></div>'
                     . Html::a(' <span style="margin-right: 10px; font-size: 20px; color: red" class="fas fa-times"></span>', ['carrinho/remover', 'id_livro' => $livro->id_livro]) . '</div>',
                     'url' => ['/livro/detalhes/', 'id' => $livro->id_livro]];
             }
-            $items[] = ['label' => '<b>Finalizar requisição</b>', 'url'=>['/requisicao/finalizar'], 'style'=>'background-color: #b9bbbe', 'class'=>'finalizarRequisicaoCarrinho'];
+            $items[] = ['label' => '<div class="btnFinalizarRequisicao text-center"><b>Finalizar requisição</b></div>', 'url'=>['/requisicao/finalizar']];
             $menuItems[] = ['label' => '<div class="text-center menuNav"><span style="font-size: 20px" class="fas fa-shopping-basket" id="carrinhoLivros"></span></div>
                                        <div class="menuNav"><span style="font-size: 11px">CESTO '.(count($items)-1).'/5</span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span></div>', 'items' => $items];
 
         } else {
             $menuItems[] = ['label' => '<div class="text-center menuNav"><span style="font-size: 20px" class="fas fa-shopping-basket"></span></div><div class="menuNav"><span style="font-size: 11px">CESTO </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span></div>', 'items' =>
-                ['label' => '<div class="text-center">Cesto vazio</div>']
+                ['label' => '<div class="text-center" style="color: white">CESTO VAZIO</div>']
             ];
         }
 
-        $submenus[] = ['label' => '<i style="font-size: 20px; width: 20px" class="fas fa-user"></i> Perfil', 'url' => ['/utilizador/perfil']];
-        $submenus[] = ['label' => '<i style="font-size: 20px" class="fas fa-heart"></i> Favoritos', 'url' => ['/favorito/index']];
-        $submenus[] = ['label' => '<i style="font-size: 20px" class="fas fa-sign-out-alt"></i> Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
+        $submenus[] = ['label' => '<i style="width: 20px" class="fas fa-user dropdownMenuIcon"></i> <span class="dropdownMenuText">PERFIL</span>', 'url' => ['/utilizador/perfil']];
+        $submenus[] = ['label' => '<i class="fas fa-heart dropdownMenuIcon"></i> <span class="dropdownMenuText">FAVORITOS</span>', 'url' => ['/favorito/index']];
+        $submenus[] = ['label' => '<i class="fas fa-sign-out-alt dropdownMenuIcon"></i> <span class="dropdownMenuText" >LOGOUT</span>', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']];
         $menuItems[] = ['label' => '<div class="text-center"><span>' . Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $utilizador->foto_perfil, ['class' => 'imagemPerfil', 'width' => '23px', 'height' => '23px'])
             . '</span></div><div class="menuNav"><span style="font-size: 11px; text-transform: uppercase">' . $utilizador->primeiro_nome
             . ' </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span></div>', 'url' => '', 'items' => $submenus];
@@ -114,9 +114,26 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; MyLibrary <?= date('Y') ?></p>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <?= Html::img('/myLibrary/frontend/web/imgs/diversos/logo_mylibrary_3.png', ['style' => 'width: 70px; margin-bottom: 30px']) ?>
+                <p class="footerBranco"><i class="far fa-copyright"></i> MyLibrary <?= date('Y') ?></p>
+            </div>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+            <div class="col-md-4"></div>
+
+            <div class="col-md-4" style="margin-top: 10px">
+                <p class="footerTitulos text-center"><i class="fas fa-terminal" style="margin-right: 3px"></i> Desenvolvedores</p>
+                <div class="footerDesenvolvedores">
+                    <p>Afonso Cancela</p>
+                    <p>David Silvério</p>
+                    <p>Tiago Lopes</p>
+                </div>
+            </div>
+
+        </div>
+
+
     </div>
 </footer>
 

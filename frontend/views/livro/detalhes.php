@@ -113,7 +113,7 @@ $this->title = "Detalhes do Livro";
                 <h4 class="titulos">COMENTÁRIOS</h4>
                 <div class="commentSection">
                     <?php $form = ActiveForm::begin(['action' => '../comentario/create?id=' . $livro->id_livro, 'id' => 'formComentar']); ?>
-                    <?= $form->field($modelComentario, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', 'style' => 'resize: none', 'id'=>'comentarioField']); ?>
+                    <?= $form->field($modelComentario, 'comentario')->textarea(['placeholder' => 'Escreva um comentário!', 'style' => 'resize: none', 'id'=>'comentarioField'])->label(false); ?>
                     <?= Html::submitButton('Comentar', ['name' => 'comentario', 'class' => 'btnComment', 'id' => 'submitComentario']) ?>
                     <?php ActiveForm::end(); ?>
                 </div>
@@ -126,16 +126,16 @@ $this->title = "Detalhes do Livro";
                             <div class="comentario" style="margin-top: 2%">
                                 <div class="">
                                     <span><?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $comentario->utilizador->foto_perfil, ['class' => 'imgPerfil'])?>
-                                        <?= Html::a($comentario->utilizador->primeiro_nome . ' ' .$comentario->utilizador->ultimo_nome) ?></span>
-                                    <p><?= Html::encode($comentario->comentario) ?></p>
+                                        <?= Html::a($comentario->utilizador->primeiro_nome . ' ' .$comentario->utilizador->ultimo_nome, null ,['style' => 'text-decoration: none; color: black']) ?></span>
+                                    <p style="margin-top: 10px; margin-left: 5px"><?= Html::encode($comentario->comentario) ?></p>
                                     <i><?= Carbon::parse(Html::encode($comentario->dta_comentario))->format('d/m/Y H:i:s') ?></i>
-                                    <span class="commentActions">
+                                    <span class="commentActions" style="float: right">
                                     <?php if($comentario->id_utilizador == Yii::$app->user->id || Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')){ ?>
-                                        <?= Html::a('', null, ['class' => 'glyphicon glyphicon-edit', 'style' => 'cursor: pointer',
+                                        <?= Html::a('', null, ['class' => 'far fa-edit btnEditarComentario', 'style' => 'cursor: pointer',
                                            'data-toggle'=>'modal', 'data-target' => "#alterarComentarioModal" ])?>
                                         <?= Html::a('', ['comentario/delete', 'id' => $comentario->id_comentario],
                                             ['data' => ['method' => 'post', 'confirm' =>'Tem a certeza que quer eliminar o comentário?'],
-                                                'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer'])?>
+                                                'class' => 'fas fa-times btnApagarComentario', 'style' => 'cursor: pointer'])?>
                                     <?php }?>
                                     </span>
                                 </div>
@@ -150,18 +150,17 @@ $this->title = "Detalhes do Livro";
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
-                                            <h2 class="modal-title" id="exampleModalLabel">Alterar comentário</h2>
+                                            <h2 class="topicos" style="text-transform: uppercase" id="exampleModalLabel">Alterar comentário</h2>
                                         </div>
                                         <?php $form = ActiveForm::begin([
                                             'action' => ['comentario/update', 'id' => $comentario->id_comentario]]) ?>
                                         <div class="" style="background-color: white">
                                             <div class="col-lg-12">
-                                                <?= $form->field($modelComentario, 'comentario')->label('Novo comentário')->textarea(['placeholder' => 'Escreva o novo comentário..',
-                                                    'style' => 'resize: none'])?>
+                                                <?= $form->field($modelComentario, 'comentario')->label(false)->textarea(['value' => $comentario->comentario])?>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <?= Html::submitButton('Alterar', ['class' => 'btn-perfil']) ?>
+                                            <?= Html::submitButton('<i class="fas fa-save"></i> Guardar', ['class' => 'btn-perfil']) ?>
                                         </div>
                                         <?php ActiveForm::end() ?>
                                     </div>

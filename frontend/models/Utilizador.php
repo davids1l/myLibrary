@@ -54,7 +54,7 @@ class Utilizador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_nascimento', 'nif', 'num_telemovel'], 'required'],
+            [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_nascimento', 'nif', 'num_telemovel'], 'required', 'message' => '{attribute} não pode estar em branco.'],
             [['bloqueado', 'num_telemovel'], 'integer'],
             [['dta_bloqueado', 'dta_nascimento', 'dta_registo'], 'safe'],
             [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 50],
@@ -62,7 +62,6 @@ class Utilizador extends \yii\db\ActiveRecord
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_utilizador' => 'id']],
 
 
-            ['nif', 'required'],
             ['nif', 'integer'],
             ['nif', 'unique', 'targetClass' => '\frontend\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
         ];
@@ -75,14 +74,14 @@ class Utilizador extends \yii\db\ActiveRecord
     {
         return [
             'id_utilizador' => 'Id Utilizador',
-            'primeiro_nome' => 'Primeiro Nome',
-            'ultimo_nome' => 'Ultimo Nome',
+            'primeiro_nome' => 'Nome',
+            'ultimo_nome' => 'Apelido',
             'numero' => 'Numero',
             'bloqueado' => 'Bloqueado',
             'dta_bloqueado' => 'Dta Bloqueado',
             'dta_nascimento' => 'Dta Nascimento',
-            'nif' => 'Nif',
-            'num_telemovel' => 'Num Telemovel',
+            'nif' => 'NIF',
+            'num_telemovel' => 'Número de Telemóvel',
             'dta_registo' => 'Dta Registo',
             'foto_perfil' => 'Foto Perfil',
         ];
