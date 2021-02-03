@@ -139,7 +139,6 @@ a.desc:after {
     font-size: 25px;
     padding-left: 15px;
     color: #f26b3b;
-    font-weight: bold;
 }
 
 .sub-titulo {
@@ -152,28 +151,6 @@ a.desc:after {
     margin-top: 1%
 }
 
-#btnTopo {
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    right: 80px;
-    z-index: 99;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    background-color: #222;
-    color: white;
-    cursor: pointer;
-    padding: 15px;
-    border-radius: 50%;
-    width: 55px;
-}
-
-#btnTopo:hover {
-    background-color: #555;
-    box-shadow: 0 0 15px dimgrey;
-    background-color: #f26b3b;
-}
 
 /* Adicionar ao carrinho - no hover da capa mostra o btn*/
 .capa .carrinho-overlay {
@@ -202,6 +179,11 @@ a.desc:after {
     text-transform: uppercase;
 }
 
+#adicionarCarrinho:hover {
+    background-color: #555;
+}
+/* Fim adicionar carrinho on hover */
+
 .menuNav{
     color: #f26b3b;
     letter-spacing: 2px;
@@ -212,7 +194,7 @@ a.desc:after {
 }
 
 .titulo{
-    color: #f26b3b;
+    /*color: #f26b3b;*/
     letter-spacing: 1px;
 }
 
@@ -227,3 +209,77 @@ a.desc:after {
 .carousel-indicators li.active{
     background-color: #f26b3b;
 }
+
+#btn_carousel i {
+    display: none;
+}
+
+#btn_carousel {
+    color: #1b1e21;
+    padding: 5px;
+    transition: 0.3s;
+    font-size: 16px;
+    border: 1px solid #1b1e21;
+}
+
+#btn_carousel:hover {
+    color: #d43f3a;
+    border: 1px solid #d43f3a;
+    box-shadow: 0 0 4px grey;
+    text-decoration: none;
+}
+
+#btn_carousel:hover i {
+    display: inline;
+}
+
+
+/* Botão de voltar ao topo da página */
+
+@media screen and (max-width:640px) {
+
+    #btnTopo {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 10px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #222;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 50%;
+        width: 55px;
+    }
+}
+
+
+@media screen and (min-width:640px) {
+
+    #btnTopo {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 55px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #222;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 50%;
+        width: 55px;
+    }
+}
+
+#btnTopo:hover {
+    box-shadow: 0 0 15px dimgrey;
+    background-color: #f26b3b;
+}
+
+/* Fim de botão voltar ao topo */

@@ -5,6 +5,7 @@ use app\models\RequisicaoLivro;
 use Carbon\Carbon;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -19,7 +20,28 @@ $this->title = 'Histórico de Requisições';
     <h1><?= Html::encode($this->title) ?></h1>
     <hr>
 
+    <h3 class="topicos" style="padding-left: 0">CANCELAR REQUISIÇÃO</h3>
+    <div class="col-md-12" style="margin-bottom: 5%">
+        <?php foreach ($requisicoes as $req) { ?>
+            <div class="col-xs-12 col-md-4 livroField" style="background-color: #fafafa; border: 1px solid grey; border-radius: 2px; max-width: 360px; margin: 5px; height: 204px;">
+                <div class="col-md-10">
+                    <h4>Requisição: #<?= $req->id_requisicao ?></h4><hr>
+                    <p><b>Bib. levantamento:</b> <?= $req->biblioteca->nome ?></p>
+                    <p><b>Estado:</b> <?= $req->estado ?></p>
+                    <?= Html::a('Ver livros', ['requisicao/view', 'id' => $req->id_requisicao]) ?>
+                </div>
+                <div class="col-md-2" style="padding-top: 6px; padding-left: 30px;">
+                    <?= Html::a('<i class="fas fa-trash-alt"></i>', ['requisicao/delete', 'id' => $req->id_requisicao],
+                        ['data' => ['confirm' => 'Deseja cancelar a requisição?', 'method' => 'post'],
+                            'class' => 'cancelarReq', 'style' => 'font-size: 20px;']) ?>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
 
+
+
+    <h3 class="topicos" style="padding-left: 0;">HISTÓRICO DE REQUISIÇÕES</h3>
     <?= GridView::widget([
         'summary' => 'Total de Requisições: {totalCount}',
         'dataProvider' => $dataProvider,

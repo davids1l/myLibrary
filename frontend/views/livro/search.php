@@ -19,43 +19,44 @@ $this->title = "Catálogo de Livros";
 
 <div class="container">
     <div class="searchBar">
-        <div class="" style="display: flex;">
-            <div class="col-md-11">
+        <div class="pesquisaSimples" style="display: flex" >
+            <div class="col-md-11 termosPesquisa">
                 <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'options' => ['class' => 'form-horizontal'], 'action'=>['livro/procurar']]); ?>
                 <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Pesquisar'])->label('')?>
             </div>
             <div class="col-md-1 btnProcurar">
-                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-info']) ?>
-                <!-- <?php ActiveForm::end(); ?> -->
+                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-info', 'style' => 'width: 100%']) ?>
             </div>
         </div>
+
         <div class="pesquisaDetalhada">
-            <!--<?= Html::a('Filtros de pesquisa <i class="fa fa-caret-down"></i>', null, ['class'=>'pesquisaAvancada'])?> -->
-            <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
-        </div>
-        <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;">
-            <?= Html::beginForm(['favorito/index'], 'post')?>
-            <div style="display: flex">
-                <div class="col-md-6">
-                    <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
+            <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa
+                <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
+
+            <div class="filtros-pesquisa"> <!-- display: none; -->
+                <?= Html::beginForm(['favorito/index'], 'post')?>
+                <div style="display: flex">
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'formato')->dropDownList(['Físico', 'Ebook'], ['prompt'=>'Selecione o formato...'])?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'genero')->dropDownList($generos,
+                            ['prompt'=>'Selecione o gênero...'])?>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, 'genero')->dropDownList($generos,
-                        ['prompt'=>'Selecione o gênero...'])?>
-                </div>
+                <?php ActiveForm::end(); ?>
             </div>
 
-            <?= Html::endForm() ?>
         </div>
     </div>
 
-    <div class="catalogo-livros" style="margin-bottom: 2%;">
+    <div class="row catalogo-livros" style="margin-bottom: 2%;">
         <hr>
         <?php if($livros == null && $livrosAutor == null) { ?>
             <p>Não foram encontrados resultados para a pesquisa.</p>
         <?php } else { ?>
         <div class="searchResults">
-            <div class="livros-titulo">
+            <div class="col-md-12 livros-titulo" style="padding-left: 0">
                 <?php if ($livros != null) { ?>
                     <h3 class="topicos">LIVRO(S) ENCONTRADOS</h3>
                     <?php foreach ($livros as $livro) { ?>
@@ -87,7 +88,7 @@ $this->title = "Catálogo de Livros";
             </div>
 
 
-            <div class="livros-atores">
+            <div class="col-md-12 livros-atores"  style="padding-left: 0">
                 <?php if ($livrosAutor != null) { ?>
                     <h3 class="topicos">LIVROS DE AUTORES ENCONTRADOS</h3>
                     <?php foreach ($livrosAutor as $livroAut) { ?>

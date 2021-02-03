@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
             <div class="item active">
                 <?= Html::img('/myLibrary/frontend/web/imgs/diversos/carousel_2.jpg') ?>
                 <div class="carousel-caption">
-                    <!-- <button class="btn btn-success btn-sm">CATÁLOGO</button> -->
+                    <?= Html::a('VER CATÁLOGO <i class="fas fa-caret-right"></i>', ['livro/catalogo'], ['id' => 'btn_carousel'])?>
                 </div>
             </div>
             <div class="item">
