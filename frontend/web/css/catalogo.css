@@ -29,30 +29,27 @@
     }
 }*/
 
-@media screen and (max-width:640px) {
+@media screen and (min-width:320px) and (max-width:640px){
 
     .btnProcurar{
         margin-top: 6%;
-        width: 50%;
+        width: 30%;
+    }
+
+    #livro-titulo {
+        width: 100%;
     }
 
 }
 
-@media screen and (min-width:640px) {
+
+@media screen and (min-width:650px) {
 
     .btnProcurar {
-        margin-top: 1.95%;
+        margin-top: 1.65%;
     }
 }
 
-@media screen and (max-width:1140px) {
-
-    .btnProcurar{
-        margin-top: 6%;
-
-    }
-
-}
 
 
 .topicos {
@@ -107,6 +104,7 @@
 }
 /* Fim adicionar carrinho on hover */
 
+
 /* Barra de pesquisa - Filtros avançados*/
 .filtros-pesquisa {
     background-color: whitesmoke;
@@ -115,6 +113,7 @@
     margin-top: 1%;
 }
 /* Fim barra de pesquisa avançada */
+
 
 /* Lista de favoritos */
 .favoritoAction {
@@ -155,6 +154,4 @@
 }
 /* Fim lista favoritos */
 
-.cancelarReq:hover {
-    color: #d43f3a;
-}
+

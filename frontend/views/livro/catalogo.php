@@ -23,11 +23,11 @@ $this->title = "Catálogo de Livros";
 
     <div class="searchBar">
          <div class="pesquisaSimples" style="display: flex" >
-            <div class="col-md-11 termosPesquisa">
+            <div class="col-xs-11 col-md-11 termosPesquisa">
                 <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'options' => ['class' => 'form-horizontal'], 'action'=>['livro/procurar']]); ?>
                 <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Pesquisar'])->label('')?>
             </div>
-            <div class="col-md-1 btnProcurar">
+            <div class="col-xs-1 col-md-1 btnProcurar">
                 <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-info', 'style' => 'width: 100%']) ?>
             </div>
         </div>

@@ -52,10 +52,23 @@ $this->title = "Detalhes do Livro";
                     </span>
                 </div>
                 <div class="rating">
-                    <!-- <span class="badge"><i class="glyphicon glyphicon-heart" style="color: #c9302c; font-size: 22px"></i><?= $totalFav?></span> -->
-                    <span class="badge" style="background-color: #dedede; color: dimgrey;"><span class="fas fa-heart btnFav"></span> <?=$totalFav ?></span>
+                    <!-- <span class="badge" style="background-color: #dedede; color: dimgrey;"><span class="fas fa-heart btnFav"></span> <?=$totalFav ?></span> -->
                 </div>
                 <div class="actions">
+                    <div class="adiconarFavSecundario">
+                        <?php if (!is_null($favorito)) { ?>
+                            <span class="badge" style="background-color: #dedede; color: dimgrey;">
+                                <?= Html::a('', ['favorito/delete', 'id' => $favorito->id_favorito],
+                                    ['data' => ['method' => 'post'], 'class' => "fas fa-heart btnFav"]) ?> <?=$totalFav ?>
+                            </span>
+
+                        <?php } else { ?>
+                            <span class="badge" style="background-color: #dedede; color: dimgrey;">
+                                <?= Html::a('', ['favorito/create', 'id' => $livro->id_livro], ['class' => "fas fa-heart btnNotFav"]) ?> <?= $totalFav ?>
+                            </span>
+                        <?php } ?>
+                    </div>
+
                     <div class="adicionar-carrinho" style="margin-top: 5%">
                         <?php
                         $session = Yii::$app->session;
