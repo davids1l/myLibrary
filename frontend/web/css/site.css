@@ -377,7 +377,7 @@ a.desc:after {
         font-size: 18px;
         border: none;
         outline: none;
-        background-color: #222;
+        background-color: #f26b3b;
         color: white;
         cursor: pointer;
         padding: 15px;
@@ -398,7 +398,7 @@ a.desc:after {
         font-size: 18px;
         border: none;
         outline: none;
-        background-color: #222;
+        background-color: #f26b3b;
         color: white;
         cursor: pointer;
         padding: 15px;
@@ -409,7 +409,7 @@ a.desc:after {
 
 #btnTopo:hover {
     box-shadow: 0 0 15px dimgrey;
-    background-color: #f26b3b;
+    background-color: #222;
 }
 
 /* Fim de botão voltar ao topo */
