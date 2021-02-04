@@ -139,7 +139,6 @@ a.desc:after {
     font-size: 25px;
     padding-left: 15px;
     color: #f26b3b;
-    font-weight: bold;
 }
 
 .sub-titulo {
@@ -152,27 +151,6 @@ a.desc:after {
     margin-top: 1%
 }
 
-#btnTopo {
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    right: 80px;
-    z-index: 99;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    background-color: #f26b3b;
-    color: white;
-    cursor: pointer;
-    padding: 15px;
-    border-radius: 50%;
-    width: 55px;
-}
-
-#btnTopo:hover {
-    box-shadow: 0 0 15px dimgrey;
-    background-color: #222;
-}
 
 /* Adicionar ao carrinho - no hover da capa mostra o btn*/
 .capa .carrinho-overlay {
@@ -205,6 +183,8 @@ a.desc:after {
     background-color: #555;
     transition: ease-in 200ms;
 }
+
+/* Fim adicionar carrinho on hover */
 
 .menuNav{
     color: #f26b3b;
@@ -358,3 +338,164 @@ a.desc:after {
 .footerInfo > p{
     color: white;
 }
+
+
+#btn_carousel i {
+    display: none;
+}
+
+#btn_carousel {
+    color: #1b1e21;
+    padding: 5px;
+    transition: 0.3s;
+    font-size: 16px;
+    border: 1px solid #1b1e21;
+}
+
+#btn_carousel:hover {
+    color: #d43f3a;
+    border: 1px solid #d43f3a;
+    box-shadow: 0 0 4px grey;
+    text-decoration: none;
+}
+
+#btn_carousel:hover i {
+    display: inline;
+}
+
+
+/* Botão de voltar ao topo da página */
+
+@media screen and (max-width:640px) {
+
+    #btnTopo {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 10px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #f26b3b;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 50%;
+        width: 55px;
+    }
+}
+
+
+@media screen and (min-width:640px) {
+
+    #btnTopo {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 55px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #f26b3b;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 50%;
+        width: 55px;
+    }
+}
+
+#btnTopo:hover {
+    box-shadow: 0 0 15px dimgrey;
+    background-color: #222;
+}
+
+/* Fim de botão voltar ao topo */
+
+
+/* slider requisições para cancelar */
+
+.reqs_cancelar::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+    border-radius: 15px;
+}
+
+.reqs_cancelar::-webkit-scrollbar
+{
+    /*width: 10px;*/
+    background-color: #F5F5F5;
+    height: 10px;
+}
+
+.reqs_cancelar::-webkit-scrollbar-thumb
+{
+    background-color:lightgrey;
+    /*border: 1px solid #555555;*/
+    border-radius: 15px;
+}
+
+.reqs_cancelar::-webkit-scrollbar-thumb:hover {
+    background-color: #828282;
+}
+
+.reqs_cancelar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
+
+.req_por_levantar {
+    /*background-color: #fafafa;*/
+    border: 1px solid grey;
+    border-radius: 2px;
+    max-width: 370px;
+    margin: 5px;
+    height: 204px;
+    flex-shrink: 0;
+}
+
+.req_por_levantar:hover {
+    /*transform: scale(1.1);*/
+    box-shadow: 0 0 5px dimgrey;
+}
+
+#cancelarReq {
+    color: gray;
+    font-size: 20px;
+}
+
+#cancelarReq:hover {
+    color: #95999c;
+}
+
+/*
+
+#btnTopo {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #f26b3b;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    width: 55px;
+}
+
+#btnTopo:hover {
+    box-shadow: 0 0 15px dimgrey;
+    background-color: #222;
+}
+
+*/

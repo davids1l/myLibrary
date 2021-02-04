@@ -23,12 +23,12 @@ $this->title = "Catálogo de Livros";
 
     <div class="searchBar">
          <div class="pesquisaSimples" style="display: flex" >
-            <div class="col-md-11 termosPesquisa">
+            <div class="col-xs-11 col-md-11 termosPesquisa">
                 <?php $form = ActiveForm::begin(['id'=>'pesquisa-form', 'options' => ['class' => 'form-horizontal'], 'action'=>['livro/procurar']]); ?>
                 <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Pesquisar'])->label('')?>
             </div>
-            <div class="col-md-1 btnProcurar">
-                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Procurar', ['class' => 'btn btn-info']) ?>
+            <div class="col-xs-1 col-md-1 btnProcurar">
+                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn btn-info', 'style' => 'width: 100%']) ?>
             </div>
         </div>
 
@@ -36,7 +36,7 @@ $this->title = "Catálogo de Livros";
             <a href="#" id="pesquisaAvancada" class="pesquisaAvancada" data-content="toggle-text">Filtros de pesquisa
                 <i id="mostrarFiltrosPesquisa" class="fa fa-caret-down"></i></a>
 
-            <div class="filtros-pesquisa" style="background-color: whitesmoke; padding-bottom: 4px; border-radius: 3px; margin-top: 1%;"> <!-- display: none; -->
+            <div class="filtros-pesquisa"> <!-- display: none; -->
                 <?= Html::beginForm(['favorito/index'], 'post')?>
                 <div style="display: flex">
                     <div class="col-md-6">
@@ -53,7 +53,7 @@ $this->title = "Catálogo de Livros";
         </div>
     </div>
 
-    <div class="catalogo-livros">
+    <div class="row catalogo-livros">
         <hr>
         <div class="catalogo">
             <h3 class="topicos">CATÁLOGO</h3>

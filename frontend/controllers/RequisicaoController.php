@@ -103,11 +103,22 @@ class RequisicaoController extends Controller
      */
     public function actionIndex()
     {
-        $requisicoes = Requisicao::find()->where(['id_utilizador' => Yii::$app->user->id])->orderBy(['id_requisicao' =>SORT_DESC])->all();
+        $requisicoes = Requisicao::find()
+            ->where(['id_utilizador' => Yii::$app->user->id])
+            ->andWhere(['!=', 'estado', 'Em requisição'])
+            ->andWhere(['!=', 'estado', 'Terminada'])
+            ->orderBy(['id_requisicao' =>SORT_DESC])
+            ->all();
 
         $searchModel = new RequisicaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $key = null;
+
+        /*$teste = RequisicaoLivro::find()
+            ->innerJoin(['subquery' => $requisicoes], 'requisicao_livro.id_requisicao = subquery.id_requisicao')
+            ->all();*/
+
+
 
         return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $searchModel, 'key' => $key, 'requisicoes' => $requisicoes]);
     }
@@ -251,11 +262,19 @@ class RequisicaoController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::$app->user->can('deleteRequisicao')){
+        $model = $this->findModel($id);
+
+        if (Yii::$app->user->can('deleteRequisicao') && $this->validateUserAutenticity($model)){
             $this->findModel($id)->delete();
         }
 
         return $this->redirect(['index']);
+    }
+
+    //Validar se o user logado é o autor da requisição
+    private function validateUserAutenticity($model)
+    {
+        return Yii::$app->user->id == $model->id_utilizador ? true : false;
     }
 
     /**

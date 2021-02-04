@@ -24,13 +24,6 @@ $this->title = 'Meus favoritos';
         if ($livros != null) { ?>
 
             <div class="searchBar" style="margin-bottom: 2%">
-                <!--<div>
-                    <?php $form = ActiveForm::begin(['id' => 'listar-form', 'action' => ['favorito/']]); ?>
-                    <?= $form->field($searchModel, 'dta_favorito')->label('Listar')->dropDownList(['1' => 'Mais antigos primeiro', '2' => 'Mais recentes primeiro']) ?>
-                    <?= Html::submitButton('Listar', ['class' => 'btn btn-success']) ?>
-                    <?php ActiveForm::end(); ?>
-                </div>-->
-
                 <div class="filter">
                     <?= Html::beginForm(['favorito/index'], 'post', ['id'=>'listarFavoritos'])?>
                         <?php if (Yii::$app->session->get('favoritoList') == 2) {?>
@@ -61,8 +54,8 @@ $this->title = 'Meus favoritos';
                             <h5>de <?= Html::encode($fav->livro->autor->nome_autor) ?></h5>
                             <h6>Edição: <?= Html::encode($fav->livro->ano) ?></h6>
                         </div>
-                        <div class="col-xs-2 col-md-1">
-                            <?= Html::a('<i class="material-icons md-38">remove_circle</i>', ['favorito/delete', 'id' => $fav->id_favorito], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro dos seus favoritos?', 'method' => 'post'],
+                        <div class="col-xs-2 col-md-1" style="padding-left: 10%;">
+                            <?= Html::a('<i class="fas fa-times"></i>', ['favorito/delete', 'id' => $fav->id_favorito], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro dos seus favoritos?', 'method' => 'post'],
                                 'class' => 'favoritoAction']) ?>
                         </div>
                     </div>
