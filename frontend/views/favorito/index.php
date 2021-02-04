@@ -17,7 +17,7 @@ $this->title = 'Meus favoritos';
 ?>
 <div class="favorito-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 style="text-transform: uppercase; padding-left: 0" class="topicos"><?= Html::encode($this->title) ?></h1>
     <hr>
     <div class="listaFavoritos">
         <?php

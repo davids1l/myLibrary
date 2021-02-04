@@ -65,13 +65,21 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
 
             ['email', 'trim'],
-            ['email', 'required'],
+            ['email', 'required', 'message' => '{attribute} não pode estar em branco.'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este email já se encontra em utilização.'],
 
             //[['password_hash', 'nova_password', 'conf_password'], 'required'],
             [['password_hash', 'nova_password', 'conf_password'], 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'email' => 'Endereço de email',
+            'password' => 'Palavra-passe'
         ];
     }
 

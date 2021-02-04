@@ -9,15 +9,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $utilizador app\models\Utilizador */
 
-$this->title = /*$utilizador->id_utilizador*/
-    'Perfil de Leitor';
+$this->title = 'Perfil de Leitor';
 //$this->params['breadcrumbs'][] = ['label' => 'Utilizadores', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="utilizador-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos" style="text-transform: uppercase; padding-left: 0"><?= Html::encode($this->title) ?></h1>
     <hr>
     <div class="row perfil">
 
@@ -28,7 +27,7 @@ $this->title = /*$utilizador->id_utilizador*/
                 <div class="text-right">
                     <div class="dropdown">
                         <a onclick="mostrarDropdown()" class="dropbtn glyphicon glyphicon-menu-down" style="font-size: 20px"></a>
-                        <div id="myDropdown" class="dropdown-content">
+                        <div id="myDropdown" class="dropdown-perfil">
                             <a data-toggle="modal" data-target="#imageModel"><div style="display: inline"><i class="fas fa-image"></i> Alterar Foto</div></a>
                             <?= Html::a('<div><i class="fas fa-times"></i> Remover Foto</div>', ['utilizador/remover-img', 'id' => $model->id_utilizador]) ?>
                         </div>
@@ -37,7 +36,7 @@ $this->title = /*$utilizador->id_utilizador*/
             </div>
 
             <div class="col-md-12 card" style="padding: 10px">
-                <h4 style="font-weight: bold">Outras informações</h4>
+                <h4 style="font-weight: bold; color: #f26b3b">Outras informações</h4>
                 <div class="row">
                     <div class="col-sm-6">
                         <h5 style="font-weight: bold">Data de Registo</h5>
@@ -118,7 +117,7 @@ $this->title = /*$utilizador->id_utilizador*/
                         <div class="dropdown">
                             <a onclick="mostrarDropdownDados()" class="dropbtn glyphicon glyphicon-menu-down"
                                style="font-size: 20px"></span></a>
-                            <div id="myDropdownDados" class="dropdown-content" style="width: max-content">
+                            <div id="myDropdownDados" class="dropdown-perfil" style="width: max-content">
                                 <a data-toggle="modal" data-target="#perfilModal"><div style="display: inline"><i class="fas fa-user"></i> Alterar Dados</div></a>
                                 <a data-toggle="modal" data-target="#passwordModal"><div style="display: inline"><i class="fas fa-lock"></i> Alterar Palavra-passe</div></a>
                             </div>
@@ -129,7 +128,7 @@ $this->title = /*$utilizador->id_utilizador*/
 
             <div class="col-md-12 card">
                 <div class="col-md-12" style="margin-right: 20px; padding: 10px">
-                    <h4><b>Estatísticas</b> - As estatísticas são calculadas conforme a lista de favoritos</h4>
+                    <h4><b style="color: #f26b3b">Estatísticas</b> - As estatísticas são calculadas conforme a lista de favoritos</h4>
                 </div>
             </div>
 
@@ -183,7 +182,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Alterar Dados</h2>
+                    <h2 class="topicos" id="exampleModalLabel">ALTERAR DADOS</h2>
                 </div>
                 <?php $form = ActiveForm::begin([
                     'action' => ['utilizador/update', 'id' => $model->id_utilizador], 'id' => 'formAlterar']) ?>
@@ -192,10 +191,10 @@ $this->title = /*$utilizador->id_utilizador*/
                     <div class="modal-body col-sm-6">
                         <table>
                             <tr>
-                                <th><?= $form->field($model, 'primeiro_nome')->textInput(['value' => $model->primeiro_nome])->label('Primeiro Nome:') ?></th>
+                                <th><?= $form->field($model, 'primeiro_nome')->textInput(['value' => $model->primeiro_nome])->label('Nome:') ?></th>
                             </tr>
                             <tr>
-                                <th><?= $form->field($model, 'ultimo_nome')->textInput(['value' => $model->ultimo_nome])->label('Ultimo Nome:') ?></th>
+                                <th><?= $form->field($model, 'ultimo_nome')->textInput(['value' => $model->ultimo_nome])->label('Apelido:') ?></th>
                             </tr>
                             <tr>
                                 <th><?= $form->field($userModel, 'email')->textInput(['value' => $userModel->email])->label('Email:') ?></th>
@@ -230,7 +229,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Alterar Palavra-passe</h2>
+                    <h2 class="topicos" id="exampleModalLabel">ALTERAR PALAVRA-PASSE</h2>
                 </div>
                 <?php $form = ActiveForm::begin([
                     'action' => ['utilizador/update-password', 'id' => $model->id_utilizador]]) ?>
@@ -268,7 +267,7 @@ $this->title = /*$utilizador->id_utilizador*/
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Alterar Foto</h2>
+                    <h2 class="topicos" id="exampleModalLabel">ALTERAR FOTO</h2>
                 </div>
                 <?php $form = ActiveForm::begin([
                     'action' => ['utilizador/upload-img', 'id' => $model->id_utilizador]]) ?>

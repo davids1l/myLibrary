@@ -179,9 +179,11 @@ a.desc:after {
     text-transform: uppercase;
 }
 
-#adicionarCarrinho:hover {
+#adicionarCarrinho:hover{
     background-color: #555;
+    transition: ease-in 200ms;
 }
+
 /* Fim adicionar carrinho on hover */
 
 .menuNav{
@@ -193,12 +195,17 @@ a.desc:after {
     color: white;
 }
 
+.navbar-inverse .navbar-nav > li > a:hover{
+    background-color: #080808;
+    transition: ease-in 200ms;
+}
+
 .titulo{
-    /*color: #f26b3b;*/
     letter-spacing: 1px;
 }
 
-.autor{
+.tituloLivro{
+    letter-spacing: 1px;
     color: #f26b3b;
 }
 
@@ -209,6 +216,129 @@ a.desc:after {
 .carousel-indicators li.active{
     background-color: #f26b3b;
 }
+
+.tituloLogin{
+    color: #f26b3b;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    margin-top: 30px;
+}
+
+.tituloRegistar{
+    color: #f26b3b;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+    margin-top: 30px;
+}
+
+.btnLogin{
+    background-color: #f26b3b;
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.btnLogin:hover{
+    color: #222;
+}
+
+.divLinkRegistar{
+    background-color: white;
+    border: 2px solid #f26b3b;
+    font-size: 16px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 25px;
+}
+
+.linkRegistar{
+    color: black;
+    text-transform: uppercase;
+}
+
+.linkRegistar:hover{
+    color: #f26b3b;
+    text-decoration: none;
+}
+
+.campoRegisto{
+    height: 40px;
+    font-size: 16px;
+}
+
+.dropdownMenuIcon{
+    font-size: 20px;
+    color: #f26b3b;
+}
+
+.dropdownMenuText{
+    color: #f26b3b;
+}
+
+.dropdown-menu{
+    background-color: #222;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a > span, .dropdown-menu > .active > a > i, .dropdown-menu > .active > a:hover{
+    background-color: #080808;
+    color: white;
+}
+
+.dropdown-menu > li > a:hover > i, .dropdown-menu > li > a:hover > span{
+    color: black;
+}
+
+.dropdown-menu > .active > a:hover > i, .dropdown-menu > .active > a:hover > span{
+    color: white;
+}
+
+.btnFinalizarRequisicao{
+    background-color: white;
+}
+
+.btnFinalizarRequisicao:hover{
+    color: #f26b3b;
+}
+
+.footer{
+    background-color: whitesmoke;
+    height: auto;
+}
+
+.footerBranco{
+    color: black;
+    font-size: 18px;
+}
+
+.footerDesenvolvedores > p{
+    color: black;
+    margin-left: 140px;
+    margin-top: -7px;
+}
+
+.footerDesenvolvedores{
+    margin-top: -5px;
+}
+
+.footerTitulos{
+    color: #f26b3b;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+}
+
+.footerInfo > p{
+    color: white;
+}
+
 
 #btn_carousel i {
     display: none;
@@ -344,4 +474,28 @@ a.desc:after {
     color: #95999c;
 }
 
-/* */
+/*
+
+#btnTopo {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #f26b3b;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    width: 55px;
+}
+
+#btnTopo:hover {
+    box-shadow: 0 0 15px dimgrey;
+    background-color: #222;
+}
+
+*/

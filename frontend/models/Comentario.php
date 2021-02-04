@@ -33,7 +33,7 @@ class Comentario extends \yii\db\ActiveRecord
     {
         return [
             [['dta_comentario'], 'safe'],
-            [['comentario', 'id_livro', 'id_utilizador'], 'required'],
+            [['comentario', 'id_livro', 'id_utilizador'], 'required', 'message' => '{attribute} não pode estar em branco.'],
             [['id_livro', 'id_utilizador'], 'integer'],
             [['comentario'], 'string', 'max' => 245],
         ];
@@ -56,7 +56,7 @@ class Comentario extends \yii\db\ActiveRecord
         return [
             'id_comentario' => 'Id Comentario',
             'dta_comentario' => 'Dta Comentario',
-            'comentario' => '',
+            'comentario' => 'Comentário',
             'id_livro' => 'Id Livro',
             'id_utilizador' => 'Id Utilizador',
         ];

@@ -36,29 +36,45 @@ class SignupForm extends Model
             //['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             //['username', 'string', 'min' => 2, 'max' => 255],
 
+            [['email', 'password', 'primeiro_nome', 'ultimo_nome', 'nif', 'num_telemovel', 'confirmarPassword', 'dta_nascimento'], 'required', 'message' => '{attribute} não pode estar em branco'],
+
             ['email', 'trim'],
-            ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este email já se encontra em utilização.'],
 
-            ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
 
-            ['primeiro_nome', 'required'],
-
-            ['ultimo_nome', 'required'],
 
             ['dta_nascimento', 'required'],
 
-            ['nif', 'required'],
             ['nif', 'string', 'min' => 9, 'max' => 9],
             ['nif', 'unique', 'targetClass' => '\frontend\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
 
             ['num_telemovel', 'required'],
             ['num_telemovel', 'string', 'min' => 9, 'max' => 9],
 
-            ['confirmarPassword', 'required'],
+
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id_utilizador' => 'Id Utilizador',
+            'primeiro_nome' => 'Nome',
+            'ultimo_nome' => 'Apelido',
+            'numero' => 'Numero',
+            'bloqueado' => 'Bloqueado',
+            'dta_bloqueado' => 'Dta Bloqueado',
+            'dta_nascimento' => 'Data de nascimento',
+            'nif' => 'NIF',
+            'num_telemovel' => 'Número de Telemóvel',
+            'dta_registo' => 'Dta Registo',
+            'foto_perfil' => 'Foto Perfil',
+            'email' => 'Endereço de email',
+            'password' => 'Palavra-passe',
+            'confirmarPassword' => 'Confirmação da palavra-passe'
 
         ];
     }
