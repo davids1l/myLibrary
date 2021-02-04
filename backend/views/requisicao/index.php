@@ -18,9 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Requisição', ['site/index'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição por preparar', ['preparar'], ['class' => 'btn btn-default']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Requisição pronta a entregar', ['levantar'], ['class' => 'btn btn-default']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Mostrar Todas', ['index'], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= GridView::widget([
@@ -45,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return Carbon::parse($model->dta_entrega)->format('d-m-Y H:i:s');
                 }
-            ],
+            ],/*
             'estado',
             [
                 'attribute' => 'id_utilizador',
@@ -56,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id_utilizador',
                 'value' => 'utilizador.num_telemovel',
                 'label' => 'Telemóvel'
-            ],
+            ],*/
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{preparar}',
@@ -86,7 +83,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
             ],
-            ['class' => 'yii\grid\ActionColumn']
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}'
+            ]
         ],
     ]); ?>
 

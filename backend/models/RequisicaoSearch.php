@@ -86,14 +86,17 @@ class RequisicaoSearch extends Requisicao
             $type = "Pronta a levantar";
         } else if($type == 3) {
             $type = "Em requisição";
+        } else if($type == 4) {
+            $type = "Terminada";
         }
 
-        $query = Requisicao::find()->where(['estado' => $type])->orderBy('id_requisicao');
+        $query = Requisicao::find()->where(['estado' => $type])->orderBy(['id_requisicao' => SORT_DESC]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 5],
         ]);
 
         $this->load($params);

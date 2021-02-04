@@ -68,7 +68,7 @@ class RequisicaoController extends Controller
     {
         if (Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')) {
             $searchModel = new RequisicaoSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 4);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
@@ -199,8 +199,15 @@ class RequisicaoController extends Controller
      */
     public function actionView($id)
     {
+        $reqLivro = RequisicaoLivro::find()->where(['id_requisicao' => $id])->all();
+
+        foreach($reqLivro as $rl) {
+            $livros[] = Livro::find()->where(['id_livro' => $rl->id_livro])->all();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'livros' => $livros,
         ]);
     }
 

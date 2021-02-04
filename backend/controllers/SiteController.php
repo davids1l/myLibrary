@@ -220,7 +220,7 @@ class SiteController extends Controller
                 $model->estado = "Terminada";
                 $model->save();
 
-                $this->redirect(['site/index']);
+                return $this->redirect(['site/index']);
             }
 
             return $this->render('index', [

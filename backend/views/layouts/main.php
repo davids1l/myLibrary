@@ -61,7 +61,7 @@ AppAsset::register($this);
 
         if (Yii::$app->user->can('admin')) {
             $menuItems[] = ['label' => 'Bibliotecários', 'url' => ['/bibliotecario/index']];
-            $menuItems[] = ['label' => 'Biblioteca', 'url' => ['/biblioteca/index']];
+            $menuItems[] = ['label' => 'Biblioteca', 'url' => ['/bibliotecas/index']];
         }
 
 
