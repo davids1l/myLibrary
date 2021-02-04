@@ -137,3 +137,36 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.footerBranco{
+    color: black;
+    font-size: 18px;
+}
+
+.footerTitulos{
+    color: #f26b3b;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+}
+
+.footerDesenvolvedores > p{
+    color: black;
+    margin-left: 140px;
+    margin-top: -7px;
+}
+
+.footerDesenvolvedores{
+    margin-top: -5px;
+}
+
+.footer{
+    background-color: whitesmoke;
+    height: auto;
+}
+
+.menuNav{
+    color: #f26b3b;
+    letter-spacing: 2px;
+}

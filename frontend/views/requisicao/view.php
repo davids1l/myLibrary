@@ -18,11 +18,11 @@ $this->title = 'Requisição #' . $model->id_requisicao;
 ?>
 <div class="requisicao-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <a class="btnRequisicoes" style="color: #f26b3b" href="<?= Url::to(['requisicao/index']) ?>"><span class="fas fa-arrow-left" style="margin-right: 3px"></span> Requisições</a>
+    <h1 class="topicos" style="text-transform: uppercase; padding-left: 0"><?= Html::encode($this->title) ?></h1>
     <hr>
-    <a style="text-decoration: none; font-size: 18px" href="<?= Url::to(['requisicao/index']) ?>"><span class="fas fa-arrow-left" style="margin-right: 3px"></span> Histórico de requisições</a>
-    <h3>Livros requisitados:</h3>
-    <br>
+
+    <h3 style="font-size: 20px">Livro(s) requisitados:</h3>
 
 
     <?php

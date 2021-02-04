@@ -17,8 +17,8 @@ $this->title = 'Histórico de Requisições';
 ?>
 <div class="requisicao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <hr>
+    <!--<h1><?/*= Html::encode($this->title) */?></h1>
+    <hr>-->
 
 
     <h3 class="topicos" style="padding-left: 0">CANCELAR REQUISIÇÃO</h3>

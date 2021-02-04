@@ -499,3 +499,11 @@ a.desc:after {
 }
 
 */
+
+.btnRequisicoes{
+    font-size: 18px;
+}
+
+.btnRequisicoes:hover{
+    text-decoration: none;
+}

@@ -130,10 +130,7 @@ AppAsset::register($this);
                     <p>Tiago Lopes</p>
                 </div>
             </div>
-
         </div>
-
-
     </div>
 </footer>
 
