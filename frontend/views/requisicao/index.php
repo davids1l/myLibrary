@@ -102,7 +102,7 @@ $this->title = 'Histórico de Requisições';
 
                         if($model->estado == 'Pronta a levantar' || $model->estado == 'A aguardar tratamento'){
                             return Html::a('<span class="" style="color: #c9302c">Cancelar</span>',  ['requisicao/delete', 'id' => $model->id_requisicao],
-                                ['id' => 'cancelarReqGrid', 'style' => '', 'title' => 'Cancelar Requisição', 'data' => ['confirm' => 'Deseja cancelar a requisição?', 'method' => 'post']]);
+                                ['id' => 'cancelarReqGrid', 'title' => 'Cancelar Requisição', 'data' => ['confirm' => 'Deseja cancelar a requisição?', 'method' => 'post']]);
                         }
                     }
                 ]
