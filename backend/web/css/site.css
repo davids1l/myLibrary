@@ -170,3 +170,41 @@ a.desc:after {
     color: #f26b3b;
     letter-spacing: 2px;
 }
+
+.topicos {
+    font-family: "Yu Gothic Light";
+    font-size: 25px;
+    color: #f26b3b;
+    text-transform: uppercase;
+}
+
+.btnAcao{
+    background-color: white;
+    border: 2px solid #f26b3b;
+    text-transform: uppercase;
+    color: black;
+    padding: 5px;
+    letter-spacing: 1px;
+}
+
+.btnAcao:hover{
+    color: #f26b3b;
+    transition: ease-in 200ms;
+    text-decoration: none;
+}
+
+.breadcrumb{
+    margin-top: 30px;
+    color: whitesmoke;
+    border-radius: 30px;
+}
+
+.breadcrumb > li > a, .breadcrumb > .active{
+    color: black;
+    text-transform: uppercase;
+}
+
+.breadcrumb > li > a:hover{
+    text-decoration: none;
+    color: #f26b3b;
+}
