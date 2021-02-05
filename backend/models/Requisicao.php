@@ -82,8 +82,8 @@ class Requisicao extends \yii\db\ActiveRecord
 
             $topico = 'req/' . $id_requisicao;
 
-            //if($insert == false)
-                //$this->FazPublish($topico, $myJson);
+            if($insert == false)
+                $this->FazPublish($topico, $myJson);
         }
     }
 
