@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\Models\Autor */
 
-$this->title = 'Adicionar Autor';
+$this->title = 'Inserir Autor';
 $this->params['breadcrumbs'][] = ['label' => 'Autores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -23,12 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'id_pais')->dropDownList($paises)->label('País') ?>
 
             <div class="form-group text-center">
-                <?= Html::submitButton('<i class="fas fa-plus"></i> Adicionar', ['class' => 'btnAcao']) ?>
+                <?= Html::submitButton('<i class="fas fa-plus"></i> Inserir', ['class' => 'btnAcao']) ?>
             </div>
-
         </div>
         <div class="col-md-4"></div>
         <?php ActiveForm::end(); ?>
     </div>
-
 </div>

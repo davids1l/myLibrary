@@ -142,10 +142,11 @@ class UtilizadorController extends Controller
             return $this->redirect(['index']);
         }
 
-        Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o leitor.');
+        //Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o leitor.');
         $model->password = '';
         $model->confirmarPassword = '';
-        return $this->actionShowmodal($model);
+        //return $this->actionShowmodal($model);
+        return $this->render('create', ['model' => $model]);
     }
 
     /**

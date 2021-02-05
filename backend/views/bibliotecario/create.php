@@ -1,20 +1,39 @@
 <?php
 
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Utilizador */
 
-$this->title = 'Create Utilizador';
-$this->params['breadcrumbs'][] = ['label' => 'Utilizadors', 'url' => ['index']];
+$this->title = 'Inserir Bibliotecário';
+$this->params['breadcrumbs'][] = ['label' => 'Bibliotecários', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="utilizador-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
+    <hr>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <div class="row">
+        <?php $form = ActiveForm::begin(['action' => ['bibliotecario/create'], 'id' => 'formInserirBibliotecario']) ?>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <?= $form->field($model, 'primeiro_nome')->textInput(['placeholder' => 'introduza o nome'])->label('Nome') ?>
+            <?= $form->field($model, 'ultimo_nome')->textInput(['placeholder' => 'introduza o apelido'])->label('Apelido') ?>
+            <?= $form->field($model, 'email')->textInput(['placeholder' => 'introduza o endereço de email']) ?>
+            <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
+            <?= $form->field($model, 'nif')->label('NIF')->textInput(['placeholder' => 'introduza o NIF']) ?>
+            <?= $form->field($model, 'num_telemovel')->label('Nº de telefone')->textInput(['placeholder' => 'introduza o nº de telemóvel']) ?>
+            <?= $form->field($model, 'id_biblioteca')->label('Biblioteca')->dropDownList($bibliotecas) ?>
+            <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'introduza a palavra-passe'])->label('Palavra-Passe') ?>
+            <?= $form->field($model, 'confirmarPassword')->passwordInput(['placeholder' => 'confirmar palavra-passe'])->label('Confirmar Palavra-Passe') ?>
 
+            <div class="form-group text-center">
+                <?= Html::submitButton('<i class="fas fa-plus"></i> Inserir', ['class' => 'btnAcao', 'id' => 'formInserirBibliotecario']) ?>
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+        <?php ActiveForm::end() ?>
+    </div>
 </div>

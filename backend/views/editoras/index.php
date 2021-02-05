@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
     <hr>
-    <?= Html::a('<span class="glyphicon glyphicon-plus" style="margin-bottom: 30px; margin-top: 10px"></span> Adicionar Editora', ['create'], ['class' => 'btnAcao']) ?>
+    <?= Html::a('<span class="glyphicon glyphicon-plus" style="margin-bottom: 30px; margin-top: 10px"></span> Inserir Editora', ['create'], ['class' => 'btnAcao']) ?>
 
 
     <?= GridView::widget([

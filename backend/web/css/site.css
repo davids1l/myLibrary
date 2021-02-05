@@ -193,6 +193,20 @@ a.desc:after {
     text-decoration: none;
 }
 
+.btnAcaoDisabled{
+    background-color: white;
+    border: 2px solid black;
+    text-transform: uppercase;
+    color: black;
+    padding: 5px;
+    letter-spacing: 1px;
+}
+
+.btnAcaoDisabled:hover{
+    color: black;
+    text-decoration: none;
+}
+
 .breadcrumb{
     margin-top: 30px;
     color: whitesmoke;
@@ -208,3 +222,22 @@ a.desc:after {
     text-decoration: none;
     color: #f26b3b;
 }
+
+.pagination > li > a, .pagination > li > span, .pagination > li.prev > span{
+    color: #f26b3b;
+}
+
+.pagination .active > a{
+    background-color: #f26b3b;
+    border-color: #f26b3b;
+}
+
+.pagination .active > a:hover{
+    background-color: #f26b3b;
+    border-color: #f26b3b;
+}
+
+.pagination > li > a:hover{
+    color: black;
+}
+

@@ -8,28 +8,38 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Utilizador */
 
-$this->title = $model->primeiro_nome . " " . $model->ultimo_nome;
+$this->title = 'Bibliotecário: ' . $model->primeiro_nome . " " . $model->ultimo_nome;
 $this->params['breadcrumbs'][] = ['label' => 'Bibliotecários', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="utilizador-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
+    <hr>
 
-    <p>
-        <?= Html::a('Alterar Biblioteca', null, [
-            'data-toggle' => 'modal',
-            'data-target' => '#updateBibliotecarioModal',
-            'class' => 'btn btn-primary'])
+    <p style="margin-bottom: 30px; margin-top: 10px"">
+        <?php
+        if ($model->id_biblioteca != null) {
+            echo Html::a('<i class="fas fa-exchange-alt"></i> Alterar Biblioteca', null, [
+                'data-toggle' => 'modal',
+                'data-target' => '#updateBibliotecarioModal',
+                'class' => 'btnAcao']);
+        }else{
+            echo Html::a('<i class="fas fa-exchange-alt"></i> Associar Biblioteca', null, [
+                'data-toggle' => 'modal',
+                'data-target' => '#updateBibliotecarioModal',
+                'class' => 'btnAcao']);
+        }
         ?>
+
 
         <?php
         if ($model->id_biblioteca != null) {
-            echo Html::a('Desassociar da Biblioteca', ['bibliotecario/remover-biblioteca', 'id' => $model->id_utilizador], [
-                'class' => 'btn btn-danger',
+            echo Html::a('<i class="fas fa-unlink"></i> Desassociar da Biblioteca', ['bibliotecario/remover-biblioteca', 'id' => $model->id_utilizador], [
+                'class' => 'btnAcao',
                 'data' => [
-                    'confirm' => 'Tem a certeza que quer desassociar o bibliotecário com o nº ' . $model->numero . ' da biblioteca ' . $model->biblioteca->nome . '?',
+                    'confirm' => 'Tem a certeza que deseja desassociar o bibliotecário nº ' . $model->numero . ' da biblioteca ' . $model->biblioteca->nome . '?',
                     'method' => 'post',
                 ],
             ]);
@@ -37,8 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
 
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->id_utilizador], [
-            'class' => 'btn btn-danger',
+        <?= Html::a('<i class="fas fa-trash-alt"></i> Eliminar', ['delete', 'id' => $model->id_utilizador], [
+            'class' => 'btnAcao',
             'data' => [
                 'confirm' => 'Tem a certeza que quer eliminar o bibliotecário com o nº ' . $model->numero . '?',
                 'method' => 'post',
@@ -101,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $nomeBibli->nome;
                     }
                 },
-                'label' => 'Biblioteca associada'
+                'label' => 'Biblioteca Associada'
             ],
 
         ],
@@ -117,22 +127,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Alterar Biblioteca</h2>
+                    <h2 class="topicos" id="exampleModalLabel">Alterar Biblioteca</h2>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6" style="margin-top: 10px">
                         <?php $form = ActiveForm::begin([
                             'action' => ['bibliotecario/update-biblioteca', 'id' => $model->id_utilizador]]) ?>
                         <div class="row">
                             <?= $form->field($model, 'id_biblioteca')->label('Biblioteca')->dropDownList($bibliotecas) ?>
                         </div>
                         <div class="modal-footer">
-                            <?= Html::submitButton('Guardar', ['class' => 'btn-perfil']) ?>
+                            <div class="text-center">
+                                <?= Html::submitButton('<i class="fas fa-save"></i> Guardar', ['class' => 'btnAcao']) ?>
+                            </div>
                         </div>
                         <?php ActiveForm::end() ?>
                     </div>
-                    <div class="col-sm-2"></div>
+                    <div class="col-sm-3"></div>
                 </div>
             </div>
         </div>

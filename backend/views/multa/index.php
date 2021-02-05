@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -12,7 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="multa-index">
 
-    <h1><?= Html::encode($this->title).' em dívida' ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title).' em dívida' ?></h1>
+    <hr>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -22,11 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'summary' => 'Total de multas: {totalCount}',
         'columns' => [
 
-            'id_multa',
             'montante',
             'estado',
-            'id_requisicao',
-            'dta_multa',
+            [
+                'attribute' => 'id_requisicao',
+                'label' => 'Nº da Requisição',
+            ],
+
+            [
+                'attribute' => 'dta_multa',
+                'label' => 'Data da Multa',
+                'value' => function ($model) {
+                    return Carbon::parse($model->dta_multa)->format('d-m-Y H:i:s');
+                }
+            ],
+
 
             ['class' => 'yii\grid\ActionColumn',
                 'header' => 'Ações',
@@ -34,11 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'multa' => function ($key, $model) {
                         if($model->estado == 'Pago'){
-                            return Html::a('Validar pagamento', null,
-                                ['class' => 'btn btn-success disabled', 'style' => 'cursor: not-allowed;']);
+                            return Html::a('<i class="fas fa-check"></i> Pago', null,
+                                ['class' => 'btnAcaoDisabled disabled', 'style' => 'cursor: not-allowed;']);
                         } else {
                             return Html::a('Validar pagamento', ['multa/update', 'id' => $model->id_multa],
-                                ['data' => ['method' => 'post', 'confirm' =>'Deseja validar o pagamento?'], 'class' => 'btn btn-success', 'style' => 'cursor: pointer']);
+                                ['data' => ['method' => 'post', 'confirm' =>'Deseja validar o pagamento?'], 'class' => 'btnAcao', 'style' => 'cursor: pointer']);
                         }
                     }
                 ]

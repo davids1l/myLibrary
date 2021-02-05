@@ -125,6 +125,10 @@ class BibliotecarioController extends Controller
         if (Yii::$app->user->can('createBibliotecario')) {
             $model = new SignupForm();
 
+            $bibliotecas = Biblioteca::find()->all();
+
+            $listBib = ArrayHelper::map($bibliotecas, 'id_biblioteca', 'nome');
+
             if ($model->load(Yii::$app->request->post())) {
 
                 $biblioteca = Yii::$app->request->post();
@@ -136,10 +140,11 @@ class BibliotecarioController extends Controller
                 }
             }
 
-            Yii::$app->session->setFlash('error', 'Ocorreu um erro ao inserir o bibliotecário.');
+
             $model->password = '';
             $model->confirmarPassword = '';
-            return $this->actionShowmodal($model);
+            return $this->render('create', ['model' => $model, 'bibliotecas' => $listBib]);
+
         } else {
             Yii::$app->session->setFlash('error', 'Não tens permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
