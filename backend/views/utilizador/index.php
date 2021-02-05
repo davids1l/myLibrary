@@ -23,15 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
 
         <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Bloqueados', ['utilizador/index', 'pesquisa' => 'Bloqueados'], [
-            'class' => 'btn btn-info'
+            'class' => 'btn btn-default'
         ]); ?>
 
         <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Não Bloqueados', ['utilizador/index', 'pesquisa' => 'Desbloqueados'], [
-            'class' => 'btn btn-info'
+            'class' => 'btn btn-default'
         ]); ?>
 
         <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar todos', ['utilizador/index'], [
-            'class' => 'btn btn-info'
+            'class' => 'btn btn-default'
         ]); ?>
     </p>
 
