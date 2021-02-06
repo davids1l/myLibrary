@@ -25,18 +25,18 @@ $this->title = 'Finalizar requisição';
 
         if ($carrinhoSession != null) {
             foreach ($carrinhoSession as $livro) { ?>
-                <div class="col-xs-12 col-md-12 col-lg-12 livroField">
-                    <div class="capa-livro-requisicao col-xs-4 col-md-1 col-lg-1">
-                        <?= Html::img('/myLibrary/backend/web/imgs/capas/' .$livro->capa, ['class' => 'capaLivroFinalizar']) ?>
+                <div class="col-xs-12 col-md-12 col-lg-12 livroField" style="background-color: #fafafa">
+                    <div class="capa-livro-requisicao col-xs-4 col-md-3">
+                        <?= Html::img('/myLibrary/backend/web/imgs/capas/' .$livro->capa, ['class' => 'capaLivroFinalizar', 'style' => 'position: absolute; width: 80px; height: 110px;']) ?>
                     </div>
-                    <div class="detalhes-livro-requisicao col-xs-6 col-md-10 col-lg-10">
+                    <div class="detalhes-livro-requisicao col-xs-6 col-md-7">
                         <h4><?= Html::encode($livro->titulo) ?></h4>
                         <h5><?= Html::encode($livro->autor->nome_autor) ?></h5>
                         <h6>Edição: <?= Html::encode($livro->ano) ?></h6>
                     </div>
-                    <div class="col-xs-2 col-md-1 col-lg-1">
-                        <?= Html::a(null, ['carrinho/remover', 'id_livro' => $livro->id_livro], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro?'],
-                                'class' => 'glyphicon glyphicon-remove', 'style' => 'cursor: pointer']) ?>
+                    <div class="col-xs-2 col-md-1" style="padding-left: 10%;">
+                        <?= Html::a('<i class="fas fa-times"></i>', ['carrinho/remover', 'id_livro' => $livro->id_livro], ['data' => ['confirm' => 'Tem a certeza que quer excluir este livro do cesto?'],
+                            'class' => 'favoritoAction']) ?>
                     </div>
                 </div>
             <?php } ?>
@@ -56,7 +56,7 @@ $this->title = 'Finalizar requisição';
                 <?php ActiveForm::end() ?>
             </div>
         <?php } else { ?>
-            <h3>Carrinho vazio.</h3>
+            <h3>Cesto vazio.</h3>
         <?php } ?>
     </div>
     <div>

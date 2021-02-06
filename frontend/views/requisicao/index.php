@@ -24,11 +24,14 @@ $this->title = 'Histórico de Requisições';
     <h3 class="topicos" style="padding-left: 0">CANCELAR REQUISIÇÃO</h3>
     <div class="reqs_cancelar" style="margin-bottom: 5%;">
         <?php foreach ($requisicoes as $req) { ?>
-            <div class="col-xs-12 col-md-4 req_por_levantar" style="background-color: #fafafa; border: 1px solid grey; border-radius: 2px; max-width: 370px; margin: 5px; height: 204px;">
+            <div class="col-xs-12 col-md-4 req_por_levantar">
                 <div class="col-md-12">
-                    <div style="display: inline-flex">
-                        <h4>Requisição: #<?= $req->id_requisicao ?></h4>
-                        <div style="margin-left: 100%; text-align: right; padding: 10px">
+                    <div style="display: flex">
+                        <div style="width: 50%">
+                            <h4>Requisição: #<?= $req->id_requisicao ?></h4>
+                        </div>
+
+                        <div style="width: 50%; text-align: right; padding-top: 5px">
                             <?= Html::a('<i class="fas fa-trash-alt"></i>', ['requisicao/delete', 'id' => $req->id_requisicao],
                                 ['id' => 'cancelarReq', 'title' => 'Cancelar Requisição', 'data' => ['confirm' => 'Deseja cancelar a requisição?', 'method' => 'post']]) ?>
                         </div>
@@ -36,7 +39,7 @@ $this->title = 'Histórico de Requisições';
                     <hr>
                     <p><b>Bib. levantamento:</b> <?= $req->biblioteca->nome ?></p>
                     <p><b>Estado:</b> <?= $req->estado ?></p>
-                    <?= Html::a('Ver livros', ['requisicao/view', 'id' => $req->id_requisicao]) ?>
+                    <?= Html::a('Ver livros', ['requisicao/view', 'id' => $req->id_requisicao], ['class' => 'cancelarReqVerLivrosBtn']) ?>
                 </div>
                 <!-- <div class="col-md-2" style="padding-top: 6px; padding-left: 30px;">
 
