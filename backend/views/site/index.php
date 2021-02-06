@@ -20,7 +20,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
-                            'summary' => 'Total de Requisições: {totalCount}',
+                            'summary' => '<li class="list-group-item">Total de requisições a tratar <span class="badge" style="background-color: #b92c28">{totalCount}</span></li>',
                             'dataProvider' => $dataProviderTratar,
                             'filterModel' => $searchModel,
                             'emptyText' => 'Não existem requisições pendentes.',
@@ -54,11 +54,17 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'template' => '{preparar}',
                                     'buttons' => [
                                         'preparar' => function ($url, $model, $key) {
-                                            $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->all();
-                                            $sub =  \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model]);
-                                            $totalProntos = \app\models\Livro::find()->where(['id_biblioteca' => $model->id_bib_levantamento])->innerJoin(['sub' => $sub])->all();
 
-                                            if ($model->estado === "A aguardar tratamento" && (count($totalProntos) == count($total))) {
+                                            $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->all();
+                                            /*$sub =  \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model]);
+                                            $totalProntos = \app\models\Livro::find()->where(['id_biblioteca' => $model->id_bib_levantamento])->innerJoin(['sub' => $sub])->all();*/
+
+                                            $sub =  \app\models\Livro::find()->where(['id_biblioteca' => $model->id_bib_levantamento]);
+                                            $totalProntos = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $key])->innerJoin(['sub' => $sub], 'sub.id_livro = requisicao_livro.id_livro')->all();
+
+                                            //var_dump(count($totalProntos). ' ' . count($total));die();
+
+                                            if ($model->estado == "A aguardar tratamento" && (count($totalProntos) == count($total))) {
                                                 return Html::a('Tratar requisição', ['site/livro', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                                     'data' => [
                                                         'method' => 'post',

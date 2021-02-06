@@ -17,7 +17,7 @@ $this->title = 'Histórico de Requisições';
 ?>
 <div class="requisicao-index">
 
-    <!--<h1><?/*= Html::encode($this->title) */?></h1>
+    <!--<h1 class="topicos" style="padding-left: 0; text-transform: uppercase; font-size: 30px;"><?= Html::encode($this->title) ?></h1>
     <hr>-->
 
     <?php if($requisicoes != null) { ?>
