@@ -475,6 +475,107 @@ class m201111_174512_backend extends Migration
             'CASCADE'
         );
 
+
+        //Tabela transporte
+        $this->createTable('transporte', [
+            'id_transporte' => $this->primaryKey()->notNull()->unsigned(),
+            'estado' => $this->string(30)->notNull(),
+            'id_bib_despacho' => $this->integer()->notNull()->unsigned(),
+            'id_bib_recetora' => $this->integer()->notNull()->unsigned(),
+            'dta_despacho' => $this->dateTime(),
+            'dta_recebida' => $this->dateTime(),
+            'id_requisicao' => $this->integer()->notNull()->unsigned(),
+        ], $tableOptions);
+
+        //Chaves estrangeiras
+        $this->createIndex(
+            'idx-transporte-id_biblioteca',
+            'transporte',
+            'id_bib_despacho'
+        );
+
+        $this->addForeignKey(
+            'idx-transporte-id_biblioteca',
+            'transporte',
+            'id_bib_despacho',
+            'biblioteca',
+            'id_biblioteca',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        $this->createIndex(
+          'idx-transporte-id_biblioteca',
+          'transporte',
+          'id_bib_recetora'
+        );
+
+        $this->addForeignKey(
+          'idx-transporte-id_biblioteca',
+          'transporte',
+          'id_bib_recetora',
+          'biblioteca',
+          'id_biblioteca',
+          'CASCADE',
+          'CASCADE'
+        );
+
+        $this->createIndex(
+            'idx-transporte-id_requisicao',
+            'transporte',
+            'id_requisicao'
+        );
+
+        $this->addForeignKey(
+            'idx-transporte-id_requisicao',
+            'transporte',
+            'id_requisicao',
+            'requisicao',
+            'id_requisicao',
+            'CASCADE',
+            'CASCADE'
+        );
+
+
+        //Tabela Transporte - Livro
+        $this->createTable('transporte_livro', [
+            'id_transporte' => $this->integer()->notNull()->unsigned(),
+            'id_livro' => $this->integer()->notNull()->unsigned(),
+            'PRIMARY KEY(id_transporte, id_livro)',
+        ], $tableOptions);
+
+        //Chaves estrangeiras
+        $this->createIndex(
+            'idx-transporte_livro-id_transporte',
+            'transporte_livro',
+            'id_transporte'
+        );
+
+        $this->addForeignKey(
+            'fk-transporte_livro-id_transporte',
+            'transporte_livro',
+            'id_transporte',
+            'transporte',
+            'id_transporte',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        $this->createIndex(
+            'idx-transporte_livro-id_livro',
+            'transporte_livro',
+            'id_livro'
+        );
+
+        $this->addForeignKey(
+            'fk-transporte_livro-id_livro',
+            'transporte_livro',
+            'id_livro',
+            'livro',
+            'id_livro',
+            'CASCADE',
+            'CASCADE'
+        );
     }
 
     /**

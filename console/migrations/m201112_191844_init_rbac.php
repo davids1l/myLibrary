@@ -190,6 +190,11 @@ class m201112_191844_init_rbac extends Migration
         $deleteBibliotecario->description = 'Apagar um Bibliotecario';
         $auth->add($deleteBibliotecario);
 
+        //Permissões Transporte
+        $updateTransporte = $auth->createPermission('updateTransporte');
+        $updateTransporte->description = 'Alterar um transporte';
+        $auth->add($updateTransporte);
+
 
         // ROLES
 
@@ -214,6 +219,7 @@ class m201112_191844_init_rbac extends Migration
         //$auth->addChild($leitor, $deleteUtilizador);
 
         $auth->addChild($leitor, $createRequisicao);
+        $auth->addChild($leitor, $deleteRequisicao);
 
 
         // Criação do Role Bibliotecario e atribuição das respetivas permissões
@@ -257,6 +263,8 @@ class m201112_191844_init_rbac extends Migration
         $auth->addChild($bibliotecario, $createFavorito);
         $auth->addChild($bibliotecario, $updateFavorito);
         $auth->addChild($bibliotecario, $deleteFavorito);
+
+        $auth->addChild($bibliotecario, $updateTransporte);
 
 
         // Criação do Role Admin e atribuição das respetivas permissões

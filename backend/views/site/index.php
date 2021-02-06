@@ -35,18 +35,37 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'label' => 'Nº de leitor'
                                 ],
                                 [
+                                    'attribute' => '',
+                                    'value' => function ($url, $model, $key) {
+
+
+                                        $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->all();
+
+                                        $sub =  \app\models\Livro::find()->where(['id_biblioteca' => $url->id_bib_levantamento]);
+                                        $totalProntos = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->innerJoin(['sub' => $sub], 'sub.id_livro = requisicao_livro.id_livro')->all();
+
+                                       //var_dump($totalProntos);die();
+                                        return Html::encode(count($totalProntos).'/'.count($total));
+                                    },
+                                    'label' => 'Livros'
+                                ],
+                                [
                                     'class' => 'yii\grid\ActionColumn',
                                     'template' => '{preparar}',
                                     'buttons' => [
                                         'preparar' => function ($url, $model, $key) {
-                                            if ($model->estado === "A aguardar tratamento") {
+                                            $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->all();
+                                            $sub =  \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model]);
+                                            $totalProntos = \app\models\Livro::find()->where(['id_biblioteca' => $model->id_bib_levantamento])->innerJoin(['sub' => $sub])->all();
+
+                                            if ($model->estado === "A aguardar tratamento" && (count($totalProntos) == count($total))) {
                                                 return Html::a('Tratar requisição', ['site/livro', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                                     'data' => [
                                                         'method' => 'post',
                                                     ]
                                                 ]);
                                             } else {
-                                                return Html::label('Terminada');
+                                                return Html::label('A aguardar transporte de livros');
                                             }
                                         },
                                     ],
@@ -237,6 +256,136 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Transportes por tratar</h3>
+                    </div>
+                    <div class="panel-body">
+                        <?= GridView::widget([
+                            'summary' => '<li class="list-group-item">Total de transportes a tratar <span class="badge" style="background-color: #b92c28">{totalCount}</span></li>',
+                            'dataProvider' => $dataProviderTransportesPorTratar,
+                            'filterModel' => $searchModelTransporte,
+                            'emptyText' => 'Não existem transportes pendentes.',
+                            'columns' => [
+                                [
+                                    'attribute' => 'id_transporte',
+                                    'label' => 'Nº do transporte',
+                                ],
+                                /*[
+                                    'attribute' => 'id_requisicao',
+                                    'label' => 'Nº da Requisição',
+                                ],*/
+                                [
+                                    'attribute' => 'id_bib_recetora',
+                                    'value' => function ($model) {
+                                        $bib = \app\models\Biblioteca::find()->select(['nome', 'cod_postal'])->where(['id_biblioteca' => $model->id_bib_recetora])->one();
+                                        return ($bib['nome'].' - '.$bib['cod_postal']);
+                                    },
+                                    'label' => 'Bib. destino'
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+                                    'template' => '{preparar}',
+                                    'buttons' => [
+                                        'preparar' => function ($url, $model, $key) {
+                                            if ($model->estado === "A aguardar tratamento") {
+                                                return Html::a('Tratar transporte', ['transporte/tratar', 'id' => $model->id_transporte], ['class' => 'btn btn-success',
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                    ]
+                                                ]);
+                                            }
+                                        },
+                                    ],
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+                                    'template' => '{delete}',
+                                    'buttons' => [
+                                        'view' => function ($url, $model, $key) {
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao], [
+                                                'data' => [
+                                                    'confirm' => 'Pretende cancelar este transporte?',
+                                                    'method' => 'post',
+                                                ]
+                                            ]);
+                                        }
+                                    ]
+                                ]
+                            ],
+                        ]); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Transportes a receber</h3>
+                    </div>
+                    <div class="panel-body">
+                        <?= GridView::widget([
+                            'summary' => '<li class="list-group-item">Total de transportes a receber <span class="badge" style="background-color: #b92c28">{totalCount}</span></li>',
+                            'dataProvider' => $dataProviderTransportesAReceber,
+                            'filterModel' => $searchModelTransporte,
+                            'emptyText' => 'Não existem transportes pendentes.',
+                            'columns' => [
+                                [
+                                    'attribute' => 'id_transporte',
+                                    'label' => 'Nº do transporte',
+                                ],
+                                /*[
+                                    'attribute' => 'id_requisicao',
+                                    'label' => 'Nº da Requisição',
+                                ],*/
+                                [
+                                    'attribute' => 'id_bib_despacho',
+                                    'value' => function ($model) {
+                                        $bib = \app\models\Biblioteca::find()->select(['nome', 'cod_postal'])->where(['id_biblioteca' => $model->id_bib_recetora])->one();
+                                        return ($bib['nome'].' - '.$bib['cod_postal']);
+                                    },
+                                    'label' => 'Bib. origem'
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+                                    'template' => '{preparar}',
+                                    'buttons' => [
+                                        'preparar' => function ($url, $model, $key) {
+                                            if ($model->estado === "Em transporte") {
+                                                return Html::a('Validar transporte', ['transporte/receber', 'id' => $model->id_transporte], ['class' => 'btn btn-success',
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                    ]
+                                                ]);
+                                            }
+                                        },
+                                    ],
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+                                    'template' => '{delete}',
+                                    'buttons' => [
+                                        'view' => function ($url, $model, $key) {
+                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['site/delete', 'id' => $model->id_requisicao], [
+                                                'data' => [
+                                                    'confirm' => 'Pretende cancelar este transporte?',
+                                                    'method' => 'post',
+                                                ]
+                                            ]);
+                                        }
+                                    ]
+                                ]
+                            ],
+                        ]); ?>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

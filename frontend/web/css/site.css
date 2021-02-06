@@ -384,6 +384,14 @@ a.desc:after {
         border-radius: 50%;
         width: 55px;
     }
+
+    .reqs_cancelar::-webkit-scrollbar
+    {
+        background-color: #F5F5F5;
+        height: 10px;
+        display: none;
+    }
+
 }
 
 
@@ -405,6 +413,12 @@ a.desc:after {
         border-radius: 50%;
         width: 55px;
     }
+
+    .reqs_cancelar::-webkit-scrollbar
+    {
+        background-color: #F5F5F5;
+        height: 10px;
+    }
 }
 
 #btnTopo:hover {
@@ -424,17 +438,15 @@ a.desc:after {
     border-radius: 15px;
 }
 
-.reqs_cancelar::-webkit-scrollbar
+/*.reqs_cancelar::-webkit-scrollbar
 {
-    /*width: 10px;*/
     background-color: #F5F5F5;
     height: 10px;
-}
+}*/
 
 .reqs_cancelar::-webkit-scrollbar-thumb
 {
     background-color:lightgrey;
-    /*border: 1px solid #555555;*/
     border-radius: 15px;
 }
 
