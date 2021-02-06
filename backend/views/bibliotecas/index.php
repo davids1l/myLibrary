@@ -26,22 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4><?= Html::encode($biblioteca->nome)?> (ID: <?= Html::encode($biblioteca->id_biblioteca)?>)</h4>
                 <h6>Código postal: <?= Html::encode($biblioteca->cod_postal)?></h6>
 
-                <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> Detalhes', ['bibliotecas/view', 'id' => $biblioteca->id_biblioteca], [
+                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Catálogo', ['bibliotecas/catalogo', 'id' => $biblioteca->id_biblioteca], [
+                    'class' => 'btn btn-default'
+                ])?>
+                <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['bibliotecas/view', 'id' => $biblioteca->id_biblioteca], [
                     'class' => 'btn btn-primary'
                 ])?>
-                <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> Atualizar', ['update', 'id' => $biblioteca->id_biblioteca], [
-                    'class' => 'btn btn-success'
-                ]) ?>
-                <?= Html::a('<span class="glyphicon glyphicon-trash"></span> Eliminar', ['delete', 'id' => $biblioteca->id_biblioteca], [
+                <?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $biblioteca->id_biblioteca], [
                     'class' => 'btn btn-danger',
                     'data' => [
                         'confirm' => 'Are you sure you want to delete this item?',
                         'method' => 'post',
                     ],
                 ]) ?>
-                <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> Catálogo', ['bibliotecas/catalogo', 'id' => $biblioteca->id_biblioteca], [
-                    'class' => 'btn btn-info'
-                ])?>
 
             </div>
         <?php } ?>
