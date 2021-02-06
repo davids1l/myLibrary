@@ -46,7 +46,7 @@ class SignupForm extends Model
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
 
 
-            [['nif', 'num_telemovel'], 'string', 'min' => 9, 'max' => 9, 'tooShort' => '{attribute} tem de conter 9 dígitos', 'tooLong' => 'O NIF tem de conter 9 dígitos'],
+            [['nif', 'num_telemovel'], 'string', 'min' => 9, 'max' => 9, 'tooShort' => '{attribute} tem de conter 9 dígitos', 'tooLong' => '{attribute} tem de conter 9 dígitos'],
 
             ['nif', 'unique', 'targetClass' => '\frontend\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
 
