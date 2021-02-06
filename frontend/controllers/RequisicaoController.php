@@ -168,7 +168,7 @@ class RequisicaoController extends Controller
 
                         $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
 
-                        $this->criarTransporteLivro($model->id_bib_levantamento, $carrinho);
+                        $this->criarTransporteLivro($model->id_requisicao, $model->id_bib_levantamento, $carrinho);
 
                         Yii::$app->session->destroy();
                         Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
@@ -218,7 +218,7 @@ class RequisicaoController extends Controller
         }
     }
 
-    public function criarTransporteLivro($id_bib_levantamento, $carrinho) {
+    public function criarTransporteLivro($id_requisicao, $id_bib_levantamento, $carrinho) {
         
         $uniques = [];
         //obter o id de cada biblioteca dos livros da requisição
@@ -226,7 +226,7 @@ class RequisicaoController extends Controller
             array_push($uniques, $item->id_biblioteca);
         }
 
-        //para cada biblioteca verifica se a mesma é != da biblioteca de levantamento se sim então cria um transporte
+        //para cada id_biblioteca obtido no array_unique, verifica se a mesma é != da biblioteca de levantamento se sim então cria um transporte
         foreach (array_unique($uniques) as $a){
             if($a != $id_bib_levantamento){
 
@@ -238,11 +238,12 @@ class RequisicaoController extends Controller
                 $transporte->id_bib_recetora = $id_bib_levantamento;
                 $transporte->dta_despacho = null;
                 $transporte->dta_recebida = null;
+                $transporte->id_requisicao = $id_requisicao;
 
                 $transporte->save();
 
                 //para cada livro no carrinho verifica se existe mais do 1 livro na mesma biblioteca
-                //nesse caso os dois livros são incluidos no mesmo transporte
+                //nesse caso os livros da requisição que se encontram numa mesma biblioteca são incluidos no mesmo transporte
                 foreach ($carrinho as $livro) {
                     if ($a == $livro->id_biblioteca) {
                         //criar transporte_livro

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Transporte;
@@ -71,6 +72,55 @@ class TransporteSearch extends Transporte
         return $dataProvider;
     }
 
+    public function obterTransportesATratar() {
+
+        $type = "A aguardar tratamento";
+
+        //obter o id da biblioteca do funcionario
+        $id_bib_bibliotecario = Utilizador::find()
+            ->select('id_biblioteca')
+            ->where(['id_utilizador' => Yii::$app->user->id])
+            ->one();
+
+        //encontrar os transportes a tratar
+        $query = Transporte::find()
+            ->where(['estado' => $type])
+            ->andWhere(['id_bib_despacho' => $id_bib_bibliotecario])
+            ->orderBy(['id_transporte' => SORT_DESC]);
+
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 5],
+        ]);
+
+        return $dataProvider;
+    }
+
+    public function obterTransportesAReceber() {
+
+        $type = "Em transporte";
+
+        //obter o id da biblioteca do funcionario
+        $id_bib_bibliotecario = Utilizador::find()
+            ->select('id_biblioteca')
+            ->where(['id_utilizador' => Yii::$app->user->id])
+            ->one();
+
+        //encontrar os transportes a tratar
+        $query = Transporte::find()
+            ->where(['estado' => $type])
+            ->andWhere(['id_bib_recetora' => $id_bib_bibliotecario])
+            ->orderBy(['id_transporte' => SORT_DESC]);
+
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 5],
+        ]);
+
+        return $dataProvider;
+    }
 
 
     public function searchFiltered($params, $type)

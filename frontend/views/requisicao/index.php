@@ -20,7 +20,7 @@ $this->title = 'Histórico de Requisições';
     <h1><?= Html::encode($this->title) ?></h1>
     <hr>
 
-
+    <?php if($requisicoes != null) { ?>
     <h3 class="topicos" style="padding-left: 0">CANCELAR REQUISIÇÃO</h3>
     <div class="reqs_cancelar" style="margin-bottom: 5%;">
         <?php foreach ($requisicoes as $req) { ?>
@@ -44,6 +44,8 @@ $this->title = 'Histórico de Requisições';
             </div>
         <?php } ?>
     </div>
+    <?php } ?>
+
 
     <h3 class="topicos" style="padding-left: 0">REQUISIÇÕES</h3>
     <?= GridView::widget([

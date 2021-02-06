@@ -5,12 +5,15 @@ use app\models\Livro;
 use app\models\Requisicao;
 use app\models\RequisicaoLivro;
 use app\models\RequisicaoSearch;
+use app\models\Transporte;
+use app\models\TransporteSearch;
 use app\models\Utilizador;
 use app\models\UtilizadorSearch;
 use Carbon\Carbon;
 use common\models\LoginFormBackend;
 use frontend\models\Multa;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -79,8 +82,16 @@ class SiteController extends Controller
         $dataProviderEntregar = $searchModel->searchFiltered(Yii::$app->request->queryParams, 2);
         $dataProviderTerminar = $searchModel->searchFiltered(Yii::$app->request->queryParams, 3);
 
+
+        $searchModelTransporte = new TransporteSearch();
+        $dataProviderTransportesPorTratar = $searchModelTransporte->obterTransportesATratar();
+        $dataProviderTransportesAReceber = $searchModelTransporte->obterTransportesAReceber();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
+            'searchModelTransporte' => $searchModelTransporte,
+            'dataProviderTransportesPorTratar' => $dataProviderTransportesPorTratar,
+            'dataProviderTransportesAReceber' => $dataProviderTransportesAReceber,
             'searchModelCriarReq' => $user,
             'dataProviderTratar' => $dataProviderTratar,
             'dataProviderEntregar' => $dataProviderEntregar,
@@ -111,13 +122,19 @@ class SiteController extends Controller
         if (Yii::$app->user->can('updateRequisicao')) {
             $searchModel = new RequisicaoSearch();
             $dataProvider = $searchModel->searchFiltered(Yii::$app->request->queryParams, 1);
+            $id = Yii::$app->request->queryParams['id'];
+            $model = $this->findModel($id);
 
+            //validar se o estado do transporte = concluído
+            //se sim, então é permitido finalizar o preparar requisicao
             if (Yii::$app->request->queryParams) {
-                $id = Yii::$app->request->queryParams['id'];
-                $model = $this->findModel($id);
 
-                $model->estado = "Pronta a levantar";
-                $model->save();
+                if($this->getEstadoTransporte($model->id_requisicao) == true){
+                    $model->estado = "Pronta a levantar";
+                    $model->save();
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ainda não estão reunidos todos os livros para finalizar a requisição, aguarde o transporte.');
+                }
 
                 return $this->redirect(['site/index']);
             }
@@ -130,6 +147,23 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('error', 'Não tem permissões para fazer essa ação.');
             return $this->redirect(['site/index']);
         }
+    }
+
+    public function getEstadoTransporte($id_requisicao) {
+        $transporte = Transporte::find()
+            ->select('estado')
+            ->where(['id_requisicao' => $id_requisicao])
+            ->all();
+
+        $flag = false;
+
+        foreach ($transporte as $t){
+            if($t->estado == 'Concluído'){
+                $flag = true;
+            }
+        }
+
+        return $flag;
     }
 
     public function actionLivro($id) {

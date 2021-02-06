@@ -484,6 +484,7 @@ class m201111_174512_backend extends Migration
             'id_bib_recetora' => $this->integer()->notNull()->unsigned(),
             'dta_despacho' => $this->dateTime(),
             'dta_recebida' => $this->dateTime(),
+            'id_requisicao' => $this->integer()->notNull()->unsigned(),
         ], $tableOptions);
 
         //Chaves estrangeiras
@@ -518,6 +519,23 @@ class m201111_174512_backend extends Migration
           'CASCADE',
           'CASCADE'
         );
+
+        $this->createIndex(
+            'idx-transporte-id_requisicao',
+            'transporte',
+            'id_requisicao'
+        );
+
+        $this->addForeignKey(
+            'idx-transporte-id_requisicao',
+            'transporte',
+            'id_requisicao',
+            'requisicao',
+            'id_requisicao',
+            'CASCADE',
+            'CASCADE'
+        );
+
 
         //Tabela Transporte - Livro
         $this->createTable('transporte_livro', [

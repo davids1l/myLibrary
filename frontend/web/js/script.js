@@ -23,3 +23,10 @@ client.on('message', function(topic, message){
     console.log('receive message：', topic, message.toString())
     document.getElementById('messages').innerHTML += "Nova mensagem no tópico <b>"+ topic +"</b>: " + message.toString() + '<br/>';
 })
+
+//Tratar transporte
+$(function () {
+    $('#checkbox').click(function () {
+
+    });
+});
