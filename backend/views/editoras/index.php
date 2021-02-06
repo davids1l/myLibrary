@@ -12,11 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="editora-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
     <hr>
-    <p>
-        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Editora', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?= Html::a('<span class="glyphicon glyphicon-plus" style="margin-bottom: 30px; margin-top: 10px"></span> Adicionar Editora', ['create'], ['class' => 'btnAcao']) ?>
 
 
     <?= GridView::widget([
@@ -29,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute' => 'designacao',
-                'label' => 'Designação'
+                'label' => 'Nome da Editora'
             ],
             [
                 'attribute' => 'id_pais',
