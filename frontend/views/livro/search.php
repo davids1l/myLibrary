@@ -25,7 +25,7 @@ $this->title = "Catálogo de Livros";
                 <?= $form->field($model, 'titulo')->textInput(['placeholder'=>'Pesquisar'])->label('')?>
             </div>
             <div class="col-xs-1 col-md-1 btnProcurar">
-                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn', 'style' => 'width: 100%; background-color: #f26b3b;']) ?>
+                <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span>', ['class' => 'btn', 'style' => 'width: 100%; background-color: #f26b3b; color:white;']) ?>
             </div>
         </div>
 
