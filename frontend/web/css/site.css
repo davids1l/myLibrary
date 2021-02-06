@@ -433,7 +433,7 @@ a.desc:after {
 /* Fim de botão voltar ao topo */
 
 
-/* slider requisições para cancelar */
+/* slider/scroll requisições para cancelar */
 
 .reqs_cancelar::-webkit-scrollbar-track
 {
@@ -466,31 +466,78 @@ a.desc:after {
     scroll-snap-type: x mandatory;
 }
 
+/* requisições cancelar - requisções */
 .req_por_levantar {
     /*background-color: #fafafa;*/
-    border: 1px solid grey;
+    /*border: 1px solid lightgrey;*/
     border-radius: 2px;
     max-width: 370px;
     margin: 5px;
     height: 204px;
     flex-shrink: 0;
+    box-shadow: 0 0 5px lightgray;
+    transition: all .2s ease-in-out;
 }
 
 .req_por_levantar:hover {
     /*transform: scale(1.1);*/
-    box-shadow: 0 0 5px dimgrey;
+    box-shadow: 5px 5px 5px lightgray;
+    border: 1px solid lightgrey;
+    /*background-color: #fafafa;*/
 }
 
 #cancelarReq {
-    color: gray;
+    /*color: gray;*/
+    color: #d43f3a;
+    opacity: 0.6;
     font-size: 20px;
 }
 
 #cancelarReq:hover {
-    color: #95999c;
+    /*color: #95999c;*/
+    color: #d43f3a;
+    opacity: 1;
 }
 
-/*
+.cancelarReqVerLivrosBtn {
+    display: flex;
+    width: 29%;
+    box-shadow: rgba(0, 0, 0, 0.1) 4px 4px;
+    flex-grow: 1;
+    position: relative;
+    font-size: 1.5rem;
+    font-family: monospace;
+    border: 0.125rem solid black;
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    text-shadow: rgba(0, 0, 0, 0.1) 2px 2px;
+    padding: 2px;
+}
+
+.cancelarReqVerLivrosBtn:hover {
+    flex-grow: 2;
+    color: white;
+    outline: none;
+    text-shadow: none;
+    background-color: black;
+    text-decoration: none;
+    width: 31%;
+    padding-left: 2%;
+}
+
+
+
+/* Gridview Requisições */
+.table-bordered > thead > tr > th > a{ color: #f26b3b}
+
+.pagination > li > a {color: #f26b3b;}
+.pagination > li > a:hover {background-color: lightsalmon; border: 1px solid lightsalmon; color: white}
+
+.pagination > .active > a {background-color: #f26b3b; border: 1px solid #f26b3b;}
+.pagination > .active > a:hover {background-color: #f26b3a; border: 1px solid #f26b3b;}
+
+
 
 #btnTopo {
     display: none;
@@ -514,12 +561,3 @@ a.desc:after {
     background-color: #222;
 }
 
-*/
-
-.btnRequisicoes{
-    font-size: 18px;
-}
-
-.btnRequisicoes:hover{
-    text-decoration: none;
-}
