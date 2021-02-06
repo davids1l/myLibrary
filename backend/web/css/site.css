@@ -185,6 +185,7 @@ a.desc:after {
     color: black;
     padding: 5px;
     letter-spacing: 1px;
+    transition: ease-in 200ms;
 }
 
 .btnAcao:hover{
@@ -239,5 +240,19 @@ a.desc:after {
 
 .pagination > li > a:hover{
     color: black;
+}
+
+
+div.container{
+    width: 90%;!important;
+}
+
+.book-buttons > span:hover{
+    color: #f26b3b;
+    transition: ease-in 200ms;
+}
+
+.book-buttons{
+    font-size: 18px;
 }
 

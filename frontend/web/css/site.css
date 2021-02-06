@@ -200,6 +200,10 @@ a.desc:after {
     transition: ease-in 200ms;
 }
 
+.navbar-inverse .navbar-nav > li > a{
+    transition: ease-in 500ms;
+}
+
 .titulo{
     letter-spacing: 1px;
 }
