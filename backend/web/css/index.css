@@ -52,7 +52,17 @@ body {
 }
 
 .listaBiblioteca {
-    margin-bottom: 30px;
+    border-radius: 3px;
+    padding: 10px;
+    height: 130px;
+    max-width: 370px;
+    margin: 10px;
+    box-shadow: 0 0 5px lightgrey;
+    transition: all .2s ease-in-out;
+}
+
+.listaBiblioteca:hover{
+    box-shadow: 0 0 12px #f26b3b;
 }
 
 .panel-heading {

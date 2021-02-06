@@ -6,26 +6,26 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\Models\Biblioteca */
 
-$this->title = 'Adicionar Biblioteca';
+$this->title = 'Inserir Biblioteca';
 $this->params['breadcrumbs'][] = ['label' => 'Bibliotecas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="biblioteca-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
+    <hr>
 
-    <div class="row rowStyling">
+    <div class="row">
         <?php $form = ActiveForm::begin(); ?>
-        <div class="col-md-2"></div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'cod_postal')->textInput(['maxlength' => true])->label('Código Postal') ?>
-            <br/>
-            <div class="form-group center">
-                <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'nome')->textInput(['maxlength' => true, 'placeholder' => 'introduza o nome da biblioteca'])->label('Nome da Biblioteca') ?>
+            <?= $form->field($model, 'cod_postal')->textInput(['maxlength' => true, 'placeholder' => 'introduza o código postal'])->label('Código Postal') ?>
+            <div class="form-group text-center">
+                <?= Html::submitButton('<i class="fas fa-plus"></i> Inserir', ['class' => 'btnAcao']) ?>
             </div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-4"></div>
         <?php ActiveForm::end(); ?>
     </div>
 

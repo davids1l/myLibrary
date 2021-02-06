@@ -13,30 +13,25 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="livro-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
+    <hr>
+
     <br>
     <p>
-        <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span> Voltar atrás', ['livros/index'], ['class' => 'btn btn-default']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> Atualizar', ['update', 'id' => $model->id_livro], [
-            'class' => 'btn btn-success'
-        ]) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> Atualizar', ['update', 'id' => $model->id_livro], ['class' => 'btnAcao']) ?>
         <?= Html::a('<span class="glyphicon glyphicon-trash"></span> Eliminar', ['delete', 'id' => $model->id_livro], [
-            'class' => 'btn btn-danger',
+            'class' => 'btnAcao',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Deseja eliminar o livro ' . $model->titulo . '?',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
 
-    <div class="row rowStyling">
+    <div class="row">
         <div class="col-md-2">
-            <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $model->capa, [
-                    'id' => 'imgCapa',
-                    'style' => 'width: 100%; margin: 10% auto;'
-            ])?>
+            <?= Html::img(Yii::$app->request->baseUrl . '/imgs/capas/' . $model->capa, ['id' => 'imgCapa', 'style' => 'width: 100%; margin: 10% auto;'])?>
         </div>
-        <br />
         <div class="col-md-10">
             <p>Título: <?= Html::label($model->titulo) ?></p>
             <p>Autor: <?= Html::label($model->autor->nome_autor) ?></p>

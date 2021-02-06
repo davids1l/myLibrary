@@ -142,7 +142,7 @@ class BibliotecasController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if (Yii::$app->user->can('updateBiblioteca')) {
                 $model->save();
-                return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+                return $this->redirect(['index']);
             } else {
                 Yii::$app->session->setFlash('error', 'Não tem as permissões necessárias para efetuar essa operação.');
             }

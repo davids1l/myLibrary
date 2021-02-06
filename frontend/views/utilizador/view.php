@@ -128,7 +128,7 @@ $this->title = 'Perfil de Leitor';
 
             <div class="col-md-12 card">
                 <div class="col-md-12" style="margin-right: 20px; padding: 10px">
-                    <h4><b style="color: #f26b3b">Estatísticas</b> - As estatísticas são calculadas conforme a lista de favoritos</h4>
+                    <h4><b style="color: #f26b3b">Estatísticas</b></h4>
                 </div>
             </div>
 
