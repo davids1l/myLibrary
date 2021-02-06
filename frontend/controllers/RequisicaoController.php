@@ -5,6 +5,8 @@ namespace frontend\controllers;
 use app\models\Biblioteca;
 use app\models\Livro;
 use app\models\RequisicaoLivro;
+use app\models\Transporte;
+use app\models\TransporteLivro;
 use Carbon\Carbon;
 use frontend\models\Multa;
 use Yii;
@@ -17,6 +19,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use function DeepCopy\deep_copy;
 
 /**
  * RequisicaoController implements the CRUD actions for Requisicao model.
@@ -161,9 +164,11 @@ class RequisicaoController extends Controller
 
             if ($total_livros <= 5){
                 if (Yii::$app->user->can('createRequisicao')){
-                    if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    if ($model->load(Yii::$app->request->post())&& $model->save()) {
 
                         $this->adicionarRequisicaoLivro($model->id_requisicao, $carrinho);
+
+                        $this->criarTransporteLivro($model->id_bib_levantamento, $carrinho);
 
                         Yii::$app->session->destroy();
                         Yii::$app->session->setFlash('success', 'Obrigado pela sua requisição!');
@@ -211,6 +216,65 @@ class RequisicaoController extends Controller
             } catch (Exception $e) {
             }
         }
+    }
+
+    public function criarTransporteLivro($id_bib_levantamento, $carrinho) {
+        
+        $uniques = [];
+        //obter o id de cada biblioteca dos livros da requisição
+        foreach ($carrinho as $item){
+            array_push($uniques, $item->id_biblioteca);
+        }
+
+        //para cada biblioteca verifica se a mesma é != da biblioteca de levantamento se sim então cria um transporte
+        foreach (array_unique($uniques) as $a){
+            if($a != $id_bib_levantamento){
+
+                //criar transporte
+                $transporte = new Transporte();
+
+                $transporte->estado = "A aguardar tratamento";
+                $transporte->id_bib_despacho = $a;
+                $transporte->id_bib_recetora = $id_bib_levantamento;
+                $transporte->dta_despacho = null;
+                $transporte->dta_recebida = null;
+
+                $transporte->save();
+
+                //para cada livro no carrinho verifica se existe mais do 1 livro na mesma biblioteca
+                //nesse caso os dois livros são incluidos no mesmo transporte
+                foreach ($carrinho as $livro) {
+                    if ($a == $livro->id_biblioteca) {
+                        //criar transporte_livro
+                        $transporte_livro = new TransporteLivro();
+
+                        $transporte_livro->id_transporte = $transporte->id_transporte;
+                        $transporte_livro->id_livro = $livro->id_livro;
+                        $transporte_livro->save();
+                    }
+                }
+
+            }
+        }
+
+
+
+        //criar um transporte para os livros em que o id_bib. != id_bib_levantamento
+        /*foreach ($arrayHelper as $item) {
+            //CRIAR TRANSPORTE
+            foreach ($arrayHelper as $a) {
+
+            }
+        }*/
+
+        /*for ($i = 0; count($arrayHelper); $i++){
+            for($x = 0 + 1; count($arrayHelper); $x++){
+                if($i['id_biblioteca'] == $x['id_biblioteca']){
+                    array_push($arrayTeste, $i['id_biblioteca']);
+                }
+            }
+        }*/
+
     }
 
     /**
