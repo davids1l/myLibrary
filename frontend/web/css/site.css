@@ -348,15 +348,15 @@ a.desc:after {
     color: #1b1e21;
     padding: 5px;
     transition: 0.3s;
-    font-size: 16px;
-    border: 1px solid #1b1e21;
+    font-size: 13px;
+    /*border: 1px solid #1b1e21;*/
 }
 
 #btn_carousel:hover {
     color: #d43f3a;
-    border: 1px solid #d43f3a;
-    box-shadow: 0 0 4px grey;
-    text-decoration: none;
+    /*border: 1px solid #d43f3a;*/
+    /*box-shadow: 0 0 4px grey;*/
+    text-shadow: rgba(0, 0, 0, 0.1) 2px 2px;
 }
 
 #btn_carousel:hover i {
@@ -392,6 +392,9 @@ a.desc:after {
         display: none;
     }
 
+    .maisDetalhes {
+        margin-top: 1.75%;
+    }
 }
 
 
@@ -418,6 +421,10 @@ a.desc:after {
     {
         background-color: #F5F5F5;
         height: 10px;
+    }
+
+    .maisDetalhes {
+        margin-top: 2.5%;
     }
 }
 

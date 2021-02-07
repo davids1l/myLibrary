@@ -90,7 +90,12 @@ class RequisicaoSearch extends Requisicao
             $type = "Terminada";
         }
 
-        $query = Requisicao::find()->where(['estado' => $type])->orderBy(['id_requisicao' => SORT_DESC]);
+        $bib_bibliotecario = Utilizador::find()
+            ->where(['id_utilizador' => \Yii::$app->user->id])->one();
+
+        $query = Requisicao::find()->where(['estado' => $type])
+            ->andWhere(['id_bib_levantamento' => $bib_bibliotecario->id_biblioteca])
+            ->orderBy(['id_requisicao' => SORT_DESC]);
 
         // add conditions that should always apply here
 

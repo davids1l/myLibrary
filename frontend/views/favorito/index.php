@@ -26,7 +26,7 @@ $this->title = 'Meus favoritos';
             <div class="searchBar" style="margin-bottom: 2%">
                 <div class="filter">
                     <?= Html::beginForm(['favorito/index'], 'post', ['id'=>'listarFavoritos'])?>
-                        <?php if (Yii::$app->session->get('favoritoList') == 2) {?>
+                        <?php if (Yii::$app->session->get('favoritoList') == 2) { ?>
                             <?= Html::dropDownList('listar', null, ['2' => 'Mais antigos primeiro', '1' => 'Mais recentes primeiro'],
                                 ['class' => 'dropdown-listar']) ?>
                         <?php } else { ?>
