@@ -256,3 +256,6 @@ div.container{
     font-size: 18px;
 }
 
+table.table.table-striped.table-bordered > thead > tr > th > a, table.table.table-striped.table-bordered > thead > tr > th{
+    color: #f26b3b;
+}

@@ -66,10 +66,17 @@ class RequisicaoController extends Controller
         $multa = Multa::find()
             ->innerJoin(['sub' => $subQuery], 'sub.id_requisicao = multa.id_requisicao')->one();
 
+        $requisicoes = Requisicao::find()
+            ->where(['id_utilizador' => Yii::$app->user->id])
+            ->andWhere(['!=', 'estado', 'Em requisição'])
+            ->andWhere(['!=', 'estado', 'Terminada'])
+            ->orderBy(['id_requisicao' =>SORT_DESC])
+            ->all();
+
         $js='$("#multasModal").modal("show")';
         $this->getView()->registerJs($js);
 
-        return $this->render('index', ['key' => $key, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'multa'=>$multa]);
+        return $this->render('index', ['key' => $key, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'multa'=>$multa, 'requisicoes' => $requisicoes]);
         //return $this->redirect(['requisicao/index', 'key' => $key, 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'multas'=>$multas]);
     }
 

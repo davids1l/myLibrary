@@ -26,9 +26,12 @@ $this->title = 'Perfil de Leitor';
                 <?= Html::img(Yii::$app->request->baseUrl . '/imgs/perfil/' . $model->foto_perfil, ['width' => '234px', 'height' => '234px', 'class' => 'imagemPerfil']) ?>
                 <div class="text-right">
                     <div class="dropdown">
-                        <a onclick="mostrarDropdown()" class="dropbtn glyphicon glyphicon-menu-down" style="font-size: 20px"></a>
+                        <a onclick="mostrarDropdown()" class="dropbtn glyphicon glyphicon-menu-down"
+                           style="font-size: 20px"></a>
                         <div id="myDropdown" class="dropdown-perfil">
-                            <a data-toggle="modal" data-target="#imageModel"><div style="display: inline"><i class="fas fa-image"></i> Alterar Foto</div></a>
+                            <a data-toggle="modal" data-target="#imageModel">
+                                <div style="display: inline"><i class="fas fa-image"></i> Alterar Foto</div>
+                            </a>
                             <?= Html::a('<div><i class="fas fa-times"></i> Remover Foto</div>', ['utilizador/remover-img', 'id' => $model->id_utilizador]) ?>
                         </div>
                     </div>
@@ -118,8 +121,12 @@ $this->title = 'Perfil de Leitor';
                             <a onclick="mostrarDropdownDados()" class="dropbtn glyphicon glyphicon-menu-down"
                                style="font-size: 20px"></span></a>
                             <div id="myDropdownDados" class="dropdown-perfil" style="width: max-content">
-                                <a data-toggle="modal" data-target="#perfilModal"><div style="display: inline"><i class="fas fa-user"></i> Alterar Dados</div></a>
-                                <a data-toggle="modal" data-target="#passwordModal"><div style="display: inline"><i class="fas fa-lock"></i> Alterar Palavra-passe</div></a>
+                                <a data-toggle="modal" data-target="#perfilModal">
+                                    <div style="display: inline"><i class="fas fa-user"></i> Alterar Dados</div>
+                                </a>
+                                <a data-toggle="modal" data-target="#passwordModal">
+                                    <div style="display: inline"><i class="fas fa-lock"></i> Alterar Palavra-passe</div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -236,17 +243,9 @@ $this->title = 'Perfil de Leitor';
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="modal-body col-sm-6">
-                        <table>
-                            <tr>
-                                <th><?= $form->field($userModel, 'atual_password')->passwordInput(['value' => ""])->label('Palavra-passe Atual:') ?></th>
-                            </tr>
-                            <tr>
-                                <th><?= $form->field($userModel, 'nova_password')->passwordInput(['value' => ""])->label('Nova Palavra-passe:') ?></th>
-                            </tr>
-                            <tr>
-                                <th><?= $form->field($userModel, 'conf_password')->passwordInput(['value' => ""])->label('Confirmar Nova Palavra-passe:') ?></th>
-                            </tr>
-                        </table>
+                        <?= $form->field($userModel, 'atual_password')->passwordInput(['value' => ""])->label('Palavra-passe Atual:') ?>
+                        <?= $form->field($userModel, 'nova_password')->passwordInput(['value' => ""])->label('Nova Palavra-passe:') ?>
+                        <?= $form->field($userModel, 'conf_password')->passwordInput(['value' => ""])->label('Confirmar Nova Palavra-passe:') ?>
                     </div>
                     <div class="col-sm-3"></div>
                 </div>

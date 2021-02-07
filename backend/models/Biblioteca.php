@@ -31,7 +31,7 @@ class Biblioteca extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'cod_postal'], 'required'],
+            [['nome', 'cod_postal'], 'required', 'message' => '{attribute} não pode estar em branco'],
             [['nome'], 'string', 'max' => 120],
             [['cod_postal'], 'string', 'max' => 8],
         ];
@@ -44,8 +44,8 @@ class Biblioteca extends \yii\db\ActiveRecord
     {
         return [
             'id_biblioteca' => 'Id Biblioteca',
-            'nome' => 'Nome',
-            'cod_postal' => 'Cod Postal',
+            'nome' => 'Nome da Biblioteca',
+            'cod_postal' => 'Código Postal',
         ];
     }
 
