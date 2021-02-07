@@ -69,6 +69,8 @@ class LivrosController extends Controller
                 ->orderBy(['titulo' => SORT_ASC])
                 ->all();
 
+            $generos = $this->obterGenerosLivros();
+
             if (Yii::$app->request->post('Livros')['titulo'] != null) {
                 $searchModel = new LivroSearch();
                 $livros = $searchModel->procurar(Yii::$app->request->post('Livros')['titulo']);
@@ -78,13 +80,93 @@ class LivrosController extends Controller
 
             return $this->render('index', [
                 'livros' => $livros,
-                'searchModel' => $livro
+                'searchModel' => $livro,
+                'generos' => $generos
             ]);
         } else {
             Yii::$app->session->setFlash('error', 'Não tem permissões para aceder a essa página.');
             return $this->redirect(['site/index']);
         }
 
+    }
+
+    public function obterGenerosLivros() {
+
+        $query = (new yii\db\Query())
+            ->select('genero')
+            ->distinct('genero')
+            ->from('livro')
+            ->all();
+
+        $generos = [];
+
+        for ($i=0; $i < sizeof($query); $i++){
+            array_push($generos, $query[$i]['genero']);
+        }
+
+        return $generos;
+    }
+
+    public function actionProcurar()
+    {
+        //se for efetuado um pedido à página em que o post seja null, estão os dados são igualados a empty
+        if(Yii::$app->request->post() != null){
+            $pesquisa = Yii::$app->request->post()['Livro']['titulo'];
+            $generoProcurado = Yii::$app->request->post()['Livro']['genero'];
+            $formatoProcurado = Yii::$app->request->post()['Livro']['formato'];
+        } else {
+            $pesquisa = '';
+            $generoProcurado = '';
+            $formatoProcurado = '';
+        }
+
+
+        //obter todos os generos dos livros existentes
+        $generos = $this->obterGenerosLivros();
+        $formatos = ['0'=>'Físico', '1'=>'Ebook'];
+
+        $livrosAutor = null;
+
+        //
+        if ($generoProcurado != null && $formatoProcurado!=null) {
+            //obter os livros de acordo com a pesquisa
+            $livros = Livro::find()
+                ->where(['like', 'titulo', $pesquisa])
+                ->andWhere(['like', 'formato', $formatos[$formatoProcurado]])
+                ->andWhere(['like', 'genero', $generos[$generoProcurado]])
+                ->all();
+        } elseif ($generoProcurado != null){
+            //obter os livros de acordo com a pesquisa
+            $livros = Livro::find()
+                ->where(['like', 'titulo', $pesquisa])
+                ->andWhere(['like', 'genero', $generos[$generoProcurado]])
+                ->all();
+        } elseif ($formatoProcurado != null) {
+            //obter os livros de acordo com a pesquisa
+            $livros = Livro::find()
+                ->where(['like', 'titulo', $pesquisa])
+                ->andWhere(['like', 'formato', $formatos[$formatoProcurado]])
+                ->all();
+        } else {
+            $livros = Livro::find()
+                ->where(['like', 'titulo', $pesquisa])
+                ->all();
+
+            if($pesquisa!=null){
+                $autores = Autor::find()
+                    ->where(['like', 'nome_autor', $pesquisa]);
+
+                $livrosAutor = Livro::find()
+                    ->innerJoin(['sub' => $autores], 'livro.id_autor = sub.id_autor')
+                    ->all();
+            } else {
+                $livrosAutor = null;
+            }
+        }
+
+        //var_dump($livros, $livrosAutor, $generos);die;
+        //return $this->redirect('livro/procurar', array('model' => new Livro(), 'results' => $results));
+        return $this->render('index', ['searchModel'=> new Livro(), 'livros'=>$livros, 'livrosAutor'=>$livrosAutor, 'generos'=>$generos]);
     }
 
     public function actionRequisitado()
@@ -107,9 +189,12 @@ class LivrosController extends Controller
                 ->all();
 
             $livro = new Livro();
+            $generos = $this->obterGenerosLivros();
 
             return $this->render('index', [
                 'livros' => $livros,
+                'generos' => $generos,
+                'livrosAutor' => null,
                 'searchModel' => $livro
             ]);
         } else {

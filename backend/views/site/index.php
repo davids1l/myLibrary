@@ -12,11 +12,11 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
 ?>
 <div class="site-index">
     <div class="body-content">
-        <div class="row">
-            <div class="col-md-5">
+        <div class="row" style="margin-top: 30px">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Requisições por tratar</h3>
+                        <h3 class="panel-title topicos">Requisições para tratar</h3>
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
@@ -89,10 +89,10 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Requisições prontas a entregar</h3>
+                        <h3 class="panel-title topicos">Requisições prontas a entregar</h3>
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
@@ -147,11 +147,12 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Criar requisição</h3>
+                        <h3 class="panel-title topicos">Criar requisição</h3>
                     </div>
                     <div class="panel-body">
                         <div class="rowAddBook">
@@ -167,7 +168,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     <?= $form->field($searchModelCriarReq, 'numero')->label('Indique o número de leitor: '); ?>
                                 </div>
                                 <div class="col-md-5" style="display: flex; justify-content: left; align-items: center;">
-                                    <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Pesquisar', ['className' => 'pesquisa', 'class' => 'btn btn-primary']); ?>
+                                    <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Pesquisar', ['className' => 'pesquisa', 'class' => 'btnAcao ']); ?>
                                     <?php ActiveForm::end() ?>
                                     <br/>
                                 </div>
@@ -187,7 +188,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                                 <p>Numero: <?= $utilizador->numero ?></p>
                                             <?php } ?>
                                             <br>
-                                            <?= Html::submitButton('Seguinte', ['class' => 'btn btn-primary']) ?>
+                                            <?= Html::submitButton('Seguinte <i class="fas fa-arrow-right"></i>', ['class' => 'btnAcao']) ?>
                                         <?php } else { ?>
                                             <br/>
                                         <?php } ?>
@@ -199,10 +200,10 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Requisições ativas</h3>
+                        <h3 class="panel-title topicos">Requisições ativas</h3>
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
@@ -259,10 +260,10 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
 
 
 
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Transportes por tratar</h3>
+                        <h3 class="panel-title topicos">Transportes por tratar</h3>
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
@@ -322,10 +323,10 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Transportes a receber</h3>
+                        <h3 class="panel-title topicos">Transportes a receber</h3>
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([

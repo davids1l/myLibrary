@@ -14,26 +14,18 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="utilizador-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
     <hr>
 
-    <p>
-        <?= Html::button('<span class="glyphicon glyphicon-plus"></span> Inserir Leitor',
-            ['class' => 'btn btn-success', 'data-toggle' => 'modal', 'data-target' => '#criarLeitorModal'
-            ]) ?>
+    <div style="margin-bottom: 30px; margin-top: 10px">
+        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Inserir Leitor', ['utilizador/create'] ,['class' => 'btnAcao']) ?>
 
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Bloqueados', ['utilizador/index', 'pesquisa' => 'Bloqueados'], [
-            'class' => 'btn btn-info'
-        ]); ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar todos', ['utilizador/index'], ['class' => 'btnAcao']); ?>
 
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Não Bloqueados', ['utilizador/index', 'pesquisa' => 'Desbloqueados'], [
-            'class' => 'btn btn-info'
-        ]); ?>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Bloqueados', ['utilizador/index', 'pesquisa' => 'Bloqueados'], ['class' => 'btnAcao']); ?>
 
-        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar todos', ['utilizador/index'], [
-            'class' => 'btn btn-info'
-        ]); ?>
-    </p>
+        <?= Html::a('<span class="glyphicon glyphicon-folder-open"></span> &nbsp Mostrar Não Bloqueados', ['utilizador/index', 'pesquisa' => 'Desbloqueados'], ['class' => 'btnAcao']); ?>
+    </div>
 
 
     <?= GridView::widget([

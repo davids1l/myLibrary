@@ -46,13 +46,10 @@ class SignupForm extends Model
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
 
 
-            ['dta_nascimento', 'required'],
+            [['nif', 'num_telemovel'], 'string', 'min' => 9, 'max' => 9, 'tooShort' => '{attribute} tem de conter 9 dígitos', 'tooLong' => '{attribute} tem de conter 9 dígitos'],
 
-            ['nif', 'string', 'min' => 9, 'max' => 9],
             ['nif', 'unique', 'targetClass' => '\frontend\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
 
-            ['num_telemovel', 'required'],
-            ['num_telemovel', 'string', 'min' => 9, 'max' => 9],
 
 
         ];
@@ -105,7 +102,7 @@ class SignupForm extends Model
 
         //Verifica se a password e a confirmação da password são iguais
         if($this->password != $this->confirmarPassword){
-            Yii::$app->session->setFlash('error', 'Confirmação da Palavra-Passe incorreta.');
+            $this->addError('confirmarPassword', 'Confirmação da Palavra-Passe incorreta');
             return null;
         }
         $user->setPassword($this->password);
@@ -121,7 +118,7 @@ class SignupForm extends Model
 
 
         if($utilizador->validarDataNascimento() == false){
-            Yii::$app->session->setFlash('error', 'Data de nascimento inválida.');
+            $this->addError('dta_nascimento', 'Data de nascimento inválida');
             return null;
         }
 
@@ -130,7 +127,7 @@ class SignupForm extends Model
         $utilizador->num_telemovel = $this->num_telemovel;
 
         if($utilizador->validarNumTelemovel() == false){
-            Yii::$app->session->setFlash('error', 'Número de telemóvel inválido. Insira um número que comece por 9.');
+            $this->addError('num_telemovel', 'Número de telemóvel inválido. Deve começar por 9');
             return null;
         }
 

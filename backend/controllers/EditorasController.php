@@ -131,7 +131,7 @@ class EditorasController extends Controller
             $listPaises = ArrayHelper::map($paises, 'id_pais', 'designacao');
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id_editora]);
+                return $this->redirect(['index']);
             }
 
             return $this->render('update', [

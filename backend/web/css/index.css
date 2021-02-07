@@ -20,8 +20,21 @@ body {
 }
 
 .gridLivros {
-    margin-top: 20px;
+    margin-top: 30px;
+    box-shadow: 0 0 5px lightgrey;
+    transition: all 1000ms;
 }
+
+.gridLivros:hover{
+    box-shadow: 0 0 12px #f26b3b;
+    transition: ease 500ms;
+}
+
+.gridLivros:hover > div > #titulo{
+    color: #f26b3b;
+    transition: ease 200ms;
+}
+
 
 
 .tableLeitores th, table {
@@ -39,11 +52,21 @@ body {
 }
 
 .listaBiblioteca {
-    margin-bottom: 30px;
+    border-radius: 3px;
+    padding: 10px;
+    height: 130px;
+    max-width: 370px;
+    margin: 10px;
+    box-shadow: 0 0 5px lightgrey;
+    transition: all .2s ease-in-out;
+}
+
+.listaBiblioteca:hover{
+    box-shadow: 0 0 12px #f26b3b;
 }
 
 .panel-heading {
-    background-color: #e6eeff !important;
+    background-color: whitesmoke !important;
 }
 
 .panel-body {
@@ -51,5 +74,10 @@ body {
 }
 
 .panel-title {
-    font-size: 22px!important;
+
+}
+
+.panel:hover{
+    transition: ease-in 200ms;
+    box-shadow: 0 0 5px lightgrey;
 }

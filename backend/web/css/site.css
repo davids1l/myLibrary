@@ -137,3 +137,122 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.footerBranco{
+    color: black;
+    font-size: 18px;
+}
+
+.footerTitulos{
+    color: #f26b3b;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-family: "Yu Gothic Light";
+    font-weight: bold;
+}
+
+.footerDesenvolvedores > p{
+    color: black;
+    margin-left: 140px;
+    margin-top: -7px;
+}
+
+.footerDesenvolvedores{
+    margin-top: -5px;
+}
+
+.footer{
+    background-color: whitesmoke;
+    height: auto;
+}
+
+.menuNav{
+    color: #f26b3b;
+    letter-spacing: 2px;
+}
+
+.topicos {
+    font-family: "Yu Gothic Light";
+    font-size: 25px;
+    color: #f26b3b;
+    text-transform: uppercase;
+}
+
+.btnAcao{
+    background-color: white;
+    border: 2px solid #f26b3b;
+    text-transform: uppercase;
+    color: black;
+    padding: 5px;
+    letter-spacing: 1px;
+    transition: ease-in 200ms;
+}
+
+.btnAcao:hover{
+    color: #f26b3b;
+    transition: ease-in 200ms;
+    text-decoration: none;
+}
+
+.btnAcaoDisabled{
+    background-color: white;
+    border: 2px solid black;
+    text-transform: uppercase;
+    color: black;
+    padding: 5px;
+    letter-spacing: 1px;
+}
+
+.btnAcaoDisabled:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.breadcrumb{
+    margin-top: 30px;
+    color: whitesmoke;
+    border-radius: 30px;
+}
+
+.breadcrumb > li > a, .breadcrumb > .active{
+    color: black;
+    text-transform: uppercase;
+}
+
+.breadcrumb > li > a:hover{
+    text-decoration: none;
+    color: #f26b3b;
+}
+
+.pagination > li > a, .pagination > li > span, .pagination > li.prev > span{
+    color: #f26b3b;
+}
+
+.pagination .active > a{
+    background-color: #f26b3b;
+    border-color: #f26b3b;
+}
+
+.pagination .active > a:hover{
+    background-color: #f26b3b;
+    border-color: #f26b3b;
+}
+
+.pagination > li > a:hover{
+    color: black;
+}
+
+
+div.container{
+    width: 90%;!important;
+}
+
+.book-buttons > span:hover{
+    color: #f26b3b;
+    transition: ease-in 200ms;
+}
+
+.book-buttons{
+    font-size: 18px;
+}
+

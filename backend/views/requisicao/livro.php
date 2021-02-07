@@ -9,26 +9,24 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\RequisicaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Requisição #'.$requisicao;
+$this->title = 'Requisição #' . $requisicao;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="requisicao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
+    <hr>
     <br>
     <h4>Livros a preparar: </h4>
-    <hr>
 
-    <div class="row">
-        <?php foreach($livros as $livro) { ?>
-            <div class="col-xs-12 col-md-2 catalogo-grid">
+    <div class="row" style="margin-top: 20px">
+        <?php foreach ($livros as $livro) { ?>
+            <div class="col-xs-12 col-md-2 catalogo-grid text-center">
                 <div class="capa">
-                    <a href="<?php //Url::to(['/livros/view', 'id' => $livro[0]['id_livro']])?>">
-                        <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro[0]->capa, [
-                            'id' => 'imgCapa',
-                            'style' => 'width: 150px; height: 200px'
-                        ])?>
-                    </a>
+                    <?= Html::img('/myLibrary/backend/web/imgs/capas/' . $livro[0]->capa, [
+                        'id' => 'imgCapa',
+                        'style' => 'width: 150px'
+                    ]) ?>
                 </div>
 
                 <h4><?= $livro[0]['titulo'] ?></h4>
@@ -39,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="row">
         <div class="col-xs-12 col-md-4">
-            <?= Html::a('Finalizar', ['site/preparar', 'id' => $requisicao], ['class' => 'btn btn-primary', 'data' => ['method' => 'post']]); ?>
+            <?= Html::a('Finalizar', ['site/preparar', 'id' => $requisicao], ['class' => 'btnAcao', 'data' => ['method' => 'post']]); ?>
         </div>
     </div>
 </div>

@@ -489,13 +489,13 @@ class m201111_174512_backend extends Migration
 
         //Chaves estrangeiras
         $this->createIndex(
-            'idx-transporte-id_biblioteca',
+            'idx-transporte-id_biblioteca_despacho',
             'transporte',
             'id_bib_despacho'
         );
 
         $this->addForeignKey(
-            'idx-transporte-id_biblioteca',
+            'idx-transporte-id_biblioteca_despacho',
             'transporte',
             'id_bib_despacho',
             'biblioteca',
@@ -505,13 +505,13 @@ class m201111_174512_backend extends Migration
         );
 
         $this->createIndex(
-          'idx-transporte-id_biblioteca',
+          'idx-transporte-id_biblioteca_recetora',
           'transporte',
           'id_bib_recetora'
         );
 
         $this->addForeignKey(
-          'idx-transporte-id_biblioteca',
+          'idx-transporte-id_biblioteca_recetora',
           'transporte',
           'id_bib_recetora',
           'biblioteca',

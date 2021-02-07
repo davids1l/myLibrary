@@ -15,14 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="utilizador-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
     <hr>
 
-    <p>
-        <a style="color: black">
-            <?= Html::button('<span class="glyphicon glyphicon-plus"></span> Inserir Bibliotecário', ['class' => 'btn btn-success', 'data-toggle' => 'modal', 'data-target' => '#criarBibliotecarioModal', 'id' => 'inserirBibliotecario']) ?>
-        </a>
-    </p>
+    <?= Html::a('<span class="glyphicon glyphicon-plus" style="margin-bottom: 30px; margin-top: 10px"></span> Inserir Bibliotecário', ['bibliotecario/create'], ['class' => 'btnAcao']) ?>
 
     <?= GridView::widget([
         'summary' => 'Total de Bibliotecários: {totalCount}',
@@ -104,44 +100,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
-
-    <!-- Modal para criar um bibliotecario -->
-    <div class="modal fade" id="criarBibliotecarioModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h2 class="modal-title" id="exampleModalLabel">Inserir Bibliotecário</h2>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6">
-                        <?php $form = ActiveForm::begin(['action' => ['bibliotecario/create'], 'id' => 'formInserirBibliotecario']) ?>
-                        <div class="row">
-                            <?= $form->field($model, 'primeiro_nome')->textInput(['autofocus' => true])->label('Primeiro nome') ?>
-                            <?= $form->field($model, 'ultimo_nome')->label('Apelido') ?>
-                            <?= $form->field($model, 'email') ?>
-                            <?= $form->field($model, 'dta_nascimento')->label('Data de Nascimento')->input('date') ?>
-                            <?= $form->field($model, 'nif')->label('NIF') ?>
-                            <?= $form->field($model, 'num_telemovel')->label('Nº de telefone') ?>
-                            <?= $form->field($model, 'id_biblioteca')->label('Biblioteca')->dropDownList($bibliotecas)?>
-                            <?= $form->field($model, 'password')->passwordInput()->label('Palavra-Passe') ?>
-                            <?= $form->field($model, 'confirmarPassword')->passwordInput()->label('Confirmar Palavra-Passe') ?>
-                        </div>
-                        <div class="modal-footer">
-                            <?= Html::submitButton('Inserir Bibliotecário', ['class' => 'btn btn-perfil btn-success', 'id' => 'formInserirBibliotecario']) ?>
-                        </div>
-                        <?php ActiveForm::end() ?>
-                    </div>
-                    <div class="col-sm-2"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 </div>

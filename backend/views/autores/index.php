@@ -12,11 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="autor-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
     <hr>
-    <p>
-        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> Adicionar Autor', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?= Html::a('<span class="glyphicon glyphicon-plus" style="margin-bottom: 30px; margin-top: 10px"></span> Inserir Autor', ['create'], ['class' => 'btnAcao']) ?>
 
 
     <?= GridView::widget([
@@ -24,10 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
-            'id_autor',
-            'nome_autor',
+
+            [
+                'attribute' => 'nome_autor',
+                'label' => 'Nome do Autor'
+            ],
             [
                 'attribute' => 'id_pais',
                 'value' => 'pais.designacao',
