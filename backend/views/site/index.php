@@ -96,7 +96,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
-                            'summary' => 'Total de Requisições: {totalCount}',
+                            'summary' => '<li class="list-group-item">Total de requisições a entregar <span class="badge" style="background-color: #b92c28">{totalCount}</span></li>',
                             'dataProvider' => $dataProviderEntregar,
                             'filterModel' => $searchModel,
                             'emptyText' => 'Não existem requisições pendentes.',
@@ -116,7 +116,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'buttons' => [
                                         'entregar' => function ($url, $model, $key) {
                                             if ($model->estado === "Pronta a levantar") {
-                                                return Html::a('Finalizar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
+                                                return Html::a('Entregar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                                     'data' => [
                                                         'method' => 'post',
                                                     ]

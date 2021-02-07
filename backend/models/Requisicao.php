@@ -72,7 +72,7 @@ class Requisicao extends \yii\db\ActiveRecord
             $id_utilizador = $this->id_utilizador;
             $id_bib_levantamento = $this->id_bib_levantamento;
 
-            $myObj = new \stdClass();
+            /*$myObj = new \stdClass();
             $myObj->id_req = $id_requisicao;
             $myObj->estado = $estado;
             $myObj->id_utilizador = $id_utilizador;
@@ -83,7 +83,7 @@ class Requisicao extends \yii\db\ActiveRecord
             $topico = 'req/' . $id_requisicao;
 
             if($insert == false)
-                $this->FazPublish($topico, $myJson);
+                $this->FazPublish($topico, $myJson);*/
         }
     }
 

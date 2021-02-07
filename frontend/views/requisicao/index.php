@@ -113,7 +113,7 @@ $this->title = 'Histórico de Requisições';
                 ]
             ],
         ],
-    ]); ?><hr>
+    ]); ?>
 
 
 
