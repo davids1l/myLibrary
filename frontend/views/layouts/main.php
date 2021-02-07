@@ -65,6 +65,15 @@ AppAsset::register($this);
         $user = Yii::$app->user->identity->id;
         $utilizador = Utilizador::find()->where(['id_utilizador' => $user])->one();
 
+        $subQuery = \app\models\Requisicao::find()
+            ->where(['id_utilizador' =>Yii::$app->user->id])
+            ->andWhere(['!=', 'estado', 'Terminada']);
+
+        //query responsável por obter a contagem de "requisicao_livro" onde se verfique subquery.id_requisicao = requiscao_livro.id_requisicao
+        $totalReq = \app\models\RequisicaoLivro::find()
+            ->innerJoin(['sub' => $subQuery], 'requisicao_livro.id_requisicao = sub.id_requisicao')
+            ->count();
+
 
         $carrinhoSession = Yii::$app->session->get('carrinho');
 
@@ -77,7 +86,7 @@ AppAsset::register($this);
             }
             $items[] = ['label' => '<div class="btnFinalizarRequisicao text-center"><b>Finalizar requisição</b></div>', 'url'=>['/requisicao/finalizar']];
             $menuItems[] = ['label' => '<div class="text-center menuNav"><span style="font-size: 20px" class="fas fa-shopping-basket" id="carrinhoLivros"></span></div>
-                                       <div class="menuNav"><span style="font-size: 11px">CESTO '.(count($items)-1).'/5</span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span></div>', 'items' => $items];
+                                       <div class="menuNav"><span style="font-size: 11px">CESTO '.(count($items)-1).'/'.(5 - $totalReq).'</span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span></div>', 'items' => $items];
 
         } else {
             $menuItems[] = ['label' => '<div class="text-center menuNav"><span style="font-size: 20px" class="fas fa-shopping-basket"></span></div><div class="menuNav"><span style="font-size: 11px">CESTO </span><span style="font-size: 11px" class="glyphicon glyphicon-menu-down"></span></div>', 'items' =>

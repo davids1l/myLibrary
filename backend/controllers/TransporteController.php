@@ -5,10 +5,12 @@ namespace backend\controllers;
 use app\models\Livro;
 use app\models\TransporteLivro;
 use app\models\TransporteSearch;
+use app\models\Utilizador;
 use Carbon\Carbon;
 use Yii;
 use app\models\Transporte;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,6 +26,17 @@ class TransporteController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['tratar', 'receber', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['tratar', 'receber', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -40,7 +53,14 @@ class TransporteController extends Controller
 
         $livrosTransporte = $this->obterLivrosTransporte($id);
 
-        return $this->render('tratar', ['transporte' => $transporte, 'livrosTransporte' => $livrosTransporte]);
+        $utilizador = Utilizador::find()->where(['id_utilizador' => Yii::$app->user->id])->one();
+
+        //impede bibliotecários de outras bibliotecas tratar requisição
+        if($transporte != null && $utilizador->id_biblioteca == $transporte->id_bib_despacho){
+            return $this->render('tratar', ['transporte' => $transporte, 'livrosTransporte' => $livrosTransporte]);
+        } else {
+            return $this->redirect(['site/index']);
+        }
     }
 
     public function actionReceber($id) {
@@ -57,53 +77,6 @@ class TransporteController extends Controller
         $livrosTransporte = Livro::find()->innerJoin(['sub' => $sub], 'sub.id_livro=livro.id_livro')->all();
 
         return $livrosTransporte;
-    }
-
-
-    /**
-     * Lists all Transporte models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Transporte::find(),
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Transporte model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Transporte model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Transporte();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_transporte]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -142,10 +115,6 @@ class TransporteController extends Controller
 
         }
 
-        /*return $this->render('index', [
-            'model' => $model,
-        ]);*/
-
         return $this->redirect('../site/index');
     }
 
@@ -180,4 +149,52 @@ class TransporteController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+    /**
+     * Lists all Transporte models.
+     * @return mixed
+     */
+    /*public function actionIndex()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Transporte::find(),
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }*/
+
+    /**
+     * Displays a single Transporte model.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    /*public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }*/
+
+    /**
+     * Creates a new Transporte model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    /*public function actionCreate()
+    {
+        $model = new Transporte();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_transporte]);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }*/
+
 }

@@ -38,13 +38,11 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'attribute' => '',
                                     'value' => function ($url, $model, $key) {
 
-
                                         $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->all();
 
                                         $sub =  \app\models\Livro::find()->where(['id_biblioteca' => $url->id_bib_levantamento]);
                                         $totalProntos = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->innerJoin(['sub' => $sub], 'sub.id_livro = requisicao_livro.id_livro')->all();
 
-                                       //var_dump($totalProntos);die();
                                         return Html::encode(count($totalProntos).'/'.count($total));
                                     },
                                     'label' => 'Livros'
@@ -56,13 +54,9 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                         'preparar' => function ($url, $model, $key) {
 
                                             $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->all();
-                                            /*$sub =  \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model]);
-                                            $totalProntos = \app\models\Livro::find()->where(['id_biblioteca' => $model->id_bib_levantamento])->innerJoin(['sub' => $sub])->all();*/
 
                                             $sub =  \app\models\Livro::find()->where(['id_biblioteca' => $model->id_bib_levantamento]);
                                             $totalProntos = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $key])->innerJoin(['sub' => $sub], 'sub.id_livro = requisicao_livro.id_livro')->all();
-
-                                            //var_dump(count($totalProntos). ' ' . count($total));die();
 
                                             if ($model->estado == "A aguardar tratamento" && (count($totalProntos) == count($total))) {
                                                 return Html::a('Tratar requisição', ['site/livro', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
@@ -102,7 +96,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                     </div>
                     <div class="panel-body">
                         <?= GridView::widget([
-                            'summary' => 'Total de Requisições: {totalCount}',
+                            'summary' => '<li class="list-group-item">Total de requisições a entregar <span class="badge" style="background-color: #b92c28">{totalCount}</span></li>',
                             'dataProvider' => $dataProviderEntregar,
                             'filterModel' => $searchModel,
                             'emptyText' => 'Não existem requisições pendentes.',
@@ -122,7 +116,7 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'buttons' => [
                                         'entregar' => function ($url, $model, $key) {
                                             if ($model->estado === "Pronta a levantar") {
-                                                return Html::a('Finalizar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
+                                                return Html::a('Entregar requisição', ['site/levantar', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
                                                     'data' => [
                                                         'method' => 'post',
                                                     ]

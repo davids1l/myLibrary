@@ -47,7 +47,8 @@ $this->title = "Detalhes do Livro";
                         <b class="campos">Edição: </b><?= Html::encode($livro->ano)?> |
                         <b class="campos">ISBN: </b><?= Html::encode($livro->isbn)?> |
                         <b class="campos">Formato: </b><?= Html::encode($livro->formato)?> |
-                        <b class="campos">Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?> -
+                        <!--<b class="campos">Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?> -->
+                        <b class="campos">Idioma: </b><?= Html::encode($livro->idioma)?> -
                         <a id="maisDetalhes" href="#bookDetails">mais detalhes deste livro</a>
                     </span>
                 </div>
@@ -194,7 +195,7 @@ $this->title = "Detalhes do Livro";
                     <div class="col-xs-6 col-md-4">
                         <p><?= Html::img(Yii::$app->request->baseUrl . '/../../backend/web/imgs/capas/' . $livro->capa, ['style' => 'width: 165px; height: 230px;'])?></p>
                     </div>
-                    <div class="col-xs-6 col-md-8">
+                    <div class="col-xs-6 col-md-8 maisDetalhes">
                         <p><b class="campos">Edição: </b><?= Html::encode($livro->ano)?></p>
                         <p><b class="campos">Páginas: </b><?= Html::encode($livro->paginas)?></p>
                         <p><b class="campos">Formato: </b><?= Html::encode($livro->formato)?></p>
@@ -202,7 +203,7 @@ $this->title = "Detalhes do Livro";
                         <p><b class="campos">Editora: </b><?= Html::encode($livro->editora->designacao)?></p>
                         <p><b class="campos">Genero: </b><?= Html::encode($livro->genero)?>
                         <p><b class="campos">ISBN: </b><?= Html::encode($livro->isbn)?></p>
-                        <p><b class="campos">Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?></p>
+                        <!--<p><b class="campos">Biblioteca: </b><?= Html::encode($livro->biblioteca->nome)?></p>-->
                     </div>
                 </div>
             </div>
