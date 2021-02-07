@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr>
 
     <div class="row">
-        <?php $form = ActiveForm::begin(['action' => ['bibliotecario/create'], 'id' => 'formInserirBibliotecario']) ?>
+        <?php $form = ActiveForm::begin(['action' => ['utilizador/create'], 'id' => 'formInserirBibliotecario']) ?>
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
             <?= $form->field($model, 'primeiro_nome')->textInput(['placeholder' => 'introduza o nome'])->label('Nome') ?>
