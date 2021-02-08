@@ -273,6 +273,16 @@ class UtilizadorController extends Controller
                 $novaPass = Yii::$app->request->post('User')['nova_password'];
                 $confPass = Yii::$app->request->post('User')['conf_password'];
 
+                if($atualPass == ""){
+                    Yii::$app->session->setFlash('error', 'Campo em branco.');
+                    return $this->actionPerfil();
+                }
+
+                if(strlen($novaPass) < 8){
+                    Yii::$app->session->setFlash('error', 'Nova palavra-passe necessita de pelo menos 8 caracteres.');
+                    return $this->actionPerfil();
+                }
+
                 if (!$user->validatePassword($atualPass)) {
                     Yii::$app->session->setFlash('error', 'Palavra-passe atual incorreta.');
                     return $this->actionPerfil();

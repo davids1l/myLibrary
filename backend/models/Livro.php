@@ -48,12 +48,11 @@ class Livro extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['titulo', 'isbn', 'ano', 'paginas', 'genero', 'idioma', 'formato', 'capa', 'sinopse', 'id_editora', 'id_biblioteca', 'id_autor'], 'required'],
+            [['titulo', 'isbn', 'ano', 'paginas', 'genero', 'idioma', 'formato', 'capa', 'sinopse', 'id_editora', 'id_biblioteca', 'id_autor'], 'required', 'message' => '{attribute} não pode estar em branco.'],
             [['ano'], 'safe'],
-            [['paginas', 'id_editora', 'id_biblioteca', 'id_autor'], 'integer'],
+            [['paginas', 'id_editora', 'id_biblioteca', 'id_autor', 'isbn', 'ano'], 'integer', 'message' => '{attribute} só pode conter números'],
             [['sinopse'], 'string'],
             [['titulo'], 'string', 'max' => 50],
-            [['isbn'], 'integer'],
             [['genero'], 'string', 'max' => 80],
             [['idioma', 'formato'], 'string', 'max' => 15],
             [['capa'], 'string', 'max' => 255],
@@ -71,10 +70,10 @@ class Livro extends \yii\db\ActiveRecord
         return [
             'id_livro' => 'Id Livros',
             'titulo' => 'Titulo',
-            'isbn' => 'Isbn',
+            'isbn' => 'ISBN',
             'ano' => 'Ano',
-            'paginas' => 'Paginas',
-            'genero' => 'Genero',
+            'paginas' => 'Nº de Páginas',
+            'genero' => 'Gênero',
             'idioma' => 'Idioma',
             'formato' => 'Formato',
             'capa' => 'Capa',

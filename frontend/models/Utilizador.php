@@ -55,14 +55,14 @@ class Utilizador extends \yii\db\ActiveRecord
     {
         return [
             [['primeiro_nome', 'ultimo_nome', 'numero', 'dta_nascimento', 'nif', 'num_telemovel'], 'required', 'message' => '{attribute} não pode estar em branco.'],
-            [['bloqueado', 'num_telemovel'], 'integer'],
+            [['bloqueado'], 'integer'],
             [['dta_bloqueado', 'dta_nascimento', 'dta_registo'], 'safe'],
             [['primeiro_nome', 'ultimo_nome', 'foto_perfil'], 'string', 'max' => 50],
             [['numero'], 'string', 'max' => 4],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_utilizador' => 'id']],
 
 
-            ['nif', 'integer'],
+            [['nif', 'num_telemovel'], 'integer', 'message' => '{attribute} só pode conter números'],
             ['nif', 'unique', 'targetClass' => '\frontend\models\Utilizador', 'message' => 'Este NIF já se encontra em utilização'],
         ];
     }
