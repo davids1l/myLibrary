@@ -15,7 +15,8 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/index.css',
         'css/detalhes.css',
-        'css/livrosindex.css'
+        'css/livrosindex.css',
+        'fontawesome-free-5.15.2-web/css/all.css'
     ];
     public $js = [
         'js/script.js',

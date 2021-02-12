@@ -78,6 +78,9 @@ class UtilizadorController extends Controller
         if (Yii::$app->request->post()) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             if ($model->upload($utilizador->numero, $pasta)) {
+                if($utilizador->foto_perfil != 'userImg.png'){
+                    unlink('../../frontend/web/imgs/perfil/' . $utilizador->foto_perfil);
+                }
                 $utilizador->foto_perfil = $model->imageFile->name;
                 $utilizador->save();
                 return $this->actionPerfil();
