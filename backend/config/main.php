@@ -96,6 +96,10 @@ return [
                         'GET emrequisicao/{id}' => 'verificar-em-requisicao',
                         'GET total/{id}' => 'total-em-requisicao',
                         'POST create' => 'create-requisicao',
+                        'GET utilizador/{id}' => 'procurar-req-by-user-id',
+                        'GET livrosreq/{id}' => 'total-livros-req',
+                        'GET livros/{id}' => 'requisicao-livros',
+                        'GET teste/{id}' => 'get-requisicoes-livros'
                     ],
 
                     'tokens' => [

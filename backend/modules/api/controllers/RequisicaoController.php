@@ -185,4 +185,58 @@ class RequisicaoController extends ActiveController
         return intval($query);
     }
 
+    public function actionProcurarReqByUserId($id) {
+        $model = $this->modelClass;
+
+        $requisicoes = Requisicao::find()->where(['id_utilizador' => $id])->orderBy(['id_requisicao' => SORT_DESC])->all();
+
+        /*if($requisicoes != null){
+            return $requisicoes;
+        }*/
+
+        return $requisicoes;
+        //return [["id_requisicao" => "false"]];
+    }
+
+    public function actionTotalLivrosReq($id){
+        $model = new $this->modelClass;
+
+        $sub = Requisicao::find()->where(['id_requisicao' => $id]);
+
+        $query = RequisicaoLivro::find()
+            ->innerJoin(['sub' => $sub], 'requisicao_livro.id_requisicao = sub.id_requisicao')
+            ->count();
+
+        return intval($query);
+    }
+
+    public function actionRequisicaoLivros($id){
+        /*$model = new $this->modelClass;
+
+        $query = RequisicaoLivro::find()->where(['id_requisicao' => $id])->all();
+
+        return $query;*/
+
+        $subquery = Requisicao::find()->where(['id_utilizador' => $id]);
+
+        $query = RequisicaoLivro::find()->innerJoin(['sub' => $subquery], 'requisicao_livro.id_requisicao = sub.id_requisicao')->all();
+
+        return $query;
+
+    }
+
+    public function actionGetRequisicoesLivros($id){
+        $subquery = Requisicao::find()->where(['id_utilizador' => $id]);
+
+        $query = RequisicaoLivro::find()->innerJoin(['sub' => $subquery], 'requisicao_livro.id_requisicao = sub.id_requisicao')->all();
+
+        return $query;
+    }
+
+    public function actionDeleteRequisicao($id){
+        $requisicao = Requisicao::find()->where(['id_requisicao' => $id])->one();
+
+        $requisicao->delete();
+    }
+
 }
