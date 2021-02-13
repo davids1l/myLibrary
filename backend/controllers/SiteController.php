@@ -87,6 +87,9 @@ class SiteController extends Controller
         $dataProviderTransportesPorTratar = $searchModelTransporte->obterTransportesATratar();
         $dataProviderTransportesAReceber = $searchModelTransporte->obterTransportesAReceber();
 
+        $id_bib = Livro::find()->select('id_biblioteca')->where(['id_livro' => 3])->one();
+        var_dump($id_bib);die();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'searchModelTransporte' => $searchModelTransporte,

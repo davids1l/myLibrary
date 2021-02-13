@@ -6,6 +6,9 @@ namespace app\modules\api\controllers;
 use app\models\Livro;
 use app\models\Requisicao;
 use app\models\RequisicaoLivro;
+use app\models\Transporte;
+use app\models\TransporteLivro;
+use backend\controllers\LivrosController;
 use Carbon\Carbon;
 use common\models\User;
 use yii\db\Query;
@@ -122,19 +125,32 @@ class RequisicaoController extends ActiveController
     }
 
     public function actionCreateRequisicao(){
-        $requisicao = new Requisicao();
+
+
+        $ids_bib = [];
+        $livrosCarrinho = [];
 
         $carrinho_size = \Yii::$app->request->post('carrinho_size');
 
-
+        //obter os livros recebidos na api
         for ($i = 0; $i < $carrinho_size; $i++){
             $livros[] = \Yii::$app->request->post('id_livro'.$i);
+
+            //obter os objetos livro a partir dos id dos livros recebidos
+            $livroObj = Livro::find()->where(['id_livro' => \Yii::$app->request->post('id_livro'.$i)])->one();
+            array_push($livrosCarrinho, $livroObj);
+
+            //obter os ids das bibliotecas dos livros da requisição, para posteriormente verificar a necessiade de transporte
+            $id_bib = Livro::find()->select('id_biblioteca')->where(['id_livro' => \Yii::$app->request->post('id_livro'.$i)])->one();
+            array_push($ids_bib, $id_bib['id_biblioteca']);
         }
 
-
+        //id da bib. de levantamento recebida por parâmetro e id do utilizador que efetua a requisição
         $id_biblioteca = \Yii::$app->request->post('id_biblioteca');
         $id_utilizador = \Yii::$app->request->post('id_utilizador');
 
+
+        $requisicao = new Requisicao();
         $requisicao->dta_levantamento = null;
         $requisicao->dta_entrega = null;
         $requisicao->estado = "A aguardar tratamento";
@@ -149,6 +165,38 @@ class RequisicaoController extends ActiveController
             $requisicao_livro->id_livro = $livro;
             $requisicao_livro->save();
         }
+
+        //para cada biblioteca dos livros recebidos
+        foreach (array_unique($ids_bib) as $bib){
+            if($bib != $id_biblioteca){
+
+                //criar transporte
+                $transporte = new Transporte();
+
+                $transporte->estado = "A aguardar tratamento";
+                $transporte->id_bib_despacho = $bib;
+                $transporte->id_bib_recetora = $id_biblioteca;
+                $transporte->dta_despacho = null;
+                $transporte->dta_recebida = null;
+                $transporte->id_requisicao = $requisicao->id_requisicao;
+
+                $transporte->save();
+
+                foreach ($livrosCarrinho as $livro) {
+                    if ($bib == $livro["id_biblioteca"]) {
+                        //criar transporte_livro
+                        $transporte_livro = new TransporteLivro();
+
+                        $transporte_livro->id_transporte = $transporte->id_transporte;
+                        $transporte_livro->id_livro = $livro->id_livro;
+                        $transporte_livro->save();
+                    }
+                }
+
+            }
+        }
+
+        return "Success";
 
     }
 
@@ -233,10 +281,5 @@ class RequisicaoController extends ActiveController
         return $query;
     }
 
-    public function actionDeleteRequisicao($id){
-        $requisicao = Requisicao::find()->where(['id_requisicao' => $id])->one();
-
-        $requisicao->delete();
-    }
 
 }
