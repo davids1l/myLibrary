@@ -119,6 +119,7 @@ return [
                         'POST login' => 'login',
                         'POST editar/{id}' => 'editar',
                         'GET dadosLeitor/{id}' => 'leitor',
+                        'POST uploadFoto/{id}' => 'upload'
                     ],
 
                     'tokens' => [
