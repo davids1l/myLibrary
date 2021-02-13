@@ -126,7 +126,6 @@ class RequisicaoController extends ActiveController
 
     public function actionCreateRequisicao(){
 
-
         $ids_bib = [];
         $livrosCarrinho = [];
 
@@ -166,7 +165,8 @@ class RequisicaoController extends ActiveController
             $requisicao_livro->save();
         }
 
-        //para cada biblioteca dos livros recebidos
+        //para cada biblioteca dos livros recebidos valida se o id_bib a que pertençe o livro é != da bib_levantamento
+        //se sim é criada um requisição
         foreach (array_unique($ids_bib) as $bib){
             if($bib != $id_biblioteca){
 
