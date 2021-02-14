@@ -178,6 +178,21 @@ class UtilizadorController extends ActiveController
         return ['utilizador' => $utilizador, 'email' => $user->email];
     }
 
+    public function actionDadosUtilizadores() {
+
+        $utilizadores = Utilizador::find();
+
+        $users = (new \yii\db\Query())
+            ->select(['*'])
+            ->from('user')
+            ->innerJoin(['sub' => $utilizadores], 'user.id = sub.id_utilizador')
+            ->all();
+
+        return $users;
+
+    }
+
+
 
     public function actionUpload($id){
 
