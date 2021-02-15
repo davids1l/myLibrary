@@ -80,6 +80,7 @@ class LivrosController extends Controller
 
             return $this->render('index', [
                 'livros' => $livros,
+                'livrosAutor' => null,
                 'searchModel' => $livro,
                 'generos' => $generos
             ]);

@@ -30,7 +30,7 @@ class Autor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome_autor', 'id_pais'], 'required'],
+            [['nome_autor', 'id_pais'], 'required', 'message' => '{attribute} não pode estar em branco'],
             [['id_pais'], 'integer'],
             [['nome_autor'], 'string'],
             [['id_pais'], 'exist', 'skipOnError' => true, 'targetClass' => Pais::className(), 'targetAttribute' => ['id_pais' => 'id_pais']],
@@ -44,7 +44,7 @@ class Autor extends \yii\db\ActiveRecord
     {
         return [
             'id_autor' => 'Id Autor',
-            'nome_autor' => 'Nome Autor',
+            'nome_autor' => 'Nome do Autor',
             'id_pais' => 'Id Pais',
         ];
     }

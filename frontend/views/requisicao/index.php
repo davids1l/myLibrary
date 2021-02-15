@@ -55,6 +55,7 @@ $this->title = 'Histórico de Requisições';
         'summary' => 'Total de Requisições: {totalCount}',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'emptyText' => 'Não tens nenhuma requisição',
         'columns' => [
             [
                 'attribute' => 'id_requisicao',
@@ -92,7 +93,7 @@ $this->title = 'Histórico de Requisições';
                 'template' => '{view} {multa} {cancelar}',
                 'buttons' => [
                     'view' => function ($url, $dataProvider, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['requisicao/view', 'id'=> $key]);
+                        return Html::a('<span class="fas fa-eye"></span>', ['requisicao/view', 'id'=> $key]);
                     },
                     'multa' => function ($key, $model) {
 
@@ -100,7 +101,7 @@ $this->title = 'Histórico de Requisições';
                         $multa = \frontend\models\Multa::find()->where(['id_requisicao' => $model->id_requisicao])->one();
 
                         if (isset($multa)) {
-                            return Html::a('<span class="glyphicon glyphicon-exclamation-sign" style="color: #c9302c"></span>', ['requisicao/showmultamodal', 'key' => $key, 'id_requisicao' => $model->id_requisicao]);
+                            return Html::a('<span class="fas fa-receipt" style="color: #c9302c"></span>', ['requisicao/showmultamodal', 'key' => $key, 'id_requisicao' => $model->id_requisicao]);
                         }
                     },
                     'cancelar' => function ($key, $model) {
@@ -125,20 +126,17 @@ $this->title = 'Histórico de Requisições';
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h2 class="modal-title" id="exampleModalLabel"><?= Html::encode('Multa - Requisição') ?></h2>
+                    <h2 class="modal-title topicos" id="exampleModalLabel" style="text-transform: uppercase"><?= Html::encode('Multa - Requisição') ?></h2>
                 </div>
                 <div class="modal-body">
                     <?php if(isset($multa)) { ?>
                         <h3><?= Html::encode('Multa: #'.$multa->id_multa) ?></h3>
-                        <p><?= Html::encode('Montante: '.$multa->montante).'€' ?></p>
+                        <p><?= Html::encode('Montante a pagar: '.$multa->montante).'€' ?></p>
                         <p><?= Html::encode('Estado: '.$multa->estado) ?></p>
                         <p><?= Html::encode('Data de emissão: '.$multa->dta_multa) ?></p>
                     <?php } else { ?>
                         <?= Html::encode('Sem multa.') ?>
                     <?php }?>
-                </div>
-                <div class="modal-footer">
-                    <?= Html::submitButton('Fechar', ['class' => 'btn-perfil', 'data-dismiss'=> "modal", 'aria-label'=>"Close"]) ?>
                 </div>
 
             </div>

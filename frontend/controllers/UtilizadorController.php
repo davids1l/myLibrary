@@ -78,6 +78,9 @@ class UtilizadorController extends Controller
         if (Yii::$app->request->post()) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             if ($model->upload($utilizador->numero, $pasta)) {
+                if($utilizador->foto_perfil != 'userImg.png'){
+                    unlink('../../frontend/web/imgs/perfil/' . $utilizador->foto_perfil);
+                }
                 $utilizador->foto_perfil = $model->imageFile->name;
                 $utilizador->save();
                 return $this->actionPerfil();
@@ -272,6 +275,16 @@ class UtilizadorController extends Controller
                 $atualPass = Yii::$app->request->post('User')['atual_password'];
                 $novaPass = Yii::$app->request->post('User')['nova_password'];
                 $confPass = Yii::$app->request->post('User')['conf_password'];
+
+                if($atualPass == ""){
+                    Yii::$app->session->setFlash('error', 'Campo em branco.');
+                    return $this->actionPerfil();
+                }
+
+                if(strlen($novaPass) < 8){
+                    Yii::$app->session->setFlash('error', 'Nova palavra-passe necessita de pelo menos 8 caracteres.');
+                    return $this->actionPerfil();
+                }
 
                 if (!$user->validatePassword($atualPass)) {
                     Yii::$app->session->setFlash('error', 'Palavra-passe atual incorreta.');

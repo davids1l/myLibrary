@@ -31,7 +31,7 @@ class ComentarioController extends ActiveController
 
     public function actionUtilizadorComents($id){
         $model = new $this->modelClass;
-        $coments = $model->find()->where(['id_utilizador' => $id])->all();
+        $coments = $model->find()->where(['id_livro' => $id])->all();
 
         if($coments != null){
             return $coments;

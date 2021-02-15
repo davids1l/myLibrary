@@ -536,7 +536,7 @@ a.desc:after {
 
 
 /* Gridview Requisições */
-.table-bordered > thead > tr > th > a{ color: #f26b3b}
+.table-bordered > thead > tr > th > a, .table-bordered > thead > tr > th{ color: #f26b3b}
 
 .pagination > li > a {color: #f26b3b;}
 .pagination > li > a:hover {background-color: lightsalmon; border: 1px solid lightsalmon; color: white}

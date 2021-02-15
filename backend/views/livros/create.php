@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'titulo')->textInput(['maxlength' => true])->label('Título') ?>
                 <?= $form->field($model, 'isbn')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'ano')->textInput() ?>
-                <?= $form->field($model, 'paginas')->textInput()->label('Páginas') ?>
+                <?= $form->field($model, 'paginas')->textInput()->label('Nº de Páginas') ?>
                 <?= $form->field($model, 'genero')->textInput(['maxlength' => true])->label('Gênero') ?>
                 <?= $form->field($model, 'idioma')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'formato')->textInput(['maxlength' => true]) ?>

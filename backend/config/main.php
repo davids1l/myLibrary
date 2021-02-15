@@ -119,6 +119,8 @@ return [
                         'POST login' => 'login',
                         'POST editar/{id}' => 'editar',
                         'GET dadosLeitor/{id}' => 'leitor',
+                        'POST uploadFoto/{id}' => 'upload',
+                        'GET dadosUtilizadores' => 'dados-utilizadores'
                     ],
 
                     'tokens' => [
@@ -145,7 +147,7 @@ return [
                     'controller' => 'api/comentario',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET utilizador/{id}' => 'utilizador-coments'
+                        'GET livro/{id}' => 'utilizador-coments'
                     ],
 
                     'tokens' => [

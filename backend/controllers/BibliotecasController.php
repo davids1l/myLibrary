@@ -116,8 +116,12 @@ class BibliotecasController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if (Yii::$app->user->can('createBiblioteca')) {
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+                if(!preg_match('^\\d{4}-\\d{3}$^', $model->cod_postal)) {
+                    Yii::$app->session->setFlash('error', 'Código postal inválido. (Ex: 1234 567)');
+                } else {
+                    $model->save();
+                    return $this->redirect(['view', 'id' => $model->id_biblioteca]);
+                }
             } else {
                 Yii::$app->session->setFlash('error', 'Não tem as permissões necessárias para efetuar essa operação.');
             }

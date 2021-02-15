@@ -3,8 +3,10 @@
 namespace app\modules\api\controllers;
 
 use app\models\Utilizador;
+use Carbon\Carbon;
 use common\models\LoginForm;
 use common\models\SignupForm;
+use common\models\UploadForm;
 use common\models\User;
 use Yii;
 use yii\bootstrap\Html;
@@ -13,6 +15,7 @@ use GuzzleHttp\Psr7\Query;
 use yii\rest\ActiveController;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 class UtilizadorController extends ActiveController
 {
@@ -173,5 +176,47 @@ class UtilizadorController extends ActiveController
         $user = User::find()->where(['id' => $id])->one();
 
         return ['utilizador' => $utilizador, 'email' => $user->email];
+    }
+
+    public function actionDadosUtilizadores() {
+
+        $utilizadores = Utilizador::find();
+
+        $users = (new \yii\db\Query())
+            ->select(['*'])
+            ->from('user')
+            ->innerJoin(['sub' => $utilizadores], 'user.id = sub.id_utilizador')
+            ->all();
+
+        return $users;
+
+    }
+
+
+
+    public function actionUpload($id){
+
+        $utilizador = Utilizador::find()->where(['id_utilizador' => $id])->one();
+        $min = 1;
+        $max = 999;
+
+        $numero = rand($min, $max);
+
+        $output_file = '../../frontend/web/imgs/perfil/' . $utilizador->numero . '_' . $numero . '.png';
+
+        $dados = Yii::$app->request->post('foto_perfil');
+
+
+        $file = fopen($output_file, 'wb');
+        fwrite($file, base64_decode($dados));
+        fclose($file);
+
+        if($utilizador->foto_perfil != 'userImg.png'){
+            unlink('../../frontend/web/imgs/perfil/' . $utilizador->foto_perfil);
+        }
+
+        $utilizador->foto_perfil = $utilizador->numero . '_' . $numero . '.png';
+        $utilizador->save();
+        return $utilizador;
     }
 }

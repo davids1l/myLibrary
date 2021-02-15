@@ -55,7 +55,7 @@ class EditorasController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->can('admin') || Yii::$app->user->can('biblitecario')) {
+        if (Yii::$app->user->can('admin') || Yii::$app->user->can('bibliotecario')) {
 
             $searchModel = new EditoraSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -100,7 +100,7 @@ class EditorasController extends Controller
 
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id_editora]);
+                return $this->redirect(['index']);
             }
 
             return $this->render('create', [

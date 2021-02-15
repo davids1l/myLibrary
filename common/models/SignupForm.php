@@ -123,8 +123,20 @@ class SignupForm extends Model
         }
 
 
-        $utilizador->nif = $this->nif;
-        $utilizador->num_telemovel = $this->num_telemovel;
+        if(!is_numeric($this->nif)){
+            $this->addError('nif', 'NIF inválido. NIF só pode conter números.');
+            return null;
+        }else{
+            $utilizador->nif = $this->nif;
+        }
+
+        if(!is_numeric($this->num_telemovel)){
+            $this->addError('num_telemovel', 'Nº de telemóvel inválido. Nº de telemóvel só pode conter números.');
+            return null;
+        }else{
+            $utilizador->num_telemovel = $this->num_telemovel;
+        }
+
 
         if($utilizador->validarNumTelemovel() == false){
             $this->addError('num_telemovel', 'Número de telemóvel inválido. Deve começar por 9');

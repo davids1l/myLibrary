@@ -15,7 +15,8 @@ class ViewsAssets extends AssetBundle
         'css/catalogo.css',
         'css/detalhes.css',
         'css/perfil.css',
-        'css/historicoRequisicoes.css'
+        'css/historicoRequisicoes.css',
+        'fontawesome-free-5.15.2-web/css/all.css'
     ];
     public $js = [
         'js/detalhes.js',

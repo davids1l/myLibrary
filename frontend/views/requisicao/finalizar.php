@@ -15,7 +15,7 @@ $this->title = 'Finalizar requisição';
 ?>
 <div class="requisicao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="topicos" style="text-transform: uppercase"><?= Html::encode($this->title) ?></h1>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <hr>
@@ -49,7 +49,7 @@ $this->title = 'Finalizar requisição';
                         <?= $form->field($model, 'id_bib_levantamento')->label('Bib. de levantamento')->dropDownList($bibliotecas) ?>
                     </div>
                     <div class="col-xs-12">
-                        <?= Html::submitButton('Finalizar', ['class' => 'btn btn-success', 'id' => 'finalizarButton', 'value' => 'Finalizar', 'name'=>'finalizarButton']) ?>
+                        <?= Html::submitButton('Finalizar', ['class' => 'btnComment', 'id' => 'finalizarButton', 'value' => 'Finalizar', 'name'=>'finalizarButton']) ?>
                     </div>
                 </div>
 

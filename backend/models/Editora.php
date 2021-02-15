@@ -30,7 +30,7 @@ class Editora extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['designacao', 'id_pais'], 'required'],
+            [['designacao', 'id_pais'], 'required', 'message' => '{attribute} não pode estar em branco'],
             [['id_pais'], 'integer'],
             [['designacao'], 'string', 'max' => 80],
             [['id_pais'], 'exist', 'skipOnError' => true, 'targetClass' => Pais::className(), 'targetAttribute' => ['id_pais' => 'id_pais']],
@@ -44,7 +44,7 @@ class Editora extends \yii\db\ActiveRecord
     {
         return [
             'id_editora' => 'Id Editora',
-            'designacao' => 'Designacao',
+            'designacao' => 'Designação',
             'id_pais' => 'Id Pais',
         ];
     }
