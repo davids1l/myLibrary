@@ -6,6 +6,7 @@ use app\models\Requisicao;
 use app\models\RequisicaoLivro;
 use app\models\RequisicaoSearch;
 use app\models\Transporte;
+use app\models\TransporteLivro;
 use app\models\TransporteSearch;
 use app\models\Utilizador;
 use app\models\UtilizadorSearch;
@@ -125,15 +126,22 @@ class SiteController extends Controller
             $id = Yii::$app->request->queryParams['id'];
             $model = $this->findModel($id);
 
+            $transporte = Transporte::find()->where(['id_requisicao' => $model->id_requisicao])->all();
+
             //validar se o estado do transporte = concluído
             //se sim, então é permitido finalizar o preparar requisicao
             if (Yii::$app->request->queryParams) {
 
-                if($this->getEstadoTransporte($model->id_requisicao) == true){
+                if($transporte != null){
+                    if($this->getEstadoTransporte($model->id_requisicao) == true){
+                        $model->estado = "Pronta a levantar";
+                        $model->save();
+                    } else {
+                        Yii::$app->session->setFlash('error', 'Ainda não estão reunidos todos os livros para finalizar a requisição, aguarde o transporte.');
+                    }
+                } else {
                     $model->estado = "Pronta a levantar";
                     $model->save();
-                } else {
-                    Yii::$app->session->setFlash('error', 'Ainda não estão reunidos todos os livros para finalizar a requisição, aguarde o transporte.');
                 }
 
                 return $this->redirect(['site/index']);
