@@ -53,10 +53,12 @@ $utilizadorSession = Yii::$app->session->get('dadosUser');
                                     'buttons' => [
                                         'preparar' => function ($url, $model, $key) {
 
-                                            $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $model])->all();
+                                            $total = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $key])->all();
 
                                             $sub =  \app\models\Livro::find()->where(['id_biblioteca' => $model->id_bib_levantamento]);
                                             $totalProntos = \app\models\RequisicaoLivro::find()->where(['id_requisicao' => $key])->innerJoin(['sub' => $sub], 'sub.id_livro = requisicao_livro.id_livro')->all();
+
+                                            
 
                                             if ($model->estado == "A aguardar tratamento" && (count($totalProntos) == count($total))) {
                                                 return Html::a('Tratar requisição', ['site/livro', 'id' => $model->id_requisicao], ['class' => 'btn btn-success',
