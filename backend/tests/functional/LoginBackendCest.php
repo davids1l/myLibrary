@@ -13,8 +13,8 @@ class LoginBackendCest
     public function FazerLogin(FunctionalTester $I)
     {
         $I->amOnPage('/');
-        $I->click('Login');
-        $I->fillField('Email','admin@admin.com');
+        //$I->click('Login');
+        $I->fillField('Endereço de email','admin@admin.com');
         $I->fillField('Palavra-passe', '123123123');
         $I->click('login-button');
         $I->see('Logout');

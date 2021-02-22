@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="topicos"><?= Html::encode($this->title) ?></h1>
     <hr>
 
-    <?= Html::a('<span class="glyphicon glyphicon-plus" style="margin-bottom: 30px; margin-top: 10px"></span> Inserir Bibliotecário', ['bibliotecario/create'], ['class' => 'btnAcao']) ?>
+    <?= Html::a('<span class="glyphicon glyphicon-plus" style="margin-bottom: 30px; margin-top: 10px"></span> Inserir Bibliotecário', ['bibliotecario/create'], ['class' => 'btnAcao', 'id' => 'inserirBibliotecario']) ?>
 
     <?= GridView::widget([
         'summary' => 'Total de Bibliotecários: {totalCount}',

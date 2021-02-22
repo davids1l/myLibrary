@@ -12,14 +12,14 @@ class InserirBibliotecarioCest
     // tests
         public function InserirBibliotecario(FunctionalTester $I)
     {
-        $I->see('Gerir Bibliotecários');
-        $I->click('Gerir Bibliotecários');
+        $I->see('Bibliotecários');
+        $I->click('BIBLIOTECÁRIOS');
         $I->see('Inserir Bibliotecário');
         $I->click(['id' => 'inserirBibliotecario']);
-        $I->see('Primeiro nome');
-        $I->fillField('Primeiro nome','Maria');
+        $I->see('Nome');
+        $I->fillField('Nome','Maria');
         $I->fillField('Apelido','Silva');
-        $I->fillField('Email','mariasilva@gmail.com');
+        $I->fillField('Endereço de email','mariasilva@gmail.com');
         $I->fillField('Data de Nascimento','14/07/1999');
         $I->fillField('NIF','901249120');
         $I->fillField('Nº de telefone','912051286');

@@ -122,7 +122,7 @@ $this->title = 'Perfil de Leitor';
                                style="font-size: 20px"></span></a>
                             <div id="myDropdownDados" class="dropdown-perfil" style="width: max-content">
                                 <a data-toggle="modal" data-target="#perfilModal">
-                                    <div style="display: inline"><i class="fas fa-user"></i> Alterar Dados</div>
+                                    <div id="alterarDados" style="display: inline"><i class="fas fa-user"></i> Alterar Dados</div>
                                 </a>
                                 <a data-toggle="modal" data-target="#passwordModal">
                                     <div style="display: inline"><i class="fas fa-lock"></i> Alterar Palavra-passe</div>

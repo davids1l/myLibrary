@@ -14,24 +14,24 @@ class AdicionarLivroCest
     // tests
     public function AdicionarLivro(FunctionalTester $I)
     {
-        $I->see('Gerir Livros');
-        $I->click('Gerir Livros');
-        $I->see('Adicionar Livros');
-        $I->click("Adicionar Livros");
+        $I->see('Livros');
+        $I->click('LIVROS');
+        $I->see('Inserir Livro');
+        $I->click("Inserir Livro");
         $I->see('Escolha a imagem:');
         $I->attachFile('#files', 'imagem.jpg');
-        $I->see('Titulo');
-        $I->fillField('Titulo','Livro do Desassossego');
-        $I->fillField('Isbn','123098345');
+        $I->see('Título');
+        $I->fillField('Título','Livro do Desassossego');
+        $I->fillField('ISBN','123098345');
         $I->fillField('Ano','2005');
-        $I->fillField('Paginas','234');
-        $I->fillField('Genero','Poesia');
+        $I->fillField('Nº de Páginas','234');
+        $I->fillField('Gênero','Poesia');
         $I->fillField('Idioma','Portugues');
         $I->fillField('Formato','Fisico');
         $I->selectOption('Editora', 1);
         $I->selectOption('Biblioteca', 1);
         $I->selectOption('Autor', 1);
         $I->fillField('Sinopse','Isto é uma sinopse');
-        $I->click('Guardar');
+        $I->click('Inserir');
     }
 }

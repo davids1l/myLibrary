@@ -18,7 +18,7 @@ class EfetuarRequisicaoCest
         $I->click( '#adicionarCarrinho');
         //$I->setCookie('carrinho', Livro::find()->where(['id_livro' => 1])->one());
         $I->seeCurrentUrlEquals('/index-test.php/livro/detalhes?id=1');
-        $I->see('Livro adicionado ao seu carrinho!');
+        $I->see('Livro adicionado ao seu cesto!');
         $I->click(['id' => 'carrinhoLivros']);
         $I->click('Finalizar requisição');
         $I->seeCurrentUrlEquals('/index-test.php/requisicao/finalizar');

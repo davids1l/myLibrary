@@ -19,9 +19,9 @@ $this->title = 'Iniciar Sessão';
         <div class="col-lg-6">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                <?= $form->field($model, 'email', ['inputTemplate' => '<div class="input-group"><i style="font-size: 20px; color: #f26b3b" class="fas fa-user input-group-addon"></i>{input}</div>'])->textInput(['placeholder' => 'endereço de email', 'style' => 'height: 40px; font-size: 16px'])->label(false) ?>
+                <?= $form->field($model, 'email', ['inputTemplate' => '<div class="input-group"><i style="font-size: 20px; color: #f26b3b" class="glyphicon glyphicon-user input-group-addon"></i>{input}</div>'])->textInput(['placeholder' => 'endereço de email', 'style' => 'height: 40px; font-size: 16px'])->label(false) ?>
 
-                <?= $form->field($model, 'password', ['inputTemplate' => '<div class="input-group" style="width: 555px"><i style="font-size: 20px; width:43px; color: #f26b3b" class="fa fa-lock input-group-addon"></i>{input}</div>'])->passwordInput(['placeholder' => 'palavra-passe', 'style' => 'height: 40px; font-size: 16px'])->label(false) ?>
+                <?= $form->field($model, 'password', ['inputTemplate' => '<div class="input-group" style="width: 555px"><i style="font-size: 20px; width:43px; color: #f26b3b" class="glyphicon glyphicon-lock input-group-addon"></i>{input}</div>'])->passwordInput(['placeholder' => 'palavra-passe', 'style' => 'height: 40px; font-size: 16px'])->label(false) ?>
 
                 <?= $form->field($model, 'rememberMe')->checkbox()->label('Manter sessão iniciada') ?>
 

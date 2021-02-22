@@ -14,25 +14,25 @@ class RegistoLeitorCest
         $I->amOnPage('/');
         $I->maximizeWindow();
         $I->wait(2);
-        $I->click('Iniciar Sessão/Registar');
+        $I->click('INICIAR SESSÃO');
         $I->wait(2);
-        $I->click(['class' => 'nav-item-registar']);
+        $I->click(['class' => 'linkRegistar']);
         $I->wait(2);
-        $I->fillField('Primeiro nome','Bartolomeu');
+        $I->fillField('nome','Bartolomeu');
         $I->wait(1);
-        $I->fillField('Apelido','Dias');
+        $I->fillField('apelido','Dias');
         $I->wait(1);
         $I->fillField('SignupForm[email]','bartolomeudias@gmail.com');
         $I->wait(1);
-        $I->fillField('Data de Nascimento','19-04-1991');
+        $I->fillField('SignupForm[dta_nascimento]','19-04-1991');
         $I->wait(1);
         $I->fillField('NIF','571830992');
         $I->wait(1);
-        $I->fillField('Nº de telefone','915013915');
+        $I->fillField('nº de telemóvel','915013915');
         $I->wait(1);
-        $I->fillField('Palavra-Passe','123123123');
+        $I->fillField('palavra-passe','123123123');
         $I->wait(1);
-        $I->fillField('Confirmar Palavra-Passe','123123123');
+        $I->fillField('confirmar palavra-passe','123123123');
         $I->wait(2);
         $I->click('signup-button');
         $I->wait(4);
@@ -40,7 +40,7 @@ class RegistoLeitorCest
         $I->wait(2);
 
         //Login de leitor
-        $I->click('Iniciar Sessão/Registar');
+        $I->click('INICIAR SESSÃO');
         $I->wait(2);
         $I->fillField('LoginForm[email]','bartolomeudias@gmail.com');
         $I->wait(1);
@@ -53,11 +53,11 @@ class RegistoLeitorCest
 
 
         //Colocar livro nos favoritos e fazer um comentário
-        $I->click('Catálogo');
+        $I->click('CATÁLOGO');
         $I->wait(2);
         $I->click(['class' => 'capa']);
         $I->wait(2);
-        $I->click(['class' => 'btnAction']);
+        $I->click(['class' => 'btnNotFav']);
         $I->wait(2);
         $I->fillField('Comentario[comentario]', 'O melhor livro de fantasia que alguma vez li.');
         $I->wait(2);
@@ -67,14 +67,14 @@ class RegistoLeitorCest
         $I->wait(1);
         $I->click('Bartolomeu');
         $I->wait(1);
-        $I->click('Favoritos');
+        $I->click('FAVORITOS');
         $I->wait(2);
 
 
         //Fazer logout
         $I->click('Bartolomeu');
         $I->wait(2);
-        $I->click('Logout');
+        $I->click('LOGOUT');
         $I->wait(5);
     }
 }
